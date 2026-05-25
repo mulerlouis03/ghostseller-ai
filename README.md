@@ -1,20 +1,9 @@
-# GhostSeller AI CORE V26
+# GhostSeller AI V27 - Admin Module
 
-Version spéciale pour accélérer le développement.
+Ajoute :
+- rôle admin,
+- stats globales,
+- liste utilisateurs,
+- modification plan/crédits/rôle.
 
-## Déploiement
-
-```bash
-npm install
-git add .
-git commit -m "GhostSeller CORE V26"
-git push
-```
-
-## Supabase
-
-Exécute `supabase/schema.sql`.
-
-## Test
-
-Ouvre `/api/health`.
+Voir `docs/INSTALL_V27.md`.
