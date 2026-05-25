@@ -12,3 +12,29 @@ create index if not exists idx_posts_user_id on posts(user_id);
 create index if not exists idx_leads_user_id on leads(user_id);
 create index if not exists idx_trends_user_id on trends(user_id);
 create index if not exists idx_auto_campaigns_user_id on auto_campaigns(user_id);
+
+
+create table if not exists video_concepts (
+  id uuid primary key,
+  user_id uuid references users(id) on delete cascade,
+  project_id uuid references projects(id) on delete cascade,
+  product text,
+  audience text,
+  offer text,
+  style text,
+  duration text,
+  goal text,
+  viral_score integer,
+  title text,
+  hook text,
+  storyboard jsonb,
+  subtitles jsonb,
+  voiceover text,
+  caption text,
+  hashtags text,
+  whatsapp_cta text,
+  template text,
+  production_notes text,
+  created_at timestamptz default now()
+);
+create index if not exists idx_video_concepts_user_id on video_concepts(user_id);

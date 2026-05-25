@@ -1,5 +1,11 @@
-# GhostSeller AI V24 FULL
+# GhostSeller AI V25
 
-Vraie version complète.
+Content Engine: concepts vidéo TikTok, storyboard, sous-titres, voiceover, CTA WhatsApp.
 
 Après déploiement, exécute `supabase/schema.sql` dans Supabase.
+
+```bash
+git add .
+git commit -m "GhostSeller V25"
+git push
+```

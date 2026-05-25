@@ -53,10 +53,11 @@ async function requireAuth(req,res,next){
 
 app.get("/api/health",(req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V24",
+  version:"GhostSeller AI V25",
   supabase:supabaseConfigured,
   openai:Boolean(openai),
-  stripe:Boolean(stripe)
+  stripe:Boolean(stripe),
+  engine:"Video Content Engine"
 }));
 
 app.post("/api/auth/register",async(req,res)=>{
@@ -105,13 +106,14 @@ app.get("/api/me",requireAuth,(req,res)=>res.json({user:safeUser(req.user)}));
 
 app.get("/api/dashboard",requireAuth,async(req,res)=>{
   const uid=req.user.id;
-  const [projects,campaigns,posts,leads,trends,autoCampaigns]=await Promise.all([
+  const [projects,campaigns,posts,leads,trends,autoCampaigns,videos]=await Promise.all([
     supabase.from("projects").select("*").eq("user_id",uid).order("created_at",{ascending:false}),
     supabase.from("campaigns").select("*").eq("user_id",uid).order("created_at",{ascending:false}),
     supabase.from("posts").select("*").eq("user_id",uid).order("created_at",{ascending:false}),
     supabase.from("leads").select("*").eq("user_id",uid).order("created_at",{ascending:false}),
     supabase.from("trends").select("*").eq("user_id",uid).order("created_at",{ascending:false}),
-    supabase.from("auto_campaigns").select("*").eq("user_id",uid).order("created_at",{ascending:false})
+    supabase.from("auto_campaigns").select("*").eq("user_id",uid).order("created_at",{ascending:false}),
+    supabase.from("video_concepts").select("*").eq("user_id",uid).order("created_at",{ascending:false})
   ]);
   res.json({
     user:safeUser(req.user),
@@ -120,7 +122,8 @@ app.get("/api/dashboard",requireAuth,async(req,res)=>{
     posts:posts.data||[],
     leads:leads.data||[],
     trends:trends.data||[],
-    autoCampaigns:autoCampaigns.data||[]
+    autoCampaigns:autoCampaigns.data||[],
+    videos:videos.data||[]
   });
 });
 
@@ -203,6 +206,42 @@ app.post("/api/ai/auto-campaign", requireAuth, async (req,res)=>{
   res.json({campaign});
 });
 
+
+app.post("/api/ai/video-concept", requireAuth, async (req,res)=>{
+  const {projectId, product, audience, offer, style, duration, goal} = req.body;
+  if(!projectId || !product) return res.status(400).json({error:"Projet et produit obligatoires."});
+
+  const result = openai
+    ? await aiVideoConcept({product,audience,offer,style,duration,goal})
+    : fallbackVideoConcept({product,audience,offer,style,duration,goal});
+
+  const {data,error}=await supabase.from("video_concepts").insert({
+    id:crypto.randomUUID(),
+    user_id:req.user.id,
+    project_id:projectId,
+    product,
+    audience:audience||"",
+    offer:offer||"",
+    style:style||"",
+    duration:duration||"20s",
+    goal:goal||"",
+    viral_score:result.viral_score,
+    title:result.title,
+    hook:result.hook,
+    storyboard:result.storyboard,
+    subtitles:result.subtitles,
+    voiceover:result.voiceover,
+    caption:result.caption,
+    hashtags:result.hashtags,
+    whatsapp_cta:result.whatsapp_cta,
+    template:result.template,
+    production_notes:result.production_notes
+  }).select().single();
+
+  if(error) return res.status(500).json({error:error.message});
+  res.json({video:data});
+});
+
 app.get("/api/billing/plans", requireAuth, async (req,res)=>res.json({plans:PLANS,currentPlan:req.user.plan||"Free",stripeConfigured:Boolean(stripe)}));
 
 app.post("/api/billing/checkout", requireAuth, async (req,res)=>{
@@ -272,6 +311,57 @@ Retourne JSON:
 {"strategy":"","whatsapp_cta":"","viral_score":88,"hooks":[""],"content_plan":[{"day":"Jour 1","video":"","caption":"","cta":""}]}`;
   const completion=await openai.chat.completions.create({model:"gpt-4.1-mini",messages:[{role:"system",content:"JSON uniquement."},{role:"user",content:prompt}],temperature:.85});
   return JSON.parse(completion.choices[0].message.content);
+}
+
+
+async function aiVideoConcept(p){
+  const prompt=`Tu es GhostSeller AI V25, moteur de contenu TikTok.
+Crée un concept vidéo TikTok très vendeur.
+Produit: ${p.product}
+Audience: ${p.audience||"grand public"}
+Offre: ${p.offer||"non précisée"}
+Style: ${p.style||"viral émotionnel"}
+Durée: ${p.duration||"20s"}
+Objectif: ${p.goal||"générer leads WhatsApp"}
+
+Retourne uniquement JSON valide:
+{
+ "title":"",
+ "hook":"",
+ "viral_score":90,
+ "template":"Problem/Solution|Storytelling|UGC|BeforeAfter|Urgence",
+ "storyboard":[{"scene":1,"duration":"0-3s","visual":"","text_overlay":"","action":""}],
+ "subtitles":[""],
+ "voiceover":"",
+ "caption":"",
+ "hashtags":"",
+ "whatsapp_cta":"",
+ "production_notes":""
+}
+Règles: scènes très courtes, sous-titres puissants, CTA WhatsApp clair, langage simple.`;
+  const completion=await openai.chat.completions.create({model:"gpt-4.1-mini",messages:[{role:"system",content:"JSON uniquement."},{role:"user",content:prompt}],temperature:.85});
+  return JSON.parse(completion.choices[0].message.content);
+}
+
+function fallbackVideoConcept({product,audience,offer,style,duration,goal}){
+  return {
+    title:`Vidéo virale pour ${product}`,
+    hook:`Tu dois voir ça avant de choisir ${product}`,
+    viral_score:84,
+    template:"Problem/Solution",
+    storyboard:[
+      {scene:1,duration:"0-3s",visual:`Plan rapide sur ${product}`,text_overlay:"Tu connais ce problème ?",action:"Zoom rapide"},
+      {scene:2,duration:"3-10s",visual:"Montrer la solution",text_overlay:`${product} simplifie tout`,action:"Démonstration"},
+      {scene:3,duration:"10-18s",visual:"Afficher offre",text_overlay:offer||"Offre disponible",action:"Preuve sociale"},
+      {scene:4,duration:"18-22s",visual:"CTA WhatsApp",text_overlay:"Écris INFO maintenant",action:"Bouton WhatsApp"}
+    ],
+    subtitles:["Tu connais ce problème ?","Voici la solution simple.","Écris INFO sur WhatsApp."],
+    voiceover:`Si tu as besoin de ${product}, regarde ça. ${offer||"Offre disponible"}. Écris INFO maintenant sur WhatsApp.`,
+    caption:`${product} disponible. Écris INFO sur WhatsApp.`,
+    hashtags:"#viral #tiktokbusiness #whatsapp #vente",
+    whatsapp_cta:"Écris INFO sur WhatsApp maintenant.",
+    production_notes:"Format vertical 9:16, sous-titres grands, rythme rapide."
+  };
 }
 
 function fallbackPosts({product,price,days}){
