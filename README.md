@@ -1,11 +1,20 @@
-# GhostSeller AI V25
+# GhostSeller AI CORE V26
 
-Content Engine: concepts vidéo TikTok, storyboard, sous-titres, voiceover, CTA WhatsApp.
+Version spéciale pour accélérer le développement.
 
-Après déploiement, exécute `supabase/schema.sql` dans Supabase.
+## Déploiement
 
 ```bash
+npm install
 git add .
-git commit -m "GhostSeller V25"
+git commit -m "GhostSeller CORE V26"
 git push
 ```
+
+## Supabase
+
+Exécute `supabase/schema.sql`.
+
+## Test
+
+Ouvre `/api/health`.
