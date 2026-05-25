@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v22",
-  "version": "22.0.0",
+  "name": "ghostseller-ai-v23",
+  "version": "23.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
@@ -11,6 +11,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
-    "openai": "^4.77.0"
+    "openai": "^4.77.0",
+    "stripe": "^17.4.0"
   }
 }
