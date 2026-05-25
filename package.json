@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v21",
-  "version": "21.0.0",
+  "name": "ghostseller-ai-v22",
+  "version": "22.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

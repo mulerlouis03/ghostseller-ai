@@ -1,12 +1,9 @@
-# GhostSeller AI V21
+# GhostSeller AI V22
 
-Base stable Vercel + Supabase + OpenAI.
+Ajouts: œil afficher/masquer mot de passe + mot de passe oublié.
 
-## Push
 ```bash
 git add .
-git commit -m "GhostSeller V21"
+git commit -m "GhostSeller V22"
 git push
 ```
-
-Teste `/api/health` après déploiement.

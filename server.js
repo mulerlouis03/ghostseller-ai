@@ -14,8 +14,8 @@ app.use(express.json({ limit: "2mb" }));
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const JWT_SECRET = process.env.JWT_SECRET || "change_me";
 
+const JWT_SECRET = process.env.JWT_SECRET || "change_me";
 const supabaseConfigured = Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
 const supabase = supabaseConfigured ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY) : null;
 const openai = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY }) : null;
@@ -37,7 +37,7 @@ async function requireAuth(req,res,next){
   }catch{ res.status(401).json({error:"Session invalide."}); }
 }
 
-app.get("/api/health",(req,res)=>res.json({ok:true,version:"GhostSeller AI V21",supabase:supabaseConfigured,openai:Boolean(openai)}));
+app.get("/api/health",(req,res)=>res.json({ok:true,version:"GhostSeller AI V22",supabase:supabaseConfigured,openai:Boolean(openai)}));
 
 app.post("/api/auth/register",async(req,res)=>{
   try{
@@ -63,6 +63,24 @@ app.post("/api/auth/login",async(req,res)=>{
     if(!user || !(await bcrypt.compare(password||"", user.password_hash))) return res.status(400).json({error:"Identifiants invalides."});
     res.json({token:tokenFor(user),user:safeUser(user)});
   }catch{ res.status(500).json({error:"Erreur connexion."}); }
+});
+
+app.post("/api/auth/reset-password", async (req, res) => {
+  try {
+    if(!supabase) return res.status(500).json({error:"Supabase non configuré."});
+    const { email, newPassword } = req.body;
+    if(!email || !newPassword) return res.status(400).json({error:"Email et nouveau mot de passe obligatoires."});
+    if(String(newPassword).length < 6) return res.status(400).json({error:"Le mot de passe doit contenir au moins 6 caractères."});
+    const cleanEmail = String(email).toLowerCase().trim();
+    const { data: user } = await supabase.from("users").select("*").eq("email", cleanEmail).maybeSingle();
+    if(!user) return res.status(404).json({error:"Aucun compte trouvé avec cet email."});
+    const password_hash = await bcrypt.hash(newPassword, 10);
+    const { error } = await supabase.from("users").update({ password_hash }).eq("id", user.id);
+    if(error) return res.status(500).json({error:error.message});
+    res.json({ ok:true, message:"Mot de passe réinitialisé. Tu peux te connecter." });
+  } catch {
+    res.status(500).json({error:"Erreur réinitialisation."});
+  }
 });
 
 app.get("/api/me",requireAuth,(req,res)=>res.json({user:safeUser(req.user)}));
@@ -118,16 +136,13 @@ async function aiPosts(p){
   const completion=await openai.chat.completions.create({model:"gpt-4.1-mini",messages:[{role:"system",content:"JSON uniquement."},{role:"user",content:prompt}],temperature:.85});
   return JSON.parse(completion.choices[0].message.content).posts;
 }
-
 async function aiReply(p){
   const prompt=`Réponds comme vendeur WhatsApp. Client:${p.name}. Produit:${p.product||"non précisé"}. Message:${p.message}. Réponse française courte, naturelle, max 2 phrases.`;
   const completion=await openai.chat.completions.create({model:"gpt-4.1-mini",messages:[{role:"system",content:"Réponse WhatsApp uniquement."},{role:"user",content:prompt}],temperature:.75});
   return completion.choices[0].message.content;
 }
-
 function fallbackPosts({product,price,days}){
   return Array.from({length:days}).map((_,i)=>({date:`Jour ${i+1}`,time:["12:30","18:00","20:30"][i%3],title:`Post ${i+1} - ${product}`,hook:`Tu dois voir ce ${product}`,caption:`${product} disponible maintenant. Écris INFO sur WhatsApp.`,script:`Scène 1: montre ${product}.\nScène 2: montre le bénéfice.\nScène 3: affiche ${price||"l’offre"}.\nScène 4: CTA WhatsApp.`,hashtags:`#viral #tiktokbusiness #vente #whatsapp #${String(product).replaceAll(" ","")}`}));
 }
-
 app.get("*",(req,res)=>res.sendFile(path.join(__dirname,"public","index.html")));
 export default app;
