@@ -1,11 +1,5 @@
-# GhostSeller AI V24
+# GhostSeller AI V24 FULL
 
-- Trend Scanner
-- Viral Score
-- Auto Campaign
-- WhatsApp CTA Engine
+Vraie version complète.
 
-Deploy:
-git add .
-git commit -m "GhostSeller V24"
-git push
+Après déploiement, exécute `supabase/schema.sql` dans Supabase.
