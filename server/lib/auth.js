@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { supabase } from "./supabase.js";
 const JWT_SECRET = process.env.JWT_SECRET || "change_me";
 export function tokenFor(user){ return jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn:"7d" }); }
-export function safeUser(user){ return { id:user.id, name:user.name, email:user.email, plan:user.plan||"Free", credits:user.credits??20, role:user.role||"user" }; }
+export function safeUser(user){ return { id:user.id, name:user.name, email:user.email, plan:user.plan||"Free", credits:user.credits??20, role:user.role||"user", stripe_customer_id:user.stripe_customer_id||null }; }
 export async function requireAuth(req,res,next){
   try{
     if(!supabase) return res.status(500).json({error:"Supabase non configuré."});

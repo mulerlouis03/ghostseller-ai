@@ -72,3 +72,37 @@ async function loadUsers(){
   document.getElementById("usersList").innerHTML=data.users.map(u=>`<div class="item"><b>${esc(u.name)}</b><p>${esc(u.email)} • ${esc(u.role)} • ${esc(u.plan)} • ${esc(u.credits)} crédits</p></div>`).join("");
 }
 if(token) boot();
+
+async function loadBilling(){
+  try{
+    const data = await api("/api/billing/plans");
+    document.getElementById("billingStatus").innerHTML =
+      `<h2>Plan actuel</h2><p>${esc(data.currentPlan)} • ${esc(data.credits)} crédits</p><p>Stripe: ${data.stripeConfigured ? "connecté" : "non configuré"}</p>`;
+
+    document.getElementById("plans").innerHTML = Object.values(data.plans).map(p => `
+      <div class="plan ${p.name==="Starter" ? "best" : ""}">
+        <h2>${esc(p.name)}</h2>
+        <div class="price">${esc(p.price)}</div>
+        <p>${esc(p.description || "")}</p>
+        <p><b>${esc(p.credits)}</b> crédits / mois</p>
+        ${p.name==="Free"
+          ? `<button onclick="demoUpgrade('Free')">Activer Free</button>`
+          : `<button onclick="checkout('${p.name}')">Payer avec Stripe</button><button onclick="demoUpgrade('${p.name}')">Mode test ${p.name}</button>`
+        }
+      </div>
+    `).join("");
+  }catch(e){}
+}
+
+async function checkout(plan){
+  const data = await api("/api/billing/checkout","POST",{plan});
+  if(data.url) window.location.href = data.url;
+}
+
+async function demoUpgrade(plan){
+  const data = await api("/api/billing/demo-upgrade","POST",{plan});
+  alert(data.message);
+  await boot();
+  show("billing");
+  await loadBilling();
+}

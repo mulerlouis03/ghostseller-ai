@@ -1,25 +1,19 @@
-# GhostSeller AI V28 DASHBOARD
+# GhostSeller AI V29 STRIPE
 
 Ajouts :
-- vraie interface login/dashboard,
-- création projets,
-- page admin,
-- stats admin,
-- utilisateurs admin,
-- health test intégré.
+- page Abonnement,
+- Stripe Checkout réel,
+- plans Free / Starter / Pro,
+- mode test,
+- crédits par plan.
 
-## Push
+Push :
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V28 dashboard"
+git commit -m "GhostSeller V29 Stripe"
 git push
 ```
 
-## Supabase
-
-Exécute `supabase/schema.sql`.
-
-Pour admin :
-remplace TON_EMAIL dans `supabase/make_admin.sql`, puis exécute.
+Lis `docs/STRIPE_V29.md`.

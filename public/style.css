@@ -19,3 +19,8 @@ main{margin-left:260px;padding:32px;width:calc(100% - 260px)}
 .item{background:#111827;border:1px solid #334155;border-radius:18px;padding:18px;margin-bottom:12px}
 pre{background:#020617;border:1px solid #334155;border-radius:16px;padding:18px;overflow:auto}
 @media(max-width:800px){.app{display:block}aside{position:relative;width:100%}main{margin-left:0;width:100%;padding:18px}}
+
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.plan{background:#111827;border:1px solid #334155;border-radius:18px;padding:22px}
+.plan.best{border-color:#06b6d4;box-shadow:0 0 0 1px rgba(6,182,212,.3)}
+.price{font-size:34px;color:#cffafe;font-weight:900;margin:10px 0}

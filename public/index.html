@@ -28,6 +28,7 @@
     <h2>GhostSeller</h2>
     <button onclick="show('dashboard')">Dashboard</button>
     <button onclick="show('projects')">Projets</button>
+    <button onclick="show('billing'); loadBilling()">Abonnement</button>
     <button onclick="show('admin')">Admin</button>
     <button onclick="show('system')">Système</button>
     <button class="danger" onclick="logout()">Déconnexion</button>
@@ -54,6 +55,13 @@
     <section id="projects" class="hidden">
       <h1>Projets</h1>
       <div id="projectList"></div>
+    </section>
+
+    <section id="billing" class="hidden">
+      <h1>Abonnement</h1>
+      <p class="muted">V29 : Stripe Checkout réel + mode test.</p>
+      <div id="billingStatus" class="card"></div>
+      <div id="plans" class="plans"></div>
     </section>
 
     <section id="admin" class="hidden">
