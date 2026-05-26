@@ -1,0 +1,17 @@
+{
+  "name": "ghostseller-ai-core-v26",
+  "version": "26.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.47.10",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.7",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "openai": "^4.77.0",
+    "stripe": "^17.4.0"
+  }
+}
