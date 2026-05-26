@@ -1,20 +1,14 @@
-# GhostSeller AI CORE V26
+# GhostSeller AI V27 COMPLETE
 
-Version spéciale pour accélérer le développement.
-
-## Déploiement
+Déploiement :
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller CORE V26"
+git commit -m "GhostSeller V27 complete"
 git push
 ```
 
-## Supabase
-
-Exécute `supabase/schema.sql`.
-
-## Test
-
-Ouvre `/api/health`.
+Supabase :
+- exécute `supabase/schema.sql`
+- exécute `supabase/make_admin.sql` en remplaçant TON_EMAIL
