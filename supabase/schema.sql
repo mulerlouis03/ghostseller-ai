@@ -8,3 +8,14 @@ create table if not exists trends (id uuid primary key,user_id uuid references u
 create table if not exists auto_campaigns (id uuid primary key,user_id uuid references users(id) on delete cascade,project_id uuid references projects(id) on delete cascade,product text,audience text,offer text,objective text,strategy text,whatsapp_cta text,viral_score integer,hooks jsonb,content_plan jsonb,created_at timestamptz default now());
 create table if not exists video_concepts (id uuid primary key,user_id uuid references users(id) on delete cascade,project_id uuid references projects(id) on delete cascade,product text,audience text,offer text,style text,duration text,goal text,viral_score integer,title text,hook text,storyboard jsonb,subtitles jsonb,voiceover text,caption text,hashtags text,whatsapp_cta text,template text,production_notes text,created_at timestamptz default now());
 create index if not exists idx_users_role on users(role);
+
+
+create table if not exists campaigns (
+  id uuid primary key,
+  user_id uuid references users(id) on delete cascade,
+  project_id uuid references projects(id) on delete cascade,
+  product text,
+  type text,
+  count integer default 0,
+  created_at timestamptz default now()
+);

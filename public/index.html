@@ -28,6 +28,7 @@
     <h2>GhostSeller</h2>
     <button onclick="show('dashboard')">Dashboard</button>
     <button onclick="show('projects')">Projets</button>
+    <button onclick="show('tiktok')">TikTok Engine</button>
     <button onclick="show('billing'); loadBilling()">Abonnement</button>
     <button onclick="show('admin')">Admin</button>
     <button onclick="show('system')">Système</button>
@@ -50,6 +51,32 @@
         <input id="projectDescription" placeholder="Description">
         <button onclick="createProject()">Créer projet</button>
       </div>
+    </section>
+
+    
+    <section id="tiktok" class="hidden">
+      <h1>TikTok Engine V30</h1>
+      <p class="muted">Génère des posts TikTok prêts à publier : hook, script, caption, hashtags et CTA WhatsApp.</p>
+      <div class="card">
+        <select id="tiktokProject"></select>
+        <input id="tiktokProduct" placeholder="Produit / service : Recharge Digicel Haïti">
+        <input id="tiktokAudience" placeholder="Audience : diaspora haïtienne en France">
+        <input id="tiktokOffer" placeholder="Offre : recharge dès 5€">
+        <select id="tiktokDays">
+          <option value="3">3 posts</option>
+          <option value="7" selected>7 posts</option>
+          <option value="14">14 posts</option>
+        </select>
+        <select id="tiktokStyle">
+          <option>TikTok viral vendeur</option>
+          <option>Storytelling émotionnel</option>
+          <option>Humour rapide</option>
+          <option>Urgence / offre limitée</option>
+          <option>UGC naturel</option>
+        </select>
+        <button id="tiktokBtn" onclick="generateTikTok()">Générer posts TikTok</button>
+      </div>
+      <div id="tiktokOutput"></div>
     </section>
 
     <section id="projects" class="hidden">

@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v29-stripe-fixed",
-  "version": "29.1.0",
+  "name": "ghostseller-ai-v30-tiktok-engine",
+  "version": "30.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

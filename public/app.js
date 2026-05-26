@@ -45,7 +45,7 @@ async function loadDashboard(){
   document.getElementById("postsCount").innerText=dashboard.posts.length;
   document.getElementById("leadsCount").innerText=dashboard.leads.length;
   document.getElementById("videosCount").innerText=dashboard.videos.length;
-  renderProjects();
+  renderProjects(); fillProjectSelects();
 }
 async function createProject(){
   await api("/api/projects","POST",{name:val("projectName"),description:val("projectDescription")});
@@ -105,4 +105,43 @@ async function demoUpgrade(plan){
   await boot();
   show("billing");
   await loadBilling();
+}
+
+function fillProjectSelects(){
+  const select = document.getElementById("tiktokProject");
+  if(!select) return;
+  select.innerHTML = dashboard.projects.length
+    ? dashboard.projects.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("")
+    : `<option value="">Crée un projet d'abord</option>`;
+}
+
+async function generateTikTok(){
+  const btn = document.getElementById("tiktokBtn");
+  btn.disabled = true;
+  btn.innerText = "Génération IA...";
+  try{
+    const data = await api("/api/tiktok/generate","POST",{
+      projectId: val("tiktokProject"),
+      product: val("tiktokProduct"),
+      audience: val("tiktokAudience"),
+      offer: val("tiktokOffer"),
+      days: Number(val("tiktokDays")),
+      style: val("tiktokStyle")
+    });
+
+    await loadDashboard();
+    document.getElementById("tiktokOutput").innerHTML = data.posts.map(p=>`
+      <div class="item">
+        <h3>${esc(p.title)}</h3>
+        <p><b>${esc(p.date)} • ${esc(p.time)}</b></p>
+        <p><b>Hook:</b> ${esc(p.hook)}</p>
+        <p><b>Caption:</b> ${esc(p.caption)}</p>
+        <pre>${esc(p.script)}</pre>
+        <p>${esc(p.hashtags)}</p>
+      </div>
+    `).join("");
+  }finally{
+    btn.disabled = false;
+    btn.innerText = "Générer posts TikTok";
+  }
 }

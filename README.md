@@ -1,29 +1,31 @@
-# GhostSeller AI V29 STRIPE FIXED
+# GhostSeller AI V30 TIKTOK ENGINE
 
-Correction :
-- badge V29 dans l'interface,
-- `/api/health` affiche clairement V29 STRIPE FIXED,
-- fichier `VERSION_V29_FIXED.txt` pour vérifier que tu es dans le bon dossier,
-- Stripe Checkout + mode test.
+Ajouts :
+- TikTok Engine dans le dashboard,
+- génération posts TikTok IA,
+- hooks, scripts, captions, hashtags,
+- sauvegarde en base Supabase,
+- campagne créée automatiquement.
 
 ## Push
 
 ```bash
-git status
+npm install
 git add .
-git commit -m "GhostSeller V29 Stripe fixed"
-git remote set-url origin https://github.com/mulerlouis03/ghostseller-ai.git
-git push -u origin main --force
+git commit -m "GhostSeller V30 TikTok Engine"
+git push
 ```
 
-## Test après Vercel
+## Test
+
+Après Vercel :
 
 ```txt
-https://ghostseller-ai.vercel.app/api/health
+/api/health
 ```
 
 Tu dois voir :
 
-```json
-"version": "GhostSeller AI V29 STRIPE FIXED"
+```txt
+GhostSeller AI V30 TIKTOK ENGINE
 ```
