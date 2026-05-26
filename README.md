@@ -1,19 +1,29 @@
-# GhostSeller AI V29 STRIPE
+# GhostSeller AI V29 STRIPE FIXED
 
-Ajouts :
-- page Abonnement,
-- Stripe Checkout réel,
-- plans Free / Starter / Pro,
-- mode test,
-- crédits par plan.
+Correction :
+- badge V29 dans l'interface,
+- `/api/health` affiche clairement V29 STRIPE FIXED,
+- fichier `VERSION_V29_FIXED.txt` pour vérifier que tu es dans le bon dossier,
+- Stripe Checkout + mode test.
 
-Push :
+## Push
 
 ```bash
-npm install
+git status
 git add .
-git commit -m "GhostSeller V29 Stripe"
-git push
+git commit -m "GhostSeller V29 Stripe fixed"
+git remote set-url origin https://github.com/mulerlouis03/ghostseller-ai.git
+git push -u origin main --force
 ```
 
-Lis `docs/STRIPE_V29.md`.
+## Test après Vercel
+
+```txt
+https://ghostseller-ai.vercel.app/api/health
+```
+
+Tu dois voir :
+
+```json
+"version": "GhostSeller AI V29 STRIPE FIXED"
+```
