@@ -45,7 +45,7 @@ async function loadDashboard(){
   document.getElementById("postsCount").innerText=dashboard.posts.length;
   document.getElementById("leadsCount").innerText=dashboard.leads.length;
   document.getElementById("videosCount").innerText=dashboard.videos.length;
-  renderProjects(); fillProjectSelects();
+  renderProjects(); fillProjectSelects(); fillLeadProjectSelect();
 }
 async function createProject(){
   await api("/api/projects","POST",{name:val("projectName"),description:val("projectDescription")});
@@ -175,3 +175,42 @@ async function scanTrends(){
     btn.innerText = "Scanner les tendances";
   }
 }
+
+function fillLeadProjectSelect(){
+ const select=document.getElementById("leadProject");
+ if(!select) return;
+ select.innerHTML=dashboard.projects.length ? dashboard.projects.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("") : `<option value="">Crée un projet d'abord</option>`;
+}
+
+function cleanPhone(p){return String(p||"").replace(/[^0-9]/g,"")}
+function waLink(phone,text){const c=cleanPhone(phone);return c?`https://wa.me/${c}?text=${encodeURIComponent(text||"Bonjour")}`:"#"}
+
+async function addLead(){
+ const btn=document.getElementById("leadBtn");
+ btn.disabled=true; btn.innerText="Réponse IA...";
+ try{
+  await api("/api/leads","POST",{
+   projectId:val("leadProject"), name:val("leadName"), phone:cleanPhone(val("leadPhone")),
+   product:val("leadProduct"), message:val("leadMessage")
+  });
+  await loadDashboard(); await loadLeads();
+  ["leadName","leadPhone","leadProduct","leadMessage"].forEach(id=>document.getElementById(id).value="");
+ }finally{btn.disabled=false; btn.innerText="Ajouter lead + réponse IA";}
+}
+
+async function loadLeads(){
+ const data=await api("/api/leads");
+ document.getElementById("leadOutput").innerHTML=data.leads.length ? data.leads.map(l=>`
+  <div class="item">
+   <h3>${esc(l.name)}</h3>
+   <p><b>Produit:</b> ${esc(l.product||"")}</p>
+   <p><b>Message:</b> ${esc(l.message||"")}</p>
+   <pre>${esc(l.reply||"")}</pre>
+   <p><b>Statut:</b> ${esc(l.status||"nouveau")}</p>
+   <a class="waBtn" target="_blank" href="${waLink(l.phone,l.reply)}">Ouvrir WhatsApp</a>
+   <button onclick="updateLead('${l.id}','contacté')">Contacté</button>
+   <button onclick="updateLead('${l.id}','commande')">Commande</button>
+   <button onclick="updateLead('${l.id}','perdu')">Perdu</button>
+  </div>`).join("") : "<p>Aucun lead.</p>";
+}
+async function updateLead(id,status){await api(`/api/leads/${id}`,"PATCH",{status}); await loadLeads(); await loadDashboard();}

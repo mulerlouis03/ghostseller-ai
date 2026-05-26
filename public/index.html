@@ -28,6 +28,7 @@
     <h2>GhostSeller</h2>
     <button onclick="show('dashboard')">Dashboard</button>
     <button onclick="show('projects')">Projets</button>
+    <button onclick="show('leads'); loadLeads()">WhatsApp Leads</button>
     <button onclick="show('trends')">Trend Scanner</button>
     <button onclick="show('tiktok')">TikTok Engine</button>
     <button onclick="show('billing'); loadBilling()">Abonnement</button>
@@ -92,6 +93,21 @@
         <button id="trendBtn" onclick="scanTrends()">Scanner les tendances</button>
       </div>
       <div id="trendOutput"></div>
+    </section>
+
+    
+    <section id="leads" class="hidden">
+      <h1>WhatsApp Leads V32</h1>
+      <p class="muted">Ajoute un prospect, génère une réponse IA, ouvre WhatsApp et suis le statut.</p>
+      <div class="card">
+        <select id="leadProject"></select>
+        <input id="leadName" placeholder="Nom client : Jean">
+        <input id="leadPhone" placeholder="Téléphone avec indicatif : 33600000000">
+        <input id="leadProduct" placeholder="Produit demandé : Recharge Digicel">
+        <input id="leadMessage" placeholder="Message reçu : Salut, c'est disponible ?">
+        <button id="leadBtn" onclick="addLead()">Ajouter lead + réponse IA</button>
+      </div>
+      <div id="leadOutput"></div>
     </section>
 
     <section id="projects" class="hidden">

@@ -19,3 +19,5 @@ create table if not exists campaigns (
   count integer default 0,
   created_at timestamptz default now()
 );
+
+create index if not exists idx_leads_user_id on leads(user_id);

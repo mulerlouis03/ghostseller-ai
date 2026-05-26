@@ -26,3 +26,5 @@ pre{background:#020617;border:1px solid #334155;border-radius:16px;padding:18px;
 .price{font-size:34px;color:#cffafe;font-weight:900;margin:10px 0}
 
 select{width:100%;padding:15px;border:0;border-radius:14px;background:#1e293b;color:white;font-size:15px;margin-bottom:14px}
+
+.waBtn{display:inline-block;border-radius:14px;background:#16a34a;color:white;font-weight:900;padding:14px 18px;text-decoration:none;margin:4px}

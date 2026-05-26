@@ -1,25 +1,21 @@
-# GhostSeller AI V31 TREND SCANNER
+# GhostSeller AI V32 WHATSAPP LEADS
 
 Ajouts :
-- Trend Scanner IA dans le dashboard,
-- scan de niche,
-- tendances exploitables,
-- score viral,
-- angle vidéo,
-- hashtags,
-- CTA WhatsApp,
-- sauvegarde Supabase.
+- WhatsApp Leads Engine
+- ajout prospect
+- réponse IA automatique
+- bouton ouvrir WhatsApp
+- statuts : nouveau, contacté, commande, perdu
+- sauvegarde Supabase
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V31 Trend Scanner"
+git commit -m "GhostSeller V32 WhatsApp Leads"
 git push
 ```
 
-## Test
-
-Après Vercel, ouvre `/api/health`.
-Tu dois voir : GhostSeller AI V31 TREND SCANNER
+Après Vercel, `/api/health` doit afficher :
+GhostSeller AI V32 WHATSAPP LEADS
