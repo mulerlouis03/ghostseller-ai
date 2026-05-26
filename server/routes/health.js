@@ -8,12 +8,13 @@ export const healthRouter = express.Router();
 healthRouter.get("/", (req, res) => {
   res.json({
     ok: true,
-    version: "GhostSeller AI V30 TIKTOK ENGINE",
+    version: "GhostSeller AI V31 TREND SCANNER",
     architecture: "modular",
     dashboard: true,
     billing: true,
     admin: true,
     tiktokEngine: true,
+    trendScanner: true,
     supabase: supabaseConfigured,
     openai: Boolean(openai),
     stripe: Boolean(stripe)

@@ -145,3 +145,33 @@ async function generateTikTok(){
     btn.innerText = "Générer posts TikTok";
   }
 }
+
+async function scanTrends(){
+  const btn = document.getElementById("trendBtn");
+  btn.disabled = true;
+  btn.innerText = "Scan IA...";
+  try{
+    const data = await api("/api/trends/scan","POST",{
+      niche: val("trendNiche"),
+      country: val("trendCountry"),
+      audience: val("trendAudience"),
+      goal: val("trendGoal")
+    });
+
+    await loadDashboard();
+
+    document.getElementById("trendOutput").innerHTML = data.trends.map(t=>`
+      <div class="item">
+        <h3>${esc(t.title)}</h3>
+        <p><b>Score viral:</b> ${esc(t.viral_score)}/100</p>
+        <p><b>Pourquoi:</b> ${esc(t.reason)}</p>
+        <p><b>Angle vidéo:</b> ${esc(t.content_angle)}</p>
+        <p><b>CTA:</b> ${esc(t.cta)}</p>
+        <p>${esc(t.hashtags)}</p>
+      </div>
+    `).join("");
+  }finally{
+    btn.disabled = false;
+    btn.innerText = "Scanner les tendances";
+  }
+}

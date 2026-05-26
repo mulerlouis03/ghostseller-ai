@@ -1,31 +1,25 @@
-# GhostSeller AI V30 TIKTOK ENGINE
+# GhostSeller AI V31 TREND SCANNER
 
 Ajouts :
-- TikTok Engine dans le dashboard,
-- génération posts TikTok IA,
-- hooks, scripts, captions, hashtags,
-- sauvegarde en base Supabase,
-- campagne créée automatiquement.
+- Trend Scanner IA dans le dashboard,
+- scan de niche,
+- tendances exploitables,
+- score viral,
+- angle vidéo,
+- hashtags,
+- CTA WhatsApp,
+- sauvegarde Supabase.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V30 TikTok Engine"
+git commit -m "GhostSeller V31 Trend Scanner"
 git push
 ```
 
 ## Test
 
-Après Vercel :
-
-```txt
-/api/health
-```
-
-Tu dois voir :
-
-```txt
-GhostSeller AI V30 TIKTOK ENGINE
-```
+Après Vercel, ouvre `/api/health`.
+Tu dois voir : GhostSeller AI V31 TREND SCANNER

@@ -28,6 +28,7 @@
     <h2>GhostSeller</h2>
     <button onclick="show('dashboard')">Dashboard</button>
     <button onclick="show('projects')">Projets</button>
+    <button onclick="show('trends')">Trend Scanner</button>
     <button onclick="show('tiktok')">TikTok Engine</button>
     <button onclick="show('billing'); loadBilling()">Abonnement</button>
     <button onclick="show('admin')">Admin</button>
@@ -77,6 +78,20 @@
         <button id="tiktokBtn" onclick="generateTikTok()">Générer posts TikTok</button>
       </div>
       <div id="tiktokOutput"></div>
+    </section>
+
+    
+    <section id="trends" class="hidden">
+      <h1>Trend Scanner V31</h1>
+      <p class="muted">Trouve des tendances exploitables pour créer du contenu TikTok qui amène des clients WhatsApp.</p>
+      <div class="card">
+        <input id="trendNiche" placeholder="Niche : recharge Haïti, football, beauté...">
+        <input id="trendCountry" placeholder="Pays/marché : France, Haïti, Canada...">
+        <input id="trendAudience" placeholder="Audience : diaspora haïtienne, entrepreneurs...">
+        <input id="trendGoal" placeholder="Objectif : leads WhatsApp, ventes, followers...">
+        <button id="trendBtn" onclick="scanTrends()">Scanner les tendances</button>
+      </div>
+      <div id="trendOutput"></div>
     </section>
 
     <section id="projects" class="hidden">
