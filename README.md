@@ -1,14 +1,25 @@
-# GhostSeller AI V27 COMPLETE
+# GhostSeller AI V28 DASHBOARD
 
-Déploiement :
+Ajouts :
+- vraie interface login/dashboard,
+- création projets,
+- page admin,
+- stats admin,
+- utilisateurs admin,
+- health test intégré.
+
+## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V27 complete"
+git commit -m "GhostSeller V28 dashboard"
 git push
 ```
 
-Supabase :
-- exécute `supabase/schema.sql`
-- exécute `supabase/make_admin.sql` en remplaçant TON_EMAIL
+## Supabase
+
+Exécute `supabase/schema.sql`.
+
+Pour admin :
+remplace TON_EMAIL dans `supabase/make_admin.sql`, puis exécute.

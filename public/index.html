@@ -1,2 +1,77 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>GhostSeller V27</title><link rel="stylesheet" href="/style.css"/></head>
-<body><div class="shell"><div class="badge">V27 COMPLETE</div><h1>GhostSeller AI</h1><p>Architecture modulaire + module admin branché.</p><button onclick="testHealth()">Tester API</button><pre id="out">Chargement...</pre></div><script src="/app.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>GhostSeller V28</title>
+  <link rel="stylesheet" href="/style.css"/>
+</head>
+<body>
+<div id="auth" class="auth">
+  <div class="card login-card">
+    <div class="badge">V28 DASHBOARD</div>
+    <h1>GhostSeller AI</h1>
+    <p>Dashboard SaaS modulaire : utilisateur + admin.</p>
+    <input id="name" placeholder="Nom complet">
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Mot de passe">
+    <div class="row">
+      <button onclick="login()">Connexion</button>
+      <button onclick="register()">Créer un compte</button>
+    </div>
+    <button class="link" onclick="resetPassword()">Mot de passe oublié ?</button>
+  </div>
+</div>
+
+<div id="app" class="app hidden">
+  <aside>
+    <h2>GhostSeller</h2>
+    <button onclick="show('dashboard')">Dashboard</button>
+    <button onclick="show('projects')">Projets</button>
+    <button onclick="show('admin')">Admin</button>
+    <button onclick="show('system')">Système</button>
+    <button class="danger" onclick="logout()">Déconnexion</button>
+  </aside>
+
+  <main>
+    <section id="dashboard">
+      <h1>Dashboard V28</h1>
+      <p id="welcome" class="muted"></p>
+      <div class="stats">
+        <div class="card"><h3>Projets</h3><b id="projectsCount">0</b></div>
+        <div class="card"><h3>Posts</h3><b id="postsCount">0</b></div>
+        <div class="card"><h3>Leads</h3><b id="leadsCount">0</b></div>
+        <div class="card"><h3>Vidéos</h3><b id="videosCount">0</b></div>
+      </div>
+      <div class="card">
+        <h2>Créer un projet</h2>
+        <input id="projectName" placeholder="Ex: Recharge Haïti">
+        <input id="projectDescription" placeholder="Description">
+        <button onclick="createProject()">Créer projet</button>
+      </div>
+    </section>
+
+    <section id="projects" class="hidden">
+      <h1>Projets</h1>
+      <div id="projectList"></div>
+    </section>
+
+    <section id="admin" class="hidden">
+      <h1>Admin</h1>
+      <p class="muted">Accessible seulement si ton rôle Supabase est admin.</p>
+      <button onclick="loadAdmin()">Charger stats admin</button>
+      <pre id="adminOut"></pre>
+      <button onclick="loadUsers()">Charger utilisateurs</button>
+      <div id="usersList"></div>
+    </section>
+
+    <section id="system" class="hidden">
+      <h1>Système</h1>
+      <button onclick="health()">Tester API</button>
+      <pre id="healthOut"></pre>
+    </section>
+  </main>
+</div>
+<script src="/app.js"></script>
+</body>
+</html>

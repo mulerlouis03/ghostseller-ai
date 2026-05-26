@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v27-complete",
-  "version": "27.0.0",
+  "name": "ghostseller-ai-v28-dashboard",
+  "version": "28.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

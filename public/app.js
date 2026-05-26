@@ -1,1 +1,74 @@
-async function testHealth(){const res=await fetch("/api/health");const data=await res.json();document.getElementById("out").textContent=JSON.stringify(data,null,2)}testHealth();
+let token=localStorage.getItem("ghost_v28_token");
+let dashboard={projects:[],posts:[],leads:[],videos:[]};
+
+async function api(url,method="GET",body=null,auth=true){
+  const headers={"Content-Type":"application/json"};
+  if(auth&&token) headers.Authorization=`Bearer ${token}`;
+  const res=await fetch(url,{method,headers,body:body?JSON.stringify(body):undefined});
+  const data=await res.json();
+  if(!res.ok){ alert(data.error||"Erreur"); throw new Error(data.error||"Erreur"); }
+  return data;
+}
+function val(id){return document.getElementById(id).value.trim();}
+function esc(s){return String(s||"").replace(/[&<>'"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#039;",'"':"&quot;"}[m]));}
+
+async function register(){
+  const data=await api("/api/auth/register","POST",{name:val("name"),email:val("email"),password:val("password")},false);
+  token=data.token; localStorage.setItem("ghost_v28_token",token); await boot();
+}
+async function login(){
+  const data=await api("/api/auth/login","POST",{email:val("email"),password:val("password")},false);
+  token=data.token; localStorage.setItem("ghost_v28_token",token); await boot();
+}
+async function resetPassword(){
+  const email=val("email"), newPassword=prompt("Nouveau mot de passe");
+  if(!email||!newPassword) return;
+  const data=await api("/api/auth/reset-password","POST",{email,newPassword},false);
+  alert(data.message);
+}
+function logout(){localStorage.removeItem("ghost_v28_token");location.reload();}
+function show(id){document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");}
+
+async function boot(){
+  try{
+    const me=await api("/api/auth/me");
+    document.getElementById("auth").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    document.getElementById("welcome").innerText=`Bienvenue ${me.user.name} • ${me.user.email} • rôle: ${me.user.role}`;
+    await loadDashboard();
+    await health();
+  }catch(e){localStorage.removeItem("ghost_v28_token");}
+}
+async function loadDashboard(){
+  dashboard=await api("/api/projects/dashboard");
+  document.getElementById("projectsCount").innerText=dashboard.projects.length;
+  document.getElementById("postsCount").innerText=dashboard.posts.length;
+  document.getElementById("leadsCount").innerText=dashboard.leads.length;
+  document.getElementById("videosCount").innerText=dashboard.videos.length;
+  renderProjects();
+}
+async function createProject(){
+  await api("/api/projects","POST",{name:val("projectName"),description:val("projectDescription")});
+  document.getElementById("projectName").value="";
+  document.getElementById("projectDescription").value="";
+  await loadDashboard();
+  show("projects");
+}
+function renderProjects(){
+  document.getElementById("projectList").innerHTML=dashboard.projects.length
+    ? dashboard.projects.map(p=>`<div class="item"><h3>${esc(p.name)}</h3><p>${esc(p.description)}</p></div>`).join("")
+    : "<p>Aucun projet.</p>";
+}
+async function health(){
+  const data=await api("/api/health","GET",null,false);
+  document.getElementById("healthOut").textContent=JSON.stringify(data,null,2);
+}
+async function loadAdmin(){
+  const data=await api("/api/admin/stats");
+  document.getElementById("adminOut").textContent=JSON.stringify(data,null,2);
+}
+async function loadUsers(){
+  const data=await api("/api/admin/users");
+  document.getElementById("usersList").innerHTML=data.users.map(u=>`<div class="item"><b>${esc(u.name)}</b><p>${esc(u.email)} • ${esc(u.role)} • ${esc(u.plan)} • ${esc(u.credits)} crédits</p></div>`).join("");
+}
+if(token) boot();
