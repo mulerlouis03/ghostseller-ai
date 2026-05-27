@@ -2,7 +2,7 @@ import express from "express";
 import { supabase } from "../../lib/supabase.js";
 import { requireAuth, safeUser } from "../../lib/auth.js";
 export const adminRouter=express.Router();
-function requireAdmin(req,res,next){ if((req.user.role||"user")!=="admin") return res.status(403).json({error:"Accès admin refusé."}); next(); }
+function requireAdmin(req,res,next){ if(!["admin","owner"].includes(req.user.role||"user")) return res.status(403).json({error:"Accès admin refusé."}); next(); }
 adminRouter.get("/stats",requireAuth,requireAdmin,async(req,res)=>{
  const [users,projects,posts,leads,trends,videos]=await Promise.all([
   supabase.from("users").select("id",{count:"exact",head:true}),

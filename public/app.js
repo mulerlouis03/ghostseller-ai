@@ -324,3 +324,12 @@ async function generateAIContent(){
     btn.innerText="Générer contenu IA";
   }
 }
+
+async function loadSecurity(){
+  try{
+    const data = await api("/api/security/status");
+    document.getElementById("securityOut").textContent = JSON.stringify(data,null,2);
+  }catch(e){
+    document.getElementById("securityOut").textContent = "Erreur sécurité.";
+  }
+}

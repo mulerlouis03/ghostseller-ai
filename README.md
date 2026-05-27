@@ -1,37 +1,50 @@
-# GhostSeller AI V41 FIX FULL WAITLIST LEADS
+# GhostSeller AI V42 SECURITY OWNER
 
-Correction :
-- basé sur V40 complet stable,
-- conserve dashboard, landing, Stripe, Supabase, OpenAI,
-- ajoute waitlist sans casser Vercel.
+V42 sécurise GhostSeller avant publication.
 
 Ajouts :
-- formulaire waitlist sur `/landing`,
-- capture nom, email, business,
-- sauvegarde Supabase dans table `waitlist`,
-- route `/api/waitlist/join`.
+- rôle propriétaire `owner`,
+- route `/api/security/status`,
+- route `/api/security/owner`,
+- headers de sécurité,
+- rate limit API,
+- réduction limite JSON,
+- désactivation du mode test abonnement en production,
+- préparation Stripe webhook,
+- fichier `supabase/make_owner.sql`.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V41 Fix Full Waitlist Leads"
+git commit -m "GhostSeller V42 Security Owner"
 git push
 ```
 
-## Supabase
+## Après déploiement
 
-Exécute `supabase/schema.sql`.
-
-## Test
-
-```txt
-/api/health
+1. Supabase SQL Editor :
+```sql
+update users set role='owner' where email='mulerlouis03@gmail.com';
+update users set role='owner' where email='ghostseller.ai@gmail.com';
 ```
 
-Tu dois voir :
-
+2. Vérifie :
 ```txt
-GhostSeller AI V41 FIX FULL WAITLIST LEADS
+/api/health
+/api/security/status
+/api/security/owner
+```
+
+## Stripe webhook plus tard
+
+Ajoute dans Vercel :
+```txt
+STRIPE_WEBHOOK_SECRET
+```
+
+Endpoint Stripe :
+```txt
+https://ghostseller-ai.vercel.app/api/billing/webhook
 ```

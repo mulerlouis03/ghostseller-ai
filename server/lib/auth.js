@@ -14,3 +14,19 @@ export async function requireAuth(req,res,next){
     req.user=user; next();
   }catch{ res.status(401).json({error:"Session invalide."}); }
 }
+
+
+export function requireOwner(req, res, next) {
+  if ((req.user?.role || "user") !== "owner") {
+    return res.status(403).json({ error: "Accès propriétaire refusé." });
+  }
+  next();
+}
+
+export function requireAdminOrOwner(req, res, next) {
+  const role = req.user?.role || "user";
+  if (!["admin", "owner"].includes(role)) {
+    return res.status(403).json({ error: "Accès admin refusé." });
+  }
+  next();
+}
