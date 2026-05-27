@@ -257,3 +257,21 @@ function fillAllProjectSelectsV34(){
     select.innerHTML=dashboard.projects.length ? dashboard.projects.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("") : `<option value="">Crée un projet d'abord</option>`;
   });
 }
+
+async function loadInstagramStatus(){
+ try{
+  const data=await api("/api/meta/status");
+  document.getElementById("instagramStatus").textContent=JSON.stringify(data,null,2);
+ }catch(e){
+  const el=document.getElementById("instagramStatus");
+  if(el)el.textContent="Erreur chargement Meta.";
+ }
+}
+async function connectInstagram(){
+ const data=await api("/api/meta/login");
+ if(data.url)window.location.href=data.url;
+}
+async function disconnectInstagram(){
+ await api("/api/meta/disconnect","POST",{});
+ await loadInstagramStatus();
+}

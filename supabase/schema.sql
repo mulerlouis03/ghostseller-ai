@@ -23,3 +23,19 @@ create table if not exists campaigns (
 create index if not exists idx_leads_user_id on leads(user_id);
 
 create index if not exists idx_auto_campaigns_user_id on auto_campaigns(user_id);
+
+create table if not exists social_connections (
+ id uuid primary key,
+ user_id uuid references users(id) on delete cascade,
+ provider text not null,
+ username text,
+ page_id text,
+ instagram_user_id text,
+ access_token text,
+ page_access_token text,
+ status text default 'connected',
+ created_at timestamptz default now(),
+ updated_at timestamptz default now()
+);
+create index if not exists idx_social_connections_user_id on social_connections(user_id);
+create index if not exists idx_social_connections_provider on social_connections(provider);

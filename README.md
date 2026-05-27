@@ -1,31 +1,27 @@
-# GhostSeller AI V37 LAUNCH LOGO
+# GhostSeller AI V39 META INSTAGRAM CONNECT
 
-V37 prépare le lancement public :
-- logo GhostSeller intégré,
-- favicon navigateur,
-- apple-touch-icon,
-- branding V37,
-- landing + dashboard conservés.
+Pack V38/V39 :
+- préparation Meta Developer,
+- routes OAuth Instagram,
+- page Instagram Connect,
+- stockage Supabase des connexions sociales,
+- base technique pour V40 publication automatique.
 
 ## Push
-
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V37 Launch Logo"
+git commit -m "GhostSeller V39 Meta Instagram Connect"
 git push
 ```
 
-## Test
-
+## Après déploiement
+1. Exécute `supabase/schema.sql`
+2. Ajoute dans Vercel :
 ```txt
-/api/health
+META_APP_ID
+META_APP_SECRET
+META_REDIRECT_URI=https://ghostseller-ai.vercel.app/api/meta/callback
 ```
-
-Tu dois voir :
-
-```txt
-GhostSeller AI V37 LAUNCH LOGO
-```
-
-Si le globe reste dans l'onglet, fais Ctrl + F5 ou teste en navigation privée.
+3. Redéploie
+4. `/api/health` doit afficher `meta:true`

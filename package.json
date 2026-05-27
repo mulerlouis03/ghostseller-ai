@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v37-launch-logo",
-  "version": "37.0.0",
+  "name": "ghostseller-ai-v39-meta-instagram-connect",
+  "version": "39.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
