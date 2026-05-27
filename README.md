@@ -1,23 +1,22 @@
-# GhostSeller AI V34 UI OVERHAUL
+# GhostSeller AI V35 STRIPE LIMITS
 
-V34 corrige les traces V28 et transforme l'interface en vrai dashboard SaaS.
+V35 transforme GhostSeller en SaaS monétisable.
 
 Ajouts :
-- Dashboard V34 propre
-- Sidebar professionnelle
-- Accès clair aux modules V29-V33
-- UI responsive
-- Health V34
-- Suppression visuelle de Dashboard V28
+- Stripe Checkout plus propre,
+- crédits par plan,
+- limites SaaS,
+- blocage si crédits insuffisants,
+- déduction automatique des crédits.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V34 UI Overhaul"
+git commit -m "GhostSeller V35 Stripe Limits"
 git push
 ```
 
 Après Vercel, `/api/health` doit afficher :
-GhostSeller AI V34 UI OVERHAUL
+GhostSeller AI V35 STRIPE LIMITS

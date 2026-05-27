@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { supabase } from "../../lib/supabase.js";
 import { openai } from "../../lib/openai.js";
 import { requireAuth } from "../../lib/auth.js";
+import { requireCredits, spendCredits } from "../../lib/plans.js";
 export const autoCampaignRouter = express.Router();
 
 autoCampaignRouter.get("/", requireAuth, async (req,res)=>{
@@ -11,7 +12,7 @@ autoCampaignRouter.get("/", requireAuth, async (req,res)=>{
  res.json({campaigns:data||[]});
 });
 
-autoCampaignRouter.post("/build", requireAuth, async (req,res)=>{
+autoCampaignRouter.post("/build", requireAuth, requireCredits, async (req,res)=>{
  try{
   const {projectId,product,audience,offer,country,objective}=req.body;
   if(!projectId||!product) return res.status(400).json({error:"Projet et produit obligatoires."});
@@ -31,7 +32,8 @@ autoCampaignRouter.post("/build", requireAuth, async (req,res)=>{
    content_plan:result.content_plan
   }).select().single();
   if(error) return res.status(500).json({error:error.message});
-  res.json({campaign:data});
+  const remainingCredits=await spendCredits(supabase,req.user.id,10);
+  res.json({campaign:data,remainingCredits});
  }catch(e){res.status(500).json({error:e.message||"Erreur Autopilot."});}
 });
 

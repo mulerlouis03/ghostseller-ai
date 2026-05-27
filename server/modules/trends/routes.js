@@ -3,12 +3,13 @@ import crypto from "crypto";
 import { supabase } from "../../lib/supabase.js";
 import { openai } from "../../lib/openai.js";
 import { requireAuth } from "../../lib/auth.js";
+import { requireCredits, spendCredits } from "../../lib/plans.js";
 
 export const trendsRouter = express.Router();
 
 trendsRouter.get("/", (req, res) => res.json({ module: "trends", status: "ready", version: "V31" }));
 
-trendsRouter.post("/scan", requireAuth, async (req, res) => {
+trendsRouter.post("/scan", requireAuth, requireCredits, async (req, res) => {
   try {
     const { niche, country, audience, goal } = req.body;
     if (!niche) return res.status(400).json({ error: "Niche obligatoire." });
@@ -34,7 +35,8 @@ trendsRouter.post("/scan", requireAuth, async (req, res) => {
     const { data, error } = await supabase.from("trends").insert(rows).select();
     if (error) return res.status(500).json({ error: error.message });
 
-    res.json({ trends: data });
+    const remainingCredits=await spendCredits(supabase,req.user.id,5);
+    res.json({trends:data,remainingCredits});
   } catch (error) {
     res.status(500).json({ error: error.message || "Erreur Trend Scanner." });
   }

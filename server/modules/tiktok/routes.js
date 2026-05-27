@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { supabase } from "../../lib/supabase.js";
 import { openai } from "../../lib/openai.js";
 import { requireAuth } from "../../lib/auth.js";
+import { requireCredits, spendCredits } from "../../lib/plans.js";
 
 export const tiktokRouter = express.Router();
 
@@ -10,7 +11,7 @@ tiktokRouter.get("/", (req, res) => {
   res.json({ module: "tiktok", status: "ready", version: "V30" });
 });
 
-tiktokRouter.post("/generate", requireAuth, async (req, res) => {
+tiktokRouter.post("/generate", requireAuth, requireCredits, async (req, res) => {
   try {
     const { projectId, product, audience, offer, days, style } = req.body;
 
@@ -50,7 +51,8 @@ tiktokRouter.post("/generate", requireAuth, async (req, res) => {
       count: data.length
     });
 
-    res.json({ posts: data });
+    const remainingCredits=await spendCredits(supabase,req.user.id,Math.max(1,data.length));
+    res.json({posts:data,remainingCredits});
   } catch (error) {
     res.status(500).json({ error: error.message || "Erreur TikTok Engine." });
   }

@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { supabase } from "../../lib/supabase.js";
 import { openai } from "../../lib/openai.js";
 import { requireAuth } from "../../lib/auth.js";
+import { requireCredits, spendCredits } from "../../lib/plans.js";
 export const leadsRouter = express.Router();
 
 leadsRouter.get("/", requireAuth, async (req,res)=>{
@@ -11,7 +12,7 @@ leadsRouter.get("/", requireAuth, async (req,res)=>{
  res.json({leads:data||[]});
 });
 
-leadsRouter.post("/", requireAuth, async (req,res)=>{
+leadsRouter.post("/", requireAuth, requireCredits, async (req,res)=>{
  try{
   const {projectId,name,phone,product,message}=req.body;
   if(!projectId||!name||!message) return res.status(400).json({error:"Projet, nom et message obligatoires."});
@@ -21,14 +22,16 @@ leadsRouter.post("/", requireAuth, async (req,res)=>{
    product:product||"", message, reply, status:"nouveau"
   }).select().single();
   if(error) return res.status(500).json({error:error.message});
-  res.json({lead:data});
+  const remainingCredits=await spendCredits(supabase,req.user.id,1);
+  res.json({lead:data,remainingCredits});
  }catch(e){res.status(500).json({error:e.message||"Erreur WhatsApp Leads."});}
 });
 
 leadsRouter.patch("/:id", requireAuth, async (req,res)=>{
  const {data,error}=await supabase.from("leads").update({status:req.body.status,updated_at:new Date().toISOString()}).eq("id",req.params.id).eq("user_id",req.user.id).select().single();
  if(error) return res.status(500).json({error:error.message});
- res.json({lead:data});
+ const remainingCredits=await spendCredits(supabase,req.user.id,1);
+  res.json({lead:data,remainingCredits});
 });
 
 async function aiReply({name,product,message}){

@@ -84,7 +84,7 @@ async function loadBilling(){
         <h2>${esc(p.name)}</h2>
         <div class="price">${esc(p.price)}</div>
         <p>${esc(p.description || "")}</p>
-        <p><b>${esc(p.credits)}</b> crédits / mois</p>
+        <p><b>${esc(p.credits)}</b> crédits / mois</p><p><b>${esc(p.projects || "-")}</b> projets • <b>${esc(p.tiktokPosts || "-")}</b> posts • <b>${esc(p.leads || "-")}</b> leads</p>
         ${p.name==="Free"
           ? `<button onclick="demoUpgrade('Free')">Activer Free</button>`
           : `<button onclick="checkout('${p.name}')">Payer avec Stripe</button><button onclick="demoUpgrade('${p.name}')">Mode test ${p.name}</button>`
