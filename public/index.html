@@ -28,6 +28,7 @@
     <h2>GhostSeller</h2>
     <button onclick="show('dashboard')">Dashboard</button>
     <button onclick="show('projects')">Projets</button>
+    <button onclick="show('autopilot'); loadAutopilot()">Autopilot</button>
     <button onclick="show('leads'); loadLeads()">WhatsApp Leads</button>
     <button onclick="show('trends')">Trend Scanner</button>
     <button onclick="show('tiktok')">TikTok Engine</button>
@@ -108,6 +109,22 @@
         <button id="leadBtn" onclick="addLead()">Ajouter lead + réponse IA</button>
       </div>
       <div id="leadOutput"></div>
+    </section>
+
+    
+    <section id="autopilot" class="hidden">
+      <h1>Autopilot V33</h1>
+      <p class="muted">Crée une campagne complète TikTok → WhatsApp → clients en un clic.</p>
+      <div class="card">
+        <select id="autoProject"></select>
+        <input id="autoProduct" placeholder="Produit : Recharge Digicel Haïti">
+        <input id="autoAudience" placeholder="Audience : diaspora haïtienne en France">
+        <input id="autoOffer" placeholder="Offre : recharge dès 5€">
+        <input id="autoCountry" placeholder="Pays/marché : France, Haïti, Canada">
+        <input id="autoObjective" placeholder="Objectif : ventes WhatsApp">
+        <button id="autoBtn" onclick="buildAutopilot()">Créer campagne Autopilot</button>
+      </div>
+      <div id="autoOutput"></div>
     </section>
 
     <section id="projects" class="hidden">

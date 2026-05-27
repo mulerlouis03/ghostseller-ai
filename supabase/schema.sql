@@ -21,3 +21,5 @@ create table if not exists campaigns (
 );
 
 create index if not exists idx_leads_user_id on leads(user_id);
+
+create index if not exists idx_auto_campaigns_user_id on auto_campaigns(user_id);

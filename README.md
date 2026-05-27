@@ -1,11 +1,14 @@
-# GhostSeller AI V32 WHATSAPP LEADS
+# GhostSeller AI V33 AUTOPILOT
+
+Dernière version de la série.
 
 Ajouts :
-- WhatsApp Leads Engine
-- ajout prospect
-- réponse IA automatique
-- bouton ouvrir WhatsApp
-- statuts : nouveau, contacté, commande, perdu
+- Autopilot Campaign
+- plan TikTok -> WhatsApp en 7 jours
+- stratégie automatique
+- hooks
+- content plan
+- CTA WhatsApp
 - sauvegarde Supabase
 
 ## Push
@@ -13,9 +16,9 @@ Ajouts :
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V32 WhatsApp Leads"
+git commit -m "GhostSeller V33 Autopilot"
 git push
 ```
 
 Après Vercel, `/api/health` doit afficher :
-GhostSeller AI V32 WHATSAPP LEADS
+GhostSeller AI V33 AUTOPILOT

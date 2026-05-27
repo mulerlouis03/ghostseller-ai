@@ -4,7 +4,17 @@ import { openai } from "../lib/openai.js";
 import { stripe } from "../lib/stripe.js";
 export const healthRouter = express.Router();
 healthRouter.get("/", (req,res)=>res.json({
- ok:true, version:"GhostSeller AI V32 WHATSAPP LEADS", architecture:"modular",
- dashboard:true, billing:true, admin:true, tiktokEngine:true, trendScanner:true, whatsappLeads:true,
- supabase:supabaseConfigured, openai:Boolean(openai), stripe:Boolean(stripe)
+ ok:true,
+ version:"GhostSeller AI V33 AUTOPILOT",
+ architecture:"modular",
+ dashboard:true,
+ billing:true,
+ admin:true,
+ tiktokEngine:true,
+ trendScanner:true,
+ whatsappLeads:true,
+ autopilot:true,
+ supabase:supabaseConfigured,
+ openai:Boolean(openai),
+ stripe:Boolean(stripe)
 }));

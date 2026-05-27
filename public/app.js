@@ -45,7 +45,7 @@ async function loadDashboard(){
   document.getElementById("postsCount").innerText=dashboard.posts.length;
   document.getElementById("leadsCount").innerText=dashboard.leads.length;
   document.getElementById("videosCount").innerText=dashboard.videos.length;
-  renderProjects(); fillProjectSelects(); fillLeadProjectSelect();
+  renderProjects(); fillProjectSelects(); fillLeadProjectSelect(); fillAutoProjectSelect();
 }
 async function createProject(){
   await api("/api/projects","POST",{name:val("projectName"),description:val("projectDescription")});
@@ -214,3 +214,37 @@ async function loadLeads(){
   </div>`).join("") : "<p>Aucun lead.</p>";
 }
 async function updateLead(id,status){await api(`/api/leads/${id}`,"PATCH",{status}); await loadLeads(); await loadDashboard();}
+
+function fillAutoProjectSelect(){
+ const select=document.getElementById("autoProject");
+ if(!select) return;
+ select.innerHTML=dashboard.projects.length ? dashboard.projects.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("") : `<option value="">Crée un projet d'abord</option>`;
+}
+
+async function buildAutopilot(){
+ const btn=document.getElementById("autoBtn");
+ btn.disabled=true; btn.innerText="Création Autopilot...";
+ try{
+  const data=await api("/api/autocampaign/build","POST",{
+   projectId:val("autoProject"),
+   product:val("autoProduct"),
+   audience:val("autoAudience"),
+   offer:val("autoOffer"),
+   country:val("autoCountry"),
+   objective:val("autoObjective")
+  });
+  await loadDashboard(); await loadAutopilot();
+ }finally{btn.disabled=false; btn.innerText="Créer campagne Autopilot";}
+}
+async function loadAutopilot(){
+ const data=await api("/api/autocampaign");
+ document.getElementById("autoOutput").innerHTML=data.campaigns.length ? data.campaigns.map(c=>`
+  <div class="item">
+   <h3>${esc(c.product)}</h3>
+   <p><b>Score viral:</b> ${esc(c.viral_score)}/100</p>
+   <p><b>Stratégie:</b> ${esc(c.strategy||"")}</p>
+   <p><b>CTA WhatsApp:</b> ${esc(c.whatsapp_cta||"")}</p>
+   <pre>${esc(JSON.stringify(c.hooks||[],null,2))}</pre>
+   <pre>${esc(JSON.stringify(c.content_plan||[],null,2))}</pre>
+  </div>`).join("") : "<p>Aucune campagne Autopilot.</p>";
+}

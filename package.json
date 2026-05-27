@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v32-whatsapp-leads",
-  "version": "32.0.0",
+  "name": "ghostseller-ai-v33-autopilot",
+  "version": "33.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
