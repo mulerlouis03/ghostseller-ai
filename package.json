@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v44-launch-analytics-admin",
-  "version": "44.0.0",
+  "name": "ghostseller-ai-v45-premium-ui",
+  "version": "45.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
