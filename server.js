@@ -29,6 +29,10 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/landing", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "landing.html"));
 });
+
+app.get("/reset-password", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "reset-password.html"));
+});
 app.use("/api/health", healthRouter);
 app.use("/api/security", securityRouter);
 app.use("/api/auth", authRouter);

@@ -1,50 +1,31 @@
-# GhostSeller AI V42 SECURITY OWNER
+# GhostSeller AI V43 AUTH RECOVERY FIX
 
-V42 sécurise GhostSeller avant publication.
+Corrige le système de mot de passe oublié.
 
 Ajouts :
-- rôle propriétaire `owner`,
-- route `/api/security/status`,
-- route `/api/security/owner`,
-- headers de sécurité,
-- rate limit API,
-- réduction limite JSON,
-- désactivation du mode test abonnement en production,
-- préparation Stripe webhook,
-- fichier `supabase/make_owner.sql`.
+- vrai email recovery Supabase,
+- page `/reset-password`,
+- mise à jour sécurisée du mot de passe,
+- suppression du faux popup.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V42 Security Owner"
+git commit -m "GhostSeller V43 Auth Recovery Fix"
 git push
 ```
 
-## Après déploiement
+## Supabase URL Configuration
 
-1. Supabase SQL Editor :
-```sql
-update users set role='owner' where email='mulerlouis03@gmail.com';
-update users set role='owner' where email='ghostseller.ai@gmail.com';
+Site URL :
+```txt
+https://ghostseller-ai.vercel.app
 ```
 
-2. Vérifie :
+Redirect URLs :
 ```txt
-/api/health
-/api/security/status
-/api/security/owner
-```
-
-## Stripe webhook plus tard
-
-Ajoute dans Vercel :
-```txt
-STRIPE_WEBHOOK_SECRET
-```
-
-Endpoint Stripe :
-```txt
-https://ghostseller-ai.vercel.app/api/billing/webhook
+https://ghostseller-ai.vercel.app
+https://ghostseller-ai.vercel.app/reset-password
 ```

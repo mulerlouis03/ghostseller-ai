@@ -21,10 +21,13 @@ async function login(){
   token=data.token; localStorage.setItem("ghost_v28_token",token); await boot();
 }
 async function resetPassword(){
-  const email=val("email"), newPassword=prompt("Nouveau mot de passe");
-  if(!email||!newPassword) return;
-  const data=await api("/api/auth/reset-password","POST",{email,newPassword},false);
-  alert(data.message);
+  const email = val("email");
+  if(!email){
+    alert("Entre ton email dans le champ Email, puis clique encore sur mot de passe oublié.");
+    return;
+  }
+  const data = await api("/api/auth/forgot-password","POST",{email},false);
+  alert(data.message || "Email envoyé si le compte existe.");
 }
 function logout(){localStorage.removeItem("ghost_v28_token");location.reload();}
 function show(id){document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");}

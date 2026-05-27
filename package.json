@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v42-security-owner",
-  "version": "42.0.0",
+  "name": "ghostseller-ai-v43-auth-recovery-fix",
+  "version": "43.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
