@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v36-landing-branding-fixed",
-  "version": "36.1.0",
+  "name": "ghostseller-ai-v37-launch-logo",
+  "version": "37.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

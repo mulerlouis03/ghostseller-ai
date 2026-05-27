@@ -7,13 +7,15 @@ export const healthRouter = express.Router();
 
 healthRouter.get("/", (req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V36 LANDING BRANDING FIXED",
-  phase:"Landing + SaaS",
+  version:"GhostSeller AI V37 LAUNCH LOGO",
+  phase:"Public Launch",
   architecture:"modular",
   dashboard:true,
   billing:true,
   planLimits:true,
   landing:true,
+  logo:true,
+  favicon:true,
   admin:true,
   tiktokEngine:true,
   trendScanner:true,

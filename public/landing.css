@@ -26,3 +26,6 @@ h1{font-size:70px;line-height:1.1;margin-bottom:30px}
 .price-card li{margin:12px 0;color:#cbd5e1}
 footer{padding:40px;text-align:center;color:#94a3b8}
 @media(max-width:768px){h1{font-size:44px}.hero p{font-size:18px}.hero{padding:24px}}
+
+.logo{display:flex;align-items:center;gap:10px}
+.logo img{width:42px;height:42px;border-radius:12px;object-fit:cover;box-shadow:0 0 25px rgba(14,165,233,.35)}

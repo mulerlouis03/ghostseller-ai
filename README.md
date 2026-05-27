@@ -1,31 +1,31 @@
-# GhostSeller AI V36 LANDING BRANDING FIXED
+# GhostSeller AI V37 LAUNCH LOGO
 
-Correction importante :
-- garde tout V35 complet,
-- ajoute landing page sans casser le dashboard,
-- garde /api/health,
-- garde Stripe, Supabase, OpenAI,
-- route /landing ajoutée proprement.
+V37 prépare le lancement public :
+- logo GhostSeller intégré,
+- favicon navigateur,
+- apple-touch-icon,
+- branding V37,
+- landing + dashboard conservés.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V36 Landing Branding Fixed"
+git commit -m "GhostSeller V37 Launch Logo"
 git push
 ```
 
-## Tests
+## Test
 
-Dashboard :
-https://ghostseller-ai.vercel.app/
-
-Landing :
-https://ghostseller-ai.vercel.app/landing
-
-Health :
-https://ghostseller-ai.vercel.app/api/health
+```txt
+/api/health
+```
 
 Tu dois voir :
-GhostSeller AI V36 LANDING BRANDING FIXED
+
+```txt
+GhostSeller AI V37 LAUNCH LOGO
+```
+
+Si le globe reste dans l'onglet, fais Ctrl + F5 ou teste en navigation privée.
