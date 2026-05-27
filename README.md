@@ -1,31 +1,30 @@
-# GhostSeller AI V43 AUTH RECOVERY FIX
+# GhostSeller AI V44 LAUNCH ANALYTICS ADMIN
 
-Corrige le système de mot de passe oublié.
+V44 prépare GhostSeller pour le lancement ce soir.
 
 Ajouts :
-- vrai email recovery Supabase,
-- page `/reset-password`,
-- mise à jour sécurisée du mot de passe,
-- suppression du faux popup.
+- Launch Center admin,
+- analytics utilisateurs,
+- prospects waitlist,
+- MRR estimé,
+- checklist lancement,
+- endpoint `/api/analytics/launch`.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V43 Auth Recovery Fix"
+git commit -m "GhostSeller V44 Launch Analytics Admin"
 git push
 ```
 
-## Supabase URL Configuration
-
-Site URL :
+Après déploiement :
 ```txt
-https://ghostseller-ai.vercel.app
+/api/health
 ```
 
-Redirect URLs :
+Tu dois voir :
 ```txt
-https://ghostseller-ai.vercel.app
-https://ghostseller-ai.vercel.app/reset-password
+GhostSeller AI V44 LAUNCH ANALYTICS ADMIN
 ```

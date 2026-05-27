@@ -51,3 +51,5 @@ create table if not exists waitlist (
 
 create index if not exists idx_waitlist_email
 on waitlist(email);
+
+create index if not exists idx_users_plan on users(plan);

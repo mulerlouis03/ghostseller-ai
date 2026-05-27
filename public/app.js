@@ -336,3 +336,25 @@ async function loadSecurity(){
     document.getElementById("securityOut").textContent = "Erreur sécurité.";
   }
 }
+
+async function loadLaunchAnalytics(){
+ try{
+  const data=await api("/api/analytics/launch");
+  const s=data.summary||{};
+  document.getElementById("launchUsers").innerText=s.users??0;
+  document.getElementById("launchPaid").innerText=s.paidUsers??0;
+  document.getElementById("launchMRR").innerText=`${s.estimatedMRR??0}€`;
+  document.getElementById("launchWaitlist").innerText=s.waitlist??0;
+  document.getElementById("launchChecklist").textContent=JSON.stringify(data.checklist||{},null,2);
+  document.getElementById("launchSummary").textContent=JSON.stringify(s,null,2);
+  document.getElementById("launchUsersList").innerHTML=(data.recentUsers||[]).length
+   ? data.recentUsers.map(u=>`<div class="item"><h3>${esc(u.email||"")}</h3><p>${esc(u.name||"")}</p><p>Rôle: ${esc(u.role||"user")} • Plan: ${esc(u.plan||"Free")} • Crédits: ${esc(u.credits??0)}</p></div>`).join("")
+   : "<p>Aucun utilisateur.</p>";
+  document.getElementById("launchWaitlistList").innerHTML=(data.recentWaitlist||[]).length
+   ? data.recentWaitlist.map(w=>`<div class="item"><h3>${esc(w.email||"")}</h3><p>${esc(w.name||"")}</p><p>${esc(w.business||"")}</p></div>`).join("")
+   : "<p>Aucun prospect.</p>";
+ }catch(e){
+  const el=document.getElementById("launchSummary");
+  if(el)el.textContent="Erreur Launch Analytics. Vérifie que ton compte est owner.";
+ }
+}
