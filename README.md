@@ -1,16 +1,36 @@
-# GhostSeller AI V40 AI CONTENT ENGINE
+# GhostSeller AI V40 FIX FULL AI CONTENT ENGINE
+
+Correction :
+- basé sur le projet complet stable,
+- conserve Vercel, dashboard, landing, Stripe, Supabase, OpenAI,
+- ajoute AI Content Engine proprement,
+- ne casse pas `/api/health`.
 
 Ajouts :
 - hooks IA,
-- captions IA,
+- captions Instagram,
 - hashtags IA,
 - scripts TikTok,
-- page V40 AI Content Engine.
+- post Instagram,
+- message WhatsApp.
 
 ## Push
 
 ```bash
+npm install
 git add .
-git commit -m "GhostSeller V40 AI Content Engine"
+git commit -m "GhostSeller V40 Fix Full AI Content Engine"
 git push
+```
+
+## Test
+
+```txt
+/api/health
+```
+
+Tu dois voir :
+
+```txt
+GhostSeller AI V40 FIX FULL AI CONTENT ENGINE
 ```
