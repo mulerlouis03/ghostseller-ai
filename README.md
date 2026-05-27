@@ -1,28 +1,22 @@
-# GhostSeller AI V47 BUSINESS LANDING WOW
+# GhostSeller AI V48 EXTRAORDINARY UI
 
-V47 transforme la page publique en vraie page business premium.
-
-Ajouts :
-- landing plus lumineuse et professionnelle,
-- background avec bulles Facebook / TikTok / Instagram / LinkedIn / WhatsApp,
-- hero section business,
+V48 est une vraie refonte visuelle :
+- landing extraordinaire,
+- design business lumineux,
+- arrière-plan social : TikTok, Instagram, WhatsApp, LinkedIn, Facebook,
+- vrai hero startup,
 - dashboard preview,
-- preuves de confiance Stripe / OpenAI / Supabase,
-- sections conversion,
-- tarifs plus propres,
-- waitlist premium.
-
-## Important
-
-Cette version ne casse pas l'auth, Stripe, Supabase ou V46.  
-Elle améliore surtout l'interface publique et le branding.
+- sections confiance,
+- méthode en 3 étapes,
+- dashboard plus clair et premium,
+- sans casser Auth, Stripe, Supabase ou V46.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V47 Business Landing Wow"
+git commit -m "GhostSeller V48 Extraordinary UI"
 git push
 ```
 
@@ -33,7 +27,6 @@ git push
 ```
 
 Tu dois voir :
-
 ```txt
-GhostSeller AI V47 BUSINESS LANDING WOW
+GhostSeller AI V48 EXTRAORDINARY UI
 ```
