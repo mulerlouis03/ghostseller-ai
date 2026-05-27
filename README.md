@@ -1,22 +1,20 @@
-# GhostSeller AI V45 PREMIUM UI
+# GhostSeller AI V46 AUTH UNIFIED FIX
 
-V45 améliore l'apparence pour inspirer confiance avant le lancement.
+V46 corrige le conflit entre `users` et Supabase Auth.
 
 Ajouts :
-- design SaaS premium,
-- dashboard moderne,
-- landing plus crédible,
-- couleurs plus vivantes,
-- cartes professionnelles,
-- responsive mobile,
-- aucune modification risquée sur Stripe/Auth/Supabase.
+- inscription synchronisée Supabase Auth + users,
+- login fiable,
+- reset password synchronisé,
+- owner access stable,
+- fini les comptes désynchronisés.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V45 Premium UI"
+git commit -m "GhostSeller V46 Auth Unified Fix"
 git push
 ```
 
@@ -29,5 +27,5 @@ git push
 Tu dois voir :
 
 ```txt
-GhostSeller AI V45 PREMIUM UI
+GhostSeller AI V46 AUTH UNIFIED FIX
 ```

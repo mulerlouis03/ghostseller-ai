@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v45-premium-ui",
-  "version": "45.0.0",
+  "name": "ghostseller-ai-v46-auth-unified-fix",
+  "version": "46.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
