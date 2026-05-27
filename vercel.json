@@ -1,8 +1,6 @@
 {
-  "rewrites":[
-    {
-      "source":"/landing",
-      "destination":"/public/landing.html"
-    }
+  "version": 2,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/api/index" }
   ]
 }

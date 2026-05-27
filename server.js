@@ -1,0 +1,36 @@
+import express from "express";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+import { healthRouter } from "./server/routes/health.js";
+import { authRouter } from "./server/modules/auth/routes.js";
+import { projectRouter } from "./server/modules/projects/routes.js";
+import { tiktokRouter } from "./server/modules/tiktok/routes.js";
+import { videoRouter } from "./server/modules/video/routes.js";
+import { trendsRouter } from "./server/modules/trends/routes.js";
+import { leadsRouter } from "./server/modules/leads/routes.js";
+import { billingRouter } from "./server/modules/billing/routes.js";
+import { autoCampaignRouter } from "./server/modules/autocampaign/routes.js";
+import { adminRouter } from "./server/modules/admin/routes.js";
+dotenv.config();
+const app = express();
+app.use(express.json({ limit: "5mb" }));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/landing", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "landing.html"));
+});
+app.use("/api/health", healthRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/projects", projectRouter);
+app.use("/api/tiktok", tiktokRouter);
+app.use("/api/video", videoRouter);
+app.use("/api/trends", trendsRouter);
+app.use("/api/leads", leadsRouter);
+app.use("/api/billing", billingRouter);
+app.use("/api/autocampaign", autoCampaignRouter);
+app.use("/api/admin", adminRouter);
+app.get("*", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
+export default app;
