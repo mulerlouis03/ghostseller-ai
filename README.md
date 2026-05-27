@@ -1,22 +1,14 @@
-# GhostSeller AI V35 STRIPE LIMITS
+# GhostSeller AI V36 LANDING BRANDING
 
-V35 transforme GhostSeller en SaaS monétisable.
+Landing page SaaS ajoutée.
 
-Ajouts :
-- Stripe Checkout plus propre,
-- crédits par plan,
-- limites SaaS,
-- blocage si crédits insuffisants,
-- déduction automatique des crédits.
+## URL
+/landing
 
 ## Push
 
 ```bash
-npm install
 git add .
-git commit -m "GhostSeller V35 Stripe Limits"
+git commit -m "GhostSeller V36 Landing Branding"
 git push
 ```
-
-Après Vercel, `/api/health` doit afficher :
-GhostSeller AI V35 STRIPE LIMITS
