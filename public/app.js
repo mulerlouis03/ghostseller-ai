@@ -45,7 +45,7 @@ async function loadDashboard(){
   document.getElementById("postsCount").innerText=dashboard.posts.length;
   document.getElementById("leadsCount").innerText=dashboard.leads.length;
   document.getElementById("videosCount").innerText=dashboard.videos.length;
-  renderProjects(); fillProjectSelects(); fillLeadProjectSelect(); fillAutoProjectSelect();
+  renderProjects(); fillAllProjectSelectsV34(); fillProjectSelects(); fillLeadProjectSelect(); fillAutoProjectSelect();
 }
 async function createProject(){
   await api("/api/projects","POST",{name:val("projectName"),description:val("projectDescription")});
@@ -247,4 +247,13 @@ async function loadAutopilot(){
    <pre>${esc(JSON.stringify(c.hooks||[],null,2))}</pre>
    <pre>${esc(JSON.stringify(c.content_plan||[],null,2))}</pre>
   </div>`).join("") : "<p>Aucune campagne Autopilot.</p>";
+}
+
+function fillAllProjectSelectsV34(){
+  const ids=["tiktokProject","leadProject","autoProject"];
+  ids.forEach(id=>{
+    const select=document.getElementById(id);
+    if(!select) return;
+    select.innerHTML=dashboard.projects.length ? dashboard.projects.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join("") : `<option value="">Crée un projet d'abord</option>`;
+  });
 }

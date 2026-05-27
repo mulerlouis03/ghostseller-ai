@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v33-autopilot",
-  "version": "33.0.0",
+  "name": "ghostseller-ai-v34-ui-overhaul",
+  "version": "34.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
