@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v46-auth-unified-fix",
-  "version": "46.0.0",
+  "name": "ghostseller-ai-v47-business-landing-wow",
+  "version": "47.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

@@ -1,20 +1,28 @@
-# GhostSeller AI V46 AUTH UNIFIED FIX
+# GhostSeller AI V47 BUSINESS LANDING WOW
 
-V46 corrige le conflit entre `users` et Supabase Auth.
+V47 transforme la page publique en vraie page business premium.
 
 Ajouts :
-- inscription synchronisée Supabase Auth + users,
-- login fiable,
-- reset password synchronisé,
-- owner access stable,
-- fini les comptes désynchronisés.
+- landing plus lumineuse et professionnelle,
+- background avec bulles Facebook / TikTok / Instagram / LinkedIn / WhatsApp,
+- hero section business,
+- dashboard preview,
+- preuves de confiance Stripe / OpenAI / Supabase,
+- sections conversion,
+- tarifs plus propres,
+- waitlist premium.
+
+## Important
+
+Cette version ne casse pas l'auth, Stripe, Supabase ou V46.  
+Elle améliore surtout l'interface publique et le branding.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V46 Auth Unified Fix"
+git commit -m "GhostSeller V47 Business Landing Wow"
 git push
 ```
 
@@ -27,5 +35,5 @@ git push
 Tu dois voir :
 
 ```txt
-GhostSeller AI V46 AUTH UNIFIED FIX
+GhostSeller AI V47 BUSINESS LANDING WOW
 ```
