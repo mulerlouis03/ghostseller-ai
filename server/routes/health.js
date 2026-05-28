@@ -3,13 +3,13 @@ export const healthRouter = express.Router();
 
 healthRouter.get("/", (_req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V86 VIRAL REFERRAL PROMO SYSTEM",
-  phase:"User Acquisition + Referral Growth",
-  basedOn:"V85 Stripe Live",
+  version:"GhostSeller AI V87 TIKTOK AUTOMATION STUDIO",
+  phase:"TikTok Automation + Scheduling",
+  basedOn:"V86 validated",
   unifiedBrainCrashFixed:true,
-  referralSystem:true,
-  promoCodes:true,
-  inviteLinks:true,
-  acquisitionTracking:true,
-  viralLoop:true
+  tiktokAutomation:true,
+  tiktokCalendar:true,
+  scheduledPosts:true,
+  videoScripts:true,
+  safePublishingQueue:true
 }));

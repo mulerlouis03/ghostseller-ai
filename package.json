@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v86-viral-referral-promo-system",
-  "version": "86.0.0",
+  "name": "ghostseller-ai-v87-tiktok-automation-studio",
+  "version": "87.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

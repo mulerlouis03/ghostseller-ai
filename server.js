@@ -43,6 +43,7 @@ import { revenueAutomationRouter } from "./server/modules/revenueAutomation/rout
 import { stripeLiveRouter } from "./server/modules/stripeLive/routes.js";
 import { referralRouter } from "./server/modules/referral/routes.js";
 import { promoRouter } from "./server/modules/promo/routes.js";
+import { tiktokAutomationRouter } from "./server/modules/tiktokAutomation/routes.js";
 import { metaRouter } from "./server/modules/meta/routes.js";
 import { contentRouter } from "./server/modules/content/routes.js";
 import { waitlistRouter } from "./server/modules/waitlist/routes.js";
@@ -109,6 +110,7 @@ app.use("/api/revenue-automation", revenueAutomationRouter);
 app.use("/api/stripe-live", stripeLiveRouter);
 app.use("/api/referral", referralRouter);
 app.use("/api/promo", promoRouter);
+app.use("/api/tiktok-automation", tiktokAutomationRouter);
 app.use("/api/meta", metaRouter);
 app.use("/api/content", contentRouter);
 app.use("/api/waitlist", waitlistRouter);

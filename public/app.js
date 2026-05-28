@@ -1953,3 +1953,52 @@ async function loadReferralLeaderboard(){
     }
   }catch(_e){}
 })();
+
+
+async function loadTikTokAutomationStatus(){
+  const out=qs("tiktokAutomationStatusOut");
+  out.innerHTML="Loading TikTok automation status...";
+  try{
+    const data=await api("/api/tiktok-automation/status");
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function generateTikTokAutomationScript(){
+  const out=qs("taScriptOut");
+  out.innerHTML="Generating script...";
+  try{
+    const data=await api("/api/tiktok-automation/script","POST",{
+      niche:val("taNiche"),
+      topic:val("taTopic"),
+      mode:val("taMode")
+    });
+    out.innerHTML=`<pre>${esc(JSON.stringify(data.script,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function scheduleTikTokPost(){
+  const out=qs("taScheduleOut");
+  out.innerHTML="Scheduling post...";
+  try{
+    const data=await api("/api/tiktok-automation/schedule","POST",{
+      niche:val("taNiche"),
+      topic:val("taTopic"),
+      mode:val("taMode"),
+      scheduled_at:val("taScheduleAt") || null,
+      media_url:val("taMediaUrl"),
+      caption:val("taCaption")
+    });
+    out.innerHTML=`<pre>${esc(JSON.stringify(data.scheduled,null,2))}</pre>`;
+    await loadTikTokCalendar();
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function loadTikTokCalendar(){
+  const out=qs("taCalendarOut");
+  out.innerHTML="Loading calendar...";
+  try{
+    const data=await api("/api/tiktok-automation/calendar");
+    out.innerHTML=`<pre>${esc(JSON.stringify(data.calendar,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}

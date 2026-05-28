@@ -1,24 +1,23 @@
-# GhostSeller AI V86 VIRAL REFERRAL PROMO SYSTEM
+# GhostSeller AI V87 TIKTOK AUTOMATION STUDIO
 
-Basé sur V85.
+Basé sur V86 validé.
 
 ## Ajouts
-- Referral links,
-- Tracking clicks,
-- Tracking signups,
-- Rewards credits,
-- Promo codes,
-- Promo redemptions,
-- Leaderboard referrals.
+- TikTok Automation Studio,
+- génération scripts vidéo,
+- calendrier TikTok,
+- posts planifiés,
+- queue sécurisée,
+- mode safe avant API TikTok officielle.
 
-## Push branche test
+## Push test
 
 ```bash
-git checkout -b v86-test
+git checkout -b v87-test
 npm install
 git add .
-git commit -m "GhostSeller V86 Viral Referral Promo"
-git push -u origin v86-test
+git commit -m "GhostSeller V87 TikTok Automation Studio"
+git push -u origin v87-test
 ```
 
 ## Supabase
@@ -26,13 +25,12 @@ git push -u origin v86-test
 Exécute :
 
 ```txt
-supabase/V86_VIRAL_REFERRAL_PROMO.sql
+supabase/V87_TIKTOK_AUTOMATION_STUDIO.sql
 ```
 
 ## Test
 
 ```txt
 /api/health
-/api/referral/me
-/api/promo/list
+/api/tiktok-automation/status
 ```

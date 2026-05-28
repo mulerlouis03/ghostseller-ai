@@ -71,6 +71,7 @@
 <button onclick="show('revenueAutomation'); loadRevenueAutomationStatus()">💸 Revenue Automation</button>
 <button onclick="show('stripeLive'); loadStripeLiveStatus()">💳 Stripe Live</button>
 <button onclick="show('referral'); loadReferralMe()">🎁 Referral</button>
+<button onclick="show('tiktokAutomation'); loadTikTokAutomationStatus()">📅 TikTok Automation</button>
     <button onclick="show('agents'); loadAgentsDashboard()">🤖 AI Agents</button>
     <button onclick="show('publicBeta'); loadBetaLaunchChecklist()">🚀 Public Beta</button>
     <button onclick="show('adminPro'); loadAdminOverview()">👑 Admin Pro</button>
@@ -515,7 +516,7 @@
 
     <div class="card">
       <h2>Go Live Note</h2>
-      <textarea id="goLiveNote" placeholder="Note de lancement">GhostSeller AI V86 is ready for public launch.</textarea>
+      <textarea id="goLiveNote" placeholder="Note de lancement">GhostSeller AI V87 is ready for public launch.</textarea>
       <button onclick="saveGoLiveNote()">Save go-live note</button>
       <div id="goLiveOut"></div>
     </div>
@@ -673,7 +674,53 @@
   </div>
 </section>
 
+
+<section id="tiktokAutomation" class="page hidden">
+  <h1>TikTok Automation Studio</h1>
+  <p class="muted">Scripts TikTok, calendrier, posts planifiés et queue de publication sécurisée.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Status</h2>
+      <button onclick="loadTikTokAutomationStatus()">Check status</button>
+      <div id="tiktokAutomationStatusOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Generate Script</h2>
+      <input id="taNiche" placeholder="Niche" value="business">
+      <input id="taTopic" placeholder="Topic" value="AI Marketing">
+      <select id="taMode">
+        <option value="viral">Viral</option>
+        <option value="story">Story</option>
+        <option value="authority">Authority</option>
+        <option value="shock">Shock</option>
+      </select>
+      <button onclick="generateTikTokAutomationScript()">Generate script</button>
+      <div id="taScriptOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Schedule Post</h2>
+      <input id="taScheduleAt" placeholder="Scheduled at ISO optional">
+      <input id="taMediaUrl" placeholder="Media URL optional">
+      <textarea id="taCaption" placeholder="Caption optional"></textarea>
+      <button onclick="scheduleTikTokPost()">Schedule post</button>
+      <div id="taScheduleOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Calendar</h2>
+      <button onclick="loadTikTokCalendar()">Load calendar</button>
+      <div id="taCalendarOut"></div>
+    </div>
+  </div>
+</section>
+
 <section id="content" class="page hidden">
+
 
 
 
