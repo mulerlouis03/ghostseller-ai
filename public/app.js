@@ -125,10 +125,46 @@ async function generateContent(){
       goal: val("contentGoal")
     });
 
+    const r = data.result || data;
+
     out.innerHTML = `
       <div class="card">
-        <h2>Résultat IA</h2>
-        <pre>${esc(JSON.stringify(data,null,2))}</pre>
+        <span class="badge">Viral Score ${esc(r.viral_score || "-")}</span>
+        <h2>${esc(r.hook || "Generated content")}</h2>
+
+        <div class="grid2">
+          <div class="item">
+            <h3>Psychology</h3>
+            <p><b>Angle:</b> ${esc(r.psychological_angle || "-")}</p>
+            <p><b>Emotion:</b> ${esc(r.dominant_emotion || "-")}</p>
+          </div>
+
+          <div class="item">
+            <h3>CTA</h3>
+            <p>${esc(r.cta || "-")}</p>
+            <p><b>Thumbnail:</b> ${esc(r.thumbnail_idea || "-")}</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>TikTok Script</h3>
+          <pre>${esc(JSON.stringify(r.tiktok_version || {}, null, 2))}</pre>
+        </div>
+
+        <div class="item">
+          <h3>Instagram Version</h3>
+          <pre>${esc(JSON.stringify(r.instagram_version || {}, null, 2))}</pre>
+        </div>
+
+        <div class="item">
+          <h3>WhatsApp Version</h3>
+          <pre>${esc(JSON.stringify(r.whatsapp_version || {}, null, 2))}</pre>
+        </div>
+
+        <div class="item">
+          <h3>Hashtags</h3>
+          <pre>${esc(JSON.stringify(r.hashtags || [], null, 2))}</pre>
+        </div>
       </div>
     `;
   }catch(e){

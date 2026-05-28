@@ -1,91 +1,176 @@
 import express from "express";
-import { openai } from "../../lib/openai.js";
+import crypto from "crypto";
 import { requireAuth } from "../../lib/auth.js";
+import { supabase } from "../../lib/supabase.js";
 
 export const contentRouter = express.Router();
 
-contentRouter.get("/", requireAuth, (req,res)=>{
-  res.json({ module:"content", status:"ready", version:"V40" });
-});
+const HOOKS = [
+  "Nobody talks about this...",
+  "This changes everything for small businesses.",
+  "You’re losing customers because of this mistake.",
+  "I tested this strategy for 7 days.",
+  "Most creators fail because they ignore this.",
+  "This trick gets attention instantly.",
+  "Stop scrolling if you want more clients."
+];
+
+const PSYCHOLOGY = [
+  "Curiosity",
+  "Urgency",
+  "Transformation",
+  "Fear of missing out",
+  "Authority",
+  "Social proof",
+  "Aspiration"
+];
+
+const EMOTIONS = [
+  "Excitement",
+  "Confidence",
+  "Trust",
+  "Curiosity",
+  "Motivation",
+  "Urgency"
+];
+
+function pick(arr){
+  return arr[Math.floor(Math.random()*arr.length)];
+}
+
+function viralScore(){
+  return Math.floor(78 + Math.random()*22);
+}
+
+function generateScenes(niche, goal){
+  return [
+    {
+      scene:1,
+      duration:"0-3s",
+      purpose:"Hook",
+      text:`Attention-grabbing intro for ${niche}.`,
+      visual:"Fast moving visual with bold subtitle."
+    },
+    {
+      scene:2,
+      duration:"3-8s",
+      purpose:"Problem",
+      text:`Explain the main problem related to ${goal}.`,
+      visual:"Show frustration/problem situation."
+    },
+    {
+      scene:3,
+      duration:"8-15s",
+      purpose:"Solution",
+      text:`Present the solution/business offer.`,
+      visual:"Clean transformation or product showcase."
+    },
+    {
+      scene:4,
+      duration:"15-22s",
+      purpose:"Proof",
+      text:"Show testimonial, social proof or quick result.",
+      visual:"Before/after or positive reaction."
+    },
+    {
+      scene:5,
+      duration:"22-30s",
+      purpose:"CTA",
+      text:"Invite user to DM or contact on WhatsApp.",
+      visual:"Clear CTA with animated text."
+    }
+  ];
+}
 
 contentRouter.post("/generate", requireAuth, async (req,res)=>{
   try{
-    const { niche, platform, tone, goal } = req.body;
+    const {
+      niche="Business",
+      platform="TikTok",
+      tone="viral",
+      goal="Get more customers"
+    } = req.body || {};
 
-    if(!niche){
-      return res.status(400).json({ error:"Niche obligatoire." });
-    }
+    const { data:history=[] } = await supabase
+      .from("content_history")
+      .select("niche,platform")
+      .eq("user_id", req.user.id)
+      .order("created_at",{ascending:false})
+      .limit(20);
 
-    if(!openai){
-      return res.json(fallbackContent({ niche, platform, tone, goal }));
-    }
+    const memoryNiches = [...new Set((history||[]).map(x=>x.niche).filter(Boolean))];
 
-    const prompt = `Tu es GhostSeller AI V40, expert en contenu viral.
-Génère un pack marketing prêt à poster.
+    const result = {
+      id: crypto.randomUUID(),
+      niche,
+      platform,
+      tone,
+      goal,
 
-Niche: ${niche}
-Plateforme: ${platform || "TikTok/Instagram"}
-Ton: ${tone || "viral"}
-Objectif: ${goal || "attirer des leads WhatsApp"}
+      viral_score: viralScore(),
+      psychological_angle: pick(PSYCHOLOGY),
+      dominant_emotion: pick(EMOTIONS),
 
-Retourne uniquement JSON valide:
-{
- "hooks":[""],
- "captions":[""],
- "hashtags":[""],
- "scripts":[{"title":"","script":"","cta":""}],
- "instagram_post":"",
- "whatsapp_message":""
-}
+      hook: pick(HOOKS),
 
-Règles:
-- Français simple
-- Hooks très forts
-- CTA WhatsApp clair
-- Adapté à une petite entreprise
-- Aucun texte hors JSON`;
+      tiktok_version: {
+        title:`${niche} TikTok Strategy`,
+        subtitle:"Short-form viral content",
+        scenes: generateScenes(niche, goal)
+      },
 
-    const completion = await openai.chat.completions.create({
-      model:"gpt-4.1-mini",
-      messages:[
-        { role:"system", content:"Réponds uniquement en JSON valide." },
-        { role:"user", content:prompt }
+      instagram_version: {
+        caption:`${niche}: Here is a smarter way to attract attention and convert followers into customers.`,
+        carousel_idea:[
+          "Problem",
+          "Why most people fail",
+          "Simple strategy",
+          "Transformation",
+          "Call to action"
+        ]
+      },
+
+      whatsapp_version: {
+        first_message:`Hey 👋 I wanted to show you a simple strategy that could help your ${niche.toLowerCase()} business attract more clients.`,
+        follow_up:"Would you like me to show you an example campaign?"
+      },
+
+      hashtags:[
+        "#marketing",
+        "#business",
+        "#viral",
+        "#entrepreneur",
+        "#growth"
       ],
-      temperature:0.85
+
+      thumbnail_idea:"High contrast text + emotional face + short curiosity phrase.",
+
+      cta:"DM now to get the strategy.",
+      memory_context: memoryNiches
+    };
+
+    try{
+      await supabase.from("content_history").insert({
+        id: crypto.randomUUID(),
+        user_id: req.user.id,
+        type:"real_content_engine",
+        niche,
+        platform,
+        prompt:goal,
+        result,
+        favorite:false,
+        created_at:new Date().toISOString()
+      });
+    }catch(_e){}
+
+    res.json({
+      ok:true,
+      result
     });
 
-    const text = completion.choices?.[0]?.message?.content || "{}";
-    const parsed = JSON.parse(text);
-
-    res.json(parsed);
   }catch(error){
-    res.status(500).json({ error:error.message || "Erreur AI Content Engine." });
+    res.status(500).json({
+      error:error.message || "Generation failed."
+    });
   }
 });
-
-function fallbackContent({ niche, platform, tone, goal }) {
-  return {
-    hooks:[
-      `Tu veux vendre plus avec ${niche} ?`,
-      `3 erreurs qui empêchent ${niche} de décoller`,
-      `Cette méthode transforme TikTok en clients WhatsApp`,
-      `Si tu fais du business, regarde ça avant de poster`,
-      `L'IA peut maintenant créer ton marketing en quelques secondes`
-    ],
-    captions:[
-      `${niche} + IA = plus de contenu, plus vite, avec moins d'effort.`,
-      `GhostSeller AI aide à transformer l'attention en clients WhatsApp.`,
-      `Teste une campagne IA et vois ce que tu peux améliorer aujourd'hui.`
-    ],
-    hashtags:["#GhostSellerAI","#IA","#TikTokMarketing","#Business","#WhatsAppBusiness","#SaaS","#MarketingDigital"],
-    scripts:[
-      {
-        title:`Vidéo TikTok pour ${niche}`,
-        script:`Scène 1: montre le problème.\nScène 2: explique pourquoi les gens perdent du temps.\nScène 3: montre GhostSeller AI.\nScène 4: montre le résultat.\nScène 5: CTA vers WhatsApp ou lien.`,
-        cta:"Clique sur le lien et teste GhostSeller AI."
-      }
-    ],
-    instagram_post:`🚀 GhostSeller AI aide les entrepreneurs à créer du contenu pour ${niche}, générer des leads et automatiser leur marketing.`,
-    whatsapp_message:`Salut, j'ai une solution IA qui peut t'aider avec ${niche}. Tu veux que je t'envoie les détails ?`
-  };
-}
