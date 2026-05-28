@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v85-stripe-payments-live-stable",
-  "version": "85.0.0",
+  "name": "ghostseller-ai-v86-viral-referral-promo-system",
+  "version": "86.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

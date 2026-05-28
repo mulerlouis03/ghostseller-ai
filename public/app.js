@@ -1901,3 +1901,55 @@ async function loadStripeLiveEvents(){
   try{ const data=await api("/api/stripe-live/events"); out.innerHTML=`<pre>${esc(JSON.stringify(data.events,null,2))}</pre>`; }
   catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
 }
+
+
+async function loadReferralMe(){
+  const out=qs("referralMeOut"); out.innerHTML="Loading referral profile...";
+  try{
+    const data=await api("/api/referral/me");
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function redeemPromoCode(){
+  const out=qs("promoRedeemOut"); out.innerHTML="Redeeming promo...";
+  try{
+    const data=await api("/api/promo/redeem","POST",{code:val("promoCode")});
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function createPromoCode(){
+  const out=qs("promoCreateOut"); out.innerHTML="Creating promo...";
+  try{
+    const data=await api("/api/promo/create","POST",{
+      code:val("newPromoCode"),
+      credits:Number(val("newPromoCredits")),
+      max_uses:Number(val("newPromoMaxUses"))
+    });
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function loadReferralLeaderboard(){
+  const out=qs("referralLeaderboardOut"); out.innerHTML="Loading leaderboard...";
+  try{
+    const data=await api("/api/referral/leaderboard");
+    out.innerHTML=`<pre>${esc(JSON.stringify(data.leaderboard,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+(function trackReferralFromUrl(){
+  try{
+    const params=new URLSearchParams(location.search);
+    const ref=params.get("ref");
+    if(ref){
+      localStorage.setItem("ghostseller_referral_code", ref);
+      fetch("/api/referral/track-click",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({ref, source:"url", path:location.pathname})
+      }).catch(()=>{});
+    }
+  }catch(_e){}
+})();

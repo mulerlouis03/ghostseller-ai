@@ -1,12 +1,15 @@
 import express from "express";
 export const healthRouter = express.Router();
+
 healthRouter.get("/", (_req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V85 STRIPE PAYMENTS LIVE STABLE",
-  basedOn:"V84 validated",
+  version:"GhostSeller AI V86 VIRAL REFERRAL PROMO SYSTEM",
+  phase:"User Acquisition + Referral Growth",
+  basedOn:"V85 Stripe Live",
   unifiedBrainCrashFixed:true,
-  stripeCheckout:true,
-  stripeWebhook:true,
-  automaticPlanActivation:true,
-  customerPortal:true
+  referralSystem:true,
+  promoCodes:true,
+  inviteLinks:true,
+  acquisitionTracking:true,
+  viralLoop:true
 }));

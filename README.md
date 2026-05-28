@@ -1,22 +1,38 @@
-# GhostSeller AI V85 STRIPE PAYMENTS LIVE STABLE
+# GhostSeller AI V86 VIRAL REFERRAL PROMO SYSTEM
 
-## Variables Vercel
-STRIPE_SECRET_KEY
-STRIPE_WEBHOOK_SECRET
-STRIPE_PRICE_STARTER
-STRIPE_PRICE_PRO
-STRIPE_PRICE_AGENCY
-APP_URL
+Basé sur V85.
 
-## Webhook URL
-/api/stripe-live/webhook
+## Ajouts
+- Referral links,
+- Tracking clicks,
+- Tracking signups,
+- Rewards credits,
+- Promo codes,
+- Promo redemptions,
+- Leaderboard referrals.
 
-## Push test
-git checkout -b v85-test
+## Push branche test
+
+```bash
+git checkout -b v86-test
 npm install
 git add .
-git commit -m "GhostSeller V85 Stripe Payments Live"
-git push -u origin v85-test
+git commit -m "GhostSeller V86 Viral Referral Promo"
+git push -u origin v86-test
+```
 
 ## Supabase
-supabase/V85_STRIPE_PAYMENTS_LIVE.sql
+
+Exécute :
+
+```txt
+supabase/V86_VIRAL_REFERRAL_PROMO.sql
+```
+
+## Test
+
+```txt
+/api/health
+/api/referral/me
+/api/promo/list
+```

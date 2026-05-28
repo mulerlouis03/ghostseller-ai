@@ -70,6 +70,7 @@
 <button onclick="show('acquisition'); loadAcquisitionStats()">🚀 Acquisition</button>
 <button onclick="show('revenueAutomation'); loadRevenueAutomationStatus()">💸 Revenue Automation</button>
 <button onclick="show('stripeLive'); loadStripeLiveStatus()">💳 Stripe Live</button>
+<button onclick="show('referral'); loadReferralMe()">🎁 Referral</button>
     <button onclick="show('agents'); loadAgentsDashboard()">🤖 AI Agents</button>
     <button onclick="show('publicBeta'); loadBetaLaunchChecklist()">🚀 Public Beta</button>
     <button onclick="show('adminPro'); loadAdminOverview()">👑 Admin Pro</button>
@@ -514,7 +515,7 @@
 
     <div class="card">
       <h2>Go Live Note</h2>
-      <textarea id="goLiveNote" placeholder="Note de lancement">GhostSeller AI V85 is ready for public launch.</textarea>
+      <textarea id="goLiveNote" placeholder="Note de lancement">GhostSeller AI V86 is ready for public launch.</textarea>
       <button onclick="saveGoLiveNote()">Save go-live note</button>
       <div id="goLiveOut"></div>
     </div>
@@ -634,7 +635,46 @@
 </div>
 <div class="card"><h2>Billing Events</h2><button onclick="loadStripeLiveEvents()">Load events</button><div id="stripeLiveEventsOut"></div></div>
 </section>
+
+<section id="referral" class="page hidden">
+  <h1>Referral & Promo Growth</h1>
+  <p class="muted">Parrainage viral, liens d'invitation, codes promo et récompenses crédits.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>My Referral Link</h2>
+      <button onclick="loadReferralMe()">Load my link</button>
+      <div id="referralMeOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Redeem Promo Code</h2>
+      <input id="promoCode" placeholder="Promo code">
+      <button onclick="redeemPromoCode()">Redeem</button>
+      <div id="promoRedeemOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Create Promo Code</h2>
+      <input id="newPromoCode" placeholder="Code" value="GHOST100">
+      <input id="newPromoCredits" placeholder="Credits" value="100">
+      <input id="newPromoMaxUses" placeholder="Max uses" value="100">
+      <button onclick="createPromoCode()">Create Promo</button>
+      <div id="promoCreateOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Referral Leaderboard</h2>
+      <button onclick="loadReferralLeaderboard()">Load leaderboard</button>
+      <div id="referralLeaderboardOut"></div>
+    </div>
+  </div>
+</section>
+
 <section id="content" class="page hidden">
+
 
 
 
