@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GhostSeller AI V58</title>
+<title>GhostSeller AI V59</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -68,6 +68,7 @@
     <button onclick="show('creative')">🎬 Creative Director</button>
     <button onclick="show('video')">🎥 Auto Video Pipeline</button>
     <button onclick="show('growth')">🚀 Growth Agent</button>
+    <button onclick="show('os')">🧠 AI Operating System</button>
     <button onclick="show('billing')">💳 Abonnement</button>
     <button onclick="show('waitlist')">📩 Waitlist</button>
     <button onclick="show('launch')">🚀 Launch Center</button>
@@ -313,7 +314,65 @@
   <div id="growthPlanOut"></div>
 </section>
 
+
+<section id="os" class="page hidden">
+  <h1>AI Operating System</h1>
+  <p class="muted">Centre de contrôle business : calendrier contenu, pipeline leads, tâches IA et score de croissance.</p>
+
+  <div class="stats">
+    <div class="stat"><span id="osGrowthScore">0</span><p>Growth Score</p></div>
+    <div class="stat"><span id="osContentCount">0</span><p>Generated Content</p></div>
+    <div class="stat"><span id="osCampaigns">0</span><p>Campaigns</p></div>
+    <div class="stat"><span id="osLeads">0</span><p>Lead Estimation</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Dashboard Intelligence</h2>
+      <button onclick="loadOSDashboard()">Load dashboard</button>
+      <div id="osDashboardOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Smart Calendar</h2>
+      <input id="osNiche" placeholder="Niche">
+      <input id="osPlatform" placeholder="Platform">
+      <input id="osDays" placeholder="Days" value="7">
+      <button onclick="generateCalendar()">Generate calendar</button>
+      <div id="osCalendarOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Lead Pipeline</h2>
+      <input id="pipelineNiche" placeholder="Niche">
+      <button onclick="generatePipeline()">Generate pipeline</button>
+      <div id="pipelineOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>AI Tasks</h2>
+      <input id="taskTitle" placeholder="Task title">
+      <select id="taskPriority">
+        <option value="high">high</option>
+        <option value="medium">medium</option>
+        <option value="low">low</option>
+      </select>
+      <button onclick="createAITask()">Create task</button>
+      <div id="taskOut"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>AI Recommendations</h2>
+    <button onclick="loadRecommendations()">Load recommendations</button>
+    <div id="recommendationsOut"></div>
+  </div>
+</section>
+
 <section id="billing" class="page hidden">
+
 
 
 

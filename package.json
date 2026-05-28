@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v58-autopilot-growth-agent",
-  "version": "58.0.0",
+  "name": "ghostseller-ai-v59-ai-operating-system",
+  "version": "59.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

@@ -1,26 +1,22 @@
-# GhostSeller AI V58 AUTOPILOT GROWTH AGENT
+# GhostSeller AI V59 AI OPERATING SYSTEM
 
-V58 ajoute un agent de croissance interne.
+V59 transforme GhostSeller en centre de contrôle business.
 
-## Ce qu'il fait
-- plan d'acquisition,
-- campagnes d'auto-promotion,
-- messages DM,
-- posts pour promouvoir GhostSeller,
-- scoring prospects,
-- actions quotidiennes,
-- plan de lancement 7 jours.
-
-## Important
-Il ne scrape pas encore les réseaux automatiquement.
-Les APIs TikTok/Meta/LinkedIn restent en pause jusqu'à connexion officielle.
+## Ajouts
+- calendrier contenu,
+- pipeline leads,
+- tâches IA,
+- recommandations,
+- growth score,
+- dashboard intelligence,
+- mémoire business plus longue.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V58 Autopilot Growth Agent"
+git commit -m "GhostSeller V59 AI Operating System"
 git push
 ```
 
@@ -28,15 +24,16 @@ git push
 
 Exécute :
 ```txt
-supabase/V58_GROWTH_AGENT.sql
+supabase/V59_AI_OS.sql
 ```
 
 ## Test
+
 ```txt
 /api/health
 ```
 
 Tu dois voir :
 ```txt
-GhostSeller AI V58 AUTOPILOT GROWTH AGENT
+GhostSeller AI V59 AI OPERATING SYSTEM
 ```

@@ -513,3 +513,83 @@ async function scoreProspect(){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+
+async function loadOSDashboard(){
+  const out = qs("osDashboardOut");
+  out.innerHTML = "Loading...";
+
+  try{
+    const data = await api("/api/os/dashboard");
+
+    qs("osGrowthScore").textContent = data.dashboard.growth_score;
+    qs("osContentCount").textContent = data.dashboard.generated_content;
+    qs("osCampaigns").textContent = data.dashboard.campaigns;
+    qs("osLeads").textContent = data.dashboard.leads_estimation;
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.dashboard,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function generateCalendar(){
+  const out = qs("osCalendarOut");
+  out.innerHTML = "Generating...";
+
+  try{
+    const data = await api("/api/os/calendar","POST",{
+      niche: val("osNiche"),
+      platform: val("osPlatform"),
+      days: val("osDays")
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.calendar,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function generatePipeline(){
+  const out = qs("pipelineOut");
+  out.innerHTML = "Generating...";
+
+  try{
+    const data = await api("/api/os/lead-pipeline","POST",{
+      niche: val("pipelineNiche")
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.pipeline,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function createAITask(){
+  const out = qs("taskOut");
+  out.innerHTML = "Creating...";
+
+  try{
+    const data = await api("/api/os/task","POST",{
+      title: val("taskTitle"),
+      priority: val("taskPriority")
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.task,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadRecommendations(){
+  const out = qs("recommendationsOut");
+  out.innerHTML = "Loading...";
+
+  try{
+    const data = await api("/api/os/recommendations");
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.recommendations,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}

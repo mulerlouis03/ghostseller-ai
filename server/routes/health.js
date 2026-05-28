@@ -4,13 +4,14 @@ export const healthRouter = express.Router();
 
 healthRouter.get("/", (req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V58 AUTOPILOT GROWTH AGENT",
-  phase:"Autonomous Growth Planning",
-  autopilotGrowthAgent:true,
-  selfPromotion:true,
-  acquisitionPlans:true,
-  prospectScoring:true,
-  dailyActions:true,
-  campaignBuilder:true,
-  socialAPIs:"paused until official connection"
+  version:"GhostSeller AI V59 AI OPERATING SYSTEM",
+  phase:"Business AI Operating System",
+  aiOperatingSystem:true,
+  growthScore:true,
+  smartCalendar:true,
+  leadPipeline:true,
+  aiTasks:true,
+  recommendations:true,
+  memoryLongTerm:true,
+  autopilotReady:true
 }));
