@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GhostSeller AI V59</title>
+<title>GhostSeller AI V60</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -69,6 +69,7 @@
     <button onclick="show('video')">🎥 Auto Video Pipeline</button>
     <button onclick="show('growth')">🚀 Growth Agent</button>
     <button onclick="show('os')">🧠 AI Operating System</button>
+    <button onclick="show('cmo')">🧑‍💼 AI CMO</button>
     <button onclick="show('billing')">💳 Abonnement</button>
     <button onclick="show('waitlist')">📩 Waitlist</button>
     <button onclick="show('launch')">🚀 Launch Center</button>
@@ -371,7 +372,64 @@
   </div>
 </section>
 
+
+<section id="cmo" class="page hidden">
+  <h1>AI Chief Marketing Officer</h1>
+  <p class="muted">Mode semi-autonome : objectifs business, plan quotidien, campagnes récurrentes et recommandations d’actions.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Business Goal</h2>
+      <input id="cmoGoal" placeholder="Goal" value="get more leads">
+      <input id="cmoNiche" placeholder="Niche" value="business">
+      <input id="cmoPlatform" placeholder="Platform" value="TikTok">
+      <input id="cmoBudget" placeholder="Budget" value="0">
+      <button onclick="saveCMOGoal()">Save goal</button>
+      <button onclick="loadCMOGoals()">Load goals</button>
+      <div id="cmoGoalsOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Daily Autopilot Plan</h2>
+      <button onclick="generateDailyPlan()">Generate today's plan</button>
+      <div id="dailyPlanOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Recurring Campaign</h2>
+      <input id="campaignName" placeholder="Campaign name" value="Weekly growth campaign">
+      <input id="campaignNiche" placeholder="Niche" value="business">
+      <input id="campaignPlatform" placeholder="Platform" value="TikTok">
+      <select id="campaignFrequency">
+        <option value="daily">daily</option>
+        <option value="weekly">weekly</option>
+        <option value="monthly">monthly</option>
+      </select>
+      <button onclick="createRecurringCampaign()">Create campaign</button>
+      <div id="campaignOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Content Performance Score</h2>
+      <input id="scoreHook" placeholder="Hook">
+      <input id="scoreCTA" placeholder="CTA">
+      <input id="scorePlatform" placeholder="Platform" value="TikTok">
+      <button onclick="scoreContent()">Score content</button>
+      <div id="scoreOut"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Next Actions</h2>
+    <button onclick="loadNextActions()">What should I do today?</button>
+    <div id="nextActionsOut"></div>
+  </div>
+</section>
+
 <section id="billing" class="page hidden">
+
 
 
 

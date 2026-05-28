@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v59-ai-operating-system",
-  "version": "59.0.0",
+  "name": "ghostseller-ai-v60-semi-autonomous-marketing-ai",
+  "version": "60.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

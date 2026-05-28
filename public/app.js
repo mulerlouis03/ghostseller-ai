@@ -593,3 +593,76 @@ async function loadRecommendations(){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+
+async function saveCMOGoal(){
+  const out = qs("cmoGoalsOut");
+  out.innerHTML = "Saving...";
+  try{
+    const data = await api("/api/cmo/goal","POST",{
+      goal: val("cmoGoal"),
+      niche: val("cmoNiche"),
+      platform: val("cmoPlatform"),
+      budget: val("cmoBudget")
+    });
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.goal,null,2))}</pre>`;
+  }catch(e){ out.innerHTML = `<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function loadCMOGoals(){
+  const out = qs("cmoGoalsOut");
+  out.innerHTML = "Loading...";
+  try{
+    const data = await api("/api/cmo/goals");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.goals,null,2))}</pre>`;
+  }catch(e){ out.innerHTML = `<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function generateDailyPlan(){
+  const out = qs("dailyPlanOut");
+  out.innerHTML = "Generating...";
+  try{
+    const data = await api("/api/cmo/daily-plan","POST",{
+      goal: val("cmoGoal"),
+      niche: val("cmoNiche"),
+      platform: val("cmoPlatform")
+    });
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.plan,null,2))}</pre>`;
+  }catch(e){ out.innerHTML = `<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function createRecurringCampaign(){
+  const out = qs("campaignOut");
+  out.innerHTML = "Creating...";
+  try{
+    const data = await api("/api/cmo/recurring-campaign","POST",{
+      campaign_name: val("campaignName"),
+      niche: val("campaignNiche"),
+      platform: val("campaignPlatform"),
+      frequency: val("campaignFrequency")
+    });
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.campaign,null,2))}</pre>`;
+  }catch(e){ out.innerHTML = `<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function scoreContent(){
+  const out = qs("scoreOut");
+  out.innerHTML = "Scoring...";
+  try{
+    const data = await api("/api/cmo/score-content","POST",{
+      hook: val("scoreHook"),
+      cta: val("scoreCTA"),
+      platform: val("scorePlatform")
+    });
+    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML = `<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function loadNextActions(){
+  const out = qs("nextActionsOut");
+  out.innerHTML = "Loading...";
+  try{
+    const data = await api("/api/cmo/next-actions");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML = `<p class="error">${esc(e.message)}</p>`; }
+}
