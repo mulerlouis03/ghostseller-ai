@@ -1612,3 +1612,87 @@ async function loadRevenueEvents(){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+
+async function loadAutoGrowthDashboard(){
+  const out = qs("autoGrowthDashboardOut");
+  if(!out) return;
+  out.innerHTML = "Loading autonomous growth dashboard...";
+  try{
+    const data = await api("/api/autogrowth/dashboard");
+    const d = data.dashboard || {};
+    qs("agScore").textContent = d.growth_score ?? 0;
+    qs("agContent").textContent = d.content_count ?? 0;
+    qs("agCampaigns").textContent = d.campaign_count ?? 0;
+    qs("agRevenue").textContent = d.revenue_events ?? 0;
+    out.innerHTML = `<pre>${esc(JSON.stringify(d,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function generateAutoGrowthPlan(){
+  const out = qs("autoGrowthDashboardOut");
+  out.innerHTML = "Generating daily growth plan...";
+  try{
+    const data = await api("/api/autogrowth/daily-plan","POST",{});
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.plan,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function createGrowthLoop(){
+  const out = qs("growthLoopOut");
+  out.innerHTML = "Creating growth loop...";
+  try{
+    const data = await api("/api/autogrowth/launch-loop","POST",{
+      target:val("agTarget"),
+      niche:val("agNiche"),
+      platform:val("agPlatform")
+    });
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.loop,null,2))}</pre>`;
+    await loadGrowthLoops();
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadGrowthLoops(){
+  const out = qs("growthLoopsOut");
+  out.innerHTML = "Loading growth loops...";
+  try{
+    const data = await api("/api/autogrowth/loops");
+    const loops = data.loops || [];
+    out.innerHTML = loops.length ? loops.map(l=>`
+      <div class="item">
+        <h3>${esc(l.target)}</h3>
+        <p>${esc(l.status)} • ${esc(l.platform)} • ${esc(l.niche)}</p>
+        <button onclick="executeGrowthLoop('${l.id}')">Execute loop</button>
+        <pre>${esc(JSON.stringify(l.loop,null,2))}</pre>
+      </div>
+    `).join("") : "<p>No growth loops.</p>";
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function executeGrowthLoop(id){
+  try{
+    await api(`/api/autogrowth/execute-loop/${id}`,"POST",{});
+    await loadGrowthLoops();
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+async function loadGrowthRuns(){
+  const out = qs("growthRunsOut");
+  out.innerHTML = "Loading growth runs...";
+  try{
+    const data = await api("/api/autogrowth/runs");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.runs,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}

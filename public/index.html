@@ -64,6 +64,7 @@
     <button onclick="show('realAI'); loadAIStatus()">🤖 Real AI Engine</button>
     <button onclick="show('socialConnectors'); loadSocialStatus()">🌐 Social Connectors</button>
     <button onclick="show('revenue'); loadRevenueStatus()">💰 Revenue System</button>
+    <button onclick="show('autoGrowth'); loadAutoGrowthDashboard()">📈 Autonomous Growth</button>
     <button onclick="show('publicBeta'); loadBetaLaunchChecklist()">🚀 Public Beta</button>
     <button onclick="show('adminPro'); loadAdminOverview()">👑 Admin Pro</button>
     <button onclick="show('beta'); loadBetaChecklist()">✅ Beta Onboarding</button>
@@ -268,7 +269,7 @@
 
   <div class="stats">
     <div class="stat"><span id="betaReadyScore">0%</span><p>Beta Ready</p></div>
-    <div class="stat"><span>V78</span><p>Version</p></div>
+    <div class="stat"><span>V79</span><p>Version</p></div>
     <div class="stat"><span id="betaMode">-</span><p>Mode</p></div>
     <div class="stat"><span>Live</span><p>Status</p></div>
   </div>
@@ -439,7 +440,53 @@
   </div>
 </section>
 
+
+<section id="autoGrowth" class="page hidden">
+  <h1>Autonomous Growth System</h1>
+  <p class="muted">Boucles de croissance semi-autonomes : contenus, outreach, conversion, feedback, mémoire et revenus.</p>
+
+  <div class="stats">
+    <div class="stat"><span id="agScore">0</span><p>Growth Score</p></div>
+    <div class="stat"><span id="agContent">0</span><p>Content</p></div>
+    <div class="stat"><span id="agCampaigns">0</span><p>Campaigns</p></div>
+    <div class="stat"><span id="agRevenue">0</span><p>Revenue Events</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Growth Dashboard</h2>
+      <button onclick="loadAutoGrowthDashboard()">Refresh dashboard</button>
+      <button onclick="generateAutoGrowthPlan()">Generate daily plan</button>
+      <div id="autoGrowthDashboardOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Create Launch Loop</h2>
+      <input id="agTarget" placeholder="Target" value="first 100 beta users">
+      <input id="agNiche" placeholder="Niche" value="AI marketing SaaS">
+      <input id="agPlatform" placeholder="Platform" value="TikTok">
+      <button onclick="createGrowthLoop()">Create growth loop</button>
+      <div id="growthLoopOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Growth Loops</h2>
+      <button onclick="loadGrowthLoops()">Load loops</button>
+      <div id="growthLoopsOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Growth Runs</h2>
+      <button onclick="loadGrowthRuns()">Load runs</button>
+      <div id="growthRunsOut"></div>
+    </div>
+  </div>
+</section>
+
 <section id="content" class="page hidden">
+
 
 
 

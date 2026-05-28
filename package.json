@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v78-revenue-system-stable",
-  "version": "78.0.0",
+  "name": "ghostseller-ai-v79-autonomous-growth-system",
+  "version": "79.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
