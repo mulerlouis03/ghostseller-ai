@@ -72,3 +72,5 @@ pre{background:#f8fafc;border:1px solid var(--line);border-radius:18px;padding:1
   .main{margin-left:0;width:100%;padding:18px}
   .topbar{display:block}
 }
+
+textarea{width:100%;min-height:120px;padding:16px;border:1px solid var(--line);border-radius:18px;background:#fff;color:var(--ink);font-size:15px;margin-bottom:14px;outline:none;font-family:inherit}

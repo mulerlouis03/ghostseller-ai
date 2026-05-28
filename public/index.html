@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GhostSeller AI V52</title>
+<title>GhostSeller AI V53</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -64,6 +64,7 @@
     <button onclick="show('onboarding')">🧭 Onboarding</button>
     <button onclick="show('content')">🧠 AI Content</button>
     <button onclick="show('niches')">🌍 Niches IA</button>
+    <button onclick="show('brain'); loadBrain()">🧠 Ghost Brain</button>
     <button onclick="show('billing')">💳 Abonnement</button>
     <button onclick="show('waitlist')">📩 Waitlist</button>
     <button onclick="show('launch')">🚀 Launch Center</button>
@@ -193,6 +194,22 @@
   </div>
 </section>
 
+
+<section id="brain" class="page hidden">
+  <h1>Ghost Brain</h1>
+  <p class="muted">Historique intelligent : contenus, niches utilisées, favoris et mémoire business.</p>
+  <div class="stats">
+    <div class="stat"><span id="brainTotal">0</span><p>Générations</p></div>
+    <div class="stat"><span id="brainFav">0</span><p>Favoris</p></div>
+    <div class="stat"><span id="brainNiche">-</span><p>Niche principale</p></div>
+    <div class="stat"><span id="brainPlatform">-</span><p>Plateforme</p></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h2>Profil IA</h2><button onclick="loadBrain()">Rafraîchir</button><div id="brainProfile"></div></div>
+    <div class="card"><h2>Sauvegarde rapide</h2><input id="brainNicheInput" placeholder="Niche"><input id="brainPlatformInput" placeholder="Plateforme"><textarea id="brainResultInput" placeholder="Contenu ou idée à sauvegarder"></textarea><button onclick="saveBrainNote()">Sauvegarder</button><div id="brainSaveMsg"></div></div>
+  </div>
+  <div class="card"><h2>Historique récent</h2><div id="brainHistory"></div></div>
+</section>
 <section id="billing" class="page hidden">
 
       <h1>Abonnement</h1>

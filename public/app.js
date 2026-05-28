@@ -248,3 +248,35 @@ async function detectNiche(){
     out.innerHTML = `<div class="card error">${esc(e.message)}</div>`;
   }
 }
+
+async function loadBrain(){
+  try{
+    const profileData=await api("/api/brain/profile");
+    const historyData=await api("/api/brain/history");
+    const profile=profileData.profile||{};
+    qs("brainTotal").textContent=profile.total_generations??0;
+    qs("brainFav").textContent=profile.favorite_count??0;
+    qs("brainNiche").textContent=profile.top_niches?.[0]?.[0]||"-";
+    qs("brainPlatform").textContent=profile.top_platforms?.[0]?.[0]||"-";
+    qs("brainProfile").innerHTML=`<pre>${esc(JSON.stringify(profile,null,2))}</pre>`;
+    const history=historyData.history||[];
+    qs("brainHistory").innerHTML=history.length?history.map(item=>`
+      <div class="item">
+        <h3>${esc(item.niche||"Sans niche")} • ${esc(item.platform||"Global")}</h3>
+        <p>${esc(item.type||"content")} • ${new Date(item.created_at).toLocaleString()}</p>
+        <pre>${esc(JSON.stringify(item.result||item.prompt||{},null,2))}</pre>
+        <button onclick="favoriteBrain('${item.id}', ${!item.favorite})">${item.favorite?"Retirer favori":"Mettre en favori"}</button>
+      </div>`).join(""):"<p>Aucun historique pour l'instant.</p>";
+  }catch(e){qs("brainHistory").innerHTML=`<p class="error">${esc(e.message)}</p>`;}
+}
+async function saveBrainNote(){
+  const msg=qs("brainSaveMsg"); msg.textContent="Sauvegarde...";
+  try{
+    await api("/api/brain/save","POST",{type:"manual_note",niche:val("brainNicheInput"),platform:val("brainPlatformInput"),prompt:"manual",result:{text:val("brainResultInput")},favorite:false});
+    msg.className="msg good"; msg.textContent="Sauvegardé."; await loadBrain();
+  }catch(e){msg.className="msg bad";msg.textContent=e.message;}
+}
+async function favoriteBrain(id,favorite){
+  await api(`/api/brain/favorite/${id}`,"POST",{favorite});
+  await loadBrain();
+}
