@@ -61,6 +61,7 @@
     </div>
 
     <button onclick="show('dashboard')">🏠 <span data-i18n="dashboard">Dashboard</span></button>
+    <button onclick="show('beta'); loadBetaChecklist()">✅ Beta Onboarding</button>
     <button onclick="show('onboarding')">🧭 Onboarding</button>
     <button onclick="show('content')">🧠 <span data-i18n="content">AI Content</span></button>
     <button onclick="show('niches')">🌍 <span data-i18n="niches">Niches IA</span></button>
@@ -167,7 +168,39 @@
   <div id="usageOut"></div>
 </div>
 
+
+<section id="beta" class="page hidden">
+  <h1>Beta Onboarding</h1>
+  <p class="muted">Checklist bêta, notifications et emails système.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Onboarding Checklist</h2>
+      <button onclick="loadBetaChecklist()">Refresh checklist</button>
+      <button onclick="sendWelcomeEmail()">Send welcome email</button>
+      <div id="betaChecklistOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Email System</h2>
+      <button onclick="loadEmailStatus()">Email status</button>
+      <input id="testEmailTo" placeholder="Email test">
+      <input id="testEmailSubject" placeholder="Subject" value="GhostSeller AI test">
+      <textarea id="testEmailMessage" placeholder="Message">Hello from GhostSeller AI.</textarea>
+      <button onclick="sendTestEmail()">Send test email</button>
+      <div id="emailStatusOut"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Notifications</h2>
+    <button onclick="loadNotifications()">Load notifications</button>
+    <div id="notificationsOut"></div>
+  </div>
+</section>
+
 <section id="content" class="page hidden">
+
       <h1>Real Content Engine</h1>
       <div class="card">
         <input id="contentNiche" placeholder="Niche : business, beauté, coaching...">

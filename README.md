@@ -1,28 +1,31 @@
-# GhostSeller AI V72 CREDITS QUOTAS LIMITS ENFORCEMENT
+# GhostSeller AI V73 SYSTEM EMAILS ONBOARDING
 
-V72 applique réellement les crédits et quotas par plan.
+V73 ajoute la couche emails système + onboarding bêta.
 
 ## Ajouts
-- table usage_counters,
-- endpoint `/api/usage/me`,
-- blocage si crédits insuffisants,
-- limites posts/leads/projects,
-- dashboard usage,
-- reset usage owner/admin,
-- coûts IA par action.
+- welcome email,
+- email logs,
+- notification center,
+- onboarding checklist,
+- email simulation mode si Resend n'est pas configuré,
+- support futur Resend,
+- preferred_language utilisateur.
 
-## Coûts actuels
-- Content generation : 3 crédits
-- Creative campaign : 2 crédits
-- Video pipeline : 4 crédits
-- Opportunity campaign : 3 crédits
+## Variables Vercel optionnelles
+
+```txt
+RESEND_API_KEY
+EMAIL_FROM
+```
+
+Sans ces variables, les emails sont simulés et enregistrés dans `email_logs`.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V72 Credits Quotas Limits Enforcement"
+git commit -m "GhostSeller V73 System Emails Onboarding"
 git push
 ```
 
@@ -30,17 +33,18 @@ git push
 
 Exécute :
 ```txt
-supabase/V72_USAGE_LIMITS.sql
+supabase/V73_SYSTEM_EMAILS_ONBOARDING.sql
 ```
 
 ## Test
 
 ```txt
 /api/health
-/api/usage/me
+/api/emails/status
+/api/beta/checklist
 ```
 
 Tu dois voir :
 ```txt
-GhostSeller AI V72 CREDITS QUOTAS LIMITS ENFORCEMENT
+GhostSeller AI V73 SYSTEM EMAILS ONBOARDING
 ```

@@ -48,6 +48,7 @@ async function register(){
     currentUser = data.user;
     setMsg("Compte créé.", true);
     showApp();
+    try{ await api("/api/emails/welcome","POST",{language:localStorage.getItem("ghostseller_language") || "fr"}); }catch(_e){}
   }catch(e){
     setMsg(e.message);
   }
@@ -1218,6 +1219,69 @@ async function loadUsage(){
       </div>
       <pre>${esc(JSON.stringify(data,null,2))}</pre>
     `;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+
+async function loadBetaChecklist(){
+  const out = qs("betaChecklistOut");
+  if(!out) return;
+  out.innerHTML = "Loading checklist...";
+  try{
+    const data = await api("/api/beta/checklist");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.checklist,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function sendWelcomeEmail(){
+  const out = qs("betaChecklistOut");
+  out.innerHTML = "Sending welcome email...";
+  try{
+    const data = await api("/api/emails/welcome","POST",{
+      language:localStorage.getItem("ghostseller_language") || "fr"
+    });
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.result,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadEmailStatus(){
+  const out = qs("emailStatusOut");
+  out.innerHTML = "Loading email status...";
+  try{
+    const data = await api("/api/emails/status");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function sendTestEmail(){
+  const out = qs("emailStatusOut");
+  out.innerHTML = "Sending test email...";
+  try{
+    const data = await api("/api/emails/send-test","POST",{
+      to:val("testEmailTo"),
+      subject:val("testEmailSubject"),
+      message:val("testEmailMessage")
+    });
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.result,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadNotifications(){
+  const out = qs("notificationsOut");
+  out.innerHTML = "Loading notifications...";
+  try{
+    const data = await api("/api/beta/notifications");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.notifications,null,2))}</pre>`;
   }catch(e){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
