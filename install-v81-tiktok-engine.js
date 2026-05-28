@@ -1,4 +1,10 @@
+const fs = require("fs");
 
+fs.mkdirSync("server/modules/tiktok", { recursive:true });
+
+fs.writeFileSync(
+"server/modules/tiktok/routes.js",
+`
 import express from "express";
 import crypto from "crypto";
 import { requireAuth } from "../../lib/auth.js";
@@ -79,3 +85,27 @@ tiktokRouter.post("/generate", requireAuth, async (req,res)=>{
     });
   }
 });
+`
+);
+
+let server = fs.readFileSync("server.js","utf8");
+
+if(!server.includes('tiktokRouter')){
+
+server =
+server.replace(
+'import { autoGrowthRouter } from "./server/modules/autogrowth/routes.js";',
+'import { autoGrowthRouter } from "./server/modules/autogrowth/routes.js";\nimport { tiktokRouter } from "./server/modules/tiktok/routes.js";'
+);
+
+server =
+server.replace(
+'app.use("/api/autogrowth", autoGrowthRouter);',
+'app.use("/api/autogrowth", autoGrowthRouter);\napp.use("/api/tiktok", tiktokRouter);'
+);
+
+fs.writeFileSync("server.js",server);
+
+}
+
+console.log("V81 INSTALLED");
