@@ -90,6 +90,7 @@ async function showApp(){
   }catch(e){}
 
   updateUserUI();
+  try{ loadUsage(); }catch(e){}
   if(!currentUser?.onboarding_completed && !["owner","admin"].includes(currentUser?.role || "user")) show("onboarding");
   else show("dashboard");
 }
@@ -240,6 +241,7 @@ async function completeOnboarding(){
     out.className = "msg good";
     out.textContent = "Onboarding terminé.";
     updateUserUI();
+  try{ loadUsage(); }catch(e){}
     setTimeout(()=>show("dashboard"),600);
   }catch(e){
     out.className = "msg bad";
@@ -1195,6 +1197,27 @@ async function loadPlans(){
   try{
     const data = await api("/api/billing/plans","GET",null,false);
     out.innerHTML = `<pre>${esc(JSON.stringify(data.plans,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+
+async function loadUsage(){
+  const out = qs("usageOut");
+  if(!out) return;
+  out.innerHTML = "Loading usage...";
+  try{
+    const data = await api("/api/usage/me");
+    out.innerHTML = `
+      <div class="stats">
+        <div class="stat"><span>${esc(data.remaining.credits)}</span><p>Credits left</p></div>
+        <div class="stat"><span>${esc(data.remaining.posts)}</span><p>Posts left</p></div>
+        <div class="stat"><span>${esc(data.remaining.leads)}</span><p>Leads left</p></div>
+        <div class="stat"><span>${esc(data.remaining.projects)}</span><p>Projects left</p></div>
+      </div>
+      <pre>${esc(JSON.stringify(data,null,2))}</pre>
+    `;
   }catch(e){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }

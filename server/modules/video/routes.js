@@ -1,5 +1,6 @@
 import express from "express";
 import crypto from "crypto";
+import { requireCredits, consumeUsage } from "../../middleware/usageLimits.js";
 
 export const videoRouter = express.Router();
 
@@ -54,7 +55,7 @@ function buildStoryboard({ idea, platform, style, duration }) {
   ];
 }
 
-videoRouter.post("/pipeline", (req,res)=>{
+videoRouter.post("/pipeline", requireCredits(4,"posts"), async (req,res)=>{
   const {
     idea="Create a marketing reel",
     platform="TikTok",

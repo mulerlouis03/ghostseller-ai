@@ -1,5 +1,6 @@
 import express from "express";
 import crypto from "crypto";
+import { requireCredits, consumeUsage } from "../../middleware/usageLimits.js";
 
 export const creativeRouter = express.Router();
 
@@ -139,6 +140,8 @@ creativeRouter.post("/generate",(req,res)=>{
 
     cta:"DM now to learn more."
   };
+
+  try{ await consumeUsage(req.user.id, req.usageCost || 2, req.usageType || "posts"); }catch(_e){}
 
   res.json({
     ok:true,

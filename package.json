@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v71-pricing-stripe-plans-clean",
-  "version": "71.0.0",
+  "name": "ghostseller-ai-v72-credits-quotas-limits-enforcement",
+  "version": "72.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

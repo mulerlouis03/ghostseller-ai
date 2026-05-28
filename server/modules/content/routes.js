@@ -2,6 +2,7 @@ import express from "express";
 import crypto from "crypto";
 import { requireAuth } from "../../lib/auth.js";
 import { supabase } from "../../lib/supabase.js";
+import { requireCredits, consumeUsage } from "../../middleware/usageLimits.js";
 
 export const contentRouter = express.Router();
 
@@ -82,7 +83,7 @@ function generateScenes(niche, goal){
   ];
 }
 
-contentRouter.post("/generate", requireAuth, async (req,res)=>{
+contentRouter.post("/generate", requireAuth, requireCredits(3,"posts"), async (req,res)=>{
   try{
     const {
       niche="Business",
@@ -162,6 +163,8 @@ contentRouter.post("/generate", requireAuth, async (req,res)=>{
         created_at:new Date().toISOString()
       });
     }catch(_e){}
+
+    try{ await consumeUsage(req.user.id, req.usageCost || 3, req.usageType || "posts"); }catch(_e){}
 
     res.json({
       ok:true,

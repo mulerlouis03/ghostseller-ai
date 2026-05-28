@@ -1,33 +1,28 @@
-# GhostSeller AI V71 PRICING STRIPE PLANS CLEAN
+# GhostSeller AI V72 CREDITS QUOTAS LIMITS ENFORCEMENT
 
-V71 prépare la partie commerciale.
+V72 applique réellement les crédits et quotas par plan.
 
 ## Ajouts
-- pricing page propre,
-- plans Free / Starter / Pro / Agency,
-- endpoint `/api/billing/plans`,
-- checkout Stripe structuré,
-- variables Stripe documentées,
-- table billing_events,
-- colonnes subscription user.
+- table usage_counters,
+- endpoint `/api/usage/me`,
+- blocage si crédits insuffisants,
+- limites posts/leads/projects,
+- dashboard usage,
+- reset usage owner/admin,
+- coûts IA par action.
 
-## Variables Vercel à ajouter
-
-```txt
-STRIPE_SECRET_KEY
-STRIPE_WEBHOOK_SECRET
-STRIPE_PRICE_STARTER
-STRIPE_PRICE_PRO
-STRIPE_PRICE_AGENCY
-APP_URL
-```
+## Coûts actuels
+- Content generation : 3 crédits
+- Creative campaign : 2 crédits
+- Video pipeline : 4 crédits
+- Opportunity campaign : 3 crédits
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V71 Pricing Stripe Plans Clean"
+git commit -m "GhostSeller V72 Credits Quotas Limits Enforcement"
 git push
 ```
 
@@ -35,17 +30,17 @@ git push
 
 Exécute :
 ```txt
-supabase/V71_PRICING_PLANS.sql
+supabase/V72_USAGE_LIMITS.sql
 ```
 
 ## Test
 
 ```txt
 /api/health
-/api/billing/plans
+/api/usage/me
 ```
 
 Tu dois voir :
 ```txt
-GhostSeller AI V71 PRICING STRIPE PLANS CLEAN
+GhostSeller AI V72 CREDITS QUOTAS LIMITS ENFORCEMENT
 ```

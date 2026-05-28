@@ -1,5 +1,6 @@
 import express from "express";
 import crypto from "crypto";
+import { requireCredits, consumeUsage } from "../../middleware/usageLimits.js";
 import { requireAuth } from "../../lib/auth.js";
 import { supabase } from "../../lib/supabase.js";
 
@@ -136,6 +137,8 @@ opportunitiesRouter.post("/campaign", requireAuth, async (req,res)=>{
       created_at:new Date().toISOString()
     });
   }catch(_e){}
+
+  try{ await consumeUsage(req.user.id, req.usageCost || 3, req.usageType || "posts"); }catch(_e){}
 
   res.json({ ok:true, campaign });
 });
