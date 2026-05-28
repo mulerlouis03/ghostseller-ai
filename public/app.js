@@ -1814,3 +1814,44 @@ async function loadAgentMemory(){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+
+async function joinWaitlist(){
+  const out = qs("waitlistOut");
+  out.innerHTML = "Joining waitlist...";
+
+  try{
+    const data = await api("/api/acquisition/waitlist","POST",{
+      email:val("waitlistEmail"),
+      source:val("waitlistSource")
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadAcquisitionStats(){
+  const out = qs("acquisitionOut");
+  out.innerHTML = "Loading stats...";
+
+  try{
+    const data = await api("/api/acquisition/stats");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.stats,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadPlans(){
+  const out = qs("plansOut");
+  out.innerHTML = "Loading plans...";
+
+  try{
+    const data = await api("/api/acquisition/plans");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.plans,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}

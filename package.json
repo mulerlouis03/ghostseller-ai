@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v82-server-crash-hotfix",
-  "version": "82.1.0",
+  "name": "ghostseller-ai-v83-real-user-acquisition",
+  "version": "83.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

@@ -67,6 +67,7 @@
     <button onclick="show('autoGrowth'); loadAutoGrowthDashboard()">📈 Autonomous Growth</button>
     <button onclick="show('launchpad'); loadLaunchpadStatus()">🚀 Launchpad</button>
     <button onclick="show('tiktokEngine'); loadTikTokStatus()">🎵 TikTok Engine</button>
+<button onclick="show('acquisition'); loadAcquisitionStats()">🚀 Acquisition</button>
     <button onclick="show('agents'); loadAgentsDashboard()">🤖 AI Agents</button>
     <button onclick="show('publicBeta'); loadBetaLaunchChecklist()">🚀 Public Beta</button>
     <button onclick="show('adminPro'); loadAdminOverview()">👑 Admin Pro</button>
@@ -511,7 +512,7 @@
 
     <div class="card">
       <h2>Go Live Note</h2>
-      <textarea id="goLiveNote" placeholder="Note de lancement">GhostSeller AI V82 HOTFIX is ready for public launch.</textarea>
+      <textarea id="goLiveNote" placeholder="Note de lancement">GhostSeller AI V83 is ready for public launch.</textarea>
       <button onclick="saveGoLiveNote()">Save go-live note</button>
       <div id="goLiveOut"></div>
     </div>
@@ -555,6 +556,40 @@
     <button onclick="loadTikTokHistory()">Load history</button>
     <div id="ttHistoryOut"></div>
   </div>
+</section>
+
+
+<section id="acquisition" class="page hidden">
+<h1>Real User Acquisition</h1>
+
+<div class="grid2">
+
+<div class="card">
+<h2>Waitlist</h2>
+<input id="waitlistEmail" placeholder="Email">
+<select id="waitlistSource">
+<option value="tiktok">TikTok</option>
+<option value="instagram">Instagram</option>
+<option value="youtube">YouTube</option>
+<option value="organic">Organic</option>
+</select>
+<button onclick="joinWaitlist()">Join Waitlist</button>
+<div id="waitlistOut"></div>
+</div>
+
+<div class="card">
+<h2>Acquisition Stats</h2>
+<button onclick="loadAcquisitionStats()">Load Stats</button>
+<div id="acquisitionOut"></div>
+</div>
+
+</div>
+
+<div class="card">
+<h2>Subscription Plans</h2>
+<button onclick="loadPlans()">Load Plans</button>
+<div id="plansOut"></div>
+</div>
 </section>
 
 <section id="content" class="page hidden">
