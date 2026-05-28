@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v48-extraordinary-ui",
-  "version": "48.0.0",
+  "name": "ghostseller-ai-v49-visual-fix-pro",
+  "version": "49.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

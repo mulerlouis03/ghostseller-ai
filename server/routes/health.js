@@ -7,11 +7,11 @@ export const healthRouter = express.Router();
 
 healthRouter.get("/", (req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V48 EXTRAORDINARY UI",
-  phase:"Full Product Design System",
+  version:"GhostSeller AI V49 VISUAL FIX PRO",
+  phase:"Visual Fix + Pro Landing",
   architecture:"modular",
-  extraordinaryUI:true,
-  fullDesignSystem:true,
+  visualFix:true,
+  inlineDesign:true,
   premiumLanding:true,
   premiumDashboard:true,
   authUnified:true,
