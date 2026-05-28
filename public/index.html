@@ -62,6 +62,7 @@
 
     <button onclick="show('dashboard')">🏠 <span data-i18n="dashboard">Dashboard</span></button>
     <button onclick="show('realAI'); loadAIStatus()">🤖 Real AI Engine</button>
+    <button onclick="show('socialConnectors'); loadSocialStatus()">🌐 Social Connectors</button>
     <button onclick="show('publicBeta'); loadBetaLaunchChecklist()">🚀 Public Beta</button>
     <button onclick="show('adminPro'); loadAdminOverview()">👑 Admin Pro</button>
     <button onclick="show('beta'); loadBetaChecklist()">✅ Beta Onboarding</button>
@@ -266,7 +267,7 @@
 
   <div class="stats">
     <div class="stat"><span id="betaReadyScore">0%</span><p>Beta Ready</p></div>
-    <div class="stat"><span>V76</span><p>Version</p></div>
+    <div class="stat"><span>V77</span><p>Version</p></div>
     <div class="stat"><span id="betaMode">-</span><p>Mode</p></div>
     <div class="stat"><span>Live</span><p>Status</p></div>
   </div>
@@ -349,7 +350,62 @@
   </div>
 </section>
 
+
+<section id="socialConnectors" class="page hidden">
+  <h1>Social Connectors</h1>
+  <p class="muted">Connecteurs Meta, TikTok, LinkedIn et WhatsApp. Publication réelle activable après credentials officiels et approbations API.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Connector Status</h2>
+      <button onclick="loadSocialStatus()">Refresh connectors</button>
+      <div id="socialStatusOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Manual Connect</h2>
+      <select id="socialProvider">
+        <option value="meta">Meta / Instagram</option>
+        <option value="tiktok">TikTok</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="whatsapp">WhatsApp</option>
+        <option value="manual">Manual</option>
+      </select>
+      <input id="socialAccountName" placeholder="Account name">
+      <input id="socialAccountId" placeholder="Account ID">
+      <button onclick="manualSocialConnect()">Save connection</button>
+      <div id="socialConnectOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Queue Social Post</h2>
+      <select id="postProvider">
+        <option value="meta">Meta / Instagram</option>
+        <option value="tiktok">TikTok</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="whatsapp">WhatsApp</option>
+        <option value="manual">Manual</option>
+      </select>
+      <input id="postAccountId" placeholder="Account ID">
+      <textarea id="postCaption" placeholder="Caption / message"></textarea>
+      <input id="postMediaUrl" placeholder="Media URL optional">
+      <input id="postScheduledAt" placeholder="Scheduled at optional">
+      <button onclick="queueSocialPost()">Queue post</button>
+      <div id="postQueueOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Publish Queue</h2>
+      <button onclick="loadSocialQueue()">Load queue</button>
+      <div id="socialQueueOut"></div>
+    </div>
+  </div>
+</section>
+
 <section id="content" class="page hidden">
+
 
 
 

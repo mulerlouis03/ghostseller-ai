@@ -1,22 +1,41 @@
-# GhostSeller AI V76 REAL AI ENGINE STABLE
+# GhostSeller AI V77 SOCIAL CONNECTORS STABLE
 
-V76 branche un vrai moteur IA stable.
+V77 prépare les connexions réseaux sociaux officielles.
 
 ## Ajouts
-- endpoint `/api/ai/status`,
-- endpoint `/api/ai/generate`,
-- endpoint `/api/ai/creative-directions`,
-- OpenAI prêt,
-- fallback stable si OPENAI_API_KEY absent,
-- mémoire utilisateur utilisée dans les prompts,
-- génération multi-format : hook, scènes, caption, WhatsApp, hashtags, CTA,
-- consommation crédits.
+- Meta / Instagram / Facebook connector,
+- TikTok connector,
+- LinkedIn connector,
+- WhatsApp Business connector,
+- OAuth URL builder,
+- comptes connectés,
+- queue de publication,
+- callback OAuth safe,
+- mode sécurisé sans publication réelle tant que les APIs ne sont pas approuvées.
+
+## Important
+
+Cette version ne publie pas encore réellement sur les réseaux.
+Elle prépare la connexion propre et évite de casser la production.
 
 ## Variables Vercel
 
 ```txt
-OPENAI_API_KEY
-OPENAI_MODEL=gpt-4o-mini
+META_APP_ID
+META_APP_SECRET
+META_REDIRECT_URI
+
+TIKTOK_CLIENT_KEY
+TIKTOK_CLIENT_SECRET
+TIKTOK_REDIRECT_URI
+
+LINKEDIN_CLIENT_ID
+LINKEDIN_CLIENT_SECRET
+LINKEDIN_REDIRECT_URI
+
+WHATSAPP_TOKEN
+WHATSAPP_PHONE_NUMBER_ID
+WHATSAPP_BUSINESS_ACCOUNT_ID
 ```
 
 ## Push
@@ -24,7 +43,7 @@ OPENAI_MODEL=gpt-4o-mini
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V76 Real AI Engine Stable"
+git commit -m "GhostSeller V77 Social Connectors Stable"
 git push
 ```
 
@@ -32,17 +51,17 @@ git push
 
 Exécute :
 ```txt
-supabase/V76_REAL_AI_ENGINE.sql
+supabase/V77_SOCIAL_CONNECTORS.sql
 ```
 
 ## Test
 
 ```txt
 /api/health
-/api/ai/status
+/api/social/status
 ```
 
 Tu dois voir :
 ```txt
-GhostSeller AI V76 REAL AI ENGINE STABLE
+GhostSeller AI V77 SOCIAL CONNECTORS STABLE
 ```

@@ -1489,3 +1489,78 @@ async function generateAIDirections(){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+
+async function loadSocialStatus(){
+  const out = qs("socialStatusOut");
+  if(!out) return;
+  out.innerHTML = "Loading social connectors...";
+  try{
+    const data = await api("/api/social/status");
+    out.innerHTML = (data.connectors || []).map(c=>`
+      <div class="item">
+        <h3>${esc(c.name)}</h3>
+        <p>env_ready: ${esc(c.env_ready)} • connected: ${esc(c.connected)} • mode: ${esc(c.mode)}</p>
+        ${c.oauth_url ? `<button onclick="connectSocial('${esc(c.id)}')">Connect ${esc(c.id)}</button>` : ""}
+        <pre>${esc(JSON.stringify(c.required_env,null,2))}</pre>
+      </div>
+    `).join("") + `<h3>Accounts</h3><pre>${esc(JSON.stringify(data.accounts || [],null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function connectSocial(provider){
+  try{
+    const data = await api(`/api/social/connect/${provider}`);
+    if(data.url) location.href = data.url;
+    else alert(data.message || data.error || "Connector not ready.");
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+async function manualSocialConnect(){
+  const out = qs("socialConnectOut");
+  out.innerHTML = "Saving connection...";
+  try{
+    const data = await api("/api/social/manual-connect","POST",{
+      provider:val("socialProvider"),
+      account_name:val("socialAccountName"),
+      account_id:val("socialAccountId")
+    });
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.account,null,2))}</pre>`;
+    await loadSocialStatus();
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function queueSocialPost(){
+  const out = qs("postQueueOut");
+  out.innerHTML = "Queueing post...";
+  try{
+    const data = await api("/api/social/queue-post","POST",{
+      provider:val("postProvider"),
+      account_id:val("postAccountId"),
+      caption:val("postCaption"),
+      media_url:val("postMediaUrl"),
+      scheduled_at:val("postScheduledAt") || null
+    });
+    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+    await loadSocialQueue();
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadSocialQueue(){
+  const out = qs("socialQueueOut");
+  out.innerHTML = "Loading queue...";
+  try{
+    const data = await api("/api/social/queue");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.queue,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}

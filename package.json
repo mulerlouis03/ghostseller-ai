@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v76-real-ai-engine-stable",
-  "version": "76.0.0",
+  "name": "ghostseller-ai-v77-social-connectors-stable",
+  "version": "77.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
