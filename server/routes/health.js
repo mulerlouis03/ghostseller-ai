@@ -4,15 +4,14 @@ export const healthRouter = express.Router();
 
 healthRouter.get("/", (req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V63 UNIFIED AI BRAIN",
-  phase:"Unified Business Intelligence",
-  unifiedBrain:true,
-  masterOrchestrator:true,
-  agentFusion:true,
-  memoryFusion:true,
-  taskPrioritization:true,
-  autonomousRecommendations:true,
-  strategyLearning:true,
-  growthContentSalesAnalyticsLinked:true,
-  automationLayer:true
+  version:"GhostSeller AI V64 AUTONOMOUS EXECUTION ENGINE",
+  phase:"Autonomous Workflow Execution",
+  autonomousExecution:true,
+  workflowEngine:true,
+  campaignRunners:true,
+  retrySystem:true,
+  executionLogs:true,
+  executionMonitoring:true,
+  brainToAction:true,
+  semiAutonomous:true
 }));

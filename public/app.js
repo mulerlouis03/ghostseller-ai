@@ -825,3 +825,103 @@ async function loadBrainRuns(){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+
+async function createWorkflow(){
+  const out = qs("workflowCreateOut");
+  out.innerHTML = "Creating workflow...";
+
+  try{
+    const data = await api("/api/execution/workflow","POST",{
+      objective: val("execObjective"),
+      niche: val("execNiche"),
+      platform: val("execPlatform")
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.workflow,null,2))}</pre>`;
+    await loadWorkflows();
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadWorkflows(){
+  const out = qs("workflowsOut");
+  if(out) out.innerHTML = "Loading workflows...";
+
+  try{
+    const data = await api("/api/execution/workflows");
+    const workflows = data.workflows || [];
+
+    if(qs("execTotal")) qs("execTotal").textContent = workflows.length;
+    if(qs("execCompleted")) qs("execCompleted").textContent = workflows.filter(w=>w.status==="completed").length;
+    if(qs("execDraft")) qs("execDraft").textContent = workflows.filter(w=>w.status==="draft").length;
+
+    if(out){
+      out.innerHTML = workflows.length ? workflows.map(w=>`
+        <div class="item">
+          <h3>${esc(w.objective)}</h3>
+          <p>${esc(w.status)} • ${esc(w.platform)} • ${esc(w.niche)}</p>
+          <button onclick="runWorkflow('${w.id}')">Run</button>
+          <button onclick="retryWorkflow('${w.id}')">Retry</button>
+          <pre>${esc(JSON.stringify(w.steps || [], null, 2))}</pre>
+        </div>
+      `).join("") : "<p>Aucun workflow.</p>";
+    }
+  }catch(e){
+    if(out) out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function runWorkflow(id){
+  await api(`/api/execution/run/${id}`,"POST",{});
+  await loadWorkflows();
+  await loadExecutionMonitor();
+}
+
+async function retryWorkflow(id){
+  await api(`/api/execution/retry/${id}`,"POST",{});
+  await loadWorkflows();
+}
+
+async function loadExecutionLogs(){
+  const out = qs("executionLogsOut");
+  out.innerHTML = "Loading logs...";
+
+  try{
+    const data = await api("/api/execution/logs");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.logs,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function createCampaignRunner(){
+  const out = qs("runnerOut");
+  out.innerHTML = "Creating campaign runner...";
+
+  try{
+    const data = await api("/api/execution/campaign-runner","POST",{
+      campaign_name: val("runnerName"),
+      objective: val("runnerObjective"),
+      niche: val("runnerNiche"),
+      platform: val("runnerPlatform")
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.campaign,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadExecutionMonitor(){
+  const out = qs("executionLogsOut");
+
+  try{
+    const data = await api("/api/execution/monitor");
+    if(qs("execHealth")) qs("execHealth").textContent = data.monitor.health;
+    if(out) out.innerHTML = `<pre>${esc(JSON.stringify(data.monitor,null,2))}</pre>`;
+  }catch(e){
+    if(out) out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}

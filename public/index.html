@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GhostSeller AI V63</title>
+<title>GhostSeller AI V64</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -72,6 +72,7 @@
     <button onclick="show('cmo')">🧑‍💼 AI CMO</button>
     <button onclick="show('apis'); loadConnectors()">🔌 External APIs</button>
     <button onclick="show('unifiedBrain'); loadUnifiedBrain()">🧬 Unified Brain</button>
+    <button onclick="show('execution'); loadWorkflows()">⚙️ Execution Engine</button>
     <button onclick="show('billing')">💳 Abonnement</button>
     <button onclick="show('waitlist')">📩 Waitlist</button>
     <button onclick="show('launch')">🚀 Launch Center</button>
@@ -544,7 +545,57 @@
   </div>
 </section>
 
+
+<section id="execution" class="page hidden">
+  <h1>Autonomous Execution Engine</h1>
+  <p class="muted">Transforme les décisions du Brain en workflows exécutables : étapes, logs, retries, campaign runners et monitoring.</p>
+
+  <div class="stats">
+    <div class="stat"><span id="execTotal">0</span><p>Workflows</p></div>
+    <div class="stat"><span id="execHealth">-</span><p>Health</p></div>
+    <div class="stat"><span id="execCompleted">0</span><p>Completed</p></div>
+    <div class="stat"><span id="execDraft">0</span><p>Drafts</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Create Workflow</h2>
+      <input id="execObjective" placeholder="Objective" value="Create and distribute a marketing campaign">
+      <input id="execNiche" placeholder="Niche" value="business">
+      <input id="execPlatform" placeholder="Platform" value="TikTok">
+      <button onclick="createWorkflow()">Create workflow</button>
+      <div id="workflowCreateOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Campaign Runner</h2>
+      <input id="runnerName" placeholder="Campaign name" value="Autonomous campaign">
+      <input id="runnerObjective" placeholder="Objective" value="Generate leads">
+      <input id="runnerNiche" placeholder="Niche" value="business">
+      <input id="runnerPlatform" placeholder="Platform" value="TikTok">
+      <button onclick="createCampaignRunner()">Create campaign runner</button>
+      <div id="runnerOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Workflows</h2>
+      <button onclick="loadWorkflows()">Load workflows</button>
+      <div id="workflowsOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Execution Logs</h2>
+      <button onclick="loadExecutionLogs()">Load logs</button>
+      <button onclick="loadExecutionMonitor()">Monitor</button>
+      <div id="executionLogsOut"></div>
+    </div>
+  </div>
+</section>
+
 <section id="billing" class="page hidden">
+
 
 
 

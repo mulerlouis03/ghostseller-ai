@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v63-unified-ai-brain",
-  "version": "63.0.0",
+  "name": "ghostseller-ai-v64-autonomous-execution-engine",
+  "version": "64.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
