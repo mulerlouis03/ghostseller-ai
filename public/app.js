@@ -1095,3 +1095,69 @@ async function loadOptimizationRecommendations(){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+
+async function scanOpportunities(){
+  const out = qs("opportunityScanOut");
+  out.innerHTML = "Scanning opportunities...";
+
+  try{
+    const data = await api("/api/opportunities/scan");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.opportunities,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadOpportunityRadar(){
+  const out = qs("opportunityScanOut");
+  out.innerHTML = "Loading money radar...";
+
+  try{
+    const data = await api("/api/opportunities/radar");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.radar,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function analyzeOpportunity(){
+  const out = qs("opportunityAnalyzeOut");
+  out.innerHTML = "Analyzing niche...";
+
+  try{
+    const data = await api("/api/opportunities/analyze","POST",{
+      niche: val("oppNiche"),
+      market: val("oppMarket")
+    });
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.analysis,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function buildOpportunityCampaign(){
+  const out = qs("opportunityAnalyzeOut");
+  out.innerHTML = "Building campaign...";
+
+  try{
+    const data = await api("/api/opportunities/campaign","POST",{
+      niche: val("oppNiche")
+    });
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.campaign,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadOpportunityHistory(){
+  const out = qs("opportunityHistoryOut");
+  out.innerHTML = "Loading history...";
+
+  try{
+    const data = await api("/api/opportunities/history");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.history,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}

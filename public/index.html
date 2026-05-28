@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GhostSeller AI V66</title>
+<title>GhostSeller AI V67</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -75,6 +75,7 @@
     <button onclick="show('execution'); loadWorkflows()">⚙️ Execution Engine</button>
     <button onclick="show('memory'); loadMemoryInsights()">🧠 Persistent Memory</button>
     <button onclick="show('optimize')">🔁 Self Improve</button>
+    <button onclick="show('opportunities')">💎 Opportunity Discovery</button>
     <button onclick="show('billing')">💳 Abonnement</button>
     <button onclick="show('waitlist')">📩 Waitlist</button>
     <button onclick="show('launch')">🚀 Launch Center</button>
@@ -690,7 +691,38 @@
   </div>
 </section>
 
+
+<section id="opportunities" class="page hidden">
+  <h1>Autonomous Opportunity Discovery</h1>
+  <p class="muted">GhostSeller détecte des niches rentables, angles viraux, marchés sous-exploités et campagnes prêtes à tester.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Opportunity Radar</h2>
+      <button onclick="scanOpportunities()">Scan global opportunities</button>
+      <button onclick="loadOpportunityRadar()">Money radar</button>
+      <div id="opportunityScanOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Analyze Niche</h2>
+      <input id="oppNiche" placeholder="Niche" value="AI tools for small businesses">
+      <input id="oppMarket" placeholder="Market" value="global">
+      <button onclick="analyzeOpportunity()">Analyze opportunity</button>
+      <button onclick="buildOpportunityCampaign()">Build campaign</button>
+      <div id="opportunityAnalyzeOut"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Opportunity History</h2>
+    <button onclick="loadOpportunityHistory()">Load history</button>
+    <div id="opportunityHistoryOut"></div>
+  </div>
+</section>
+
 <section id="billing" class="page hidden">
+
 
 
 

@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v66-self-improving-ai-system",
-  "version": "66.0.0",
+  "name": "ghostseller-ai-v67-autonomous-opportunity-discovery",
+  "version": "67.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

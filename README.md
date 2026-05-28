@@ -1,23 +1,22 @@
-# GhostSeller AI V66 SELF IMPROVING AI SYSTEM
+# GhostSeller AI V67 AUTONOMOUS OPPORTUNITY DISCOVERY
 
-V66 ajoute une IA qui commence à améliorer ses propres performances.
+V67 ajoute le radar d'opportunités business.
 
 ## Ajouts
-- auto-évaluation des contenus,
-- détection automatique des faiblesses,
-- amélioration hooks,
-- amélioration CTA,
-- A/B testing engine,
-- optimization cycles,
-- recommandations basées sur Persistent Memory,
-- self-improvement loops.
+- scan de niches rentables,
+- radar money opportunities,
+- analyse de niche,
+- détection marché sous-exploité,
+- angles viraux,
+- campagnes prêtes à tester,
+- historique opportunités.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V66 Self Improving AI System"
+git commit -m "GhostSeller V67 Autonomous Opportunity Discovery"
 git push
 ```
 
@@ -25,7 +24,7 @@ git push
 
 Exécute :
 ```txt
-supabase/V66_SELF_IMPROVING_AI.sql
+supabase/V67_OPPORTUNITY_DISCOVERY.sql
 ```
 
 ## Test
@@ -36,5 +35,5 @@ supabase/V66_SELF_IMPROVING_AI.sql
 
 Tu dois voir :
 ```txt
-GhostSeller AI V66 SELF IMPROVING AI SYSTEM
+GhostSeller AI V67 AUTONOMOUS OPPORTUNITY DISCOVERY
 ```
