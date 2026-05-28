@@ -16,7 +16,7 @@ function setMsg(msg, good=false){
 }
 
 async function api(path, method="GET", body=null, auth=true){
-  const headers = {"Content-Type":"application/json"};
+  const headers = {"Content-Type":"application/json","X-GhostSeller-Language":localStorage.getItem("ghostseller_language") || "fr"};
   if(auth && token()) headers.Authorization = "Bearer " + token();
 
   const res = await fetch(path, {

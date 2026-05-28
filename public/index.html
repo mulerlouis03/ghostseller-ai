@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GhostSeller AI V67</title>
+<title>GhostSeller AI V68</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -32,18 +32,18 @@
 
     <div class="auth-card">
       <span class="badge">V52 Access Control</span>
-      <h2>Connexion</h2>
+      <h2 data-i18n="login_title">Connexion</h2>
 
       <input id="name" placeholder="Nom complet">
       <input id="email" placeholder="Email">
       <input id="password" type="password" placeholder="Mot de passe">
 
       <div class="auth-actions">
-        <button onclick="login()">Connexion</button>
-        <button class="secondary" onclick="register()">Créer un compte</button>
+        <button onclick="login()" data-i18n="login">Connexion</button>
+        <button class="secondary" onclick="register()" data-i18n="create_account">Créer un compte</button>
       </div>
 
-      <button class="link" onclick="forgotPassword()">Mot de passe oublié ?</button>
+      <button class="link" onclick="forgotPassword()" data-i18n="forgot">Mot de passe oublié ?</button>
 
       <div id="authMsg"></div>
     </div>
@@ -60,27 +60,27 @@
       </div>
     </div>
 
-    <button onclick="show('dashboard')">🏠 Dashboard</button>
+    <button onclick="show('dashboard')">🏠 <span data-i18n="dashboard">Dashboard</span></button>
     <button onclick="show('onboarding')">🧭 Onboarding</button>
-    <button onclick="show('content')">🧠 AI Content</button>
-    <button onclick="show('niches')">🌍 Niches IA</button>
-    <button onclick="show('brain'); loadBrain()">🧠 Ghost Brain</button>
-    <button onclick="show('creative')">🎬 Creative Director</button>
-    <button onclick="show('video')">🎥 Auto Video Pipeline</button>
-    <button onclick="show('growth')">🚀 Growth Agent</button>
-    <button onclick="show('os')">🧠 AI Operating System</button>
-    <button onclick="show('cmo')">🧑‍💼 AI CMO</button>
-    <button onclick="show('apis'); loadConnectors()">🔌 External APIs</button>
-    <button onclick="show('unifiedBrain'); loadUnifiedBrain()">🧬 Unified Brain</button>
-    <button onclick="show('execution'); loadWorkflows()">⚙️ Execution Engine</button>
-    <button onclick="show('memory'); loadMemoryInsights()">🧠 Persistent Memory</button>
-    <button onclick="show('optimize')">🔁 Self Improve</button>
-    <button onclick="show('opportunities')">💎 Opportunity Discovery</button>
-    <button onclick="show('billing')">💳 Abonnement</button>
-    <button onclick="show('waitlist')">📩 Waitlist</button>
+    <button onclick="show('content')">🧠 <span data-i18n="content">AI Content</span></button>
+    <button onclick="show('niches')">🌍 <span data-i18n="niches">Niches IA</span></button>
+    <button onclick="show('brain'); loadBrain()">🧠 <span data-i18n="brain">Ghost Brain</span></button>
+    <button onclick="show('creative')">🎬 <span data-i18n="creative">Creative Director</span></button>
+    <button onclick="show('video')">🎥 <span data-i18n="video">Auto Video Pipeline</span></button>
+    <button onclick="show('growth')">🚀 <span data-i18n="growth">Growth Agent</span></button>
+    <button onclick="show('os')">🧠 <span data-i18n="os">AI Operating System</span></button>
+    <button onclick="show('cmo')">🧑‍💼 <span data-i18n="cmo">AI CMO</span></button>
+    <button onclick="show('apis'); loadConnectors()">🔌 <span data-i18n="apis">External APIs</span></button>
+    <button onclick="show('unifiedBrain'); loadUnifiedBrain()">🧬 <span data-i18n="unified">Unified Brain</span></button>
+    <button onclick="show('execution'); loadWorkflows()">⚙️ <span data-i18n="execution">Execution Engine</span></button>
+    <button onclick="show('memory'); loadMemoryInsights()">🧠 <span data-i18n="memory">Persistent Memory</span></button>
+    <button onclick="show('optimize')">🔁 <span data-i18n="improve">Self Improve</span></button>
+    <button onclick="show('opportunities')">💎 <span data-i18n="opportunities">Opportunity Discovery</span></button>
+    <button onclick="show('billing')">💳 <span data-i18n="billing">Abonnement</span></button>
+    <button onclick="show('waitlist')">📩 <span data-i18n="waitlist">Waitlist</span></button>
     <button onclick="show('launch')">🚀 Launch Center</button>
-    <button onclick="show('security')">🔐 Sécurité</button>
-    <button onclick="show('system')">⚙️ Système</button>
+    <button onclick="show('security')">🔐 <span data-i18n="security">Sécurité</span></button>
+    <button onclick="show('system')">⚙️ <span data-i18n="system">Système</span></button>
     <button onclick="logout()" class="logout">Déconnexion</button>
   </aside>
 
@@ -91,7 +91,7 @@
         <h1>Business Command Center</h1>
         <p id="userLine">Chargement...</p>
       </div>
-      <a class="public-link" href="/landing" target="_blank">Voir landing</a>
+      <div class="row"><button id="languageBtn" onclick="document.querySelector('.language-modal')?.remove(); localStorage.removeItem('ghostseller_language'); showLanguagePopup()">🌍 Langue</button><a class="public-link" href="/landing" target="_blank">Voir landing</a></div>
     </section>
 
     
@@ -780,6 +780,7 @@
   </main>
 </div>
 
+<script src="/i18n.js"></script>
 <script src="/app.js"></script>
 </body>
 </html>

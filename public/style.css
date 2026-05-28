@@ -373,3 +373,44 @@ pre{
   .topbar{display:block}
   h1{letter-spacing:-2px}
 }
+
+.language-modal{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:rgba(2,6,23,.72);
+  backdrop-filter:blur(18px);
+}
+.language-card{
+  width:min(560px,94vw);
+  border-radius:34px;
+  padding:34px;
+  background:linear-gradient(180deg,rgba(16,24,58,.96),rgba(6,10,28,.92));
+  border:1px solid rgba(120,150,255,.28);
+  box-shadow:0 30px 110px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.08);
+  text-align:center;
+}
+.language-card h2{
+  color:white;
+  font-size:38px;
+  margin:18px 0 10px;
+}
+.language-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-top:24px;
+}
+.language-grid button{
+  width:100%;
+  justify-content:center;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+}
+@media(max-width:640px){
+  .language-grid{grid-template-columns:1fr}
+}

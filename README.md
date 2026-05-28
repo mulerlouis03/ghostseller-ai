@@ -1,30 +1,22 @@
-# GhostSeller AI V67 AUTONOMOUS OPPORTUNITY DISCOVERY
+# GhostSeller AI V68 MULTILINGUAL SAAS SWITCHER
 
-V67 ajoute le radar d'opportunités business.
+V68 ajoute le support multilingue pour un SaaS mondial.
 
 ## Ajouts
-- scan de niches rentables,
-- radar money opportunities,
-- analyse de niche,
-- détection marché sous-exploité,
-- angles viraux,
-- campagnes prêtes à tester,
-- historique opportunités.
+- popup choix de langue au premier lancement,
+- Français / English / Español / Português,
+- sauvegarde langue dans navigateur,
+- bouton langue dans dashboard,
+- traduction des éléments principaux,
+- header X-GhostSeller-Language pour adapter les futurs prompts IA.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V67 Autonomous Opportunity Discovery"
+git commit -m "GhostSeller V68 Multilingual SaaS Switcher"
 git push
-```
-
-## Supabase
-
-Exécute :
-```txt
-supabase/V67_OPPORTUNITY_DISCOVERY.sql
 ```
 
 ## Test
@@ -35,5 +27,5 @@ supabase/V67_OPPORTUNITY_DISCOVERY.sql
 
 Tu dois voir :
 ```txt
-GhostSeller AI V67 AUTONOMOUS OPPORTUNITY DISCOVERY
+GhostSeller AI V68 MULTILINGUAL SAAS SWITCHER
 ```

@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v67-autonomous-opportunity-discovery",
-  "version": "67.0.0",
+  "name": "ghostseller-ai-v68-multilingual-saas-switcher",
+  "version": "68.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
