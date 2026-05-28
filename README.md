@@ -1,29 +1,39 @@
-# GhostSeller AI V73 LOGIN API HOTFIX
+# GhostSeller AI V74 ADMIN DASHBOARD PRO
 
-Ce hotfix corrige l'erreur API qui bloquait la connexion après V73.
+V74 ajoute le vrai tableau admin propriétaire.
 
-## Problème corrigé
-Une route contenait `await` dans une fonction non `async`, ce qui empêchait le backend de démarrer.
+## Ajouts
+- Admin Dashboard Pro,
+- overview plateforme,
+- gestion utilisateurs,
+- modification role / plan / crédits,
+- approbation utilisateur,
+- logs emails / usage / brain / workflows,
+- endpoint admin sécurisé owner/admin.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V73 Login API Hotfix"
+git commit -m "GhostSeller V74 Admin Dashboard Pro"
 git push
 ```
 
-## Test après déploiement
+## Supabase
+
+Exécute :
+```txt
+supabase/V74_ADMIN_DASHBOARD.sql
+```
+
+## Test
 
 ```txt
 /api/health
 ```
 
 Tu dois voir :
-
 ```txt
-GhostSeller AI V73 LOGIN API HOTFIX
+GhostSeller AI V74 ADMIN DASHBOARD PRO
 ```
-
-Puis teste la connexion.

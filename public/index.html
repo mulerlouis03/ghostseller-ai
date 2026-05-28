@@ -61,6 +61,7 @@
     </div>
 
     <button onclick="show('dashboard')">🏠 <span data-i18n="dashboard">Dashboard</span></button>
+    <button onclick="show('adminPro'); loadAdminOverview()">👑 Admin Pro</button>
     <button onclick="show('beta'); loadBetaChecklist()">✅ Beta Onboarding</button>
     <button onclick="show('onboarding')">🧭 Onboarding</button>
     <button onclick="show('content')">🧠 <span data-i18n="content">AI Content</span></button>
@@ -199,7 +200,65 @@
   </div>
 </section>
 
+
+<section id="adminPro" class="page hidden">
+  <h1>Admin Dashboard Pro</h1>
+  <p class="muted">Centre de contrôle propriétaire : utilisateurs, plans, crédits, usage, logs et plateforme.</p>
+
+  <div class="stats">
+    <div class="stat"><span id="adminTotalUsers">0</span><p>Users</p></div>
+    <div class="stat"><span id="adminPaidUsers">0</span><p>Paid</p></div>
+    <div class="stat"><span id="adminFreeUsers">0</span><p>Free</p></div>
+    <div class="stat"><span id="adminUsedCredits">0</span><p>Credits Used</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Platform Overview</h2>
+      <button onclick="loadAdminOverview()">Refresh overview</button>
+      <div id="adminOverviewOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Update User</h2>
+      <input id="adminUserEmail" placeholder="User email">
+      <select id="adminUserRole">
+        <option value="">Role unchanged</option>
+        <option value="user">user</option>
+        <option value="admin">admin</option>
+        <option value="owner">owner</option>
+      </select>
+      <select id="adminUserPlan">
+        <option value="">Plan unchanged</option>
+        <option value="Free">Free</option>
+        <option value="Starter">Starter</option>
+        <option value="Pro">Pro</option>
+        <option value="Agency">Agency</option>
+      </select>
+      <input id="adminUserCredits" placeholder="Credits">
+      <button onclick="adminUpdateUser()">Update user</button>
+      <button onclick="adminApproveUser()">Approve user</button>
+      <div id="adminUserUpdateOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Users</h2>
+      <button onclick="loadAdminUsers()">Load users</button>
+      <div id="adminUsersOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Admin Logs</h2>
+      <button onclick="loadAdminLogs()">Load logs</button>
+      <div id="adminLogsOut"></div>
+    </div>
+  </div>
+</section>
+
 <section id="content" class="page hidden">
+
 
       <h1>Real Content Engine</h1>
       <div class="card">

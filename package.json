@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v73-login-api-hotfix",
-  "version": "73.1.0",
+  "name": "ghostseller-ai-v74-admin-dashboard-pro",
+  "version": "74.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

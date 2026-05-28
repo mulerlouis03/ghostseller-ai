@@ -1286,3 +1286,87 @@ async function loadNotifications(){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+
+async function loadAdminOverview(){
+  const out = qs("adminOverviewOut");
+  if(!out) return;
+  out.innerHTML = "Loading admin overview...";
+
+  try{
+    const data = await api("/api/admin/overview");
+    const o = data.overview || {};
+    qs("adminTotalUsers").textContent = o.total_users ?? 0;
+    qs("adminPaidUsers").textContent = o.paid_users ?? 0;
+    qs("adminFreeUsers").textContent = o.free_users ?? 0;
+    qs("adminUsedCredits").textContent = o.total_used_credits ?? 0;
+    out.innerHTML = `<pre>${esc(JSON.stringify(o,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadAdminUsers(){
+  const out = qs("adminUsersOut");
+  out.innerHTML = "Loading users...";
+
+  try{
+    const data = await api("/api/admin/users");
+    const users = data.users || [];
+    out.innerHTML = users.length ? users.map(u=>`
+      <div class="item">
+        <h3>${esc(u.email)}</h3>
+        <p>role: ${esc(u.role)} • plan: ${esc(u.plan)} • status: ${esc(u.access_status)} • credits: ${esc(u.credits)}</p>
+        <button onclick="qs('adminUserEmail').value='${esc(u.email)}'; qs('adminUserCredits').value='${esc(u.credits ?? '')}'">Edit</button>
+      </div>
+    `).join("") : "<p>No users.</p>";
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function adminUpdateUser(){
+  const out = qs("adminUserUpdateOut");
+  out.innerHTML = "Updating user...";
+
+  const payload = {
+    email: val("adminUserEmail")
+  };
+
+  if(val("adminUserRole")) payload.role = val("adminUserRole");
+  if(val("adminUserPlan")) payload.plan = val("adminUserPlan");
+  if(val("adminUserCredits")) payload.credits = Number(val("adminUserCredits"));
+
+  try{
+    const data = await api("/api/admin/user/update","POST",payload);
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.user,null,2))}</pre>`;
+    await loadAdminUsers();
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function adminApproveUser(){
+  const out = qs("adminUserUpdateOut");
+  out.innerHTML = "Approving user...";
+
+  try{
+    const data = await api("/api/admin/user/approve","POST",{email:val("adminUserEmail")});
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.user,null,2))}</pre>`;
+    await loadAdminUsers();
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadAdminLogs(){
+  const out = qs("adminLogsOut");
+  out.innerHTML = "Loading logs...";
+
+  try{
+    const data = await api("/api/admin/logs");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.logs,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
