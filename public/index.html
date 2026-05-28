@@ -65,6 +65,7 @@
     <button onclick="show('socialConnectors'); loadSocialStatus()">🌐 Social Connectors</button>
     <button onclick="show('revenue'); loadRevenueStatus()">💰 Revenue System</button>
     <button onclick="show('autoGrowth'); loadAutoGrowthDashboard()">📈 Autonomous Growth</button>
+    <button onclick="show('launchpad'); loadLaunchpadStatus()">🚀 Launchpad</button>
     <button onclick="show('publicBeta'); loadBetaLaunchChecklist()">🚀 Public Beta</button>
     <button onclick="show('adminPro'); loadAdminOverview()">👑 Admin Pro</button>
     <button onclick="show('beta'); loadBetaChecklist()">✅ Beta Onboarding</button>
@@ -269,7 +270,7 @@
 
   <div class="stats">
     <div class="stat"><span id="betaReadyScore">0%</span><p>Beta Ready</p></div>
-    <div class="stat"><span>V79</span><p>Version</p></div>
+    <div class="stat"><span>V80</span><p>Version</p></div>
     <div class="stat"><span id="betaMode">-</span><p>Mode</p></div>
     <div class="stat"><span>Live</span><p>Status</p></div>
   </div>
@@ -485,7 +486,44 @@
   </div>
 </section>
 
+
+<section id="launchpad" class="page hidden">
+  <h1>Public Launchpad</h1>
+  <p class="muted">Centre de lancement public : checklist production, statut live, analytics lancement et note go-live.</p>
+
+  <div class="stats">
+    <div class="stat"><span id="launchScore">0%</span><p>Launch Score</p></div>
+    <div class="stat"><span>V80</span><p>Version</p></div>
+    <div class="stat"><span id="launchMode">-</span><p>Mode</p></div>
+    <div class="stat"><span>Ready</span><p>Status</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Production Checklist</h2>
+      <button onclick="loadProductionChecklist()">Load checklist</button>
+      <button onclick="loadLaunchpadStatus()">Public status</button>
+      <a class="public-link" href="/launch" target="_blank">Voir page launch</a>
+      <div id="launchChecklistOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Go Live Note</h2>
+      <textarea id="goLiveNote" placeholder="Note de lancement">GhostSeller AI V80 is ready for public launch.</textarea>
+      <button onclick="saveGoLiveNote()">Save go-live note</button>
+      <div id="goLiveOut"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Launch Analytics</h2>
+    <button onclick="loadLaunchEvents()">Load launch events</button>
+    <div id="launchEventsOut"></div>
+  </div>
+</section>
+
 <section id="content" class="page hidden">
+
 
 
 

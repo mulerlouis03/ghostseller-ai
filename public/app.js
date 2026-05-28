@@ -1696,3 +1696,51 @@ async function loadGrowthRuns(){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+
+async function loadLaunchpadStatus(){
+  const out = qs("launchChecklistOut");
+  if(!out) return;
+  out.innerHTML = "Loading launch status...";
+  try{
+    const data = await api("/api/launchpad/status","GET",null,false);
+    qs("launchMode").textContent = data.launch_mode || "-";
+    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadProductionChecklist(){
+  const out = qs("launchChecklistOut");
+  out.innerHTML = "Loading production checklist...";
+  try{
+    const data = await api("/api/launchpad/production-checklist");
+    qs("launchScore").textContent = (data.launch_score || 0) + "%";
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.checks,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function saveGoLiveNote(){
+  const out = qs("goLiveOut");
+  out.innerHTML = "Saving note...";
+  try{
+    const data = await api("/api/launchpad/go-live-note","POST",{ note:val("goLiveNote") });
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.note,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadLaunchEvents(){
+  const out = qs("launchEventsOut");
+  out.innerHTML = "Loading launch events...";
+  try{
+    const data = await api("/api/launchpad/events");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.events,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}

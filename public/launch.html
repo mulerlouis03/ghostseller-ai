@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GhostSeller AI — Public Launch</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="landing">
+  <nav class="nav">
+    <a class="brand" href="/launch"><img src="/ghostseller-logo.png" onerror="this.style.display='none'">GhostSeller AI</a>
+    <div>
+      <button onclick="openLanguageModal()" data-language-label>🌍 Langue</button>
+      <a href="/beta">Beta</a>
+      <a class="cta" href="/">Commencer</a>
+    </div>
+  </nav>
+
+  <section class="heroLand">
+    <div>
+      <span class="badge">V80 Public Launch</span>
+      <h1>Ton système IA marketing pour transformer l’attention en clients.</h1>
+      <p>GhostSeller AI combine génération de contenu, agents IA, mémoire, optimisation, croissance autonome, vidéos, opportunités et revenus dans un seul SaaS.</p>
+      <div class="socials">
+        <span>Real AI Engine</span><span>AI Brain</span><span>Growth Loops</span><span>Stripe</span><span>Social Connectors</span><span>Admin</span>
+      </div>
+      <a class="public-link" href="/">Créer mon compte</a>
+    </div>
+    <div class="mock">
+      <div class="panel"><h2>Generate</h2><p>Hooks, scripts, reels, captions, WhatsApp and campaigns.</p></div>
+      <div class="panel"><h2>Improve</h2><p>Memory, A/B testing, optimization and self-improvement loops.</p></div>
+      <div class="panel"><h2>Grow</h2><p>Autonomous growth plans, launch loops and revenue system.</p></div>
+    </div>
+  </section>
+</div>
+<script src="/i18n.js"></script>
+<script>
+fetch('/api/launchpad/event',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'page_view',source:'launch'})}).catch(()=>{})
+</script>
+</body>
+</html>
