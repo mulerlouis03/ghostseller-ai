@@ -3,83 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GhostSeller AI — Business Growth</title>
+<title>GhostSeller AI — Ultra Premium</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="stylesheet" href="/style.css">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Inter,system-ui,Arial,sans-serif;color:#0f172a;background:radial-gradient(circle at 10% 0%,rgba(6,182,212,.18),transparent 30%),radial-gradient(circle at 90% 0%,rgba(124,58,237,.16),transparent 30%),linear-gradient(180deg,#fff,#f8fbff)}
-nav{max-width:1180px;margin:24px auto;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,.85);border:1px solid rgba(15,23,42,.1);border-radius:28px;box-shadow:0 25px 80px rgba(15,23,42,.08)}
-.logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:#0f172a;font-size:22px;font-weight:950}.logo img{width:46px;height:46px;border-radius:15px}.links{display:flex;gap:12px;flex-wrap:wrap}.links a{color:#475569;text-decoration:none;font-weight:850;padding:11px 14px;border-radius:14px}.app{background:linear-gradient(135deg,#06b6d4,#2563eb,#7c3aed);color:white!important}
-.hero{max-width:1180px;margin:70px auto;padding:0 24px 80px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
-.badge{display:inline-flex;padding:10px 16px;border-radius:999px;background:#eef6ff;color:#2563eb;font-weight:950;margin-bottom:22px}
-h1{font-size:clamp(48px,7vw,86px);line-height:.98;letter-spacing:-4px;margin-bottom:24px}p{color:#667085;line-height:1.75;font-size:20px}
-.actions{display:flex;gap:14px;flex-wrap:wrap;margin:34px 0}.btn{display:inline-flex;text-decoration:none;border-radius:18px;padding:16px 24px;font-weight:950}.primary{background:linear-gradient(135deg,#06b6d4,#2563eb,#7c3aed);color:white;box-shadow:0 20px 55px rgba(37,99,235,.28)}.secondary{background:white;color:#0f172a;border:1px solid rgba(15,23,42,.1)}
-.mockup{background:linear-gradient(180deg,#0f172a,#020617);color:white;border-radius:36px;padding:22px;box-shadow:0 44px 120px rgba(15,23,42,.34)}.mockup .top{display:flex;gap:8px;margin-bottom:18px}.top i{width:12px;height:12px;border-radius:50%;background:#334155}.top i:nth-child(1){background:#ef4444}.top i:nth-child(2){background:#f59e0b}.top i:nth-child(3){background:#22c55e}
-.panel{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.11);border-radius:24px;padding:22px;margin-bottom:14px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stats div{background:rgba(255,255,255,.08);border-radius:18px;padding:16px}.stats b{font-size:28px}.section{max-width:1180px;margin:auto;padding:70px 24px}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}.card{background:white;border:1px solid rgba(15,23,42,.1);border-radius:30px;padding:30px;box-shadow:0 25px 80px rgba(15,23,42,.08)}.card h3{font-size:26px;margin-bottom:12px}.wait{max-width:760px;margin:auto;background:linear-gradient(135deg,#fff,#eff6ff);border:1px solid rgba(15,23,42,.1);border-radius:36px;padding:40px;text-align:center;box-shadow:0 25px 90px rgba(15,23,42,.08)}input{width:100%;padding:17px;margin:10px 0;border-radius:18px;border:1px solid rgba(15,23,42,.1);font-size:15px}.wait button{width:100%;border:0;border-radius:18px;padding:18px;margin-top:14px;background:linear-gradient(135deg,#06b6d4,#2563eb,#7c3aed);color:white;font-weight:950}.success{color:#16a34a;font-weight:950;margin-top:14px}.error{color:#ef4444;font-weight:950;margin-top:14px}footer{text-align:center;padding:40px;color:#667085}
-@media(max-width:900px){.hero{grid-template-columns:1fr}.links a:not(.app){display:none}.stats{grid-template-columns:1fr}h1{letter-spacing:-2px}}
+body{overflow-x:hidden}
+.landing{position:relative;z-index:1;min-height:100vh;padding:34px}
+.nav{max-width:1400px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-radius:28px;background:rgba(11,18,42,.72);border:1px solid rgba(120,150,255,.22);backdrop-filter:blur(22px)}
+.nav .brand{display:flex;align-items:center;gap:14px;color:white;text-decoration:none;font-weight:950;font-size:24px}
+.nav img{width:54px;height:54px;border-radius:18px;box-shadow:0 0 32px rgba(0,212,255,.4)}
+.nav a{color:#dce9ff;text-decoration:none;font-weight:850;margin-left:18px}
+.nav .cta{padding:13px 18px;border-radius:18px;background:linear-gradient(135deg,var(--cyan),var(--blue),var(--pink));color:white}
+.heroLand{max-width:1400px;margin:70px auto 0;display:grid;grid-template-columns:1fr .9fr;gap:44px;align-items:center}
+.heroLand h1{font-size:clamp(56px,7vw,104px);background:linear-gradient(90deg,#fff,#e0f7ff 45%,#00d4ff 66%,#f02cff);-webkit-background-clip:text;color:transparent}
+.heroLand p{font-size:23px;max-width:720px}
+.socials{display:flex;gap:16px;flex-wrap:wrap;margin:34px 0}.socials span{padding:16px 18px;border-radius:20px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);font-weight:950}
+.mock{min-height:560px;border-radius:42px;background:linear-gradient(180deg,rgba(16,24,58,.85),rgba(6,10,28,.78));border:1px solid var(--line);box-shadow:0 30px 110px rgba(0,0,0,.42);padding:30px;position:relative;overflow:hidden}
+.mock:before{content:"🤖";position:absolute;font-size:150px;right:70px;bottom:120px;filter:drop-shadow(0 0 34px rgba(0,212,255,.7))}
+.mock .panel{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:28px;padding:24px;margin-bottom:18px}
+@media(max-width:980px){.heroLand{grid-template-columns:1fr}.mock{min-height:360px}.mock:before{display:none}}
 </style>
 </head>
 <body>
-<nav>
-  <a class="logo" href="/landing"><img src="/ghostseller-logo.png" onerror="this.style.display='none'">GhostSeller AI</a>
-  <div class="links"><a href="#features">Fonctions</a><a href="#waitlist">Waitlist</a><a class="app" href="/">Ouvrir l’app</a></div>
-</nav>
+<div class="landing">
+  <nav class="nav">
+    <a class="brand" href="/landing"><img src="/ghostseller-logo.png" onerror="this.style.display='none'">GhostSeller AI</a>
+    <div><a href="/">Connexion</a><a class="cta" href="/">Tester</a></div>
+  </nav>
 
-<header class="hero">
-  <div>
-    <span class="badge">🚀 Business Growth AI</span>
-    <h1>Transforme tes vues en clients.</h1>
-    <p>GhostSeller AI génère hooks, scripts TikTok, posts Instagram, messages WhatsApp et campagnes marketing prêtes à publier.</p>
-    <div class="actions">
-      <a class="btn primary" href="/">Tester GhostSeller</a>
-      <a class="btn secondary" href="#waitlist">Early Access</a>
+  <section class="heroLand">
+    <div>
+      <span class="badge">AI Marketing Platform</span>
+      <h1>Transforme ton contenu en clients.</h1>
+      <p>Crée des hooks viraux, reels, pubs, posts, messages WhatsApp et campagnes en quelques secondes.</p>
+      <div class="socials">
+        <span>TikTok</span><span>Instagram</span><span>WhatsApp</span><span>YouTube</span><span>Facebook</span><span>LinkedIn</span>
+      </div>
+      <a class="public-link" href="/">Se connecter</a>
     </div>
-  </div>
-  <div class="mockup">
-    <div class="top"><i></i><i></i><i></i></div>
-    <div class="panel"><small>AI Campaign</small><h2>Global Business Campaign</h2></div>
-    <div class="stats"><div><b>92%</b><p>Score viral</p></div><div><b>7</b><p>Posts</p></div><div><b>24</b><p>Leads</p></div></div>
-  </div>
-</header>
-
-<section id="features" class="section">
-  <div class="cards">
-    <div class="card"><h3>🎬 TikTok Engine</h3><p>Hooks, scripts et captions pour vidéos courtes.</p></div>
-    <div class="card"><h3>💬 WhatsApp Leads</h3><p>Messages IA pour transformer les prospects en clients.</p></div>
-    <div class="card"><h3>🚀 Launch Center</h3><p>Utilisateurs, waitlist, revenus estimés et activité.</p></div>
-  </div>
-</section>
-
-<section id="waitlist" class="section">
-  <div class="wait">
-    <span class="badge">🎁 Early Access</span>
-    <h2>Rejoins les premiers utilisateurs.</h2>
-    <p>Laisse ton email pour tester les prochaines fonctions.</p>
-    <input id="waitlistName" placeholder="Nom">
-    <input id="waitlistBusiness" placeholder="Business / activité">
-    <input id="waitlistEmail" placeholder="Email">
-    <button id="waitlistBtn" onclick="joinWaitlist()">Rejoindre la waitlist</button>
-    <div id="waitlistResult"></div>
-  </div>
-</section>
-
-<footer>GhostSeller AI • Business growth powered by AI</footer>
-
-<script>
-async function joinWaitlist(){
-  const btn=document.getElementById("waitlistBtn"),out=document.getElementById("waitlistResult");
-  btn.disabled=true;btn.innerText="Envoi...";
-  try{
-    const res=await fetch("/api/waitlist/join",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
-      name:document.getElementById("waitlistName").value,
-      business:document.getElementById("waitlistBusiness").value,
-      email:document.getElementById("waitlistEmail").value
-    })});
-    const data=await res.json();
-    out.innerHTML=data.ok?"<p class='success'>Inscription réussie 🚀</p>":"<p class='error'>"+(data.error||"Erreur")+"</p>";
-  }catch(e){out.innerHTML="<p class='error'>Erreur réseau.</p>";}
-  finally{btn.disabled=false;btn.innerText="Rejoindre la waitlist";}
-}
-</script>
+    <div class="mock">
+      <div class="panel"><h2>AI Campaign</h2><p>Viral Score 98/100</p></div>
+      <div class="panel"><h2>Ghost Brain</h2><p>Memory + content history + smart niches</p></div>
+      <div class="panel"><h2>Auto Video Pipeline</h2><p>Storyboard, prompts, captions and export pack</p></div>
+    </div>
+  </section>
+</div>
 </body>
 </html>

@@ -1,23 +1,20 @@
-# GhostSeller AI V56 AUTO VIDEO PIPELINE
+# GhostSeller AI V57 ULTRA PREMIUM CYBER UI
 
-V56 prépare la production vidéo complète.
-
-## Ajouts
-- storyboard vidéo,
-- prompts Runway / Pika / Kling,
-- direction voix IA,
-- direction musicale,
-- sous-titres dynamiques,
-- notes de montage,
-- export pack créateur,
-- fondation du futur 1-click reel generator.
+V57 refait le vrai projet avec un design cyber premium :
+- login futuriste,
+- fond néon bleu/violet,
+- glassmorphism,
+- ambiance tech,
+- dashboard premium,
+- landing cyber,
+- cartes et boutons plus modernes.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V56 Auto Video Pipeline"
+git commit -m "GhostSeller V57 Ultra Premium Cyber UI"
 git push
 ```
 
@@ -30,5 +27,5 @@ git push
 Tu dois voir :
 
 ```txt
-GhostSeller AI V56 AUTO VIDEO PIPELINE
+GhostSeller AI V57 ULTRA PREMIUM CYBER UI
 ```
