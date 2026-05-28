@@ -1,6 +1,7 @@
 import { basicRateLimit } from "./server/middleware/rateLimit.js";
 import { errorHandler } from "./server/middleware/errorHandler.js";
 import express from "express";
+import { stripeWebhookRouter } from "./server/routes/stripeWebhook.js";
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -33,6 +34,7 @@ import { autoCampaignRouter } from "./server/modules/autocampaign/routes.js";
 import { launchRouter } from "./server/modules/launch/routes.js";
 import { aiRouter } from "./server/modules/ai/routes.js";
 import { socialRouter } from "./server/modules/social/routes.js";
+import { revenueRouter } from "./server/modules/revenue/routes.js";
 import { metaRouter } from "./server/modules/meta/routes.js";
 import { contentRouter } from "./server/modules/content/routes.js";
 import { waitlistRouter } from "./server/modules/waitlist/routes.js";
@@ -43,6 +45,8 @@ import { brainRouter } from "./server/modules/brain/routes.js";
 import { creativeRouter } from "./server/modules/creative/routes.js";
 dotenv.config();
 const app = express();
+
+app.use("/api/stripe/webhook", stripeWebhookRouter);
 
 app.use(basicRateLimit(180,60000));
 app.use(securityHeaders);
@@ -87,6 +91,7 @@ app.use("/api/autocampaign", autoCampaignRouter);
 app.use("/api/launch", launchRouter);
 app.use("/api/ai", aiRouter);
 app.use("/api/social", socialRouter);
+app.use("/api/revenue", revenueRouter);
 app.use("/api/meta", metaRouter);
 app.use("/api/content", contentRouter);
 app.use("/api/waitlist", waitlistRouter);

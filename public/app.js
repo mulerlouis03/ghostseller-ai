@@ -176,7 +176,7 @@ async function generateContent(){
 
 async function checkout(plan){
   try{
-    const data = await api("/api/billing/checkout","POST",{plan});
+    const data = await api("/api/revenue/checkout","POST",{plan});
     if(data.url) location.href = data.url;
     else alert(data.message || "Checkout non disponible.");
   }catch(e){
@@ -1560,6 +1560,54 @@ async function loadSocialQueue(){
   try{
     const data = await api("/api/social/queue");
     out.innerHTML = `<pre>${esc(JSON.stringify(data.queue,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+
+async function loadRevenueStatus(){
+  const out = qs("revenueStatusOut");
+  if(!out) return;
+  out.innerHTML = "Loading revenue status...";
+  try{
+    const data = await api("/api/revenue/status");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function openCustomerPortal(){
+  try{
+    const data = await api("/api/revenue/portal","POST",{});
+    if(data.url) location.href = data.url;
+    else alert("Customer portal unavailable.");
+  }catch(e){
+    alert(e.message);
+  }
+}
+
+async function manualActivateRevenue(){
+  const out = qs("manualRevenueOut");
+  out.innerHTML = "Activating plan...";
+  try{
+    const data = await api("/api/revenue/manual-activate","POST",{
+      email:val("revenueEmail"),
+      plan:val("revenuePlan")
+    });
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.user,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadRevenueEvents(){
+  const out = qs("revenueEventsOut");
+  out.innerHTML = "Loading billing events...";
+  try{
+    const data = await api("/api/revenue/events");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.events,null,2))}</pre>`;
   }catch(e){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }

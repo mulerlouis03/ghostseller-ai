@@ -63,6 +63,7 @@
     <button onclick="show('dashboard')">🏠 <span data-i18n="dashboard">Dashboard</span></button>
     <button onclick="show('realAI'); loadAIStatus()">🤖 Real AI Engine</button>
     <button onclick="show('socialConnectors'); loadSocialStatus()">🌐 Social Connectors</button>
+    <button onclick="show('revenue'); loadRevenueStatus()">💰 Revenue System</button>
     <button onclick="show('publicBeta'); loadBetaLaunchChecklist()">🚀 Public Beta</button>
     <button onclick="show('adminPro'); loadAdminOverview()">👑 Admin Pro</button>
     <button onclick="show('beta'); loadBetaChecklist()">✅ Beta Onboarding</button>
@@ -267,7 +268,7 @@
 
   <div class="stats">
     <div class="stat"><span id="betaReadyScore">0%</span><p>Beta Ready</p></div>
-    <div class="stat"><span>V77</span><p>Version</p></div>
+    <div class="stat"><span>V78</span><p>Version</p></div>
     <div class="stat"><span id="betaMode">-</span><p>Mode</p></div>
     <div class="stat"><span>Live</span><p>Status</p></div>
   </div>
@@ -404,7 +405,42 @@
   </div>
 </section>
 
+
+<section id="revenue" class="page hidden">
+  <h1>Revenue System</h1>
+  <p class="muted">Stripe checkout, abonnements, portail client, activation plans et événements revenus.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Revenue Status</h2>
+      <button onclick="loadRevenueStatus()">Refresh revenue status</button>
+      <button onclick="openCustomerPortal()">Customer portal</button>
+      <div id="revenueStatusOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Activate Plan Manually</h2>
+      <input id="revenueEmail" placeholder="User email">
+      <select id="revenuePlan">
+        <option value="Starter">Starter</option>
+        <option value="Pro">Pro</option>
+        <option value="Agency">Agency</option>
+        <option value="Free">Free</option>
+      </select>
+      <button onclick="manualActivateRevenue()">Activate plan</button>
+      <div id="manualRevenueOut"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Billing Events</h2>
+    <button onclick="loadRevenueEvents()">Load billing events</button>
+    <div id="revenueEventsOut"></div>
+  </div>
+</section>
+
 <section id="content" class="page hidden">
+
 
 
 

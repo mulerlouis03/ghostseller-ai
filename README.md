@@ -1,41 +1,42 @@
-# GhostSeller AI V77 SOCIAL CONNECTORS STABLE
+# GhostSeller AI V78 REVENUE SYSTEM STABLE
 
-V77 prépare les connexions réseaux sociaux officielles.
+V78 prépare la collecte de revenus réels.
 
 ## Ajouts
-- Meta / Instagram / Facebook connector,
-- TikTok connector,
-- LinkedIn connector,
-- WhatsApp Business connector,
-- OAuth URL builder,
-- comptes connectés,
-- queue de publication,
-- callback OAuth safe,
-- mode sécurisé sans publication réelle tant que les APIs ne sont pas approuvées.
-
-## Important
-
-Cette version ne publie pas encore réellement sur les réseaux.
-Elle prépare la connexion propre et évite de casser la production.
+- Stripe checkout stable,
+- Stripe webhook `/api/stripe/webhook`,
+- activation automatique des plans,
+- customer portal,
+- statut abonnement,
+- billing events,
+- activation manuelle owner/admin.
 
 ## Variables Vercel
 
 ```txt
-META_APP_ID
-META_APP_SECRET
-META_REDIRECT_URI
+STRIPE_SECRET_KEY
+STRIPE_WEBHOOK_SECRET
+STRIPE_PRICE_STARTER
+STRIPE_PRICE_PRO
+STRIPE_PRICE_AGENCY
+APP_URL
+```
 
-TIKTOK_CLIENT_KEY
-TIKTOK_CLIENT_SECRET
-TIKTOK_REDIRECT_URI
+## Stripe Webhook URL
 
-LINKEDIN_CLIENT_ID
-LINKEDIN_CLIENT_SECRET
-LINKEDIN_REDIRECT_URI
+Dans Stripe Dashboard > Developers > Webhooks :
 
-WHATSAPP_TOKEN
-WHATSAPP_PHONE_NUMBER_ID
-WHATSAPP_BUSINESS_ACCOUNT_ID
+```txt
+https://TON-DOMAINE.vercel.app/api/stripe/webhook
+```
+
+Events à cocher :
+
+```txt
+checkout.session.completed
+customer.subscription.created
+customer.subscription.updated
+customer.subscription.deleted
 ```
 
 ## Push
@@ -43,7 +44,7 @@ WHATSAPP_BUSINESS_ACCOUNT_ID
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V77 Social Connectors Stable"
+git commit -m "GhostSeller V78 Revenue System Stable"
 git push
 ```
 
@@ -51,17 +52,17 @@ git push
 
 Exécute :
 ```txt
-supabase/V77_SOCIAL_CONNECTORS.sql
+supabase/V78_REVENUE_SYSTEM.sql
 ```
 
 ## Test
 
 ```txt
 /api/health
-/api/social/status
+/api/revenue/status
 ```
 
 Tu dois voir :
 ```txt
-GhostSeller AI V77 SOCIAL CONNECTORS STABLE
+GhostSeller AI V78 REVENUE SYSTEM STABLE
 ```
