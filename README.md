@@ -1,34 +1,23 @@
-# GhostSeller AI V82 AI AGENTS SYSTEM
+# GhostSeller AI V82 SERVER CRASH HOTFIX
 
-## Ajouts
-- AI Agents Command Center,
-- Content Agent,
-- Growth Agent,
-- Trend Agent,
-- Conversion Agent,
-- TikTok Agent,
-- Persistent missions,
-- Agent memory.
+Corrige le crash serverless V82.
 
 ## Push
-
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V82 AI Agents System"
+git commit -m "GhostSeller V82 Server Crash Hotfix"
 git push
 ```
 
 ## Supabase
-
 Exécute :
 ```txt
-supabase/V82_AI_AGENTS.sql
+supabase/V82_AI_AGENTS_HOTFIX.sql
 ```
 
 ## Test
-
 ```txt
 /api/health
-/api/agents/dashboard
+/api/agents/status
 ```
