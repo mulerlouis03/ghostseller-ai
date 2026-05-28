@@ -89,7 +89,7 @@ app.use("/api/onboarding", onboardingRouter);
 app.use("/api/niches", nichesRouter);
 app.use("/api/brain", brainRouter);
 app.use("/api/creative", creativeRouter);
+app.use(errorHandler);
 app.get("*", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
 export default app;
 
-app.use(errorHandler);

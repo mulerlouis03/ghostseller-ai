@@ -1,50 +1,29 @@
-# GhostSeller AI V73 SYSTEM EMAILS ONBOARDING
+# GhostSeller AI V73 LOGIN API HOTFIX
 
-V73 ajoute la couche emails système + onboarding bêta.
+Ce hotfix corrige l'erreur API qui bloquait la connexion après V73.
 
-## Ajouts
-- welcome email,
-- email logs,
-- notification center,
-- onboarding checklist,
-- email simulation mode si Resend n'est pas configuré,
-- support futur Resend,
-- preferred_language utilisateur.
-
-## Variables Vercel optionnelles
-
-```txt
-RESEND_API_KEY
-EMAIL_FROM
-```
-
-Sans ces variables, les emails sont simulés et enregistrés dans `email_logs`.
+## Problème corrigé
+Une route contenait `await` dans une fonction non `async`, ce qui empêchait le backend de démarrer.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V73 System Emails Onboarding"
+git commit -m "GhostSeller V73 Login API Hotfix"
 git push
 ```
 
-## Supabase
-
-Exécute :
-```txt
-supabase/V73_SYSTEM_EMAILS_ONBOARDING.sql
-```
-
-## Test
+## Test après déploiement
 
 ```txt
 /api/health
-/api/emails/status
-/api/beta/checklist
 ```
 
 Tu dois voir :
+
 ```txt
-GhostSeller AI V73 SYSTEM EMAILS ONBOARDING
+GhostSeller AI V73 LOGIN API HOTFIX
 ```
+
+Puis teste la connexion.

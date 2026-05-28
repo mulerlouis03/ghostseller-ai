@@ -1,5 +1,6 @@
 import express from "express";
 import crypto from "crypto";
+import { requireAuth } from "../../lib/auth.js";
 import { requireCredits, consumeUsage } from "../../middleware/usageLimits.js";
 
 export const creativeRouter = express.Router();
@@ -56,7 +57,7 @@ creativeRouter.post("/analyze",(req,res)=>{
   });
 });
 
-creativeRouter.post("/generate",(req,res)=>{
+creativeRouter.post("/generate", requireAuth, requireCredits(2,"posts"), async (req,res)=>{
   const {
     description="",
     selected_style="Luxury Minimal",

@@ -4,13 +4,11 @@ export const healthRouter = express.Router();
 
 healthRouter.get("/", (_req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V73 SYSTEM EMAILS ONBOARDING",
-  phase:"User Communication + Beta Onboarding",
+  version:"GhostSeller AI V73 LOGIN API HOTFIX",
+  phase:"Login/API Recovery",
+  loginFixed:true,
+  apiBootFixed:true,
   systemEmails:true,
-  welcomeEmail:true,
-  onboardingEmails:true,
-  betaUserFlow:true,
-  notificationCenter:true,
-  emailLogs:true,
-  publicBetaFoundation:true
+  onboarding:true,
+  stable:true
 }));

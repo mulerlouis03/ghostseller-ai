@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v73-system-emails-onboarding",
-  "version": "73.0.0",
+  "name": "ghostseller-ai-v73-login-api-hotfix",
+  "version": "73.1.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

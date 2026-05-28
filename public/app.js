@@ -50,7 +50,7 @@ async function register(){
     showApp();
     try{ await api("/api/emails/welcome","POST",{language:localStorage.getItem("ghostseller_language") || "fr"}); }catch(_e){}
   }catch(e){
-    setMsg(e.message);
+    setMsg(e.message || "Erreur API détaillée indisponible.");
   }
 }
 
@@ -66,7 +66,7 @@ async function login(){
     setMsg("Connexion réussie.", true);
     showApp();
   }catch(e){
-    setMsg(e.message);
+    setMsg(e.message || "Erreur API détaillée indisponible.");
   }
 }
 
@@ -77,7 +77,7 @@ async function forgotPassword(){
     const data = await api("/api/auth/forgot-password","POST",{email},false);
     setMsg(data.message || "Email envoyé si le compte existe.", true);
   }catch(e){
-    setMsg(e.message);
+    setMsg(e.message || "Erreur API détaillée indisponible.");
   }
 }
 

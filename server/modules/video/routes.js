@@ -1,5 +1,6 @@
 import express from "express";
 import crypto from "crypto";
+import { requireAuth } from "../../lib/auth.js";
 import { requireCredits, consumeUsage } from "../../middleware/usageLimits.js";
 
 export const videoRouter = express.Router();
