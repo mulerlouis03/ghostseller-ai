@@ -1161,3 +1161,7 @@ async function loadOpportunityHistory(){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+window.addEventListener("ghostseller:languageChanged", ()=>{
+  try { applyTranslations(); } catch(e) {}
+});

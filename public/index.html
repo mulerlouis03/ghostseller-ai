@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GhostSeller AI V68</title>
+<title>GhostSeller AI V69</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -80,6 +80,7 @@
     <button onclick="show('waitlist')">📩 <span data-i18n="waitlist">Waitlist</span></button>
     <button onclick="show('launch')">🚀 Launch Center</button>
     <button onclick="show('security')">🔐 <span data-i18n="security">Sécurité</span></button>
+    <button onclick="show('languagePanel')">🌍 <span data-i18n="language">Langue</span></button>
     <button onclick="show('system')">⚙️ <span data-i18n="system">Système</span></button>
     <button onclick="logout()" class="logout">Déconnexion</button>
   </aside>
@@ -91,7 +92,7 @@
         <h1>Business Command Center</h1>
         <p id="userLine">Chargement...</p>
       </div>
-      <div class="row"><button id="languageBtn" onclick="document.querySelector('.language-modal')?.remove(); localStorage.removeItem('ghostseller_language'); showLanguagePopup()">🌍 Langue</button><a class="public-link" href="/landing" target="_blank">Voir landing</a></div>
+      <div class="row"><button id="languageBtn" onclick="openLanguageModal()" data-language-label>🌍 Langue</button><a class="public-link" href="/landing" target="_blank">Voir landing</a></div>
     </section>
 
     
@@ -772,7 +773,23 @@
       <button onclick="loadSecurity()">Vérifier sécurité</button>
     </section>
 
-    <section id="system" class="page hidden">
+    
+<section id="languagePanel" class="page hidden">
+  <h1 data-i18n="change_language">Changer la langue</h1>
+  <div class="card">
+    <select data-language-select onchange="setLang(this.value)">
+      <option value="fr">🇫🇷 Français</option>
+      <option value="en">🇬🇧 English</option>
+      <option value="es">🇪🇸 Español</option>
+      <option value="pt">🇵🇹 Português</option>
+    </select>
+    <button onclick="openLanguageModal()" data-i18n="change_language">Changer la langue</button>
+    <button class="secondary" onclick="resetLang()" data-i18n="reset_language">Réinitialiser</button>
+  </div>
+</section>
+
+<section id="system" class="page hidden">
+
       <h1>Système</h1>
       <div id="healthOut" class="card">Clique pour tester l’API.</div>
       <button onclick="loadHealth()">Tester /api/health</button>

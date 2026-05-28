@@ -414,3 +414,17 @@ pre{
 @media(max-width:640px){
   .language-grid{grid-template-columns:1fr}
 }
+
+.language-select{
+  width:100%;
+  margin:20px 0;
+  background:rgba(3,7,24,.62);
+  color:white;
+}
+.language-actions{
+  justify-content:center;
+  margin-top:18px;
+}
+#languageBtn{
+  min-width:150px;
+}
