@@ -666,3 +666,77 @@ async function loadNextActions(){
     out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
   }catch(e){ out.innerHTML = `<p class="error">${esc(e.message)}</p>`; }
 }
+
+
+async function loadConnectors(){
+  const out = qs("connectorsOut");
+  out.innerHTML = "Loading connectors...";
+
+  try{
+    const data = await api("/api/connectors/status");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.connectors,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function queueExternalAction(){
+  const out = qs("actionOut");
+  out.innerHTML = "Queueing...";
+
+  let payload = { notes: val("actionPayload") };
+
+  try{
+    const data = await api("/api/connectors/action","POST",{
+      connector: val("actionConnector"),
+      action: val("actionName") || "draft",
+      payload
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadExternalActions(){
+  const out = qs("logsOut");
+  out.innerHTML = "Loading actions...";
+
+  try{
+    const data = await api("/api/connectors/actions");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.actions,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function createSchedule(){
+  const out = qs("scheduleOut");
+  out.innerHTML = "Creating schedule...";
+
+  try{
+    const data = await api("/api/connectors/schedule","POST",{
+      title: val("scheduleTitle"),
+      connector: val("scheduleConnector"),
+      frequency: val("scheduleFrequency"),
+      task:{ note:"scheduled by GhostSeller" }
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.schedule,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadSchedules(){
+  const out = qs("logsOut");
+  out.innerHTML = "Loading schedules...";
+
+  try{
+    const data = await api("/api/connectors/schedules");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.schedules,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
