@@ -316,3 +316,83 @@ async function favoriteBrain(id,favorite){
   await api(`/api/brain/favorite/${id}`,"POST",{favorite});
   await loadBrain();
 }
+
+
+async function analyzeCreative(){
+  const out = qs("creativeConcepts");
+  out.innerHTML = "<div class='card'>Analyzing...</div>";
+
+  try{
+    const data = await api("/api/creative/analyze","POST",{
+      description: val("creativeDescription")
+    }, false);
+
+    const concepts = data.concepts || [];
+
+    out.innerHTML = concepts.map(c => `
+      <div class="item">
+        <h3>${esc(c.style)}</h3>
+        <p><b>Mood:</b> ${esc(c.mood)}</p>
+        <p><b>Editing:</b> ${esc(c.editing)}</p>
+        <p><b>Music:</b> ${esc(c.music)}</p>
+        <p><b>Hook:</b> ${esc(c.hook)}</p>
+        <button onclick="selectCreativeStyle('${esc(c.style)}')">Select style</button>
+      </div>
+    `).join("");
+
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+function selectCreativeStyle(style){
+  qs("selectedCreativeStyle").value = style;
+}
+
+async function generateCreative(){
+  const out = qs("creativeResult");
+  out.innerHTML = "<div class='card'>Generating...</div>";
+
+  try{
+    const data = await api("/api/creative/generate","POST",{
+      description: val("creativeDescription"),
+      selected_style: val("selectedCreativeStyle"),
+      platform: val("creativePlatform")
+    }, false);
+
+    out.innerHTML = `
+      <div class="card">
+        <span class="badge">${esc(data.result.selected_style)}</span>
+        <h2>${esc(data.result.hook)}</h2>
+
+        <div class="item">
+          <h3>Scenes</h3>
+          <pre>${esc(JSON.stringify(data.result.scenes,null,2))}</pre>
+        </div>
+
+        <div class="item">
+          <h3>Transitions</h3>
+          <pre>${esc(JSON.stringify(data.result.transitions,null,2))}</pre>
+        </div>
+
+        <div class="item">
+          <h3>Voice Over</h3>
+          <pre>${esc(JSON.stringify(data.result.voice_over,null,2))}</pre>
+        </div>
+
+        <div class="item">
+          <h3>Video Prompt</h3>
+          <pre>${esc(data.result.video_prompt)}</pre>
+        </div>
+
+        <div class="item">
+          <h3>CTA</h3>
+          <p>${esc(data.result.cta)}</p>
+        </div>
+      </div>
+    `;
+
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}

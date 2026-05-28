@@ -1,24 +1,27 @@
-# GhostSeller AI V54 REAL CONTENT ENGINE
+# GhostSeller AI V55 CREATIVE DIRECTOR AI
 
-V54 transforme GhostSeller en véritable moteur marketing.
+V55 transforme GhostSeller en directeur créatif IA.
 
 ## Ajouts
-- hooks puissants,
-- scripts scène par scène,
-- score viral,
-- angle psychologique,
-- émotion dominante,
-- versions TikTok / Instagram / WhatsApp,
+- description libre des pubs/reels,
+- analyse créative,
+- plusieurs styles IA,
+- sélection de style,
+- génération cinématique,
+- scènes,
+- transitions,
+- musique,
+- sous-titres,
+- prompts vidéo,
 - CTA,
-- idée miniature,
-- intégration Ghost Brain mémoire utilisateur.
+- structure TikTok/Reels/Instagram.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V54 Real Content Engine"
+git commit -m "GhostSeller V55 Creative Director AI"
 git push
 ```
 
@@ -31,5 +34,5 @@ git push
 Tu dois voir :
 
 ```txt
-GhostSeller AI V54 REAL CONTENT ENGINE
+GhostSeller AI V55 CREATIVE DIRECTOR AI
 ```

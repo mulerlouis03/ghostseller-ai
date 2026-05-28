@@ -74,3 +74,5 @@ pre{background:#f8fafc;border:1px solid var(--line);border-radius:18px;padding:1
 }
 
 textarea{width:100%;min-height:120px;padding:16px;border:1px solid var(--line);border-radius:18px;background:#fff;color:var(--ink);font-size:15px;margin-bottom:14px;outline:none;font-family:inherit}
+
+.item{background:#fff;border:1px solid rgba(15,23,42,.08);border-radius:20px;padding:18px;margin-top:14px}

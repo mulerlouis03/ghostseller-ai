@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GhostSeller AI V54</title>
+<title>GhostSeller AI V55</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -65,6 +65,7 @@
     <button onclick="show('content')">🧠 AI Content</button>
     <button onclick="show('niches')">🌍 Niches IA</button>
     <button onclick="show('brain'); loadBrain()">🧠 Ghost Brain</button>
+    <button onclick="show('creative')">🎬 Creative Director</button>
     <button onclick="show('billing')">💳 Abonnement</button>
     <button onclick="show('waitlist')">📩 Waitlist</button>
     <button onclick="show('launch')">🚀 Launch Center</button>
@@ -210,7 +211,40 @@
   </div>
   <div class="card"><h2>Historique récent</h2><div id="brainHistory"></div></div>
 </section>
+
+<section id="creative" class="page hidden">
+  <h1>Creative Director AI</h1>
+
+  <div class="card">
+    <h2>Describe your reel / ad</h2>
+
+    <textarea id="creativeDescription" placeholder="Describe the reel, ad or campaign you want..."></textarea>
+
+    <select id="creativePlatform">
+      <option value="TikTok">TikTok</option>
+      <option value="Instagram">Instagram</option>
+      <option value="Reels">Reels</option>
+      <option value="YouTube Shorts">YouTube Shorts</option>
+    </select>
+
+    <button onclick="analyzeCreative()">Analyze creative styles</button>
+
+    <div id="creativeConcepts"></div>
+  </div>
+
+  <div class="card">
+    <h2>Generate final campaign</h2>
+
+    <input id="selectedCreativeStyle" placeholder="Selected style">
+
+    <button onclick="generateCreative()">Generate campaign</button>
+
+    <div id="creativeResult"></div>
+  </div>
+</section>
+
 <section id="billing" class="page hidden">
+
 
       <h1>Abonnement</h1>
       <div class="plans">

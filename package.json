@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v54-real-content-engine",
-  "version": "54.0.0",
+  "name": "ghostseller-ai-v55-creative-director-ai",
+  "version": "55.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
