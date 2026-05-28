@@ -1,3 +1,5 @@
+import { basicRateLimit } from "./server/middleware/rateLimit.js";
+import { errorHandler } from "./server/middleware/errorHandler.js";
 import express from "express";
 import dotenv from "dotenv";
 import path from "path";
@@ -35,6 +37,8 @@ import { brainRouter } from "./server/modules/brain/routes.js";
 import { creativeRouter } from "./server/modules/creative/routes.js";
 dotenv.config();
 const app = express();
+
+app.use(basicRateLimit(180,60000));
 app.use(securityHeaders);
 app.use("/api", apiRateLimit(120, 60_000));
 app.use(express.json({ limit: "1mb" }));
@@ -81,3 +85,5 @@ app.use("/api/brain", brainRouter);
 app.use("/api/creative", creativeRouter);
 app.get("*", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
 export default app;
+
+app.use(errorHandler);

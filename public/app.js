@@ -1165,3 +1165,24 @@ async function loadOpportunityHistory(){
 window.addEventListener("ghostseller:languageChanged", ()=>{
   try { applyTranslations(); } catch(e) {}
 });
+
+
+window.addEventListener('error', (e)=>{
+  console.error("[GhostSeller Frontend Error]", e.error || e.message);
+});
+
+window.addEventListener('unhandledrejection', (e)=>{
+  console.error("[GhostSeller Promise Error]", e.reason);
+});
+
+async function safeApi(path, method="GET", body){
+  try{
+    return await api(path, method, body);
+  }catch(err){
+    console.error(err);
+    return {
+      ok:false,
+      error: err.message || "Unknown API error"
+    };
+  }
+}

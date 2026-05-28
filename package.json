@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v69-language-control-fix",
-  "version": "69.0.0",
+  "name": "ghostseller-ai-v70-stability-production-hardening",
+  "version": "70.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

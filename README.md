@@ -1,40 +1,22 @@
-# GhostSeller AI V69 LANGUAGE CONTROL FIX
+# GhostSeller AI V70 STABILITY AND PRODUCTION HARDENING
 
-V69 corrige le problème de langue bloquée.
+V70 prépare GhostSeller pour une vraie bêta stable.
 
 ## Ajouts
-- vrai bouton langue dans le dashboard,
-- modal langue réouvrable à tout moment,
-- dropdown langue,
-- changement immédiat sans refresh,
-- reset langue,
-- détection navigateur,
-- synchronisation dashboard + landing,
-- header X-GhostSeller-Language pour les futurs prompts IA.
-
-## Important
-
-Si tu avais choisi anglais avant, clique sur :
-```txt
-🌍 English
-```
-puis choisis :
-```txt
-🇫🇷 Français
-```
-
-Ou va dans :
-```txt
-🌍 Langue
-```
-et clique Réinitialiser.
+- rate limiting,
+- gestion erreurs backend,
+- récupération erreurs frontend,
+- middleware sécurité,
+- base admin API,
+- variables production,
+- meilleure stabilité générale.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V69 Language Control Fix"
+git commit -m "GhostSeller V70 Stability and Production Hardening"
 git push
 ```
 
@@ -46,5 +28,5 @@ git push
 
 Tu dois voir :
 ```txt
-GhostSeller AI V69 LANGUAGE CONTROL FIX
+GhostSeller AI V70 STABILITY AND PRODUCTION HARDENING
 ```
