@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GhostSeller AI V69</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div id="authView" class="auth-page">
+  <div class="auth-shell">
+    <div class="auth-left">
+      <div class="brand-line">
+        <img src="/ghostseller-logo.png" alt="GhostSeller AI" onerror="this.style.display='none'">
+        <span>GhostSeller AI</span>
+      </div>
+
+      <h1>Transforme ton contenu en clients.</h1>
+      <p>
+        Plateforme IA marketing pour générer hooks TikTok, posts Instagram,
+        messages WhatsApp, leads et campagnes.
+      </p>
+
+      <div class="trust-grid">
+        <div><b>Stripe</b><span>Paiements prêts</span></div>
+        <div><b>OpenAI</b><span>IA connectée</span></div>
+        <div><b>Supabase</b><span>Auth stable</span></div>
+      </div>
+    </div>
+
+    <div class="auth-card">
+      <span class="badge">V52 Access Control</span>
+      <h2 data-i18n="login_title">Connexion</h2>
+
+      <input id="name" placeholder="Nom complet">
+      <input id="email" placeholder="Email">
+      <input id="password" type="password" placeholder="Mot de passe">
+
+      <div class="auth-actions">
+        <button onclick="login()" data-i18n="login">Connexion</button>
+        <button class="secondary" onclick="register()" data-i18n="create_account">Créer un compte</button>
+      </div>
+
+      <button class="link" onclick="forgotPassword()" data-i18n="forgot">Mot de passe oublié ?</button>
+
+      <div id="authMsg"></div>
+    </div>
+  </div>
+</div>
+
+<div id="appView" class="app hidden">
+  <aside class="sidebar">
+    <div class="side-brand">
+      <img src="/ghostseller-logo.png" alt="GhostSeller AI" onerror="this.style.display='none'">
+      <div>
+        <b>GhostSeller AI</b>
+        <small>V52 Launch</small>
+      </div>
+    </div>
+
+    <button onclick="show('dashboard')">🏠 <span data-i18n="dashboard">Dashboard</span></button>
+    <button onclick="show('adminPro'); loadAdminOverview()">👑 Admin Pro</button>
+    <button onclick="show('beta'); loadBetaChecklist()">✅ Beta Onboarding</button>
+    <button onclick="show('onboarding')">🧭 Onboarding</button>
+    <button onclick="show('content')">🧠 <span data-i18n="content">AI Content</span></button>
+    <button onclick="show('niches')">🌍 <span data-i18n="niches">Niches IA</span></button>
+    <button onclick="show('brain'); loadBrain()">🧠 <span data-i18n="brain">Ghost Brain</span></button>
+    <button onclick="show('creative')">🎬 <span data-i18n="creative">Creative Director</span></button>
+    <button onclick="show('video')">🎥 <span data-i18n="video">Auto Video Pipeline</span></button>
+    <button onclick="show('growth')">🚀 <span data-i18n="growth">Growth Agent</span></button>
+    <button onclick="show('os')">🧠 <span data-i18n="os">AI Operating System</span></button>
+    <button onclick="show('cmo')">🧑‍💼 <span data-i18n="cmo">AI CMO</span></button>
+    <button onclick="show('apis'); loadConnectors()">🔌 <span data-i18n="apis">External APIs</span></button>
+    <button onclick="show('unifiedBrain'); loadUnifiedBrain()">🧬 <span data-i18n="unified">Unified Brain</span></button>
+    <button onclick="show('execution'); loadWorkflows()">⚙️ <span data-i18n="execution">Execution Engine</span></button>
+    <button onclick="show('memory'); loadMemoryInsights()">🧠 <span data-i18n="memory">Persistent Memory</span></button>
+    <button onclick="show('optimize')">🔁 <span data-i18n="improve">Self Improve</span></button>
+    <button onclick="show('opportunities')">💎 <span data-i18n="opportunities">Opportunity Discovery</span></button>
+    <button onclick="show('billing')">💳 <span data-i18n="billing">Abonnement</span></button>
+    <button onclick="show('waitlist')">📩 <span data-i18n="waitlist">Waitlist</span></button>
+    <button onclick="show('launch')">🚀 Launch Center</button>
+    <button onclick="show('security')">🔐 <span data-i18n="security">Sécurité</span></button>
+    <button onclick="show('languagePanel')">🌍 <span data-i18n="language">Langue</span></button>
+    <button onclick="show('system')">⚙️ <span data-i18n="system">Système</span></button>
+    <button onclick="logout()" class="logout">Déconnexion</button>
+  </aside>
+
+  <main class="main">
+    <section class="topbar">
+      <div>
+        <span class="badge">Clean Rebuild</span>
+        <h1>Business Command Center</h1>
+        <p id="userLine">Chargement...</p>
+      </div>
+      <div class="row"><button id="languageBtn" onclick="openLanguageModal()" data-language-label>🌍 Langue</button><a class="public-link" href="/landing" target="_blank">Voir landing</a></div>
+    </section>
+
+    
+    <section id="onboarding" class="page hidden">
+      <h1>Onboarding</h1>
+      <div class="card">
+        <span class="badge">Étape 1</span>
+        <h2>Configure ton objectif business</h2>
+        <p>Ces informations permettent à GhostSeller de mieux générer ton contenu.</p>
+
+        <select id="businessType">
+          <option value="">Type de business</option>
+          <option value="Recharge mobile">Recharge mobile</option>
+          <option value="E-commerce">E-commerce</option>
+          <option value="Beauté / Salon">Beauté / Salon</option>
+          <option value="Coaching">Coaching</option>
+          <option value="Immobilier">Immobilier</option>
+          <option value="Service local">Service local</option>
+          <option value="Autre">Autre</option>
+        </select>
+
+        <select id="mainGoal">
+          <option value="">Objectif principal</option>
+          <option value="Obtenir des leads WhatsApp">Obtenir des leads WhatsApp</option>
+          <option value="Créer du contenu viral">Créer du contenu viral</option>
+          <option value="Vendre plus">Vendre plus</option>
+          <option value="Construire une audience">Construire une audience</option>
+        </select>
+
+        <select id="mainPlatform">
+          <option value="">Plateforme principale</option>
+          <option value="TikTok">TikTok</option>
+          <option value="Instagram">Instagram</option>
+          <option value="Facebook">Facebook</option>
+          <option value="LinkedIn">LinkedIn</option>
+          <option value="WhatsApp">WhatsApp</option>
+        </select>
+
+        <button onclick="completeOnboarding()">Terminer onboarding</button>
+        <div id="onboardingMsg"></div>
+      </div>
+    </section>
+
+    <section id="dashboard" class="page">
+
+      <div class="stats">
+        <div class="stat"><span id="statPlan">Free</span><p>Plan</p></div>
+        <div class="stat"><span id="statCredits">0</span><p>Crédits</p></div>
+        <div class="stat"><span id="statRole">user</span><p>Rôle</p></div>
+        <div class="stat"><span id="statStatus">stable</span><p>Status</p></div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <h2>Objectif lancement</h2>
+          <p>Créer une base stable : connexion, dashboard, Stripe, IA, waitlist et analytics.</p>
+          <button onclick="show('content')">Créer du contenu IA</button>
+        </div>
+
+        <div class="card">
+          <h2>Meta / Instagram</h2>
+          <p>Connexion automatique mise en pause jusqu’à validation Meta Developer. Aucun blocage pour lancer GhostSeller.</p>
+          <span class="status paused">En attente</span>
+        </div>
+      </div>
+    </section>
+
+    
+<div class="card" id="usageBox">
+  <h2>Usage & Limits</h2>
+  <button onclick="loadUsage()">Refresh usage</button>
+  <div id="usageOut"></div>
+</div>
+
+
+<section id="beta" class="page hidden">
+  <h1>Beta Onboarding</h1>
+  <p class="muted">Checklist bêta, notifications et emails système.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Onboarding Checklist</h2>
+      <button onclick="loadBetaChecklist()">Refresh checklist</button>
+      <button onclick="sendWelcomeEmail()">Send welcome email</button>
+      <div id="betaChecklistOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Email System</h2>
+      <button onclick="loadEmailStatus()">Email status</button>
+      <input id="testEmailTo" placeholder="Email test">
+      <input id="testEmailSubject" placeholder="Subject" value="GhostSeller AI test">
+      <textarea id="testEmailMessage" placeholder="Message">Hello from GhostSeller AI.</textarea>
+      <button onclick="sendTestEmail()">Send test email</button>
+      <div id="emailStatusOut"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Notifications</h2>
+    <button onclick="loadNotifications()">Load notifications</button>
+    <div id="notificationsOut"></div>
+  </div>
+</section>
+
+
+<section id="adminPro" class="page hidden">
+  <h1>Admin Dashboard Pro</h1>
+  <p class="muted">Centre de contrôle propriétaire : utilisateurs, plans, crédits, usage, logs et plateforme.</p>
+
+  <div class="stats">
+    <div class="stat"><span id="adminTotalUsers">0</span><p>Users</p></div>
+    <div class="stat"><span id="adminPaidUsers">0</span><p>Paid</p></div>
+    <div class="stat"><span id="adminFreeUsers">0</span><p>Free</p></div>
+    <div class="stat"><span id="adminUsedCredits">0</span><p>Credits Used</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Platform Overview</h2>
+      <button onclick="loadAdminOverview()">Refresh overview</button>
+      <div id="adminOverviewOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Update User</h2>
+      <input id="adminUserEmail" placeholder="User email">
+      <select id="adminUserRole">
+        <option value="">Role unchanged</option>
+        <option value="user">user</option>
+        <option value="admin">admin</option>
+        <option value="owner">owner</option>
+      </select>
+      <select id="adminUserPlan">
+        <option value="">Plan unchanged</option>
+        <option value="Free">Free</option>
+        <option value="Starter">Starter</option>
+        <option value="Pro">Pro</option>
+        <option value="Agency">Agency</option>
+      </select>
+      <input id="adminUserCredits" placeholder="Credits">
+      <button onclick="adminUpdateUser()">Update user</button>
+      <button onclick="adminApproveUser()">Approve user</button>
+      <div id="adminUserUpdateOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Users</h2>
+      <button onclick="loadAdminUsers()">Load users</button>
+      <div id="adminUsersOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Admin Logs</h2>
+      <button onclick="loadAdminLogs()">Load logs</button>
+      <div id="adminLogsOut"></div>
+    </div>
+  </div>
+</section>
+
+<section id="content" class="page hidden">
+
+
+      <h1>Real Content Engine</h1>
+      <div class="card">
+        <input id="contentNiche" placeholder="Niche : business, beauté, coaching...">
+        <select id="contentPlatform">
+          <option value="TikTok">TikTok</option>
+          <option value="Instagram">Instagram</option>
+          <option value="WhatsApp">WhatsApp</option>
+          <option value="Multi-plateforme">Multi-plateforme</option>
+        </select>
+        <select id="contentTone">
+          <option value="viral">Viral</option>
+          <option value="professionnel">Professionnel</option>
+          <option value="premium">Premium</option>
+          <option value="humour">Humour</option>
+        </select>
+        <input id="contentGoal" placeholder="Objectif : leads WhatsApp, ventes, abonnés...">
+        <button onclick="generateContent()">Générer</button>
+      </div>
+      <div id="contentOut"></div>
+    </section>
+
+    
+<section id="niches" class="page hidden">
+  <h1>Global Niches AI</h1>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Global business niches</h2>
+      <button onclick="loadNiches()">Charger niches</button>
+      <div id="nichesOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Détection automatique</h2>
+
+      <input id="detectBusiness" placeholder="Business">
+      <input id="detectKeywords" placeholder="Mots-clés">
+
+      <button onclick="detectNiche()">Détecter niche</button>
+
+      <div id="detectOut"></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="brain" class="page hidden">
+  <h1>Ghost Brain</h1>
+  <p class="muted">Historique intelligent : contenus, niches utilisées, favoris et mémoire business.</p>
+  <div class="stats">
+    <div class="stat"><span id="brainTotal">0</span><p>Générations</p></div>
+    <div class="stat"><span id="brainFav">0</span><p>Favoris</p></div>
+    <div class="stat"><span id="brainNiche">-</span><p>Niche principale</p></div>
+    <div class="stat"><span id="brainPlatform">-</span><p>Plateforme</p></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h2>Profil IA</h2><button onclick="loadBrain()">Rafraîchir</button><div id="brainProfile"></div></div>
+    <div class="card"><h2>Sauvegarde rapide</h2><input id="brainNicheInput" placeholder="Niche"><input id="brainPlatformInput" placeholder="Plateforme"><textarea id="brainResultInput" placeholder="Contenu ou idée à sauvegarder"></textarea><button onclick="saveBrainNote()">Sauvegarder</button><div id="brainSaveMsg"></div></div>
+  </div>
+  <div class="card"><h2>Historique récent</h2><div id="brainHistory"></div></div>
+</section>
+
+<section id="creative" class="page hidden">
+  <h1>Creative Director AI</h1>
+
+  <div class="card">
+    <h2>Describe your reel / ad</h2>
+
+    <textarea id="creativeDescription" placeholder="Describe the reel, ad or campaign you want..."></textarea>
+
+    <select id="creativePlatform">
+      <option value="TikTok">TikTok</option>
+      <option value="Instagram">Instagram</option>
+      <option value="Reels">Reels</option>
+      <option value="YouTube Shorts">YouTube Shorts</option>
+    </select>
+
+    <button onclick="analyzeCreative()">Analyze creative styles</button>
+
+    <div id="creativeConcepts"></div>
+  </div>
+
+  <div class="card">
+    <h2>Generate final campaign</h2>
+
+    <input id="selectedCreativeStyle" placeholder="Selected style">
+
+    <button onclick="generateCreative()">Generate campaign</button>
+
+    <div id="creativeResult"></div>
+  </div>
+</section>
+
+
+<section id="video" class="page hidden">
+  <h1>Auto Video Pipeline</h1>
+  <p class="muted">Prépare une vidéo complète : storyboard, prompts Runway/Pika/Kling, voix, musique, sous-titres et export créateur.</p>
+
+  <div class="card">
+    <h2>Describe the video</h2>
+
+    <textarea id="videoIdea" placeholder="Describe the reel/ad/video you want to produce..."></textarea>
+
+    <select id="videoPlatform">
+      <option value="TikTok">TikTok</option>
+      <option value="Instagram Reels">Instagram Reels</option>
+      <option value="YouTube Shorts">YouTube Shorts</option>
+      <option value="LinkedIn Video">LinkedIn Video</option>
+    </select>
+
+    <select id="videoStyle">
+      <option value="Viral Fast Cut">Viral Fast Cut</option>
+      <option value="Luxury Minimal">Luxury Minimal</option>
+      <option value="Storytelling Emotion">Storytelling Emotion</option>
+      <option value="Corporate Clean">Corporate Clean</option>
+    </select>
+
+    <input id="videoAudience" placeholder="Target audience">
+    <input id="videoGoal" placeholder="Goal: leads, sales, awareness...">
+    <input id="videoDuration" placeholder="Duration in seconds, ex: 30">
+
+    <button onclick="generateVideoPipeline()">Generate video pipeline</button>
+
+    <div id="videoResult"></div>
+  </div>
+</section>
+
+
+<section id="growth" class="page hidden">
+  <h1>Autopilot Growth Agent</h1>
+  <p class="muted">L'agent de croissance prépare les campagnes d'acquisition, les posts d'auto-promotion, les messages DM et les actions quotidiennes.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Build Growth Plan</h2>
+      <input id="growthProduct" placeholder="Product name" value="GhostSeller AI">
+      <input id="growthTarget" placeholder="Target users" value="entrepreneurs, creators and small businesses">
+      <input id="growthGoal" placeholder="Goal" value="get first users">
+      <input id="growthMarket" placeholder="Market" value="global">
+      <button onclick="buildGrowthPlan()">Generate growth plan</button>
+    </div>
+
+    <div class="card">
+      <h2>Prospect Score</h2>
+      <input id="prospectBusiness" placeholder="Business">
+      <input id="prospectAudience" placeholder="Audience">
+      <input id="prospectActivity" placeholder="Activity / social profile notes">
+      <button onclick="scoreProspect()">Score prospect</button>
+      <div id="prospectOut"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Daily Growth Actions</h2>
+    <button onclick="loadDailyGrowth()">Load today actions</button>
+    <div id="dailyGrowthOut"></div>
+  </div>
+
+  <div id="growthPlanOut"></div>
+</section>
+
+
+<section id="os" class="page hidden">
+  <h1>AI Operating System</h1>
+  <p class="muted">Centre de contrôle business : calendrier contenu, pipeline leads, tâches IA et score de croissance.</p>
+
+  <div class="stats">
+    <div class="stat"><span id="osGrowthScore">0</span><p>Growth Score</p></div>
+    <div class="stat"><span id="osContentCount">0</span><p>Generated Content</p></div>
+    <div class="stat"><span id="osCampaigns">0</span><p>Campaigns</p></div>
+    <div class="stat"><span id="osLeads">0</span><p>Lead Estimation</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Dashboard Intelligence</h2>
+      <button onclick="loadOSDashboard()">Load dashboard</button>
+      <div id="osDashboardOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Smart Calendar</h2>
+      <input id="osNiche" placeholder="Niche">
+      <input id="osPlatform" placeholder="Platform">
+      <input id="osDays" placeholder="Days" value="7">
+      <button onclick="generateCalendar()">Generate calendar</button>
+      <div id="osCalendarOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Lead Pipeline</h2>
+      <input id="pipelineNiche" placeholder="Niche">
+      <button onclick="generatePipeline()">Generate pipeline</button>
+      <div id="pipelineOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>AI Tasks</h2>
+      <input id="taskTitle" placeholder="Task title">
+      <select id="taskPriority">
+        <option value="high">high</option>
+        <option value="medium">medium</option>
+        <option value="low">low</option>
+      </select>
+      <button onclick="createAITask()">Create task</button>
+      <div id="taskOut"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>AI Recommendations</h2>
+    <button onclick="loadRecommendations()">Load recommendations</button>
+    <div id="recommendationsOut"></div>
+  </div>
+</section>
+
+
+<section id="cmo" class="page hidden">
+  <h1>AI Chief Marketing Officer</h1>
+  <p class="muted">Mode semi-autonome : objectifs business, plan quotidien, campagnes récurrentes et recommandations d’actions.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Business Goal</h2>
+      <input id="cmoGoal" placeholder="Goal" value="get more leads">
+      <input id="cmoNiche" placeholder="Niche" value="business">
+      <input id="cmoPlatform" placeholder="Platform" value="TikTok">
+      <input id="cmoBudget" placeholder="Budget" value="0">
+      <button onclick="saveCMOGoal()">Save goal</button>
+      <button onclick="loadCMOGoals()">Load goals</button>
+      <div id="cmoGoalsOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Daily Autopilot Plan</h2>
+      <button onclick="generateDailyPlan()">Generate today's plan</button>
+      <div id="dailyPlanOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Recurring Campaign</h2>
+      <input id="campaignName" placeholder="Campaign name" value="Weekly growth campaign">
+      <input id="campaignNiche" placeholder="Niche" value="business">
+      <input id="campaignPlatform" placeholder="Platform" value="TikTok">
+      <select id="campaignFrequency">
+        <option value="daily">daily</option>
+        <option value="weekly">weekly</option>
+        <option value="monthly">monthly</option>
+      </select>
+      <button onclick="createRecurringCampaign()">Create campaign</button>
+      <div id="campaignOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Content Performance Score</h2>
+      <input id="scoreHook" placeholder="Hook">
+      <input id="scoreCTA" placeholder="CTA">
+      <input id="scorePlatform" placeholder="Platform" value="TikTok">
+      <button onclick="scoreContent()">Score content</button>
+      <div id="scoreOut"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Next Actions</h2>
+    <button onclick="loadNextActions()">What should I do today?</button>
+    <div id="nextActionsOut"></div>
+  </div>
+</section>
+
+
+<section id="apis" class="page hidden">
+  <h1>External APIs & Automation Layer</h1>
+  <p class="muted">Centre de connexion futur : Meta, TikTok, LinkedIn, WhatsApp, webhooks, scheduler et actions externes.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Connector Status</h2>
+      <button onclick="loadConnectors()">Refresh connectors</button>
+      <div id="connectorsOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Queue External Action</h2>
+      <select id="actionConnector">
+        <option value="meta">Meta / Instagram</option>
+        <option value="tiktok">TikTok</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="whatsapp">WhatsApp</option>
+        <option value="manual">Manual</option>
+      </select>
+      <input id="actionName" placeholder="Action, ex: publish_draft">
+      <textarea id="actionPayload" placeholder='Payload JSON or notes'></textarea>
+      <button onclick="queueExternalAction()">Queue action</button>
+      <div id="actionOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Agent Scheduler</h2>
+      <input id="scheduleTitle" placeholder="Schedule title">
+      <select id="scheduleConnector">
+        <option value="manual">Manual</option>
+        <option value="meta">Meta</option>
+        <option value="tiktok">TikTok</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="whatsapp">WhatsApp</option>
+      </select>
+      <select id="scheduleFrequency">
+        <option value="daily">daily</option>
+        <option value="weekly">weekly</option>
+        <option value="monthly">monthly</option>
+      </select>
+      <button onclick="createSchedule()">Create schedule</button>
+      <div id="scheduleOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Automation Logs</h2>
+      <button onclick="loadExternalActions()">Load actions</button>
+      <button onclick="loadSchedules()">Load schedules</button>
+      <div id="logsOut"></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="agents" class="page hidden">
+  <h1>Multi-Agent Intelligence</h1>
+  <p class="muted">Agents spécialisés : Content, Growth, Sales, Analytics, Brand Strategy et Outreach.</p>
+  <div class="grid2">
+    <div class="card"><h2>Agent Team</h2><button onclick="loadAgents()">Load agents</button><div id="agentsListOut"></div></div>
+    <div class="card"><h2>Master Orchestrator</h2><textarea id="agentTask" placeholder="Describe the task..."></textarea><button onclick="orchestrateAgent()">Choose best agent</button><div id="orchestratorOut"></div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h2>Run Full Team</h2><input id="teamObjective" placeholder="Objective" value="Launch and grow globally"><button onclick="runAgentTeam()">Run team</button><div id="teamOut"></div></div>
+    <div class="card"><h2>Agent Memory</h2><button onclick="loadAgentRuns()">Load runs</button><div id="agentRunsOut"></div></div>
+  </div>
+</section>
+
+
+<section id="unifiedBrain" class="page hidden">
+  <h1>Unified AI Brain</h1>
+  <p class="muted">Le cerveau central relie Ghost Brain, Multi-Agent, Growth, AI CMO, Analytics et Automation Layer.</p>
+
+  <div class="stats">
+    <div class="stat"><span id="ubScore">0</span><p>Brain Score</p></div>
+    <div class="stat"><span id="ubContent">0</span><p>Content Memory</p></div>
+    <div class="stat"><span id="ubAgents">0</span><p>Agent Runs</p></div>
+    <div class="stat"><span id="ubStatus">-</span><p>Status</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Brain Overview</h2>
+      <button onclick="loadUnifiedBrain()">Refresh Brain</button>
+      <div id="ubOverviewOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Think With Brain</h2>
+      <textarea id="ubObjective" placeholder="What should GhostSeller solve?"></textarea>
+      <button onclick="unifiedBrainThink()">Think</button>
+      <div id="ubThinkOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Execute Brain Plan</h2>
+      <input id="ubExecuteObjective" placeholder="Objective" value="Run today's growth system">
+      <button onclick="executeBrainPlan()">Queue execution plan</button>
+      <div id="ubExecuteOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Brain Runs</h2>
+      <button onclick="loadBrainRuns()">Load brain runs</button>
+      <div id="ubRunsOut"></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="execution" class="page hidden">
+  <h1>Autonomous Execution Engine</h1>
+  <p class="muted">Transforme les décisions du Brain en workflows exécutables : étapes, logs, retries, campaign runners et monitoring.</p>
+
+  <div class="stats">
+    <div class="stat"><span id="execTotal">0</span><p>Workflows</p></div>
+    <div class="stat"><span id="execHealth">-</span><p>Health</p></div>
+    <div class="stat"><span id="execCompleted">0</span><p>Completed</p></div>
+    <div class="stat"><span id="execDraft">0</span><p>Drafts</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Create Workflow</h2>
+      <input id="execObjective" placeholder="Objective" value="Create and distribute a marketing campaign">
+      <input id="execNiche" placeholder="Niche" value="business">
+      <input id="execPlatform" placeholder="Platform" value="TikTok">
+      <button onclick="createWorkflow()">Create workflow</button>
+      <div id="workflowCreateOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Campaign Runner</h2>
+      <input id="runnerName" placeholder="Campaign name" value="Autonomous campaign">
+      <input id="runnerObjective" placeholder="Objective" value="Generate leads">
+      <input id="runnerNiche" placeholder="Niche" value="business">
+      <input id="runnerPlatform" placeholder="Platform" value="TikTok">
+      <button onclick="createCampaignRunner()">Create campaign runner</button>
+      <div id="runnerOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Workflows</h2>
+      <button onclick="loadWorkflows()">Load workflows</button>
+      <div id="workflowsOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Execution Logs</h2>
+      <button onclick="loadExecutionLogs()">Load logs</button>
+      <button onclick="loadExecutionMonitor()">Monitor</button>
+      <div id="executionLogsOut"></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="memory" class="page hidden">
+  <h1>Persistent Autonomous Memory</h1>
+  <p class="muted">GhostSeller apprend durablement des hooks, niches, plateformes et campagnes qui performent le mieux.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Learn From Campaign</h2>
+
+      <input id="memNiche" placeholder="Niche" value="business">
+      <input id="memPlatform" placeholder="Platform" value="TikTok">
+      <input id="memHook" placeholder="Hook">
+      <input id="memCTA" placeholder="CTA">
+      <input id="memStrategy" placeholder="Strategy">
+      <input id="memCampaign" placeholder="Campaign name">
+
+      <input id="memEngagement" placeholder="Engagement" value="100">
+      <input id="memClicks" placeholder="Clicks" value="25">
+      <input id="memConversions" placeholder="Conversions" value="5">
+
+      <button onclick="learnMemory()">Learn campaign</button>
+
+      <div id="memoryLearnOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Memory Insights</h2>
+      <button onclick="loadMemoryInsights()">Load insights</button>
+      <button onclick="loadBestStrategies()">Best strategies</button>
+      <button onclick="loadRankedCampaigns()">Ranked campaigns</button>
+
+      <div id="memoryInsightsOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Autonomous Recommendation</h2>
+      <input id="memObjective" placeholder="Objective" value="grow faster">
+      <button onclick="loadMemoryRecommendation()">Recommend strategy</button>
+
+      <div id="memoryRecommendationOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Memory Timeline</h2>
+      <button onclick="loadMemoryTimeline()">Load timeline</button>
+
+      <div id="memoryTimelineOut"></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="optimize" class="page hidden">
+  <h1>Self Improving AI System</h1>
+  <p class="muted">L’IA évalue, détecte les faiblesses, améliore les hooks/CTA, compare les variantes et apprend de ses cycles.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Evaluate Content</h2>
+      <input id="optHook" placeholder="Hook">
+      <input id="optCTA" placeholder="CTA">
+      <input id="optPlatform" placeholder="Platform" value="TikTok">
+      <input id="optNiche" placeholder="Niche" value="business">
+      <input id="optStrategy" placeholder="Strategy">
+      <button onclick="evaluateContent()">Evaluate</button>
+      <div id="evalOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Improve Automatically</h2>
+      <button onclick="improveContent()">Generate improvements</button>
+      <div id="improveOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>A/B Testing Engine</h2>
+      <textarea id="abVariants" placeholder="Write variants, one per line"></textarea>
+      <button onclick="runABTest()">Run A/B test</button>
+      <div id="abOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Optimization Cycles</h2>
+      <button onclick="loadOptimizationCycles()">Load cycles</button>
+      <button onclick="loadOptimizationRecommendations()">AI Recommendations</button>
+      <div id="cyclesOut"></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="opportunities" class="page hidden">
+  <h1>Autonomous Opportunity Discovery</h1>
+  <p class="muted">GhostSeller détecte des niches rentables, angles viraux, marchés sous-exploités et campagnes prêtes à tester.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Opportunity Radar</h2>
+      <button onclick="scanOpportunities()">Scan global opportunities</button>
+      <button onclick="loadOpportunityRadar()">Money radar</button>
+      <div id="opportunityScanOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Analyze Niche</h2>
+      <input id="oppNiche" placeholder="Niche" value="AI tools for small businesses">
+      <input id="oppMarket" placeholder="Market" value="global">
+      <button onclick="analyzeOpportunity()">Analyze opportunity</button>
+      <button onclick="buildOpportunityCampaign()">Build campaign</button>
+      <div id="opportunityAnalyzeOut"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Opportunity History</h2>
+    <button onclick="loadOpportunityHistory()">Load history</button>
+    <div id="opportunityHistoryOut"></div>
+  </div>
+</section>
+
+
+<section id="billing" class="page hidden">
+  <h1>Pricing & Subscription</h1>
+  <p class="muted">Choisis le plan adapté. Stripe sera utilisé pour les abonnements réels.</p>
+
+  <div class="pricing-grid" id="pricingGrid">
+    <div class="card plan">
+      <span class="badge">Free</span>
+      <h2>Free</h2>
+      <div class="price">0€</div>
+      <p>Pour tester GhostSeller.</p>
+      <ul>
+        <li>20 crédits</li>
+        <li>1 projet</li>
+        <li>10 posts IA</li>
+        <li>10 leads</li>
+      </ul>
+      <button class="secondary">Actif par défaut</button>
+    </div>
+
+    <div class="card plan">
+      <span class="badge">Starter</span>
+      <h2>Starter</h2>
+      <div class="price">9,99€</div>
+      <p>Pour lancer ses premières campagnes.</p>
+      <ul>
+        <li>300 crédits / mois</li>
+        <li>5 projets</li>
+        <li>100 posts IA</li>
+        <li>Ghost Brain</li>
+      </ul>
+      <button onclick="checkout('Starter')">Choisir Starter</button>
+    </div>
+
+    <div class="card plan pro">
+      <span class="badge">Popular</span>
+      <h2>Pro</h2>
+      <div class="price">29€</div>
+      <p>Pour entrepreneurs et créateurs sérieux.</p>
+      <ul>
+        <li>1200 crédits / mois</li>
+        <li>25 projets</li>
+        <li>Creative Director AI</li>
+        <li>AI CMO + Autopilot</li>
+      </ul>
+      <button onclick="checkout('Pro')">Choisir Pro</button>
+    </div>
+
+    <div class="card plan">
+      <span class="badge">Agency</span>
+      <h2>Agency</h2>
+      <div class="price">79€</div>
+      <p>Pour agences, freelances et clients multiples.</p>
+      <ul>
+        <li>5000 crédits / mois</li>
+        <li>100 projets</li>
+        <li>Multi-Agent Intelligence</li>
+        <li>Execution Engine</li>
+      </ul>
+      <button onclick="checkout('Agency')">Choisir Agency</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Stripe status</h2>
+    <button onclick="loadPlans()">Vérifier les plans Stripe</button>
+    <div id="plansOut"></div>
+  </div>
+</section>
+
+<section id="waitlist" class="page hidden">
+      <h1>Waitlist</h1>
+      <div class="card">
+        <p>Les prospects collectés depuis la landing sont stockés dans Supabase.</p>
+        <a class="public-link" href="/landing#waitlist" target="_blank">Ouvrir formulaire public</a>
+      </div>
+    </section>
+
+    <section id="launch" class="page hidden">
+      <h1>Launch Center</h1>
+      <div id="launchOut" class="card">Clique pour charger les analytics.</div>
+      <button onclick="loadLaunch()">Charger Launch Center</button>
+    </section>
+
+    <section id="security" class="page hidden">
+      <h1>Sécurité</h1>
+      <div id="securityOut" class="card">Clique pour vérifier.</div>
+      <button onclick="loadSecurity()">Vérifier sécurité</button>
+    </section>
+
+    
+<section id="languagePanel" class="page hidden">
+  <h1 data-i18n="change_language">Changer la langue</h1>
+  <div class="card">
+    <select data-language-select onchange="setLang(this.value)">
+      <option value="fr">🇫🇷 Français</option>
+      <option value="en">🇬🇧 English</option>
+      <option value="es">🇪🇸 Español</option>
+      <option value="pt">🇵🇹 Português</option>
+    </select>
+    <button onclick="openLanguageModal()" data-i18n="change_language">Changer la langue</button>
+    <button class="secondary" onclick="resetLang()" data-i18n="reset_language">Réinitialiser</button>
+  </div>
+</section>
+
+<section id="system" class="page hidden">
+
+      <h1>Système</h1>
+      <div id="healthOut" class="card">Clique pour tester l’API.</div>
+      <button onclick="loadHealth()">Tester /api/health</button>
+    </section>
+  </main>
+</div>
+
+<script src="/i18n.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
