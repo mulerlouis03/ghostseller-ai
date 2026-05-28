@@ -176,7 +176,7 @@ async function checkout(plan){
   try{
     const data = await api("/api/billing/checkout","POST",{plan});
     if(data.url) location.href = data.url;
-    else alert("Checkout non disponible.");
+    else alert(data.message || "Checkout non disponible.");
   }catch(e){
     alert(e.message);
   }
@@ -1184,5 +1184,18 @@ async function safeApi(path, method="GET", body){
       ok:false,
       error: err.message || "Unknown API error"
     };
+  }
+}
+
+
+async function loadPlans(){
+  const out = qs("plansOut");
+  out.innerHTML = "Loading pricing plans...";
+
+  try{
+    const data = await api("/api/billing/plans","GET",null,false);
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.plans,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }

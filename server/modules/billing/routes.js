@@ -1,84 +1,107 @@
 import express from "express";
+import Stripe from "stripe";
+import { requireAuth } from "../../lib/auth.js";
 import { supabase } from "../../lib/supabase.js";
-import { requireAuth, safeUser } from "../../lib/auth.js";
-import { stripe, APP_URL } from "../../lib/stripe.js";
-import { PLAN_LIMITS } from "../../lib/plans.js";
-import { isProduction } from "../../lib/security.js";
+import { PRICING_PLANS, getPlanByName } from "../../config/pricing.js";
+
 export const billingRouter = express.Router();
 
-billingRouter.get("/plans", requireAuth, (req,res)=>{
- res.json({plans:PLAN_LIMITS,currentPlan:req.user.plan||"Free",credits:req.user.credits??20,stripeConfigured:Boolean(stripe)});
+const stripe = process.env.STRIPE_SECRET_KEY ? new Stripe(process.env.STRIPE_SECRET_KEY) : null;
+
+billingRouter.get("/plans", (_req,res)=>{
+  res.json({
+    ok:true,
+    plans:Object.values(PRICING_PLANS).map(p=>({
+      id:p.id,
+      name:p.name,
+      price:p.price,
+      currency:p.currency,
+      credits:p.credits,
+      projects:p.projects,
+      posts:p.posts,
+      leads:p.leads,
+      features:p.features,
+      available:p.name === "Free" || Boolean(p.stripe_price_id)
+    }))
+  });
 });
 
 billingRouter.post("/checkout", requireAuth, async (req,res)=>{
- try{
-  const {plan}=req.body;
-  if(!["Starter","Pro"].includes(plan)) return res.status(400).json({error:"Plan invalide."});
-  const selected=PLAN_LIMITS[plan];
-  if(!stripe||!selected.priceId) return res.status(400).json({error:"Stripe non configuré. Ajoute STRIPE_SECRET_KEY + STRIPE_STARTER_PRICE_ID + STRIPE_PRO_PRICE_ID dans Vercel."});
-  let customerId=req.user.stripe_customer_id;
-  if(!customerId){
-   const customer=await stripe.customers.create({email:req.user.email,name:req.user.name,metadata:{userId:req.user.id}});
-   customerId=customer.id;
-   await supabase.from("users").update({stripe_customer_id:customerId}).eq("id",req.user.id);
-  }
-  const session=await stripe.checkout.sessions.create({
-   mode:"subscription",
-   customer:customerId,
-   line_items:[{price:selected.priceId,quantity:1}],
-   success_url:`${APP_URL}?billing=success&plan=${plan}`,
-   cancel_url:`${APP_URL}?billing=cancel`,
-   metadata:{userId:req.user.id,plan}
-  });
-  res.json({url:session.url});
- }catch(e){res.status(500).json({error:e.message||"Erreur Stripe."});}
-});
-
-billingRouter.post("/demo-upgrade", requireAuth, async (req,res)=>{
- if(isProduction()) return res.status(403).json({error:"Mode test désactivé en production."});
- const {plan}=req.body;
- if(!["Free","Starter","Pro"].includes(plan)) return res.status(400).json({error:"Plan invalide."});
- const credits=PLAN_LIMITS[plan].credits;
- const {data,error}=await supabase.from("users").update({plan,credits}).eq("id",req.user.id).select().single();
- if(error) return res.status(500).json({error:error.message});
- res.json({user:safeUser(data),message:`Plan passé en ${plan}. Crédits: ${credits}`});
-});
-
-
-billingRouter.post("/webhook", express.raw({type:"application/json"}), async (req,res)=>{
   try{
-    if(!stripe) return res.status(500).send("Stripe non configuré.");
-    const secret = process.env.STRIPE_WEBHOOK_SECRET;
-    if(!secret) return res.status(500).send("STRIPE_WEBHOOK_SECRET manquant.");
+    const { plan="Pro" } = req.body || {};
+    const selected = getPlanByName(plan);
 
-    const sig = req.headers["stripe-signature"];
-    let event;
-
-    try{
-      event = stripe.webhooks.constructEvent(req.body, sig, secret);
-    }catch(err){
-      return res.status(400).send(`Webhook signature invalide: ${err.message}`);
+    if(selected.name === "Free"){
+      return res.json({ ok:true, message:"Free plan does not need checkout." });
     }
 
-    if(event.type === "checkout.session.completed"){
-      const session = event.data.object;
-      const userId = session.metadata?.userId;
-      const plan = session.metadata?.plan;
+    if(!stripe){
+      return res.status(400).json({
+        error:"Stripe is not configured. Add STRIPE_SECRET_KEY and price IDs in Vercel."
+      });
+    }
 
-      if(userId && plan && PLAN_LIMITS[plan]){
-        await supabase
-          .from("users")
-          .update({
-            plan,
-            credits: PLAN_LIMITS[plan].credits,
-            stripe_customer_id: session.customer
-          })
-          .eq("id", userId);
+    if(!selected.stripe_price_id){
+      return res.status(400).json({
+        error:`Stripe price ID missing for ${selected.name}.`
+      });
+    }
+
+    const appUrl = process.env.APP_URL || "https://ghostseller-ai.vercel.app";
+
+    const session = await stripe.checkout.sessions.create({
+      mode:"subscription",
+      customer_email:req.user.email,
+      line_items:[{
+        price:selected.stripe_price_id,
+        quantity:1
+      }],
+      success_url:`${appUrl}/?billing=success&plan=${selected.name}`,
+      cancel_url:`${appUrl}/?billing=cancel`,
+      metadata:{
+        user_id:req.user.id,
+        email:req.user.email,
+        plan:selected.name
       }
+    });
+
+    res.json({
+      ok:true,
+      url:session.url,
+      session_id:session.id
+    });
+  }catch(error){
+    res.status(500).json({ error:error.message || "Checkout failed." });
+  }
+});
+
+billingRouter.post("/activate-manual", requireAuth, async (req,res)=>{
+  try{
+    const { plan="Pro" } = req.body || {};
+    const selected = getPlanByName(plan);
+
+    if(!["owner","admin"].includes(req.user.role)){
+      return res.status(403).json({ error:"Owner/admin only." });
     }
 
-    res.json({received:true});
+    const { data, error } = await supabase
+      .from("users")
+      .update({
+        plan:selected.name,
+        credits:selected.credits,
+        max_projects:selected.projects,
+        max_posts:selected.posts,
+        max_leads:selected.leads,
+        updated_at:new Date().toISOString()
+      })
+      .eq("email", req.body.email || req.user.email)
+      .select()
+      .single();
+
+    if(error) return res.status(500).json({ error:error.message });
+
+    res.json({ ok:true, user:data });
   }catch(error){
-    res.status(500).send(error.message || "Erreur webhook.");
+    res.status(500).json({ error:error.message || "Plan activation failed." });
   }
 });

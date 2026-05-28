@@ -1,32 +1,51 @@
-# GhostSeller AI V70 STABILITY AND PRODUCTION HARDENING
+# GhostSeller AI V71 PRICING STRIPE PLANS CLEAN
 
-V70 prépare GhostSeller pour une vraie bêta stable.
+V71 prépare la partie commerciale.
 
 ## Ajouts
-- rate limiting,
-- gestion erreurs backend,
-- récupération erreurs frontend,
-- middleware sécurité,
-- base admin API,
-- variables production,
-- meilleure stabilité générale.
+- pricing page propre,
+- plans Free / Starter / Pro / Agency,
+- endpoint `/api/billing/plans`,
+- checkout Stripe structuré,
+- variables Stripe documentées,
+- table billing_events,
+- colonnes subscription user.
+
+## Variables Vercel à ajouter
+
+```txt
+STRIPE_SECRET_KEY
+STRIPE_WEBHOOK_SECRET
+STRIPE_PRICE_STARTER
+STRIPE_PRICE_PRO
+STRIPE_PRICE_AGENCY
+APP_URL
+```
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V70 Stability and Production Hardening"
+git commit -m "GhostSeller V71 Pricing Stripe Plans Clean"
 git push
+```
+
+## Supabase
+
+Exécute :
+```txt
+supabase/V71_PRICING_PLANS.sql
 ```
 
 ## Test
 
 ```txt
 /api/health
+/api/billing/plans
 ```
 
 Tu dois voir :
 ```txt
-GhostSeller AI V70 STABILITY AND PRODUCTION HARDENING
+GhostSeller AI V71 PRICING STRIPE PLANS CLEAN
 ```

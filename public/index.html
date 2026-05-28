@@ -722,38 +722,77 @@
   </div>
 </section>
 
+
 <section id="billing" class="page hidden">
+  <h1>Pricing & Subscription</h1>
+  <p class="muted">Choisis le plan adapté. Stripe sera utilisé pour les abonnements réels.</p>
 
+  <div class="pricing-grid" id="pricingGrid">
+    <div class="card plan">
+      <span class="badge">Free</span>
+      <h2>Free</h2>
+      <div class="price">0€</div>
+      <p>Pour tester GhostSeller.</p>
+      <ul>
+        <li>20 crédits</li>
+        <li>1 projet</li>
+        <li>10 posts IA</li>
+        <li>10 leads</li>
+      </ul>
+      <button class="secondary">Actif par défaut</button>
+    </div>
 
+    <div class="card plan">
+      <span class="badge">Starter</span>
+      <h2>Starter</h2>
+      <div class="price">9,99€</div>
+      <p>Pour lancer ses premières campagnes.</p>
+      <ul>
+        <li>300 crédits / mois</li>
+        <li>5 projets</li>
+        <li>100 posts IA</li>
+        <li>Ghost Brain</li>
+      </ul>
+      <button onclick="checkout('Starter')">Choisir Starter</button>
+    </div>
 
+    <div class="card plan pro">
+      <span class="badge">Popular</span>
+      <h2>Pro</h2>
+      <div class="price">29€</div>
+      <p>Pour entrepreneurs et créateurs sérieux.</p>
+      <ul>
+        <li>1200 crédits / mois</li>
+        <li>25 projets</li>
+        <li>Creative Director AI</li>
+        <li>AI CMO + Autopilot</li>
+      </ul>
+      <button onclick="checkout('Pro')">Choisir Pro</button>
+    </div>
 
+    <div class="card plan">
+      <span class="badge">Agency</span>
+      <h2>Agency</h2>
+      <div class="price">79€</div>
+      <p>Pour agences, freelances et clients multiples.</p>
+      <ul>
+        <li>5000 crédits / mois</li>
+        <li>100 projets</li>
+        <li>Multi-Agent Intelligence</li>
+        <li>Execution Engine</li>
+      </ul>
+      <button onclick="checkout('Agency')">Choisir Agency</button>
+    </div>
+  </div>
 
+  <div class="card">
+    <h2>Stripe status</h2>
+    <button onclick="loadPlans()">Vérifier les plans Stripe</button>
+    <div id="plansOut"></div>
+  </div>
+</section>
 
-
-
-
-
-
-
-
-      <h1>Abonnement</h1>
-      <div class="plans">
-        <div class="card plan">
-          <h2>Starter</h2>
-          <div class="price">9,99€</div>
-          <p>300 crédits / mois</p>
-          <button onclick="checkout('Starter')">Choisir Starter</button>
-        </div>
-        <div class="card plan pro">
-          <h2>Pro</h2>
-          <div class="price">29€</div>
-          <p>1200 crédits / mois</p>
-          <button onclick="checkout('Pro')">Choisir Pro</button>
-        </div>
-      </div>
-    </section>
-
-    <section id="waitlist" class="page hidden">
+<section id="waitlist" class="page hidden">
       <h1>Waitlist</h1>
       <div class="card">
         <p>Les prospects collectés depuis la landing sont stockés dans Supabase.</p>
