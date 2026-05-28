@@ -1,22 +1,23 @@
-# GhostSeller AI V65 PERSISTENT AUTONOMOUS MEMORY
+# GhostSeller AI V66 SELF IMPROVING AI SYSTEM
 
-V65 ajoute l'apprentissage durable du Brain.
+V66 ajoute une IA qui commence à améliorer ses propres performances.
 
 ## Ajouts
-- mémoire comportementale,
-- apprentissage niches performantes,
-- apprentissage hooks performants,
-- ranking campagnes,
-- mémoire utilisateur longue durée,
-- recommandations basées sur résultats passés,
-- accumulation d'expérience IA.
+- auto-évaluation des contenus,
+- détection automatique des faiblesses,
+- amélioration hooks,
+- amélioration CTA,
+- A/B testing engine,
+- optimization cycles,
+- recommandations basées sur Persistent Memory,
+- self-improvement loops.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V65 Persistent Autonomous Memory"
+git commit -m "GhostSeller V66 Self Improving AI System"
 git push
 ```
 
@@ -24,7 +25,7 @@ git push
 
 Exécute :
 ```txt
-supabase/V65_PERSISTENT_MEMORY.sql
+supabase/V66_SELF_IMPROVING_AI.sql
 ```
 
 ## Test
@@ -35,5 +36,5 @@ supabase/V65_PERSISTENT_MEMORY.sql
 
 Tu dois voir :
 ```txt
-GhostSeller AI V65 PERSISTENT AUTONOMOUS MEMORY
+GhostSeller AI V66 SELF IMPROVING AI SYSTEM
 ```

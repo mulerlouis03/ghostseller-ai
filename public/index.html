@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GhostSeller AI V65</title>
+<title>GhostSeller AI V66</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -74,6 +74,7 @@
     <button onclick="show('unifiedBrain'); loadUnifiedBrain()">🧬 Unified Brain</button>
     <button onclick="show('execution'); loadWorkflows()">⚙️ Execution Engine</button>
     <button onclick="show('memory'); loadMemoryInsights()">🧠 Persistent Memory</button>
+    <button onclick="show('optimize')">🔁 Self Improve</button>
     <button onclick="show('billing')">💳 Abonnement</button>
     <button onclick="show('waitlist')">📩 Waitlist</button>
     <button onclick="show('launch')">🚀 Launch Center</button>
@@ -648,7 +649,49 @@
   </div>
 </section>
 
+
+<section id="optimize" class="page hidden">
+  <h1>Self Improving AI System</h1>
+  <p class="muted">L’IA évalue, détecte les faiblesses, améliore les hooks/CTA, compare les variantes et apprend de ses cycles.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Evaluate Content</h2>
+      <input id="optHook" placeholder="Hook">
+      <input id="optCTA" placeholder="CTA">
+      <input id="optPlatform" placeholder="Platform" value="TikTok">
+      <input id="optNiche" placeholder="Niche" value="business">
+      <input id="optStrategy" placeholder="Strategy">
+      <button onclick="evaluateContent()">Evaluate</button>
+      <div id="evalOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Improve Automatically</h2>
+      <button onclick="improveContent()">Generate improvements</button>
+      <div id="improveOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>A/B Testing Engine</h2>
+      <textarea id="abVariants" placeholder="Write variants, one per line"></textarea>
+      <button onclick="runABTest()">Run A/B test</button>
+      <div id="abOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Optimization Cycles</h2>
+      <button onclick="loadOptimizationCycles()">Load cycles</button>
+      <button onclick="loadOptimizationRecommendations()">AI Recommendations</button>
+      <div id="cyclesOut"></div>
+    </div>
+  </div>
+</section>
+
 <section id="billing" class="page hidden">
+
 
 
 

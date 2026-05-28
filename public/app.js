@@ -1014,3 +1014,84 @@ async function loadMemoryTimeline(){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+
+async function evaluateContent(){
+  const out = qs("evalOut");
+  out.innerHTML = "Evaluating...";
+
+  try{
+    const data = await api("/api/optimization/evaluate","POST",{
+      hook: val("optHook"),
+      cta: val("optCTA"),
+      platform: val("optPlatform"),
+      niche: val("optNiche"),
+      strategy: val("optStrategy")
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.evaluation,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function improveContent(){
+  const out = qs("improveOut");
+  out.innerHTML = "Improving...";
+
+  try{
+    const data = await api("/api/optimization/improve","POST",{
+      hook: val("optHook"),
+      cta: val("optCTA"),
+      platform: val("optPlatform"),
+      niche: val("optNiche")
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.improvements,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function runABTest(){
+  const out = qs("abOut");
+  out.innerHTML = "Running A/B test...";
+
+  const variants = val("abVariants").split("\\n").map(x=>x.trim()).filter(Boolean);
+
+  try{
+    const data = await api("/api/optimization/ab-test","POST",{
+      variants,
+      platform: val("optPlatform"),
+      niche: val("optNiche")
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.test,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadOptimizationCycles(){
+  const out = qs("cyclesOut");
+  out.innerHTML = "Loading cycles...";
+
+  try{
+    const data = await api("/api/optimization/cycles");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadOptimizationRecommendations(){
+  const out = qs("cyclesOut");
+  out.innerHTML = "Loading recommendations...";
+
+  try{
+    const data = await api("/api/optimization/recommendations");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.recommendations,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
