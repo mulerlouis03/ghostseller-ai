@@ -4,12 +4,13 @@ export const healthRouter = express.Router();
 
 healthRouter.get("/", (req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V55 CREATIVE DIRECTOR AI",
-  phase:"Creative Director Engine",
-  creativeDirectorAI:true,
-  multiStyleGeneration:true,
-  cinematicScripts:true,
-  reelsGenerator:true,
-  adConceptEngine:true,
-  videoPromptReady:true
+  version:"GhostSeller AI V56 AUTO VIDEO PIPELINE",
+  phase:"Video Production Pipeline",
+  autoVideoPipeline:true,
+  storyboard:true,
+  videoPrompts:true,
+  voiceDirection:true,
+  subtitleTiming:true,
+  creatorExport:true,
+  oneClickReelFoundation:true
 }));

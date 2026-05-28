@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v55-creative-director-ai",
-  "version": "55.0.0",
+  "name": "ghostseller-ai-v56-auto-video-pipeline",
+  "version": "56.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

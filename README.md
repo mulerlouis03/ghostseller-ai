@@ -1,27 +1,23 @@
-# GhostSeller AI V55 CREATIVE DIRECTOR AI
+# GhostSeller AI V56 AUTO VIDEO PIPELINE
 
-V55 transforme GhostSeller en directeur créatif IA.
+V56 prépare la production vidéo complète.
 
 ## Ajouts
-- description libre des pubs/reels,
-- analyse créative,
-- plusieurs styles IA,
-- sélection de style,
-- génération cinématique,
-- scènes,
-- transitions,
-- musique,
-- sous-titres,
-- prompts vidéo,
-- CTA,
-- structure TikTok/Reels/Instagram.
+- storyboard vidéo,
+- prompts Runway / Pika / Kling,
+- direction voix IA,
+- direction musicale,
+- sous-titres dynamiques,
+- notes de montage,
+- export pack créateur,
+- fondation du futur 1-click reel generator.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V55 Creative Director AI"
+git commit -m "GhostSeller V56 Auto Video Pipeline"
 git push
 ```
 
@@ -34,5 +30,5 @@ git push
 Tu dois voir :
 
 ```txt
-GhostSeller AI V55 CREATIVE DIRECTOR AI
+GhostSeller AI V56 AUTO VIDEO PIPELINE
 ```

@@ -396,3 +396,63 @@ async function generateCreative(){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+
+async function generateVideoPipeline(){
+  const out = qs("videoResult");
+  out.innerHTML = "<div class='card'>Generating video pipeline...</div>";
+
+  try{
+    const data = await api("/api/video/pipeline","POST",{
+      idea: val("videoIdea"),
+      platform: val("videoPlatform"),
+      style: val("videoStyle"),
+      audience: val("videoAudience"),
+      goal: val("videoGoal"),
+      duration: val("videoDuration") || 30
+    }, false);
+
+    const r = data.result;
+
+    out.innerHTML = `
+      <div class="card">
+        <span class="badge">${esc(r.platform)} • ${esc(r.format)}</span>
+        <h2>${esc(r.production_summary)}</h2>
+
+        <div class="item">
+          <h3>Storyboard</h3>
+          <pre>${esc(JSON.stringify(r.storyboard,null,2))}</pre>
+        </div>
+
+        <div class="grid2">
+          <div class="item">
+            <h3>Voice Direction</h3>
+            <pre>${esc(JSON.stringify(r.voice_direction,null,2))}</pre>
+          </div>
+
+          <div class="item">
+            <h3>Music Direction</h3>
+            <pre>${esc(JSON.stringify(r.music_direction,null,2))}</pre>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>Subtitles</h3>
+          <pre>${esc(JSON.stringify(r.subtitles,null,2))}</pre>
+        </div>
+
+        <div class="item">
+          <h3>Editing Notes</h3>
+          <pre>${esc(JSON.stringify(r.editing_notes,null,2))}</pre>
+        </div>
+
+        <div class="item">
+          <h3>Export Pack</h3>
+          <pre>${esc(JSON.stringify(r.export_pack,null,2))}</pre>
+        </div>
+      </div>
+    `;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
