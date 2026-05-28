@@ -1,31 +1,42 @@
-# GhostSeller AI V57 ULTRA PREMIUM CYBER UI
+# GhostSeller AI V58 AUTOPILOT GROWTH AGENT
 
-V57 refait le vrai projet avec un design cyber premium :
-- login futuriste,
-- fond néon bleu/violet,
-- glassmorphism,
-- ambiance tech,
-- dashboard premium,
-- landing cyber,
-- cartes et boutons plus modernes.
+V58 ajoute un agent de croissance interne.
+
+## Ce qu'il fait
+- plan d'acquisition,
+- campagnes d'auto-promotion,
+- messages DM,
+- posts pour promouvoir GhostSeller,
+- scoring prospects,
+- actions quotidiennes,
+- plan de lancement 7 jours.
+
+## Important
+Il ne scrape pas encore les réseaux automatiquement.
+Les APIs TikTok/Meta/LinkedIn restent en pause jusqu'à connexion officielle.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V57 Ultra Premium Cyber UI"
+git commit -m "GhostSeller V58 Autopilot Growth Agent"
 git push
 ```
 
-## Test
+## Supabase
 
+Exécute :
+```txt
+supabase/V58_GROWTH_AGENT.sql
+```
+
+## Test
 ```txt
 /api/health
 ```
 
 Tu dois voir :
-
 ```txt
-GhostSeller AI V57 ULTRA PREMIUM CYBER UI
+GhostSeller AI V58 AUTOPILOT GROWTH AGENT
 ```

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GhostSeller AI V57</title>
+<title>GhostSeller AI V58</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -67,6 +67,7 @@
     <button onclick="show('brain'); loadBrain()">🧠 Ghost Brain</button>
     <button onclick="show('creative')">🎬 Creative Director</button>
     <button onclick="show('video')">🎥 Auto Video Pipeline</button>
+    <button onclick="show('growth')">🚀 Growth Agent</button>
     <button onclick="show('billing')">💳 Abonnement</button>
     <button onclick="show('waitlist')">📩 Waitlist</button>
     <button onclick="show('launch')">🚀 Launch Center</button>
@@ -278,7 +279,42 @@
   </div>
 </section>
 
+
+<section id="growth" class="page hidden">
+  <h1>Autopilot Growth Agent</h1>
+  <p class="muted">L'agent de croissance prépare les campagnes d'acquisition, les posts d'auto-promotion, les messages DM et les actions quotidiennes.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Build Growth Plan</h2>
+      <input id="growthProduct" placeholder="Product name" value="GhostSeller AI">
+      <input id="growthTarget" placeholder="Target users" value="entrepreneurs, creators and small businesses">
+      <input id="growthGoal" placeholder="Goal" value="get first users">
+      <input id="growthMarket" placeholder="Market" value="global">
+      <button onclick="buildGrowthPlan()">Generate growth plan</button>
+    </div>
+
+    <div class="card">
+      <h2>Prospect Score</h2>
+      <input id="prospectBusiness" placeholder="Business">
+      <input id="prospectAudience" placeholder="Audience">
+      <input id="prospectActivity" placeholder="Activity / social profile notes">
+      <button onclick="scoreProspect()">Score prospect</button>
+      <div id="prospectOut"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Daily Growth Actions</h2>
+    <button onclick="loadDailyGrowth()">Load today actions</button>
+    <div id="dailyGrowthOut"></div>
+  </div>
+
+  <div id="growthPlanOut"></div>
+</section>
+
 <section id="billing" class="page hidden">
+
 
 
 

@@ -456,3 +456,60 @@ async function generateVideoPipeline(){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+
+async function buildGrowthPlan(){
+  const out = qs("growthPlanOut");
+  out.innerHTML = "<div class='card'>Building growth plan...</div>";
+
+  try{
+    const data = await api("/api/growth/plan","POST",{
+      product: val("growthProduct"),
+      target: val("growthTarget"),
+      goal: val("growthGoal"),
+      market: val("growthMarket")
+    });
+
+    out.innerHTML = `
+      <div class="card">
+        <span class="badge">Autopilot Growth Plan</span>
+        <h2>${esc(data.plan.positioning)}</h2>
+        <div class="item"><h3>Best Channels</h3><pre>${esc(JSON.stringify(data.plan.best_channels,null,2))}</pre></div>
+        <div class="item"><h3>Campaign Angles</h3><pre>${esc(JSON.stringify(data.plan.campaign_angles,null,2))}</pre></div>
+        <div class="item"><h3>7-Day Launch Plan</h3><pre>${esc(JSON.stringify(data.plan.seven_day_launch_plan,null,2))}</pre></div>
+        <div class="item"><h3>DM Templates</h3><pre>${esc(JSON.stringify(data.plan.dm_templates,null,2))}</pre></div>
+        <div class="item"><h3>Self-Promo Posts</h3><pre>${esc(JSON.stringify(data.plan.self_promo_posts,null,2))}</pre></div>
+      </div>
+    `;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadDailyGrowth(){
+  const out = qs("dailyGrowthOut");
+  out.innerHTML = "Loading...";
+
+  try{
+    const data = await api("/api/growth/daily");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function scoreProspect(){
+  const out = qs("prospectOut");
+  out.innerHTML = "Scoring...";
+
+  try{
+    const data = await api("/api/growth/prospect-score","POST",{
+      business: val("prospectBusiness"),
+      audience: val("prospectAudience"),
+      activity: val("prospectActivity")
+    });
+    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
