@@ -1,22 +1,27 @@
-# GhostSeller AI V50 CLEAN STABLE REBUILD
+# GhostSeller AI V51 ONBOARDING ACCESS LIMITS
 
-Version de stabilisation.
-
-Objectif :
-- arrêter les patchs cassés,
-- reconstruire un frontend propre,
-- garder Auth V46,
-- dashboard stable,
-- landing stable,
-- Meta en pause.
+V51 ajoute :
+- onboarding utilisateur,
+- accès limité propre,
+- limites Free / Starter / Pro,
+- lancement contrôlé,
+- Meta toujours en pause.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V50 Clean Stable Rebuild"
+git commit -m "GhostSeller V51 Onboarding Access Limits"
 git push
+```
+
+## Après déploiement
+
+Exécute dans Supabase SQL Editor :
+
+```txt
+supabase/V51_OWNER_AND_LIMITS.sql
 ```
 
 ## Test
@@ -28,5 +33,5 @@ git push
 Tu dois voir :
 
 ```txt
-GhostSeller AI V50 CLEAN STABLE REBUILD
+GhostSeller AI V51 ONBOARDING ACCESS LIMITS
 ```

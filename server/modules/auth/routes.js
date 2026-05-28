@@ -20,7 +20,7 @@ async function getPublicUserByEmail(email){
   return data || null;
 }
 
-async function ensurePublicUser({ id, name, email, password, role="user", plan="Free", credits=20 }){
+async function ensurePublicUser({ id, name, email, password, role="user", plan="Free", credits=20, access_status="approved", onboarding_completed=false }){
   const existing = await getPublicUserByEmail(email);
   const password_hash = password ? await bcrypt.hash(password, 10) : existing?.password_hash;
 
@@ -29,7 +29,9 @@ async function ensurePublicUser({ id, name, email, password, role="user", plan="
       name: existing.name || name || "Utilisateur",
       role: existing.role || role,
       plan: existing.plan || plan,
-      credits: existing.credits ?? credits
+      credits: existing.credits ?? credits,
+      access_status: existing.access_status || access_status || "approved",
+      onboarding_completed: existing.onboarding_completed ?? onboarding_completed ?? false
     };
 
     if(password_hash) update.password_hash = password_hash;
@@ -52,7 +54,9 @@ async function ensurePublicUser({ id, name, email, password, role="user", plan="
     password_hash,
     plan,
     credits,
-    role
+    role,
+    access_status,
+    onboarding_completed
   };
 
   const { data, error } = await supabase
@@ -113,7 +117,9 @@ authRouter.post("/register", async (req,res)=>{
       password,
       role:"user",
       plan:"Free",
-      credits:20
+      credits:20,
+      access_status:"approved",
+      onboarding_completed:false
     });
 
     res.json({ token: tokenFor(user), user: safeUser(user) });

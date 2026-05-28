@@ -53,3 +53,21 @@ create index if not exists idx_waitlist_email
 on waitlist(email);
 
 create index if not exists idx_users_plan on users(plan);
+
+
+-- V51 Onboarding + controlled access
+alter table users add column if not exists access_status text default 'approved';
+alter table users add column if not exists onboarding_completed boolean default false;
+alter table users add column if not exists business_type text default '';
+alter table users add column if not exists main_goal text default '';
+alter table users add column if not exists main_platform text default '';
+alter table users add column if not exists max_projects integer default 1;
+alter table users add column if not exists max_posts integer default 10;
+alter table users add column if not exists max_leads integer default 10;
+
+create index if not exists idx_users_access_status on users(access_status);
+create index if not exists idx_users_onboarding_completed on users(onboarding_completed);
+
+update users
+set access_status='approved'
+where access_status is null;

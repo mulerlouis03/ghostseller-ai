@@ -90,7 +90,8 @@ async function showApp(){
   }catch(e){}
 
   updateUserUI();
-  show("dashboard");
+  if(!currentUser?.onboarding_completed && !["owner","admin"].includes(currentUser?.role || "user")) show("onboarding");
+  else show("dashboard");
 }
 
 function updateUserUI(){
@@ -185,3 +186,27 @@ async function loadHealth(){
     }
   }
 })();
+
+
+async function completeOnboarding(){
+  const out = qs("onboardingMsg");
+  out.className = "msg";
+  out.textContent = "Sauvegarde...";
+
+  try{
+    const data = await api("/api/onboarding/complete","POST",{
+      business_type: val("businessType"),
+      main_goal: val("mainGoal"),
+      main_platform: val("mainPlatform")
+    });
+
+    currentUser = data.user || currentUser;
+    out.className = "msg good";
+    out.textContent = "Onboarding terminé.";
+    updateUserUI();
+    setTimeout(()=>show("dashboard"),600);
+  }catch(e){
+    out.className = "msg bad";
+    out.textContent = e.message;
+  }
+}

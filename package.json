@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v50-clean-stable-rebuild",
-  "version": "50.0.0",
+  "name": "ghostseller-ai-v51-onboarding-access-limits",
+  "version": "51.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

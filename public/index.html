@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GhostSeller AI V50</title>
+<title>GhostSeller AI V51</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -31,7 +31,7 @@
     </div>
 
     <div class="auth-card">
-      <span class="badge">V50 Clean Stable</span>
+      <span class="badge">V51 Access Control</span>
       <h2>Connexion</h2>
 
       <input id="name" placeholder="Nom complet">
@@ -56,11 +56,12 @@
       <img src="/ghostseller-logo.png" alt="GhostSeller AI" onerror="this.style.display='none'">
       <div>
         <b>GhostSeller AI</b>
-        <small>V50 Stable</small>
+        <small>V51 Launch</small>
       </div>
     </div>
 
     <button onclick="show('dashboard')">🏠 Dashboard</button>
+    <button onclick="show('onboarding')">🧭 Onboarding</button>
     <button onclick="show('content')">🧠 AI Content</button>
     <button onclick="show('billing')">💳 Abonnement</button>
     <button onclick="show('waitlist')">📩 Waitlist</button>
@@ -80,7 +81,49 @@
       <a class="public-link" href="/landing" target="_blank">Voir landing</a>
     </section>
 
+    
+    <section id="onboarding" class="page hidden">
+      <h1>Onboarding</h1>
+      <div class="card">
+        <span class="badge">Étape 1</span>
+        <h2>Configure ton objectif business</h2>
+        <p>Ces informations permettent à GhostSeller de mieux générer ton contenu.</p>
+
+        <select id="businessType">
+          <option value="">Type de business</option>
+          <option value="Recharge mobile">Recharge mobile</option>
+          <option value="E-commerce">E-commerce</option>
+          <option value="Beauté / Salon">Beauté / Salon</option>
+          <option value="Coaching">Coaching</option>
+          <option value="Immobilier">Immobilier</option>
+          <option value="Service local">Service local</option>
+          <option value="Autre">Autre</option>
+        </select>
+
+        <select id="mainGoal">
+          <option value="">Objectif principal</option>
+          <option value="Obtenir des leads WhatsApp">Obtenir des leads WhatsApp</option>
+          <option value="Créer du contenu viral">Créer du contenu viral</option>
+          <option value="Vendre plus">Vendre plus</option>
+          <option value="Construire une audience">Construire une audience</option>
+        </select>
+
+        <select id="mainPlatform">
+          <option value="">Plateforme principale</option>
+          <option value="TikTok">TikTok</option>
+          <option value="Instagram">Instagram</option>
+          <option value="Facebook">Facebook</option>
+          <option value="LinkedIn">LinkedIn</option>
+          <option value="WhatsApp">WhatsApp</option>
+        </select>
+
+        <button onclick="completeOnboarding()">Terminer onboarding</button>
+        <div id="onboardingMsg"></div>
+      </div>
+    </section>
+
     <section id="dashboard" class="page">
+
       <div class="stats">
         <div class="stat"><span id="statPlan">Free</span><p>Plan</p></div>
         <div class="stat"><span id="statCredits">0</span><p>Crédits</p></div>
