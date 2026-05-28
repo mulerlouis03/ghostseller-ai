@@ -1,24 +1,22 @@
-# GhostSeller AI V84 REVENUE EMAIL AUTOMATION STABLE
+# GhostSeller AI V85 STRIPE PAYMENTS LIVE STABLE
 
-Basé sur V83 validé + correctif unifiedBrain.
+## Variables Vercel
+STRIPE_SECRET_KEY
+STRIPE_WEBHOOK_SECRET
+STRIPE_PRICE_STARTER
+STRIPE_PRICE_PRO
+STRIPE_PRICE_AGENCY
+APP_URL
 
-## Push branche test
-```bash
-git checkout -b v84-test
+## Webhook URL
+/api/stripe-live/webhook
+
+## Push test
+git checkout -b v85-test
 npm install
 git add .
-git commit -m "GhostSeller V84 Revenue Email Automation"
-git push -u origin v84-test
-```
+git commit -m "GhostSeller V85 Stripe Payments Live"
+git push -u origin v85-test
 
 ## Supabase
-Exécute :
-```txt
-supabase/V84_REVENUE_EMAIL_AUTOMATION.sql
-```
-
-## Test
-```txt
-/api/health
-/api/revenue-automation/status
-```
+supabase/V85_STRIPE_PAYMENTS_LIVE.sql

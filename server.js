@@ -1,6 +1,7 @@
 import { basicRateLimit } from "./server/middleware/rateLimit.js";
 import { errorHandler } from "./server/middleware/errorHandler.js";
 import express from "express";
+import { stripeLiveWebhookRouter } from "./server/routes/stripeLiveWebhook.js";
 import { stripeWebhookRouter } from "./server/routes/stripeWebhook.js";
 import dotenv from "dotenv";
 import path from "path";
@@ -39,6 +40,7 @@ import { launchpadRouter } from "./server/modules/launchpad/routes.js";
 import { tiktokRouter } from "./server/modules/tiktok/routes.js";
 import { acquisitionRouter } from "./server/modules/acquisition/routes.js";
 import { revenueAutomationRouter } from "./server/modules/revenueAutomation/routes.js";
+import { stripeLiveRouter } from "./server/modules/stripeLive/routes.js";
 import { metaRouter } from "./server/modules/meta/routes.js";
 import { contentRouter } from "./server/modules/content/routes.js";
 import { waitlistRouter } from "./server/modules/waitlist/routes.js";
@@ -49,6 +51,8 @@ import { brainRouter } from "./server/modules/brain/routes.js";
 import { creativeRouter } from "./server/modules/creative/routes.js";
 dotenv.config();
 const app = express();
+
+app.use("/api/stripe-live/webhook", stripeLiveWebhookRouter);
 
 app.use("/api/stripe/webhook", stripeWebhookRouter);
 
@@ -100,6 +104,7 @@ app.use("/api/launchpad", launchpadRouter);
 app.use("/api/tiktok", tiktokRouter);
 app.use("/api/acquisition", acquisitionRouter);
 app.use("/api/revenue-automation", revenueAutomationRouter);
+app.use("/api/stripe-live", stripeLiveRouter);
 app.use("/api/meta", metaRouter);
 app.use("/api/content", contentRouter);
 app.use("/api/waitlist", waitlistRouter);

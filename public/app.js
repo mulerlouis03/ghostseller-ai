@@ -1881,3 +1881,23 @@ async function loadRevenueAutomationLogs(){
   try{ const data=await api("/api/revenue-automation/logs"); out.innerHTML=`<pre>${esc(JSON.stringify(data.logs,null,2))}</pre>`; }
   catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
 }
+
+async function loadStripeLiveStatus(){
+  const out=qs("stripeLiveStatusOut"); out.innerHTML="Loading Stripe Live status...";
+  try{ const data=await api("/api/stripe-live/status"); out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`; }
+  catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+async function startStripeLiveCheckout(){
+  const out=qs("stripeLiveCheckoutOut"); out.innerHTML="Starting Stripe checkout...";
+  try{ const data=await api("/api/stripe-live/checkout","POST",{plan:val("stripeLivePlan")}); if(data.url) location.href=data.url; else out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`; }
+  catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+async function openStripePortal(){
+  try{ const data=await api("/api/stripe-live/portal","POST",{}); if(data.url) location.href=data.url; else alert("Portal unavailable."); }
+  catch(e){ alert(e.message); }
+}
+async function loadStripeLiveEvents(){
+  const out=qs("stripeLiveEventsOut"); out.innerHTML="Loading events...";
+  try{ const data=await api("/api/stripe-live/events"); out.innerHTML=`<pre>${esc(JSON.stringify(data.events,null,2))}</pre>`; }
+  catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}

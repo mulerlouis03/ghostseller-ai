@@ -69,6 +69,7 @@
     <button onclick="show('tiktokEngine'); loadTikTokStatus()">🎵 TikTok Engine</button>
 <button onclick="show('acquisition'); loadAcquisitionStats()">🚀 Acquisition</button>
 <button onclick="show('revenueAutomation'); loadRevenueAutomationStatus()">💸 Revenue Automation</button>
+<button onclick="show('stripeLive'); loadStripeLiveStatus()">💳 Stripe Live</button>
     <button onclick="show('agents'); loadAgentsDashboard()">🤖 AI Agents</button>
     <button onclick="show('publicBeta'); loadBetaLaunchChecklist()">🚀 Public Beta</button>
     <button onclick="show('adminPro'); loadAdminOverview()">👑 Admin Pro</button>
@@ -513,7 +514,7 @@
 
     <div class="card">
       <h2>Go Live Note</h2>
-      <textarea id="goLiveNote" placeholder="Note de lancement">GhostSeller AI V84 is ready for public launch.</textarea>
+      <textarea id="goLiveNote" placeholder="Note de lancement">GhostSeller AI V85 is ready for public launch.</textarea>
       <button onclick="saveGoLiveNote()">Save go-live note</button>
       <div id="goLiveOut"></div>
     </div>
@@ -613,6 +614,25 @@
 </div>
 </div>
 <div class="card"><h2>Revenue Logs</h2><button onclick="loadRevenueAutomationLogs()">Load logs</button><div id="revenueLogsOut"></div></div>
+</section>
+
+<section id="stripeLive" class="page hidden">
+<h1>Stripe Live Payments</h1>
+<div class="grid2">
+<div class="card">
+<h2>Status</h2>
+<button onclick="loadStripeLiveStatus()">Check Stripe Live</button>
+<button onclick="openStripePortal()">Customer Portal</button>
+<div id="stripeLiveStatusOut"></div>
+</div>
+<div class="card">
+<h2>Checkout</h2>
+<select id="stripeLivePlan"><option>Starter</option><option>Pro</option><option>Agency</option></select>
+<button onclick="startStripeLiveCheckout()">Start Checkout</button>
+<div id="stripeLiveCheckoutOut"></div>
+</div>
+</div>
+<div class="card"><h2>Billing Events</h2><button onclick="loadStripeLiveEvents()">Load events</button><div id="stripeLiveEventsOut"></div></div>
 </section>
 <section id="content" class="page hidden">
 
