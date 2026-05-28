@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GhostSeller AI V51</title>
+<title>GhostSeller AI V52</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -31,7 +31,7 @@
     </div>
 
     <div class="auth-card">
-      <span class="badge">V51 Access Control</span>
+      <span class="badge">V52 Access Control</span>
       <h2>Connexion</h2>
 
       <input id="name" placeholder="Nom complet">
@@ -56,13 +56,14 @@
       <img src="/ghostseller-logo.png" alt="GhostSeller AI" onerror="this.style.display='none'">
       <div>
         <b>GhostSeller AI</b>
-        <small>V51 Launch</small>
+        <small>V52 Launch</small>
       </div>
     </div>
 
     <button onclick="show('dashboard')">🏠 Dashboard</button>
     <button onclick="show('onboarding')">🧭 Onboarding</button>
     <button onclick="show('content')">🧠 AI Content</button>
+    <button onclick="show('niches')">🌍 Niches IA</button>
     <button onclick="show('billing')">💳 Abonnement</button>
     <button onclick="show('waitlist')">📩 Waitlist</button>
     <button onclick="show('launch')">🚀 Launch Center</button>
@@ -149,7 +150,7 @@
     <section id="content" class="page hidden">
       <h1>AI Content Engine</h1>
       <div class="card">
-        <input id="contentNiche" placeholder="Niche : recharge Haïti, beauté, coaching...">
+        <input id="contentNiche" placeholder="Niche : business, beauté, coaching...">
         <select id="contentPlatform">
           <option value="TikTok">TikTok</option>
           <option value="Instagram">Instagram</option>
@@ -168,7 +169,32 @@
       <div id="contentOut"></div>
     </section>
 
-    <section id="billing" class="page hidden">
+    
+<section id="niches" class="page hidden">
+  <h1>Global Niches AI</h1>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Global business niches</h2>
+      <button onclick="loadNiches()">Charger niches</button>
+      <div id="nichesOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Détection automatique</h2>
+
+      <input id="detectBusiness" placeholder="Business">
+      <input id="detectKeywords" placeholder="Mots-clés">
+
+      <button onclick="detectNiche()">Détecter niche</button>
+
+      <div id="detectOut"></div>
+    </div>
+  </div>
+</section>
+
+<section id="billing" class="page hidden">
+
       <h1>Abonnement</h1>
       <div class="plans">
         <div class="card plan">

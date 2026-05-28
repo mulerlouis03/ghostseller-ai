@@ -1,27 +1,21 @@
-# GhostSeller AI V51 ONBOARDING ACCESS LIMITS
+# GhostSeller AI V52 GLOBAL AI NICHES
 
-V51 ajoute :
-- onboarding utilisateur,
-- accès limité propre,
-- limites Free / Starter / Pro,
-- lancement contrôlé,
-- Meta toujours en pause.
+V52 transforme GhostSeller en plateforme mondiale.
+
+## Ajouts
+- branding global,
+- suppression références trop locales,
+- module niches IA,
+- détection automatique niches business,
+- dashboard plus international.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V51 Onboarding Access Limits"
+git commit -m "GhostSeller V52 Global AI Niches"
 git push
-```
-
-## Après déploiement
-
-Exécute dans Supabase SQL Editor :
-
-```txt
-supabase/V51_OWNER_AND_LIMITS.sql
 ```
 
 ## Test
@@ -33,5 +27,5 @@ supabase/V51_OWNER_AND_LIMITS.sql
 Tu dois voir :
 
 ```txt
-GhostSeller AI V51 ONBOARDING ACCESS LIMITS
+GhostSeller AI V52 GLOBAL AI NICHES
 ```

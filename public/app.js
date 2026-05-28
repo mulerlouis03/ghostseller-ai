@@ -210,3 +210,41 @@ async function completeOnboarding(){
     out.textContent = e.message;
   }
 }
+
+
+async function loadNiches(){
+  const out = qs("nichesOut");
+  out.innerHTML = "<div class='card'>Chargement...</div>";
+
+  try{
+    const data = await api("/api/niches/global","GET",null,false);
+
+    out.innerHTML = `
+      <div class="card">
+        <pre>${esc(JSON.stringify(data,null,2))}</pre>
+      </div>
+    `;
+  }catch(e){
+    out.innerHTML = `<div class="card error">${esc(e.message)}</div>`;
+  }
+}
+
+async function detectNiche(){
+  const out = qs("detectOut");
+  out.innerHTML = "<div class='card'>Analyse...</div>";
+
+  try{
+    const data = await api("/api/niches/detect","POST",{
+      business: val("detectBusiness"),
+      keywords: val("detectKeywords")
+    }, false);
+
+    out.innerHTML = `
+      <div class="card">
+        <pre>${esc(JSON.stringify(data,null,2))}</pre>
+      </div>
+    `;
+  }catch(e){
+    out.innerHTML = `<div class="card error">${esc(e.message)}</div>`;
+  }
+}
