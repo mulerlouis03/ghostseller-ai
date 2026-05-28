@@ -1,34 +1,24 @@
-# GhostSeller AI V82 AI AGENTS SYSTEM
+# GhostSeller AI V84 REVENUE EMAIL AUTOMATION STABLE
 
-## Ajouts
-- AI Agents Command Center,
-- Content Agent,
-- Growth Agent,
-- Trend Agent,
-- Conversion Agent,
-- TikTok Agent,
-- Persistent missions,
-- Agent memory.
+Basé sur V83 validé + correctif unifiedBrain.
 
-## Push
-
+## Push branche test
 ```bash
+git checkout -b v84-test
 npm install
 git add .
-git commit -m "GhostSeller V82 AI Agents System"
-git push
+git commit -m "GhostSeller V84 Revenue Email Automation"
+git push -u origin v84-test
 ```
 
 ## Supabase
-
 Exécute :
 ```txt
-supabase/V82_AI_AGENTS.sql
+supabase/V84_REVENUE_EMAIL_AUTOMATION.sql
 ```
 
 ## Test
-
 ```txt
 /api/health
-/api/agents/dashboard
+/api/revenue-automation/status
 ```

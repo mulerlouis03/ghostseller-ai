@@ -1855,3 +1855,29 @@ async function loadPlans(){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+async function loadRevenueAutomationStatus(){
+  const out=qs("revenueAutomationOut"); out.innerHTML="Loading...";
+  try{ const data=await api("/api/revenue-automation/status"); out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`; }
+  catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+async function startTrial(){
+  const out=qs("revenueAutomationOut"); out.innerHTML="Starting trial...";
+  try{ const data=await api("/api/revenue-automation/trial-start","POST",{plan:"Starter"}); out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`; }
+  catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+async function sendUpgradeEmail(){
+  const out=qs("revenueAutomationOut"); out.innerHTML="Sending...";
+  try{ const data=await api("/api/revenue-automation/send-upgrade-email","POST",{plan:"Pro"}); out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`; }
+  catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+async function activateRevenuePlan(){
+  const out=qs("activatePlanOut"); out.innerHTML="Activating...";
+  try{ const data=await api("/api/revenue-automation/activate-plan","POST",{email:val("raEmail"),plan:val("raPlan")}); out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`; }
+  catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+async function loadRevenueAutomationLogs(){
+  const out=qs("revenueLogsOut"); out.innerHTML="Loading...";
+  try{ const data=await api("/api/revenue-automation/logs"); out.innerHTML=`<pre>${esc(JSON.stringify(data.logs,null,2))}</pre>`; }
+  catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
