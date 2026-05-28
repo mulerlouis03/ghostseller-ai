@@ -1,98 +1,176 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>GhostSeller AI V49</title><link rel="stylesheet" href="/style.css"/><link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="/favicon.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#020617">
-</head><body>
-<div id="auth" class="auth"><div class="login-card"><div class="badge">V49 • VISUAL FIX PRO</div><h1>GhostSeller AI</h1><p>Transforme TikTok en clients WhatsApp avec IA.</p><input id="name" placeholder="Nom complet"><input id="email" placeholder="Email"><input id="password" type="password" placeholder="Mot de passe"><div class="row"><button onclick="login()">Connexion</button><button class="secondary" onclick="register()">Créer un compte</button></div><button class="link" onclick="resetPassword()">Mot de passe oublié ?</button></div></div>
-<div id="app" class="app hidden"><aside class="sidebar"><div class="brand"><img class="logo-img" src="/ghostseller-logo.png" alt="GhostSeller AI"><div><h2>GhostSeller</h2><small>AI SaaS V49</small></div></div>
-<button onclick="show('dashboard')">🏠 Dashboard</button><button onclick="show('projects')">📁 Projets</button><button onclick="show('tiktok')">🎬 TikTok Engine</button><button onclick="show('trends')">📈 Trend Scanner</button><button onclick="show('leads'); loadLeads()">💬 WhatsApp Leads</button><button onclick="show('autopilot'); loadAutopilot()">🤖 Autopilot</button><button onclick="show('content')">🧠 AI Content Engine</button><button onclick="show('waitlistInfo')">📩 Waitlist</button><button onclick="show('instagram'); loadInstagramStatus()">📸 Instagram Connect</button><button onclick="show('billing'); loadBilling()">💳 Abonnement</button><button onclick="show('admin')">🛠 Admin</button><button onclick="show('system'); health()">⚙️ Système</button><button onclick="show('security'); loadSecurity()">🔐 Sécurité</button><button onclick="show('launch'); loadLaunchAnalytics()">🚀 Launch Center</button><button class="danger" onclick="logout()">Déconnexion</button></aside>
-<main class="main">
-<section id="dashboard"><div class="hero"><div><div class="badge">GhostSeller AI V49</div><h1>Business Command Center Monétisé</h1><p id="welcome" class="muted"></p><p class="muted">Plateforme sécurisée • Stripe connecté • IA marketing • Launch Center</p></div><button onclick="health()">Tester API</button></div><div class="stats"><div class="stat"><span id="projectsCount">0</span><p>Projets</p></div><div class="stat"><span id="postsCount">0</span><p>Posts TikTok</p></div><div class="stat"><span id="leadsCount">0</span><p>Leads WhatsApp</p></div><div class="stat"><span id="videosCount">0</span><p>Vidéos</p></div></div><div class="card"><h2>Créer un projet</h2><input id="projectName" placeholder="Ex: Recharge Haïti"><input id="projectDescription" placeholder="Description du projet"><button onclick="createProject()">Créer projet</button></div><div class="grid2"><div class="card"><h3>🎬 TikTok Engine</h3><p>Génère hooks, scripts, captions et hashtags.</p></div><div class="card"><h3>📈 Trend Scanner</h3><p>Trouve des tendances par niche.</p></div><div class="card"><h3>💬 WhatsApp Leads</h3><p>Réponses IA et suivi prospects.</p></div><div class="card"><h3>🤖 Autopilot</h3><p>Plan TikTok → WhatsApp → clients.</p></div></div></section>
-<section id="projects" class="hidden"><h1>Projets</h1><div id="projectList"></div></section>
-<section id="tiktok" class="hidden"><h1>TikTok Engine</h1><p class="muted">Génère des posts TikTok prêts à publier.</p><div class="card"><select id="tiktokProject"></select><input id="tiktokProduct" placeholder="Produit / service : Recharge Digicel Haïti"><input id="tiktokAudience" placeholder="Audience : diaspora haïtienne en France"><input id="tiktokOffer" placeholder="Offre : recharge dès 5€"><select id="tiktokDays"><option value="3">3 posts</option><option value="7" selected>7 posts</option><option value="14">14 posts</option></select><select id="tiktokStyle"><option>TikTok viral vendeur</option><option>Storytelling émotionnel</option><option>Humour rapide</option><option>Urgence / offre limitée</option><option>UGC naturel</option></select><button id="tiktokBtn" onclick="generateTikTok()">Générer posts TikTok</button></div><div id="tiktokOutput"></div></section>
-<section id="trends" class="hidden"><h1>Trend Scanner</h1><p class="muted">Trouve des tendances exploitables pour TikTok.</p><div class="card"><input id="trendNiche" placeholder="Niche : recharge Haïti, football, beauté..."><input id="trendCountry" placeholder="Pays/marché : France, Haïti, Canada..."><input id="trendAudience" placeholder="Audience : diaspora haïtienne, entrepreneurs..."><input id="trendGoal" placeholder="Objectif : leads WhatsApp, ventes, followers..."><button id="trendBtn" onclick="scanTrends()">Scanner les tendances</button></div><div id="trendOutput"></div></section>
-<section id="leads" class="hidden"><h1>WhatsApp Leads</h1><p class="muted">Ajoute un prospect, génère une réponse IA et ouvre WhatsApp.</p><div class="card"><select id="leadProject"></select><input id="leadName" placeholder="Nom client : Jean"><input id="leadPhone" placeholder="Téléphone avec indicatif : 33600000000"><input id="leadProduct" placeholder="Produit demandé : Recharge Digicel"><input id="leadMessage" placeholder="Message reçu : Salut, c'est disponible ?"><button id="leadBtn" onclick="addLead()">Ajouter lead + réponse IA</button></div><div id="leadOutput"></div></section>
-<section id="autopilot" class="hidden"><h1>Autopilot</h1><p class="muted">Crée une campagne TikTok → WhatsApp → clients en un clic.</p><div class="card"><select id="autoProject"></select><input id="autoProduct" placeholder="Produit : Recharge Digicel Haïti"><input id="autoAudience" placeholder="Audience : diaspora haïtienne en France"><input id="autoOffer" placeholder="Offre : recharge dès 5€"><input id="autoCountry" placeholder="Pays/marché : France, Haïti, Canada"><input id="autoObjective" placeholder="Objectif : ventes WhatsApp"><button id="autoBtn" onclick="buildAutopilot()">Créer campagne Autopilot</button></div><div id="autoOutput"></div></section>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GhostSeller AI V50</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
 
-<section id="instagram" class="hidden">
-<h1>Instagram Connect</h1>
-<p class="muted">Connecte GhostSeller à Meta/Instagram officiellement avant la publication automatique.</p>
-<div class="card">
-<h2>Statut Meta</h2>
-<pre id="instagramStatus">Chargement...</pre>
-<button onclick="connectInstagram()">Connecter Instagram</button>
-<button class="secondary" onclick="loadInstagramStatus()">Rafraîchir</button>
-<button class="danger" onclick="disconnectInstagram()">Déconnecter</button>
+<div id="authView" class="auth-page">
+  <div class="auth-shell">
+    <div class="auth-left">
+      <div class="brand-line">
+        <img src="/ghostseller-logo.png" alt="GhostSeller AI" onerror="this.style.display='none'">
+        <span>GhostSeller AI</span>
+      </div>
+
+      <h1>Transforme ton contenu en clients.</h1>
+      <p>
+        Plateforme IA marketing pour générer hooks TikTok, posts Instagram,
+        messages WhatsApp, leads et campagnes.
+      </p>
+
+      <div class="trust-grid">
+        <div><b>Stripe</b><span>Paiements prêts</span></div>
+        <div><b>OpenAI</b><span>IA connectée</span></div>
+        <div><b>Supabase</b><span>Auth stable</span></div>
+      </div>
+    </div>
+
+    <div class="auth-card">
+      <span class="badge">V50 Clean Stable</span>
+      <h2>Connexion</h2>
+
+      <input id="name" placeholder="Nom complet">
+      <input id="email" placeholder="Email">
+      <input id="password" type="password" placeholder="Mot de passe">
+
+      <div class="auth-actions">
+        <button onclick="login()">Connexion</button>
+        <button class="secondary" onclick="register()">Créer un compte</button>
+      </div>
+
+      <button class="link" onclick="forgotPassword()">Mot de passe oublié ?</button>
+
+      <div id="authMsg"></div>
+    </div>
+  </div>
 </div>
-<div class="card"><h2>Prépare V40</h2><p>✅ Login Meta officiel</p><p>✅ Instagram Business Account</p><p>✅ Page Facebook liée</p><p>✅ Base pour publication automatique</p></div>
-</section>
 
-<section id="content" class="hidden">
-  <h1>AI Content Engine V40</h1>
-  <p class="muted">Génère hooks, captions, scripts, hashtags, post Instagram et message WhatsApp.</p>
-  <div class="card">
-    <input id="contentNiche" placeholder="Niche : recharge Haïti, beauté, fitness, immobilier...">
-    <select id="contentPlatform">
-      <option value="TikTok">TikTok</option>
-      <option value="Instagram">Instagram</option>
-      <option value="WhatsApp">WhatsApp</option>
-      <option value="Multi-plateforme">Multi-plateforme</option>
-    </select>
-    <select id="contentTone">
-      <option value="viral">Viral</option>
-      <option value="professionnel">Professionnel</option>
-      <option value="émotionnel">Émotionnel</option>
-      <option value="humour">Humour</option>
-      <option value="premium">Premium</option>
-    </select>
-    <input id="contentGoal" placeholder="Objectif : leads WhatsApp, ventes, abonnés...">
-    <button id="contentBtn" onclick="generateAIContent()">Générer contenu IA</button>
-  </div>
-  <div id="contentResult"></div>
-</section>
+<div id="appView" class="app hidden">
+  <aside class="sidebar">
+    <div class="side-brand">
+      <img src="/ghostseller-logo.png" alt="GhostSeller AI" onerror="this.style.display='none'">
+      <div>
+        <b>GhostSeller AI</b>
+        <small>V50 Stable</small>
+      </div>
+    </div>
 
+    <button onclick="show('dashboard')">🏠 Dashboard</button>
+    <button onclick="show('content')">🧠 AI Content</button>
+    <button onclick="show('billing')">💳 Abonnement</button>
+    <button onclick="show('waitlist')">📩 Waitlist</button>
+    <button onclick="show('launch')">🚀 Launch Center</button>
+    <button onclick="show('security')">🔐 Sécurité</button>
+    <button onclick="show('system')">⚙️ Système</button>
+    <button onclick="logout()" class="logout">Déconnexion</button>
+  </aside>
 
-<section id="waitlistInfo" class="hidden">
-  <h1>Waitlist V41</h1>
-  <p class="muted">La landing peut maintenant collecter les emails des premiers prospects.</p>
-  <div class="card">
-    <h2>Lien à partager</h2>
-    <pre>https://ghostseller-ai.vercel.app/landing</pre>
-    <p>Les inscriptions sont sauvegardées dans Supabase → table waitlist.</p>
-  </div>
-</section>
+  <main class="main">
+    <section class="topbar">
+      <div>
+        <span class="badge">Clean Rebuild</span>
+        <h1>Business Command Center</h1>
+        <p id="userLine">Chargement...</p>
+      </div>
+      <a class="public-link" href="/landing" target="_blank">Voir landing</a>
+    </section>
 
-<section id="billing" class="hidden"><h1>Abonnement</h1><p class="muted">Plans SaaS + crédits + limites par abonnement.</p><div id="billingStatus" class="card"></div><div id="plans" class="plans"></div></section>
-<section id="admin" class="hidden"><h1>Admin</h1><p class="muted">Accessible si ton rôle Supabase est admin.</p><button onclick="loadAdmin()">Charger stats admin</button><pre id="adminOut"></pre><button onclick="loadUsers()">Charger utilisateurs</button><div id="usersList"></div></section>
-<section id="system" class="hidden"><h1>Système</h1><button onclick="health()">Tester API</button><pre id="healthOut"></pre></section>
+    <section id="dashboard" class="page">
+      <div class="stats">
+        <div class="stat"><span id="statPlan">Free</span><p>Plan</p></div>
+        <div class="stat"><span id="statCredits">0</span><p>Crédits</p></div>
+        <div class="stat"><span id="statRole">user</span><p>Rôle</p></div>
+        <div class="stat"><span id="statStatus">stable</span><p>Status</p></div>
+      </div>
 
-<section id="security" class="hidden">
-  <h1>Sécurité V42</h1>
-  <p class="muted">Vérifie ton rôle propriétaire et l'état de sécurité.</p>
-  <div class="card">
-    <button onclick="loadSecurity()">Vérifier sécurité</button>
-    <pre id="securityOut"></pre>
-  </div>
-</section>
+      <div class="grid2">
+        <div class="card">
+          <h2>Objectif lancement</h2>
+          <p>Créer une base stable : connexion, dashboard, Stripe, IA, waitlist et analytics.</p>
+          <button onclick="show('content')">Créer du contenu IA</button>
+        </div>
 
+        <div class="card">
+          <h2>Meta / Instagram</h2>
+          <p>Connexion automatique mise en pause jusqu’à validation Meta Developer. Aucun blocage pour lancer GhostSeller.</p>
+          <span class="status paused">En attente</span>
+        </div>
+      </div>
+    </section>
 
-<section id="launch" class="hidden">
- <h1>Launch Center V44</h1>
- <p class="muted">Pilotage lancement : utilisateurs, waitlist, revenus estimés, checklist.</p>
- <div class="stats">
-  <div class="stat"><span id="launchUsers">0</span><p>Utilisateurs</p></div>
-  <div class="stat"><span id="launchPaid">0</span><p>Clients payants</p></div>
-  <div class="stat"><span id="launchMRR">0€</span><p>MRR estimé</p></div>
-  <div class="stat"><span id="launchWaitlist">0</span><p>Waitlist</p></div>
- </div>
- <div class="grid2">
-  <div class="card"><h2>Checklist lancement</h2><pre id="launchChecklist">Chargement...</pre></div>
-  <div class="card"><h2>Résumé business</h2><pre id="launchSummary">Chargement...</pre></div>
- </div>
- <div class="grid2">
-  <div class="card"><h2>Derniers utilisateurs</h2><div id="launchUsersList"></div></div>
-  <div class="card"><h2>Derniers prospects waitlist</h2><div id="launchWaitlistList"></div></div>
- </div>
- <button onclick="loadLaunchAnalytics()">Rafraîchir</button>
-</section>
-</main></div><script src="/app.js"></script></body></html>
+    <section id="content" class="page hidden">
+      <h1>AI Content Engine</h1>
+      <div class="card">
+        <input id="contentNiche" placeholder="Niche : recharge Haïti, beauté, coaching...">
+        <select id="contentPlatform">
+          <option value="TikTok">TikTok</option>
+          <option value="Instagram">Instagram</option>
+          <option value="WhatsApp">WhatsApp</option>
+          <option value="Multi-plateforme">Multi-plateforme</option>
+        </select>
+        <select id="contentTone">
+          <option value="viral">Viral</option>
+          <option value="professionnel">Professionnel</option>
+          <option value="premium">Premium</option>
+          <option value="humour">Humour</option>
+        </select>
+        <input id="contentGoal" placeholder="Objectif : leads WhatsApp, ventes, abonnés...">
+        <button onclick="generateContent()">Générer</button>
+      </div>
+      <div id="contentOut"></div>
+    </section>
+
+    <section id="billing" class="page hidden">
+      <h1>Abonnement</h1>
+      <div class="plans">
+        <div class="card plan">
+          <h2>Starter</h2>
+          <div class="price">9,99€</div>
+          <p>300 crédits / mois</p>
+          <button onclick="checkout('Starter')">Choisir Starter</button>
+        </div>
+        <div class="card plan pro">
+          <h2>Pro</h2>
+          <div class="price">29€</div>
+          <p>1200 crédits / mois</p>
+          <button onclick="checkout('Pro')">Choisir Pro</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="waitlist" class="page hidden">
+      <h1>Waitlist</h1>
+      <div class="card">
+        <p>Les prospects collectés depuis la landing sont stockés dans Supabase.</p>
+        <a class="public-link" href="/landing#waitlist" target="_blank">Ouvrir formulaire public</a>
+      </div>
+    </section>
+
+    <section id="launch" class="page hidden">
+      <h1>Launch Center</h1>
+      <div id="launchOut" class="card">Clique pour charger les analytics.</div>
+      <button onclick="loadLaunch()">Charger Launch Center</button>
+    </section>
+
+    <section id="security" class="page hidden">
+      <h1>Sécurité</h1>
+      <div id="securityOut" class="card">Clique pour vérifier.</div>
+      <button onclick="loadSecurity()">Vérifier sécurité</button>
+    </section>
+
+    <section id="system" class="page hidden">
+      <h1>Système</h1>
+      <div id="healthOut" class="card">Clique pour tester l’API.</div>
+      <button onclick="loadHealth()">Tester /api/health</button>
+    </section>
+  </main>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

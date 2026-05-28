@@ -1,18 +1,21 @@
-# GhostSeller AI V49 VISUAL FIX PRO
+# GhostSeller AI V50 CLEAN STABLE REBUILD
 
-V49 corrige le problème visuel :
-- landing avec CSS intégré directement dans le HTML,
-- design business clair et premium,
-- plus de dépendance fragile au fichier CSS pour la landing,
-- dashboard éclairci,
-- garde Auth V46, Stripe, Supabase, waitlist, analytics.
+Version de stabilisation.
+
+Objectif :
+- arrêter les patchs cassés,
+- reconstruire un frontend propre,
+- garder Auth V46,
+- dashboard stable,
+- landing stable,
+- Meta en pause.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V49 Visual Fix Pro"
+git commit -m "GhostSeller V50 Clean Stable Rebuild"
 git push
 ```
 
@@ -25,10 +28,5 @@ git push
 Tu dois voir :
 
 ```txt
-GhostSeller AI V49 VISUAL FIX PRO
-```
-
-Landing :
-```txt
-/landing
+GhostSeller AI V50 CLEAN STABLE REBUILD
 ```
