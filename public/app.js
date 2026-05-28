@@ -668,66 +668,158 @@ async function loadNextActions(){
 }
 
 
+async function loadConnectors(){
+  const out = qs("connectorsOut");
+  out.innerHTML = "Loading connectors...";
+
+  try{
+    const data = await api("/api/connectors/status");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.connectors,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function queueExternalAction(){
+  const out = qs("actionOut");
+  out.innerHTML = "Queueing...";
+
+  let payload = { notes: val("actionPayload") };
+
+  try{
+    const data = await api("/api/connectors/action","POST",{
+      connector: val("actionConnector"),
+      action: val("actionName") || "draft",
+      payload
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadExternalActions(){
+  const out = qs("logsOut");
+  out.innerHTML = "Loading actions...";
+
+  try{
+    const data = await api("/api/connectors/actions");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.actions,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function createSchedule(){
+  const out = qs("scheduleOut");
+  out.innerHTML = "Creating schedule...";
+
+  try{
+    const data = await api("/api/connectors/schedule","POST",{
+      title: val("scheduleTitle"),
+      connector: val("scheduleConnector"),
+      frequency: val("scheduleFrequency"),
+      task:{ note:"scheduled by GhostSeller" }
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.schedule,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadSchedules(){
+  const out = qs("logsOut");
+  out.innerHTML = "Loading schedules...";
+
+  try{
+    const data = await api("/api/connectors/schedules");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.schedules,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+
 async function loadAgents(){
-  const out = qs("agentsListOut");
-  out.innerHTML = "Loading agents...";
-
-  try{
-    const data = await api("/api/agents/list");
-    out.innerHTML = `<pre>${esc(JSON.stringify(data.agents,null,2))}</pre>`;
-  }catch(e){
-    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
-  }
+  const out = qs("agentsListOut"); out.innerHTML = "Loading agents...";
+  try{ const data = await api("/api/agents/list"); out.innerHTML = `<pre>${esc(JSON.stringify(data.agents,null,2))}</pre>`; }
+  catch(e){ out.innerHTML = `<p class="error">${esc(e.message)}</p>`; }
 }
-
 async function orchestrateAgent(){
-  const out = qs("orchestratorOut");
-  out.innerHTML = "Thinking...";
-
-  try{
-    const data = await api("/api/agents/orchestrate","POST",{
-      task: val("agentTask"),
-      context:{
-        user: currentUser?.email || ""
-      }
-    });
-
-    out.innerHTML = `
-      <div class="item">
-        <span class="badge">${esc(data.selected_agent)}</span>
-        <pre>${esc(JSON.stringify(data.result,null,2))}</pre>
-      </div>
-    `;
-  }catch(e){
-    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
-  }
+  const out = qs("orchestratorOut"); out.innerHTML = "Thinking...";
+  try{ const data = await api("/api/agents/orchestrate","POST",{task:val("agentTask"),context:{user:currentUser?.email||""}}); out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`; }
+  catch(e){ out.innerHTML = `<p class="error">${esc(e.message)}</p>`; }
 }
-
 async function runAgentTeam(){
-  const out = qs("teamOut");
-  out.innerHTML = "Running full agent team...";
+  const out = qs("teamOut"); out.innerHTML = "Running...";
+  try{ const data = await api("/api/agents/team","POST",{objective:val("teamObjective"),context:{product:"GhostSeller AI",market:"global"}}); out.innerHTML = `<pre>${esc(JSON.stringify(data.team_plan,null,2))}</pre>`; }
+  catch(e){ out.innerHTML = `<p class="error">${esc(e.message)}</p>`; }
+}
+async function loadAgentRuns(){
+  const out = qs("agentRunsOut"); out.innerHTML = "Loading...";
+  try{ const data = await api("/api/agents/runs"); out.innerHTML = `<pre>${esc(JSON.stringify(data.runs,null,2))}</pre>`; }
+  catch(e){ out.innerHTML = `<p class="error">${esc(e.message)}</p>`; }
+}
+
+
+async function loadUnifiedBrain(){
+  const out = qs("ubOverviewOut");
+  out.innerHTML = "Loading Unified Brain...";
 
   try{
-    const data = await api("/api/agents/team","POST",{
-      objective: val("teamObjective"),
-      context:{
-        product:"GhostSeller AI",
-        market:"global"
-      }
-    });
+    const data = await api("/api/brain/unified/overview");
+    const b = data.brain || {};
 
-    out.innerHTML = `<pre>${esc(JSON.stringify(data.team_plan,null,2))}</pre>`;
+    qs("ubScore").textContent = b.score ?? 0;
+    qs("ubContent").textContent = b.summary?.total_content ?? 0;
+    qs("ubAgents").textContent = b.summary?.total_agent_runs ?? 0;
+    qs("ubStatus").textContent = b.status || "-";
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(b,null,2))}</pre>`;
   }catch(e){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
 
-async function loadAgentRuns(){
-  const out = qs("agentRunsOut");
-  out.innerHTML = "Loading...";
+async function unifiedBrainThink(){
+  const out = qs("ubThinkOut");
+  out.innerHTML = "Brain thinking...";
 
   try{
-    const data = await api("/api/agents/runs");
+    const data = await api("/api/brain/unified/think","POST",{
+      objective: val("ubObjective"),
+      context:{ user: currentUser?.email || "", product:"GhostSeller AI" }
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.decision,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function executeBrainPlan(){
+  const out = qs("ubExecuteOut");
+  out.innerHTML = "Queueing execution plan...";
+
+  try{
+    const data = await api("/api/brain/unified/execute-plan","POST",{
+      objective: val("ubExecuteObjective")
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadBrainRuns(){
+  const out = qs("ubRunsOut");
+  out.innerHTML = "Loading brain runs...";
+
+  try{
+    const data = await api("/api/brain/unified/runs");
     out.innerHTML = `<pre>${esc(JSON.stringify(data.runs,null,2))}</pre>`;
   }catch(e){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GhostSeller AI V61</title>
+<title>GhostSeller AI V63</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -70,7 +70,8 @@
     <button onclick="show('growth')">🚀 Growth Agent</button>
     <button onclick="show('os')">🧠 AI Operating System</button>
     <button onclick="show('cmo')">🧑‍💼 AI CMO</button>
-    <button onclick="show('agents'); loadAgents()">🧩 Multi-Agent</button>
+    <button onclick="show('apis'); loadConnectors()">🔌 External APIs</button>
+    <button onclick="show('unifiedBrain'); loadUnifiedBrain()">🧬 Unified Brain</button>
     <button onclick="show('billing')">💳 Abonnement</button>
     <button onclick="show('waitlist')">📩 Waitlist</button>
     <button onclick="show('launch')">🚀 Launch Center</button>
@@ -430,42 +431,122 @@
 </section>
 
 
-<section id="agents" class="page hidden">
-  <h1>Multi-Agent Intelligence</h1>
-  <p class="muted">GhostSeller utilise plusieurs agents spécialisés qui collaborent : Content, Growth, Sales, Analytics, Brand Strategy et Outreach.</p>
+<section id="apis" class="page hidden">
+  <h1>External APIs & Automation Layer</h1>
+  <p class="muted">Centre de connexion futur : Meta, TikTok, LinkedIn, WhatsApp, webhooks, scheduler et actions externes.</p>
 
   <div class="grid2">
     <div class="card">
-      <h2>Agent Team</h2>
-      <button onclick="loadAgents()">Load agents</button>
-      <div id="agentsListOut"></div>
+      <h2>Connector Status</h2>
+      <button onclick="loadConnectors()">Refresh connectors</button>
+      <div id="connectorsOut"></div>
     </div>
 
     <div class="card">
-      <h2>Master Orchestrator</h2>
-      <textarea id="agentTask" placeholder="Describe what you want GhostSeller to solve..."></textarea>
-      <button onclick="orchestrateAgent()">Choose best agent</button>
-      <div id="orchestratorOut"></div>
+      <h2>Queue External Action</h2>
+      <select id="actionConnector">
+        <option value="meta">Meta / Instagram</option>
+        <option value="tiktok">TikTok</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="whatsapp">WhatsApp</option>
+        <option value="manual">Manual</option>
+      </select>
+      <input id="actionName" placeholder="Action, ex: publish_draft">
+      <textarea id="actionPayload" placeholder='Payload JSON or notes'></textarea>
+      <button onclick="queueExternalAction()">Queue action</button>
+      <div id="actionOut"></div>
     </div>
   </div>
 
   <div class="grid2">
     <div class="card">
-      <h2>Run Full Agent Team</h2>
-      <input id="teamObjective" placeholder="Objective" value="Launch and grow GhostSeller globally">
-      <button onclick="runAgentTeam()">Run multi-agent team</button>
-      <div id="teamOut"></div>
+      <h2>Agent Scheduler</h2>
+      <input id="scheduleTitle" placeholder="Schedule title">
+      <select id="scheduleConnector">
+        <option value="manual">Manual</option>
+        <option value="meta">Meta</option>
+        <option value="tiktok">TikTok</option>
+        <option value="linkedin">LinkedIn</option>
+        <option value="whatsapp">WhatsApp</option>
+      </select>
+      <select id="scheduleFrequency">
+        <option value="daily">daily</option>
+        <option value="weekly">weekly</option>
+        <option value="monthly">monthly</option>
+      </select>
+      <button onclick="createSchedule()">Create schedule</button>
+      <div id="scheduleOut"></div>
     </div>
 
     <div class="card">
-      <h2>Agent Memory</h2>
-      <button onclick="loadAgentRuns()">Load agent runs</button>
-      <div id="agentRunsOut"></div>
+      <h2>Automation Logs</h2>
+      <button onclick="loadExternalActions()">Load actions</button>
+      <button onclick="loadSchedules()">Load schedules</button>
+      <div id="logsOut"></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="agents" class="page hidden">
+  <h1>Multi-Agent Intelligence</h1>
+  <p class="muted">Agents spécialisés : Content, Growth, Sales, Analytics, Brand Strategy et Outreach.</p>
+  <div class="grid2">
+    <div class="card"><h2>Agent Team</h2><button onclick="loadAgents()">Load agents</button><div id="agentsListOut"></div></div>
+    <div class="card"><h2>Master Orchestrator</h2><textarea id="agentTask" placeholder="Describe the task..."></textarea><button onclick="orchestrateAgent()">Choose best agent</button><div id="orchestratorOut"></div></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h2>Run Full Team</h2><input id="teamObjective" placeholder="Objective" value="Launch and grow globally"><button onclick="runAgentTeam()">Run team</button><div id="teamOut"></div></div>
+    <div class="card"><h2>Agent Memory</h2><button onclick="loadAgentRuns()">Load runs</button><div id="agentRunsOut"></div></div>
+  </div>
+</section>
+
+
+<section id="unifiedBrain" class="page hidden">
+  <h1>Unified AI Brain</h1>
+  <p class="muted">Le cerveau central relie Ghost Brain, Multi-Agent, Growth, AI CMO, Analytics et Automation Layer.</p>
+
+  <div class="stats">
+    <div class="stat"><span id="ubScore">0</span><p>Brain Score</p></div>
+    <div class="stat"><span id="ubContent">0</span><p>Content Memory</p></div>
+    <div class="stat"><span id="ubAgents">0</span><p>Agent Runs</p></div>
+    <div class="stat"><span id="ubStatus">-</span><p>Status</p></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Brain Overview</h2>
+      <button onclick="loadUnifiedBrain()">Refresh Brain</button>
+      <div id="ubOverviewOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Think With Brain</h2>
+      <textarea id="ubObjective" placeholder="What should GhostSeller solve?"></textarea>
+      <button onclick="unifiedBrainThink()">Think</button>
+      <div id="ubThinkOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Execute Brain Plan</h2>
+      <input id="ubExecuteObjective" placeholder="Objective" value="Run today's growth system">
+      <button onclick="executeBrainPlan()">Queue execution plan</button>
+      <div id="ubExecuteOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Brain Runs</h2>
+      <button onclick="loadBrainRuns()">Load brain runs</button>
+      <div id="ubRunsOut"></div>
     </div>
   </div>
 </section>
 
 <section id="billing" class="page hidden">
+
+
 
 
 

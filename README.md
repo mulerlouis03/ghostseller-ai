@@ -1,29 +1,23 @@
-# GhostSeller AI V61 MULTI AGENT INTELLIGENCE
+# GhostSeller AI V63 UNIFIED AI BRAIN
 
-V61 ajoute l'architecture multi-agents.
+V63 fusionne les agents, la mémoire, le Growth Agent, l'AI CMO et l'automation layer dans un cerveau central.
 
-## Agents ajoutés
-- Content Agent
-- Growth Agent
-- Sales Agent
-- Analytics Agent
-- Brand Strategy Agent
-- Outreach Agent
-- Master Orchestrator
-
-## Fonctionnalités
-- liste des agents,
-- choix automatique du meilleur agent,
-- exécution d'une équipe complète,
-- mémoire des runs agents,
-- base du futur système IA collaboratif.
+## Ajouts
+- Unified AI Brain,
+- Master Orchestrator central,
+- fusion mémoire Ghost Brain + Agent Runs + Goals + Growth Plans + Actions,
+- score de cerveau,
+- priorisation intelligente,
+- Think endpoint,
+- Execute Brain Plan,
+- historique des décisions du Brain.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V61 Multi Agent Intelligence"
+git commit -m "GhostSeller V63 Unified AI Brain"
 git push
 ```
 
@@ -31,7 +25,7 @@ git push
 
 Exécute :
 ```txt
-supabase/V61_MULTI_AGENT.sql
+supabase/V63_UNIFIED_AI_BRAIN.sql
 ```
 
 ## Test
@@ -42,5 +36,5 @@ supabase/V61_MULTI_AGENT.sql
 
 Tu dois voir :
 ```txt
-GhostSeller AI V61 MULTI AGENT INTELLIGENCE
+GhostSeller AI V63 UNIFIED AI BRAIN
 ```
