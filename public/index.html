@@ -61,6 +61,7 @@
     </div>
 
     <button onclick="show('dashboard')">🏠 <span data-i18n="dashboard">Dashboard</span></button>
+    <button onclick="show('realAI'); loadAIStatus()">🤖 Real AI Engine</button>
     <button onclick="show('publicBeta'); loadBetaLaunchChecklist()">🚀 Public Beta</button>
     <button onclick="show('adminPro'); loadAdminOverview()">👑 Admin Pro</button>
     <button onclick="show('beta'); loadBetaChecklist()">✅ Beta Onboarding</button>
@@ -265,7 +266,7 @@
 
   <div class="stats">
     <div class="stat"><span id="betaReadyScore">0%</span><p>Beta Ready</p></div>
-    <div class="stat"><span>V75</span><p>Version</p></div>
+    <div class="stat"><span>V76</span><p>Version</p></div>
     <div class="stat"><span id="betaMode">-</span><p>Mode</p></div>
     <div class="stat"><span>Live</span><p>Status</p></div>
   </div>
@@ -312,7 +313,44 @@
   </div>
 </section>
 
+
+<section id="realAI" class="page hidden">
+  <h1>Real AI Engine</h1>
+  <p class="muted">Moteur IA réel avec OpenAI, mémoire utilisateur et fallback stable si la clé API est absente.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>AI Status</h2>
+      <button onclick="loadAIStatus()">Check AI status</button>
+      <div id="aiStatusOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Generate Real Campaign</h2>
+      <input id="aiNiche" placeholder="Niche" value="business">
+      <input id="aiPlatform" placeholder="Platform" value="TikTok">
+      <input id="aiGoal" placeholder="Goal" value="get more leads">
+      <select id="aiTone">
+        <option value="premium">premium</option>
+        <option value="viral">viral</option>
+        <option value="luxury">luxury</option>
+        <option value="direct">direct</option>
+      </select>
+      <button onclick="generateRealAI()">Generate with Real AI</button>
+      <div id="realAIOut"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Creative Directions</h2>
+    <textarea id="aiCreativeDescription" placeholder="Describe the reel, ad or campaign..."></textarea>
+    <button onclick="generateAIDirections()">Generate directions</button>
+    <div id="aiDirectionsOut"></div>
+  </div>
+</section>
+
 <section id="content" class="page hidden">
+
 
 
 

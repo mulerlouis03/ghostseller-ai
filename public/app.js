@@ -1436,3 +1436,56 @@ async function sendBetaInvite(){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+
+async function loadAIStatus(){
+  const out = qs("aiStatusOut");
+  if(!out) return;
+  out.innerHTML = "Checking AI status...";
+  try{
+    const data = await api("/api/ai/status");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function generateRealAI(){
+  const out = qs("realAIOut");
+  out.innerHTML = "Generating with Real AI Engine...";
+  try{
+    const data = await api("/api/ai/generate","POST",{
+      niche:val("aiNiche"),
+      platform:val("aiPlatform"),
+      goal:val("aiGoal"),
+      tone:val("aiTone"),
+      language:localStorage.getItem("ghostseller_language") || "fr"
+    });
+
+    out.innerHTML = `
+      <div class="item">
+        <span class="badge">${esc(data.provider || "ai")}</span>
+        <pre>${esc(JSON.stringify(data.result,null,2))}</pre>
+      </div>
+    `;
+    try{ loadUsage(); }catch(e){}
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function generateAIDirections(){
+  const out = qs("aiDirectionsOut");
+  out.innerHTML = "Generating creative directions...";
+  try{
+    const data = await api("/api/ai/creative-directions","POST",{
+      description:val("aiCreativeDescription"),
+      language:localStorage.getItem("ghostseller_language") || "fr"
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+    try{ loadUsage(); }catch(e){}
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}

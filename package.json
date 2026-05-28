@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v75-vercel-crash-hotfix",
-  "version": "75.1.0",
+  "name": "ghostseller-ai-v76-real-ai-engine-stable",
+  "version": "76.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
