@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GhostSeller AI V64</title>
+<title>GhostSeller AI V65</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -73,6 +73,7 @@
     <button onclick="show('apis'); loadConnectors()">🔌 External APIs</button>
     <button onclick="show('unifiedBrain'); loadUnifiedBrain()">🧬 Unified Brain</button>
     <button onclick="show('execution'); loadWorkflows()">⚙️ Execution Engine</button>
+    <button onclick="show('memory'); loadMemoryInsights()">🧠 Persistent Memory</button>
     <button onclick="show('billing')">💳 Abonnement</button>
     <button onclick="show('waitlist')">📩 Waitlist</button>
     <button onclick="show('launch')">🚀 Launch Center</button>
@@ -594,7 +595,61 @@
   </div>
 </section>
 
+
+<section id="memory" class="page hidden">
+  <h1>Persistent Autonomous Memory</h1>
+  <p class="muted">GhostSeller apprend durablement des hooks, niches, plateformes et campagnes qui performent le mieux.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Learn From Campaign</h2>
+
+      <input id="memNiche" placeholder="Niche" value="business">
+      <input id="memPlatform" placeholder="Platform" value="TikTok">
+      <input id="memHook" placeholder="Hook">
+      <input id="memCTA" placeholder="CTA">
+      <input id="memStrategy" placeholder="Strategy">
+      <input id="memCampaign" placeholder="Campaign name">
+
+      <input id="memEngagement" placeholder="Engagement" value="100">
+      <input id="memClicks" placeholder="Clicks" value="25">
+      <input id="memConversions" placeholder="Conversions" value="5">
+
+      <button onclick="learnMemory()">Learn campaign</button>
+
+      <div id="memoryLearnOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Memory Insights</h2>
+      <button onclick="loadMemoryInsights()">Load insights</button>
+      <button onclick="loadBestStrategies()">Best strategies</button>
+      <button onclick="loadRankedCampaigns()">Ranked campaigns</button>
+
+      <div id="memoryInsightsOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Autonomous Recommendation</h2>
+      <input id="memObjective" placeholder="Objective" value="grow faster">
+      <button onclick="loadMemoryRecommendation()">Recommend strategy</button>
+
+      <div id="memoryRecommendationOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Memory Timeline</h2>
+      <button onclick="loadMemoryTimeline()">Load timeline</button>
+
+      <div id="memoryTimelineOut"></div>
+    </div>
+  </div>
+</section>
+
 <section id="billing" class="page hidden">
+
 
 
 

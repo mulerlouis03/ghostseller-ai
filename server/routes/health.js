@@ -4,14 +4,14 @@ export const healthRouter = express.Router();
 
 healthRouter.get("/", (req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V64 AUTONOMOUS EXECUTION ENGINE",
-  phase:"Autonomous Workflow Execution",
-  autonomousExecution:true,
-  workflowEngine:true,
-  campaignRunners:true,
-  retrySystem:true,
-  executionLogs:true,
-  executionMonitoring:true,
-  brainToAction:true,
-  semiAutonomous:true
+  version:"GhostSeller AI V65 PERSISTENT AUTONOMOUS MEMORY",
+  phase:"Persistent Learning Intelligence",
+  persistentMemory:true,
+  strategyLearning:true,
+  hookLearning:true,
+  nicheLearning:true,
+  campaignRanking:true,
+  behavioralMemory:true,
+  longTermUserMemory:true,
+  autonomousExperienceAccumulation:true
 }));

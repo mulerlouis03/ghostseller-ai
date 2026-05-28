@@ -925,3 +925,92 @@ async function loadExecutionMonitor(){
     if(out) out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+
+async function learnMemory(){
+  const out = qs("memoryLearnOut");
+  out.innerHTML = "Learning...";
+
+  try{
+    const data = await api("/api/memory/learn","POST",{
+      niche: val("memNiche"),
+      platform: val("memPlatform"),
+      hook: val("memHook"),
+      cta: val("memCTA"),
+      strategy: val("memStrategy"),
+      campaign_name: val("memCampaign"),
+      metrics:{
+        engagement:Number(val("memEngagement") || 0),
+        clicks:Number(val("memClicks") || 0),
+        conversions:Number(val("memConversions") || 0)
+      }
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.memory,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadMemoryInsights(){
+  const out = qs("memoryInsightsOut");
+  out.innerHTML = "Loading insights...";
+
+  try{
+    const data = await api("/api/memory/insights");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.insights,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadBestStrategies(){
+  const out = qs("memoryInsightsOut");
+  out.innerHTML = "Loading best strategies...";
+
+  try{
+    const data = await api("/api/memory/best-strategies");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.best_strategies,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadRankedCampaigns(){
+  const out = qs("memoryInsightsOut");
+  out.innerHTML = "Loading ranked campaigns...";
+
+  try{
+    const data = await api("/api/memory/ranked-campaigns");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.ranked_campaigns,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadMemoryRecommendation(){
+  const out = qs("memoryRecommendationOut");
+  out.innerHTML = "Generating recommendation...";
+
+  try{
+    const data = await api("/api/memory/recommend","POST",{
+      objective: val("memObjective")
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.recommendation,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadMemoryTimeline(){
+  const out = qs("memoryTimelineOut");
+  out.innerHTML = "Loading timeline...";
+
+  try{
+    const data = await api("/api/memory/timeline");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.timeline,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}

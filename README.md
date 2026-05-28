@@ -1,22 +1,22 @@
-# GhostSeller AI V64 AUTONOMOUS EXECUTION ENGINE
+# GhostSeller AI V65 PERSISTENT AUTONOMOUS MEMORY
 
-V64 ajoute le moteur d'exécution semi-autonome.
+V65 ajoute l'apprentissage durable du Brain.
 
 ## Ajouts
-- workflow engine,
-- workflows IA exécutables,
-- run / retry,
-- execution logs,
-- campaign runners,
-- monitoring,
-- Brain-to-action foundation.
+- mémoire comportementale,
+- apprentissage niches performantes,
+- apprentissage hooks performants,
+- ranking campagnes,
+- mémoire utilisateur longue durée,
+- recommandations basées sur résultats passés,
+- accumulation d'expérience IA.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V64 Autonomous Execution Engine"
+git commit -m "GhostSeller V65 Persistent Autonomous Memory"
 git push
 ```
 
@@ -24,7 +24,7 @@ git push
 
 Exécute :
 ```txt
-supabase/V64_EXECUTION_ENGINE.sql
+supabase/V65_PERSISTENT_MEMORY.sql
 ```
 
 ## Test
@@ -35,5 +35,5 @@ supabase/V64_EXECUTION_ENGINE.sql
 
 Tu dois voir :
 ```txt
-GhostSeller AI V64 AUTONOMOUS EXECUTION ENGINE
+GhostSeller AI V65 PERSISTENT AUTONOMOUS MEMORY
 ```
