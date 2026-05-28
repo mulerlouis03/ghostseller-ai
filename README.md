@@ -1,27 +1,29 @@
-# GhostSeller AI V62 REAL APIS AUTOMATION LAYER
+# GhostSeller AI V61 MULTI AGENT INTELLIGENCE
 
-V62 prépare la couche d'automatisation externe.
+V61 ajoute l'architecture multi-agents.
 
-## Ajouts
-- Meta connector layer,
-- TikTok connector layer,
-- LinkedIn connector layer,
-- WhatsApp connector layer,
-- webhook center,
-- external actions queue,
-- agent scheduler,
-- automation logs.
+## Agents ajoutés
+- Content Agent
+- Growth Agent
+- Sales Agent
+- Analytics Agent
+- Brand Strategy Agent
+- Outreach Agent
+- Master Orchestrator
 
-## Important
-Cette version ne publie pas encore automatiquement sur les réseaux.
-Il faut les APIs officielles et les permissions avant exécution réelle.
+## Fonctionnalités
+- liste des agents,
+- choix automatique du meilleur agent,
+- exécution d'une équipe complète,
+- mémoire des runs agents,
+- base du futur système IA collaboratif.
 
 ## Push
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V62 Real APIs Automation Layer"
+git commit -m "GhostSeller V61 Multi Agent Intelligence"
 git push
 ```
 
@@ -29,7 +31,7 @@ git push
 
 Exécute :
 ```txt
-supabase/V62_EXTERNAL_AUTOMATION.sql
+supabase/V61_MULTI_AGENT.sql
 ```
 
 ## Test
@@ -40,5 +42,5 @@ supabase/V62_EXTERNAL_AUTOMATION.sql
 
 Tu dois voir :
 ```txt
-GhostSeller AI V62 REAL APIS AUTOMATION LAYER
+GhostSeller AI V61 MULTI AGENT INTELLIGENCE
 ```

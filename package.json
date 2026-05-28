@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v62-real-apis-automation-layer",
-  "version": "62.0.0",
+  "name": "ghostseller-ai-v61-multi-agent-intelligence",
+  "version": "61.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

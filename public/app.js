@@ -668,74 +668,67 @@ async function loadNextActions(){
 }
 
 
-async function loadConnectors(){
-  const out = qs("connectorsOut");
-  out.innerHTML = "Loading connectors...";
+async function loadAgents(){
+  const out = qs("agentsListOut");
+  out.innerHTML = "Loading agents...";
 
   try{
-    const data = await api("/api/connectors/status");
-    out.innerHTML = `<pre>${esc(JSON.stringify(data.connectors,null,2))}</pre>`;
+    const data = await api("/api/agents/list");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.agents,null,2))}</pre>`;
   }catch(e){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
 
-async function queueExternalAction(){
-  const out = qs("actionOut");
-  out.innerHTML = "Queueing...";
-
-  let payload = { notes: val("actionPayload") };
+async function orchestrateAgent(){
+  const out = qs("orchestratorOut");
+  out.innerHTML = "Thinking...";
 
   try{
-    const data = await api("/api/connectors/action","POST",{
-      connector: val("actionConnector"),
-      action: val("actionName") || "draft",
-      payload
+    const data = await api("/api/agents/orchestrate","POST",{
+      task: val("agentTask"),
+      context:{
+        user: currentUser?.email || ""
+      }
     });
 
-    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+    out.innerHTML = `
+      <div class="item">
+        <span class="badge">${esc(data.selected_agent)}</span>
+        <pre>${esc(JSON.stringify(data.result,null,2))}</pre>
+      </div>
+    `;
   }catch(e){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
 
-async function loadExternalActions(){
-  const out = qs("logsOut");
-  out.innerHTML = "Loading actions...";
+async function runAgentTeam(){
+  const out = qs("teamOut");
+  out.innerHTML = "Running full agent team...";
 
   try{
-    const data = await api("/api/connectors/actions");
-    out.innerHTML = `<pre>${esc(JSON.stringify(data.actions,null,2))}</pre>`;
-  }catch(e){
-    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
-  }
-}
-
-async function createSchedule(){
-  const out = qs("scheduleOut");
-  out.innerHTML = "Creating schedule...";
-
-  try{
-    const data = await api("/api/connectors/schedule","POST",{
-      title: val("scheduleTitle"),
-      connector: val("scheduleConnector"),
-      frequency: val("scheduleFrequency"),
-      task:{ note:"scheduled by GhostSeller" }
+    const data = await api("/api/agents/team","POST",{
+      objective: val("teamObjective"),
+      context:{
+        product:"GhostSeller AI",
+        market:"global"
+      }
     });
 
-    out.innerHTML = `<pre>${esc(JSON.stringify(data.schedule,null,2))}</pre>`;
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.team_plan,null,2))}</pre>`;
   }catch(e){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
 
-async function loadSchedules(){
-  const out = qs("logsOut");
-  out.innerHTML = "Loading schedules...";
+async function loadAgentRuns(){
+  const out = qs("agentRunsOut");
+  out.innerHTML = "Loading...";
 
   try{
-    const data = await api("/api/connectors/schedules");
-    out.innerHTML = `<pre>${esc(JSON.stringify(data.schedules,null,2))}</pre>`;
+    const data = await api("/api/agents/runs");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.runs,null,2))}</pre>`;
   }catch(e){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }

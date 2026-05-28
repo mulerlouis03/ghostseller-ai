@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GhostSeller AI V62</title>
+<title>GhostSeller AI V61</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/style.css">
 </head>
@@ -70,7 +70,7 @@
     <button onclick="show('growth')">🚀 Growth Agent</button>
     <button onclick="show('os')">🧠 AI Operating System</button>
     <button onclick="show('cmo')">🧑‍💼 AI CMO</button>
-    <button onclick="show('apis'); loadConnectors()">🔌 External APIs</button>
+    <button onclick="show('agents'); loadAgents()">🧩 Multi-Agent</button>
     <button onclick="show('billing')">💳 Abonnement</button>
     <button onclick="show('waitlist')">📩 Waitlist</button>
     <button onclick="show('launch')">🚀 Launch Center</button>
@@ -430,58 +430,37 @@
 </section>
 
 
-<section id="apis" class="page hidden">
-  <h1>External APIs & Automation Layer</h1>
-  <p class="muted">Centre de connexion futur : Meta, TikTok, LinkedIn, WhatsApp, webhooks, scheduler et actions externes.</p>
+<section id="agents" class="page hidden">
+  <h1>Multi-Agent Intelligence</h1>
+  <p class="muted">GhostSeller utilise plusieurs agents spécialisés qui collaborent : Content, Growth, Sales, Analytics, Brand Strategy et Outreach.</p>
 
   <div class="grid2">
     <div class="card">
-      <h2>Connector Status</h2>
-      <button onclick="loadConnectors()">Refresh connectors</button>
-      <div id="connectorsOut"></div>
+      <h2>Agent Team</h2>
+      <button onclick="loadAgents()">Load agents</button>
+      <div id="agentsListOut"></div>
     </div>
 
     <div class="card">
-      <h2>Queue External Action</h2>
-      <select id="actionConnector">
-        <option value="meta">Meta / Instagram</option>
-        <option value="tiktok">TikTok</option>
-        <option value="linkedin">LinkedIn</option>
-        <option value="whatsapp">WhatsApp</option>
-        <option value="manual">Manual</option>
-      </select>
-      <input id="actionName" placeholder="Action, ex: publish_draft">
-      <textarea id="actionPayload" placeholder='Payload JSON or notes'></textarea>
-      <button onclick="queueExternalAction()">Queue action</button>
-      <div id="actionOut"></div>
+      <h2>Master Orchestrator</h2>
+      <textarea id="agentTask" placeholder="Describe what you want GhostSeller to solve..."></textarea>
+      <button onclick="orchestrateAgent()">Choose best agent</button>
+      <div id="orchestratorOut"></div>
     </div>
   </div>
 
   <div class="grid2">
     <div class="card">
-      <h2>Agent Scheduler</h2>
-      <input id="scheduleTitle" placeholder="Schedule title">
-      <select id="scheduleConnector">
-        <option value="manual">Manual</option>
-        <option value="meta">Meta</option>
-        <option value="tiktok">TikTok</option>
-        <option value="linkedin">LinkedIn</option>
-        <option value="whatsapp">WhatsApp</option>
-      </select>
-      <select id="scheduleFrequency">
-        <option value="daily">daily</option>
-        <option value="weekly">weekly</option>
-        <option value="monthly">monthly</option>
-      </select>
-      <button onclick="createSchedule()">Create schedule</button>
-      <div id="scheduleOut"></div>
+      <h2>Run Full Agent Team</h2>
+      <input id="teamObjective" placeholder="Objective" value="Launch and grow GhostSeller globally">
+      <button onclick="runAgentTeam()">Run multi-agent team</button>
+      <div id="teamOut"></div>
     </div>
 
     <div class="card">
-      <h2>Automation Logs</h2>
-      <button onclick="loadExternalActions()">Load actions</button>
-      <button onclick="loadSchedules()">Load schedules</button>
-      <div id="logsOut"></div>
+      <h2>Agent Memory</h2>
+      <button onclick="loadAgentRuns()">Load agent runs</button>
+      <div id="agentRunsOut"></div>
     </div>
   </div>
 </section>
