@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v81-tiktok-engine-stable",
-  "version": "81.0.0",
+  "name": "ghostseller-ai-v82-ai-agents-system",
+  "version": "82.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

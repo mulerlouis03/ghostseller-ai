@@ -1,23 +1,34 @@
-# GhostSeller AI V81 TIKTOK ENGINE STABLE
+# GhostSeller AI V82 AI AGENTS SYSTEM
 
-Basé sur V80 stable.
+## Ajouts
+- AI Agents Command Center,
+- Content Agent,
+- Growth Agent,
+- Trend Agent,
+- Conversion Agent,
+- TikTok Agent,
+- Persistent missions,
+- Agent memory.
 
 ## Push
+
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V81 TikTok Engine Stable"
+git commit -m "GhostSeller V82 AI Agents System"
 git push
 ```
 
 ## Supabase
+
 Exécute :
 ```txt
-supabase/V81_TIKTOK_ENGINE.sql
+supabase/V82_AI_AGENTS.sql
 ```
 
 ## Test
+
 ```txt
 /api/health
-/api/tiktok/status
+/api/agents/dashboard
 ```

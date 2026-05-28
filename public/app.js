@@ -1775,3 +1775,42 @@ async function loadTikTokHistory(){
     out.innerHTML = `<pre>${esc(JSON.stringify(data.history,null,2))}</pre>`;
   }catch(e){ out.innerHTML = `<p class="error">${esc(e.message)}</p>`; }
 }
+
+
+async function loadAgentsDashboard(){
+  const out = qs("agentsOut");
+  out.innerHTML = "Loading AI Agents...";
+  try{
+    const data = await api("/api/agents/dashboard");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.command_center,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function createMission(){
+  const out = qs("missionOut");
+  out.innerHTML = "Creating mission...";
+  try{
+    const data = await api("/api/agents/mission","POST",{
+      title:val("missionTitle"),
+      objective:val("missionObjective"),
+      target_platform:val("missionPlatform")
+    });
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.mission,null,2))}</pre>`;
+    await loadAgentsDashboard();
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadAgentMemory(){
+  const out = qs("memoryOut");
+  out.innerHTML = "Loading memory...";
+  try{
+    const data = await api("/api/agents/memory");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.memory,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}

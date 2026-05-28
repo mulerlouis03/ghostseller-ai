@@ -1,10 +1,13 @@
 import express from "express";
 export const healthRouter = express.Router();
+
 healthRouter.get("/", (_req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V81 TIKTOK ENGINE STABLE",
-  phase:"TikTok First Growth Engine",
-  basedOn:"V80 stable",
-  tiktokEngine:true,
-  safeModule:true
+  version:"GhostSeller AI V82 AI AGENTS SYSTEM",
+  phase:"Persistent AI Agents",
+  aiAgents:true,
+  persistentMemory:true,
+  autonomousMissions:true,
+  commandCenter:true,
+  safeArchitecture:true
 }));

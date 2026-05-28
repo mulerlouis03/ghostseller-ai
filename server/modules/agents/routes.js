@@ -5,71 +5,147 @@ import { supabase } from "../../lib/supabase.js";
 
 export const agentsRouter = express.Router();
 
-export const AGENTS = [
-  { id:"content_agent", name:"Content Agent", role:"Creates hooks, captions, scripts and content ideas." },
-  { id:"growth_agent", name:"Growth Agent", role:"Finds acquisition strategies and daily growth actions." },
-  { id:"sales_agent", name:"Sales Agent", role:"Creates sales messages, CTAs and closing flows." },
-  { id:"analytics_agent", name:"Analytics Agent", role:"Scores performance and recommends optimizations." },
-  { id:"brand_agent", name:"Brand Strategy Agent", role:"Clarifies positioning, voice and market perception." },
-  { id:"outreach_agent", name:"Outreach Agent", role:"Creates prospecting and outreach plans." }
+const DEFAULT_AGENTS = [
+  {
+    key:"content_agent",
+    name:"Content Agent",
+    role:"Generate hooks, captions, reels and campaigns"
+  },
+  {
+    key:"growth_agent",
+    name:"Growth Agent",
+    role:"Improve reach and audience growth"
+  },
+  {
+    key:"trend_agent",
+    name:"Trend Agent",
+    role:"Detect viral opportunities and trends"
+  },
+  {
+    key:"conversion_agent",
+    name:"Conversion Agent",
+    role:"Convert attention into leads and revenue"
+  },
+  {
+    key:"tiktok_agent",
+    name:"TikTok Agent",
+    role:"Optimize TikTok content and structure"
+  }
 ];
 
-export function chooseAgent(task){
-  const t = String(task || "").toLowerCase();
-  if(t.includes("hook") || t.includes("post") || t.includes("script") || t.includes("content")) return "content_agent";
-  if(t.includes("growth") || t.includes("users") || t.includes("audience")) return "growth_agent";
-  if(t.includes("sell") || t.includes("sale") || t.includes("cta") || t.includes("whatsapp")) return "sales_agent";
-  if(t.includes("score") || t.includes("analytics") || t.includes("performance")) return "analytics_agent";
-  if(t.includes("brand") || t.includes("positioning") || t.includes("trust")) return "brand_agent";
-  if(t.includes("dm") || t.includes("prospect") || t.includes("outreach")) return "outreach_agent";
-  return "growth_agent";
+async function ensureAgents(userId){
+  for(const a of DEFAULT_AGENTS){
+    const { data } = await supabase
+      .from("ai_agents")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("agent_key", a.key)
+      .maybeSingle();
+
+    if(!data){
+      await supabase.from("ai_agents").insert({
+        id:crypto.randomUUID(),
+        user_id:userId,
+        agent_key:a.key,
+        name:a.name,
+        role:a.role,
+        status:"active",
+        memory:{},
+        created_at:new Date().toISOString(),
+        updated_at:new Date().toISOString()
+      });
+    }
+  }
 }
 
-export function agentOutput(agentId, task, context={}){
-  const agent = AGENTS.find(a=>a.id===agentId) || AGENTS[1];
-  const base = { agent_id:agent.id, agent_name:agent.name, task, context, confidence:86 };
+agentsRouter.get("/dashboard", requireAuth, async (req,res)=>{
+  await ensureAgents(req.user.id);
 
-  if(agent.id==="content_agent") return { ...base, output:{ hooks:["Stop scrolling — this can change your business.","Most businesses post content the wrong way.","Here is how to turn attention into customers."], content_plan:["Problem reel","Transformation post","CTA story"] } };
-  if(agent.id==="growth_agent") return { ...base, output:{ channels:["TikTok","Instagram Reels","LinkedIn","Facebook Groups","WhatsApp communities"], next_actions:["Publish 1 demo video","DM 10 potential users","Post 1 founder story","Collect 3 feedback messages"] } };
-  if(agent.id==="sales_agent") return { ...base, output:{ offer:"Free AI campaign preview", cta:"DM now to get your free preview.", follow_up:"Want me to generate 3 content ideas for your business?" } };
-  if(agent.id==="analytics_agent") return { ...base, output:{ score:82, improvements:["Make hook more specific","Add stronger CTA","Use proof or transformation","Test a second creative angle"] } };
-  if(agent.id==="brand_agent") return { ...base, output:{ positioning:"AI marketing command center for creators and businesses.", tone:"Premium, bold, futuristic, trustworthy", trust_assets:["demo videos","testimonials","before/after examples"] } };
-  return { ...base, output:{ target_profiles:["small business owners","coaches","agencies","content creators"], dm_template:"Hey, I’m testing an AI marketing tool that creates campaigns for businesses. Want a free demo?", communities:["entrepreneur groups","creator communities","small business forums"] } };
-}
+  const { data:agents=[] } = await supabase
+    .from("ai_agents")
+    .select("*")
+    .eq("user_id", req.user.id)
+    .order("created_at",{ascending:true});
 
-agentsRouter.get("/list", requireAuth, (req,res)=>res.json({ ok:true, agents:AGENTS }));
+  const { data:missions=[] } = await supabase
+    .from("agent_missions")
+    .select("*")
+    .eq("user_id", req.user.id)
+    .order("created_at",{ascending:false})
+    .limit(20);
 
-agentsRouter.post("/orchestrate", requireAuth, async (req,res)=>{
-  const { task="grow my business", context={} } = req.body || {};
-  const agentId = chooseAgent(task);
-  const result = agentOutput(agentId, task, context);
-
-  try{
-    await supabase.from("agent_runs").insert({
-      id:crypto.randomUUID(), user_id:req.user.id, selected_agent:agentId, task, context, result,
-      created_at:new Date().toISOString()
-    });
-  }catch(_e){}
-
-  res.json({ ok:true, selected_agent:agentId, result });
+  res.json({
+    ok:true,
+    command_center:{
+      active_agents:agents.length,
+      active_missions:missions.filter(m=>m.status==="active").length,
+      agents,
+      missions
+    }
+  });
 });
 
-agentsRouter.post("/team", requireAuth, async (req,res)=>{
-  const { objective="Launch and grow GhostSeller", context={} } = req.body || {};
-  const team_plan = AGENTS.map(agent=>agentOutput(agent.id, objective, context));
+agentsRouter.post("/mission", requireAuth, async (req,res)=>{
+  const {
+    title="Grow GhostSeller AI",
+    objective="Generate TikTok growth content",
+    target_platform="TikTok"
+  } = req.body || {};
 
-  try{
-    await supabase.from("agent_runs").insert({
-      id:crypto.randomUUID(), user_id:req.user.id, selected_agent:"multi_agent_team", task:objective,
-      context, result:{team_plan}, created_at:new Date().toISOString()
-    });
-  }catch(_e){}
+  const mission = {
+    id:crypto.randomUUID(),
+    user_id:req.user.id,
+    title,
+    objective,
+    target_platform,
+    status:"active",
+    steps:[
+      "Analyze niche",
+      "Generate hooks",
+      "Create storyboard",
+      "Generate CTA",
+      "Queue campaign",
+      "Save winning patterns"
+    ],
+    created_at:new Date().toISOString(),
+    updated_at:new Date().toISOString()
+  };
 
-  res.json({ ok:true, objective, team_plan });
+  await supabase.from("agent_missions").insert(mission);
+
+  res.json({ ok:true, mission });
 });
 
-agentsRouter.get("/runs", requireAuth, async (req,res)=>{
-  const { data=[], error } = await supabase.from("agent_runs").select("*").eq("user_id",req.user.id).order("created_at",{ascending:false}).limit(50);
-  if(error) return res.status(500).json({error:error.message});
-  res.json({ ok:true, runs:data });
+agentsRouter.post("/memory/save", requireAuth, async (req,res)=>{
+  const {
+    agent_key="content_agent",
+    memory_key="best_hook",
+    memory_value="Nobody talks about this..."
+  } = req.body || {};
+
+  const item = {
+    id:crypto.randomUUID(),
+    user_id:req.user.id,
+    agent_key,
+    memory_key,
+    memory_value,
+    created_at:new Date().toISOString()
+  };
+
+  await supabase.from("agent_memory").insert(item);
+
+  res.json({ ok:true, memory:item });
+});
+
+agentsRouter.get("/memory", requireAuth, async (req,res)=>{
+  const { data=[], error } = await supabase
+    .from("agent_memory")
+    .select("*")
+    .eq("user_id", req.user.id)
+    .order("created_at",{ascending:false})
+    .limit(100);
+
+  if(error) return res.status(500).json({ error:error.message });
+
+  res.json({ ok:true, memory:data });
 });
