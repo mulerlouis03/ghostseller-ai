@@ -8,6 +8,11 @@
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+<div class="v88-topbar">
+  <h2>GhostSeller AI V88</h2>
+  <span class="v88-launch-badge">🎵 TikTok Launch Mode</span>
+</div>
+
 
 <div id="authView" class="auth-page">
   <div class="auth-shell">
@@ -151,7 +156,43 @@
       </div>
     </section>
 
-    <section id="dashboard" class="page">
+    
+<section id="v88LaunchCenter" class="page">
+  <h1>Launch Center</h1>
+  <p class="muted">Dashboard simplifié pour lancer GhostSeller sur TikTok ce soir.</p>
+
+  <div class="v88-quick-actions">
+    <button onclick="show('tiktokEngine'); try{loadTikTokStatus()}catch(e){}">🎵 TikTok Engine</button>
+    <button onclick="show('tiktokAutomation'); try{loadTikTokAutomationStatus()}catch(e){}">📅 TikTok Automation</button>
+    <button onclick="show('acquisition'); try{loadAcquisitionStats()}catch(e){}">🚀 Acquisition</button>
+    <button onclick="show('stripeLive'); try{loadStripeLiveStatus()}catch(e){}">💳 Stripe Live</button>
+  </div>
+
+  <div class="v88-dashboard-grid">
+    <div class="v88-focus-card">
+      <h3>1. Créer la vidéo TikTok</h3>
+      <p>Utilise TikTok Engine pour générer hook, storyboard, CTA et hashtags.</p>
+      <button onclick="show('tiktokEngine')">Ouvrir TikTok Engine</button>
+    </div>
+    <div class="v88-focus-card">
+      <h3>2. Planifier le contenu</h3>
+      <p>Utilise TikTok Automation pour préparer la première série de posts.</p>
+      <button onclick="show('tiktokAutomation')">Ouvrir Automation</button>
+    </div>
+    <div class="v88-focus-card">
+      <h3>3. Capturer des leads</h3>
+      <p>Utilise Acquisition pour envoyer vers waitlist ou inscription.</p>
+      <button onclick="show('acquisition')">Ouvrir Acquisition</button>
+    </div>
+    <div class="v88-focus-card">
+      <h3>4. Encaisser</h3>
+      <p>Stripe Live permet de tester checkout, plans et billing events.</p>
+      <button onclick="show('stripeLive')">Ouvrir Stripe Live</button>
+    </div>
+  </div>
+</section>
+
+<section id="dashboard" class="page">
 
       <div class="stats">
         <div class="stat"><span id="statPlan">Free</span><p>Plan</p></div>
@@ -516,7 +557,7 @@
 
     <div class="card">
       <h2>Go Live Note</h2>
-      <textarea id="goLiveNote" placeholder="Note de lancement">GhostSeller AI V87 is ready for public launch.</textarea>
+      <textarea id="goLiveNote" placeholder="Note de lancement">GhostSeller AI V88 is ready for public launch.</textarea>
       <button onclick="saveGoLiveNote()">Save go-live note</button>
       <div id="goLiveOut"></div>
     </div>

@@ -2002,3 +2002,76 @@ async function loadTikTokCalendar(){
     out.innerHTML=`<pre>${esc(JSON.stringify(data.calendar,null,2))}</pre>`;
   }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
 }
+
+
+function initV88DashboardUX(){
+  try{
+    const candidates = Array.from(document.querySelectorAll("button[onclick^='show(']"));
+    if(!candidates.length) return;
+
+    const parent = candidates[0].parentElement;
+    if(!parent || parent.dataset.v88Grouped === "true") return;
+
+    parent.dataset.v88Grouped = "true";
+    parent.classList.add("legacy-flat-nav");
+
+    const groups = [
+      {
+        title:"🎵 TikTok Growth",
+        match:["tiktokEngine","tiktokAutomation","autoGrowth","launchpad"],
+      },
+      {
+        title:"🤖 IA & Création",
+        match:["realAI","agents","content","creative","video","opportunities","unifiedBrain","brain","execution"],
+      },
+      {
+        title:"💰 Revenus",
+        match:["revenue","revenueAutomation","stripeLive","billing","pricing","subscription"],
+      },
+      {
+        title:"🚀 Acquisition",
+        match:["acquisition","referral","publicBeta","beta"],
+      },
+      {
+        title:"⚙️ Admin & Système",
+        match:["adminPro","socialConnectors","usage","dashboard"],
+      }
+    ];
+
+    const wrapper = document.createElement("div");
+    wrapper.id = "v88GroupedNav";
+
+    groups.forEach((group, index)=>{
+      const box = document.createElement("div");
+      box.className = "v88-nav-group" + (index === 0 ? " open" : "");
+
+      const title = document.createElement("div");
+      title.className = "v88-nav-title";
+      title.innerHTML = `<span>${group.title}</span><span>⌄</span>`;
+      title.onclick = ()=> box.classList.toggle("open");
+
+      const items = document.createElement("div");
+      items.className = "v88-nav-items";
+
+      candidates.forEach(btn=>{
+        const onclick = btn.getAttribute("onclick") || "";
+        if(group.match.some(m=>onclick.includes(m))){
+          items.appendChild(btn.cloneNode(true));
+        }
+      });
+
+      if(items.children.length){
+        box.appendChild(title);
+        box.appendChild(items);
+        wrapper.appendChild(box);
+      }
+    });
+
+    parent.parentElement.insertBefore(wrapper, parent);
+  }catch(e){
+    console.warn("V88 nav grouping skipped", e);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", initV88DashboardUX);
+setTimeout(initV88DashboardUX, 800);

@@ -453,3 +453,119 @@ pre{
   border-color:rgba(0,212,255,.45);
   box-shadow:0 0 60px rgba(0,212,255,.16), 0 30px 110px rgba(0,0,0,.42);
 }
+
+
+/* V88 Dashboard UX Clean */
+.v88-topbar{
+  position:sticky;
+  top:0;
+  z-index:50;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:14px 18px;
+  background:rgba(5,8,22,.92);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.v88-topbar h2{
+  margin:0;
+  font-size:18px;
+}
+
+.v88-launch-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:999px;
+  background:linear-gradient(135deg, rgba(255,0,102,.2), rgba(0,212,255,.18));
+  border:1px solid rgba(255,255,255,.12);
+  font-size:13px;
+  font-weight:700;
+}
+
+.v88-quick-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:14px 0;
+}
+
+.v88-quick-actions button{
+  border-radius:14px;
+  padding:10px 12px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.06);
+}
+
+.v88-nav-group{
+  margin:12px 0;
+  padding:10px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  background:rgba(255,255,255,.035);
+}
+
+.v88-nav-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  padding:10px 12px;
+  border-radius:14px;
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.v88-nav-items{
+  display:none;
+  flex-direction:column;
+  gap:6px;
+  margin-top:10px;
+}
+
+.v88-nav-group.open .v88-nav-items{
+  display:flex;
+}
+
+.v88-nav-items button{
+  width:100%;
+  text-align:left;
+  justify-content:flex-start;
+  opacity:.92;
+}
+
+.v88-nav-items button:hover{
+  opacity:1;
+  transform:translateX(3px);
+}
+
+.v88-dashboard-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+  margin:16px 0;
+}
+
+.v88-focus-card{
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:22px;
+  padding:18px;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255,0,102,.2), transparent 35%),
+    radial-gradient(circle at 85% 20%, rgba(0,212,255,.18), transparent 30%),
+    rgba(255,255,255,.045);
+}
+
+.v88-focus-card h3{
+  margin-top:0;
+}
+
+.v88-hidden-old-menu .legacy-flat-nav{
+  display:none !important;
+}

@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v87-tiktok-automation-studio",
-  "version": "87.0.0",
+  "name": "ghostseller-ai-v88-dashboard-ux-tiktok-launch",
+  "version": "88.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
