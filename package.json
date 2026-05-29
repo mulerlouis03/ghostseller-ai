@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v89-dashboard-layout-fix",
-  "version": "89.0.0",
+  "name": "ghostseller-ai-v90-sidebar-hard-replace",
+  "version": "90.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

@@ -1,22 +1,22 @@
-# GhostSeller AI V89 DASHBOARD LAYOUT FIX
+# GhostSeller AI V90 SIDEBAR HARD REPLACE
 
-Basé sur V88.
+Basé sur V89.
 
 ## Corrections
-- Regroupement du vrai menu gauche,
-- catégories TikTok / Acquisition / Revenus / IA / Admin,
-- cartes de droite plus compactes,
-- meilleure lisibilité dashboard,
-- Launch Center plus propre.
+- Remplacement direct du menu gauche,
+- ancien sidebar masqué,
+- 5 catégories claires,
+- dashboard de droite plus compact,
+- priorité TikTok Launch.
 
 ## Push test
 
 ```bash
-git checkout -b v89-test
+git checkout -b v90-test
 npm install
 git add .
-git commit -m "GhostSeller V89 Dashboard Layout Fix"
-git push -u origin v89-test
+git commit -m "GhostSeller V90 Sidebar Hard Replace"
+git push -u origin v90-test
 ```
 
 ## Test

@@ -2219,3 +2219,129 @@ function initV89DashboardSizing(){
 document.addEventListener("DOMContentLoaded", ()=>{ initV89TrueSidebar(); initV89DashboardSizing(); });
 setTimeout(()=>{ initV89TrueSidebar(); initV89DashboardSizing(); }, 500);
 setTimeout(()=>{ initV89TrueSidebar(); initV89DashboardSizing(); }, 1500);
+
+
+function v90Btn(label, page, loader){
+  const b=document.createElement("button");
+  b.type="button";
+  b.textContent=label;
+  b.onclick=()=>{
+    try{ show(page); }catch(e){}
+    if(loader){
+      try{ window[loader] && window[loader](); }catch(e){}
+    }
+  };
+  return b;
+}
+
+function initV90HardSidebar(){
+  try{
+    if(document.getElementById("v90Sidebar")) return;
+
+    document.body.classList.add("v90-active");
+
+    const sidebar=document.createElement("div");
+    sidebar.id="v90Sidebar";
+
+    sidebar.innerHTML = `
+      <div class="v90Brand">
+        <div class="v90LogoDot"></div>
+        <div><strong>GhostSeller AI</strong><small>V90 Clean</small></div>
+      </div>
+    `;
+
+    const groups=[
+      {
+        title:"🎵 TikTok Launch",
+        open:true,
+        items:[
+          ["Dashboard","dashboard","loadDashboard"],
+          ["TikTok Engine","tiktokEngine","loadTikTokStatus"],
+          ["TikTok Automation","tiktokAutomation","loadTikTokAutomationStatus"],
+          ["Launch Center","v88LaunchCenter",null],
+          ["Autonomous Growth","autoGrowth","loadAutoGrowthDashboard"]
+        ]
+      },
+      {
+        title:"🚀 Acquisition",
+        open:true,
+        items:[
+          ["Acquisition","acquisition","loadAcquisitionStats"],
+          ["Referral","referral","loadReferralMe"],
+          ["Waitlist / Beta","publicBeta",null],
+          ["Launchpad","launchpad","loadLaunchpadStatus"]
+        ]
+      },
+      {
+        title:"💰 Revenus",
+        open:false,
+        items:[
+          ["Stripe Live","stripeLive","loadStripeLiveStatus"],
+          ["Revenue Automation","revenueAutomation","loadRevenueAutomationStatus"],
+          ["Revenue System","revenue","loadRevenueStatus"],
+          ["Abonnement","subscription",null]
+        ]
+      },
+      {
+        title:"🤖 IA & Création",
+        open:false,
+        items:[
+          ["Real AI Engine","realAI",null],
+          ["AI Agents","agents","loadAgentsDashboard"],
+          ["Ghost Brain","brain",null],
+          ["Unified Brain","unifiedBrain","loadUnifiedBrain"],
+          ["AI Content","content",null],
+          ["Creative Director","creative",null],
+          ["Auto Video Pipeline","video",null]
+        ]
+      },
+      {
+        title:"⚙️ Admin",
+        open:false,
+        items:[
+          ["Admin Pro","adminPro",null],
+          ["Social Connectors","socialConnectors",null],
+          ["Usage & Limits","usage",null],
+          ["Security","security",null],
+          ["Onboarding","onboarding",null],
+          ["Language","language",null]
+        ]
+      }
+    ];
+
+    groups.forEach(g=>{
+      const box=document.createElement("div");
+      box.className="v90Group"+(g.open?" open":"");
+
+      const head=document.createElement("button");
+      head.type="button";
+      head.className="v90GroupHead";
+      head.innerHTML=`<span>${g.title}</span><span>⌄</span>`;
+      head.onclick=()=>box.classList.toggle("open");
+
+      const items=document.createElement("div");
+      items.className="v90Items";
+
+      g.items.forEach(([label,page,loader])=>{
+        items.appendChild(v90Btn(label,page,loader));
+      });
+
+      box.appendChild(head);
+      box.appendChild(items);
+      sidebar.appendChild(box);
+    });
+
+    const hint=document.createElement("div");
+    hint.className="v90LaunchHint";
+    hint.innerHTML="<strong>Ce soir :</strong><br>1 vidéo TikTok → CTA commentaire AI → waitlist → Stripe.";
+    sidebar.appendChild(hint);
+
+    document.body.prepend(sidebar);
+  }catch(e){
+    console.warn("V90 sidebar failed", e);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", initV90HardSidebar);
+setTimeout(initV90HardSidebar, 400);
+setTimeout(initV90HardSidebar, 1200);
