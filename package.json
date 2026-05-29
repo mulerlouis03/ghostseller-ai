@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v94-stripe-billing-ready",
-  "version": "94.0.0",
+  "name": "ghostseller-ai-v95-clean-saas-dashboard",
+  "version": "95.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

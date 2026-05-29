@@ -1,41 +1,22 @@
-# GhostSeller AI V94 STRIPE BILLING READY
+# GhostSeller AI V95 CLEAN SAAS DASHBOARD
 
-Basé sur V93 stable.
+Basé sur V94.
 
 ## Ajouts
-- Stripe Billing API `/api/billing`
-- Plans Starter / Pro / Agency
-- Checkout Stripe
-- Customer Portal
-- Subscription status
-- Webhook billing
-- Tables Supabase billing
-
-## Variables Vercel
-
-```txt
-STRIPE_SECRET_KEY=
-STRIPE_WEBHOOK_SECRET=
-STRIPE_PRICE_STARTER=
-STRIPE_PRICE_PRO=
-STRIPE_PRICE_AGENCY=
-APP_URL=https://ghostseller-ai.vercel.app
-```
-
-## Supabase
-
-Exécute :
-
-```txt
-supabase/V94_STRIPE_BILLING_READY.sql
-```
+- Dashboard utilisateur propre
+- Dashboard owner/admin séparé
+- Menu nettoyé
+- Abonnement visible directement
+- Facturation Stripe visible directement
+- Bouton Déconnexion sécurisé
+- Stripe V94 conservé
 
 ## Commandes
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V94 Stripe Billing Ready"
+git commit -m "GhostSeller V95 Clean SaaS Dashboard"
 git push
 ```
 
@@ -44,17 +25,4 @@ git push
 ```txt
 /api/health
 /api/billing/plans
-/api/billing/status
 ```
-
-## Stripe Dashboard
-
-Créer 3 produits/prix mensuels :
-- Starter 9,99€/mois
-- Pro 29,99€/mois
-- Agency 79,99€/mois
-
-Copier les Price IDs dans Vercel :
-- STRIPE_PRICE_STARTER
-- STRIPE_PRICE_PRO
-- STRIPE_PRICE_AGENCY
