@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-clean-launch-edition",
-  "version": "97.0.0",
+  "name": "ghostseller-ai-public-test-ready",
+  "version": "98.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
