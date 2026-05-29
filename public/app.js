@@ -2195,3 +2195,62 @@ document.addEventListener("DOMContentLoaded", initV91FinalSidebarRepair);
 setTimeout(initV91FinalSidebarRepair, 250);
 setTimeout(initV91FinalSidebarRepair, 1000);
 setTimeout(initV91FinalSidebarRepair, 2500);
+
+
+async function loadTikTokConnectStatus(){
+  const out=qs("tiktokConnectStatusOut");
+  out.innerHTML="Loading TikTok connection status...";
+  try{
+    const data=await api("/api/tiktok-connect/status");
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function startTikTokConnect(){
+  const out=qs("tiktokConnectStatusOut");
+  out.innerHTML="Creating TikTok OAuth link...";
+  try{
+    const data=await api("/api/tiktok-connect/start");
+    if(data.url) location.href=data.url;
+    else out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function refreshTikTokToken(){
+  const out=qs("tiktokConnectStatusOut");
+  out.innerHTML="Refreshing TikTok token...";
+  try{
+    const data=await api("/api/tiktok-connect/refresh","POST",{});
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function disconnectTikTok(){
+  const out=qs("tiktokConnectStatusOut");
+  out.innerHTML="Disconnecting TikTok...";
+  try{
+    const data=await api("/api/tiktok-connect/disconnect","POST",{});
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function uploadTikTokDraftFromUrl(){
+  const out=qs("tiktokUploadOut");
+  out.innerHTML="Sending TikTok draft...";
+  try{
+    const data=await api("/api/tiktok-connect/upload-draft-from-url","POST",{
+      video_url:val("tcVideoUrl"),
+      caption:val("tcCaption")
+    });
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function loadTikTokAttempts(){
+  const out=qs("tiktokAttemptsOut");
+  out.innerHTML="Loading TikTok attempts...";
+  try{
+    const data=await api("/api/tiktok-connect/attempts");
+    out.innerHTML=`<pre>${esc(JSON.stringify(data.attempts,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}

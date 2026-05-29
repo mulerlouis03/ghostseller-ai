@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v91-final-sidebar-repair",
-  "version": "91.0.0",
+  "name": "ghostseller-ai-v92-tiktok-connect-oauth",
+  "version": "92.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
