@@ -1,3 +1,4 @@
+import { ownerConsoleRouter } from "./server/modules/ownerConsole/routes.js";
 import { stripeBillingRouter } from "./server/modules/stripeBilling/routes.js";
 import { basicRateLimit } from "./server/middleware/rateLimit.js";
 import { errorHandler } from "./server/middleware/errorHandler.js";
@@ -57,6 +58,7 @@ import { brainRouter } from "./server/modules/brain/routes.js";
 import { creativeRouter } from "./server/modules/creative/routes.js";
 dotenv.config();
 const app = express();
+app.use("/api/owner-console", ownerConsoleRouter);
 app.use("/api/billing", stripeBillingRouter);
 app.get("/tiktok-developers-site-verification.txt", (_req,res)=>res.status(200).type("text/plain").send("tiktok-developers-site-verification=MrAqN4sF4FYud7rxE0Cy87UDeSorjBtR"));
 

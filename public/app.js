@@ -1883,7 +1883,7 @@ async function loadRevenueAutomationLogs(){
 }
 
 async function loadStripeLiveStatus(){
-  const out=qs("stripeLiveStatusOut"); out.innerHTML="Loading Stripe Live status...";
+  const out=qs("stripeLiveStatusOut"); out.innerHTML="Loading Paiement status...";
   try{ const data=await api("/api/stripe-live/status"); out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`; }
   catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
 }
@@ -2208,7 +2208,7 @@ async function loadTikTokConnectStatus(){
 
 async function startTikTokConnect(){
   const out=qs("tiktokConnectStatusOut");
-  out.innerHTML="Creating TikTok OAuth link...";
+  out.innerHTML="Creating TikTok Connexion link...";
   try{
     const data=await api("/api/tiktok-connect/start");
     if(data.url) location.href=data.url;
