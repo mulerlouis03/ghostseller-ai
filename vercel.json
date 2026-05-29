@@ -9,7 +9,7 @@
   "routes": [
     {
       "src": "/tiktok-developers-site-verification.txt",
-      "dest": "/tiktok-developers-site-verification.txt"
+      "dest": "server.js"
     },
     {
       "src": "/favicon.ico",
