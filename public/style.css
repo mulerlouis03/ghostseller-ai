@@ -806,197 +806,93 @@ button{
 }
 
 
-/* V90 HARD SIDEBAR REPLACE */
-#v90Sidebar{
-  position:fixed;
-  left:0;
-  top:0;
-  bottom:0;
-  width:250px;
-  z-index:9999;
-  overflow-y:auto;
-  overflow-x:hidden;
-  padding:14px 12px;
-  background:
-    radial-gradient(circle at 0% 0%, rgba(0,212,255,.18), transparent 34%),
-    radial-gradient(circle at 100% 20%, rgba(180,0,255,.16), transparent 30%),
-    rgba(5,8,24,.98);
-  border-right:1px solid rgba(255,255,255,.12);
-  box-shadow:18px 0 50px rgba(0,0,0,.3);
-}
-
-#v90Sidebar *{
-  box-sizing:border-box;
-}
-
-.v90Brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:12px;
-  border-radius:18px;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.1);
-  margin-bottom:12px;
-}
-
-.v90LogoDot{
-  width:34px;
-  height:34px;
-  border-radius:12px;
-  background:linear-gradient(135deg,#18d7ff,#8b4dff);
-  box-shadow:0 0 18px rgba(0,212,255,.35);
-}
-
-.v90Brand strong{
-  display:block;
-  color:white;
-  font-size:14px;
-  line-height:1.1;
-}
-
-.v90Brand small{
-  color:#8feeff;
-  font-size:11px;
-  font-weight:800;
-}
-
-.v90Group{
-  margin:10px 0;
-  border-radius:18px;
-  overflow:hidden;
-  background:rgba(255,255,255,.035);
-  border:1px solid rgba(255,255,255,.08);
-}
-
-.v90GroupHead{
-  width:100%;
-  border:0;
-  min-height:42px;
-  padding:11px 12px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
-  color:#fff;
-  background:rgba(255,255,255,.06);
-  cursor:pointer;
-  font-size:13px;
-  font-weight:900;
-  text-align:left;
-}
-
-.v90Items{
-  display:none;
-  flex-direction:column;
-  padding:8px;
-  gap:6px;
-}
-
-.v90Group.open .v90Items{
-  display:flex;
-}
-
-.v90Items button{
-  width:100%;
-  min-height:36px;
-  padding:9px 10px;
-  border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;
-  background:rgba(255,255,255,.045);
-  color:#eaf7ff;
-  font-size:12px;
-  font-weight:750;
-  text-align:left;
-  cursor:pointer;
-  display:flex;
-  justify-content:flex-start;
-  align-items:center;
-}
-
-.v90Items button:hover{
-  background:rgba(0,212,255,.13);
-  transform:translateX(2px);
-}
-
-.v90LaunchHint{
-  margin-top:12px;
-  padding:12px;
-  border-radius:16px;
-  background:linear-gradient(135deg, rgba(0,212,255,.12), rgba(255,0,153,.12));
-  border:1px solid rgba(255,255,255,.1);
-  color:#cfefff;
-  font-size:12px;
-  line-height:1.35;
-}
-
-body.v90-active{
-  padding-left:250px !important;
-}
-
-body.v90-active aside,
-body.v90-active nav.sidebar,
-body.v90-active .sidebar,
-body.v90-active #sidebar,
-body.v90-active .leftbar{
+/* V90 ONE SIDEBAR ONLY FIX */
+#v88GroupedNav{
   display:none !important;
 }
 
-body.v90-active .v88-topbar{
-  left:250px;
-  width:calc(100% - 250px);
+/* Hide V89 duplicated shell when it appears outside the real sidebar */
+body > .v89-sidebar-shell,
+main .v89-sidebar-shell,
+.content .v89-sidebar-shell,
+.page .v89-sidebar-shell,
+#app > .v89-sidebar-shell{
+  display:none !important;
 }
 
-body.v90-active main,
-body.v90-active .main,
-body.v90-active .content,
-body.v90-active #app,
-body.v90-active .dashboard,
-body.v90-active .page,
-body.v90-active section{
-  max-width:1280px !important;
+/* Real left sidebar remains visible */
+aside .v89-sidebar-shell,
+.sidebar .v89-sidebar-shell,
+#sidebar .v89-sidebar-shell,
+.leftbar .v89-sidebar-shell,
+nav .v89-sidebar-shell{
+  display:flex !important;
 }
 
-body.v90-active .card{
-  padding:14px !important;
-  border-radius:16px !important;
+/* Do not let a second navigation column live inside dashboard content */
+main .v89-side-group,
+.content .v89-side-group,
+.page .v89-side-group{
+  max-width:100%;
 }
 
-body.v90-active .stats,
-body.v90-active .grid2,
-body.v90-active .v88-dashboard-grid{
-  gap:12px !important;
+/* Clean dashboard spacing */
+main,
+.main,
+.content,
+.dashboard,
+.page{
+  padding-left:18px !important;
+  padding-right:18px !important;
 }
 
-body.v90-active .stat{
-  min-height:68px !important;
-  padding:12px !important;
+.card,
+.panel,
+.stat{
+  max-width:100% !important;
 }
 
-body.v90-active .stat span,
-body.v90-active .stat strong{
-  font-size:clamp(20px,1.8vw,30px) !important;
+.stats{
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr)) !important;
 }
 
-body.v90-active pre{
-  max-height:220px !important;
-  overflow:auto !important;
-  font-size:11px !important;
+.grid2{
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr)) !important;
 }
 
-body.v90-active h1{
-  font-size:clamp(24px,2.5vw,36px) !important;
+pre{
+  max-height:230px !important;
 }
 
-body.v90-active h2{
-  font-size:clamp(18px,2vw,24px) !important;
+/* Make the sidebar cleaner and less huge */
+.sidebar,
+aside,
+nav.sidebar,
+#sidebar,
+.leftbar{
+  width:250px !important;
+  min-width:250px !important;
+  max-width:250px !important;
 }
 
-@media(max-width:900px){
-  #v90Sidebar{
-    width:220px;
-  }
-  body.v90-active{
-    padding-left:220px !important;
-  }
+.v89-sidebar-logo{
+  margin-bottom:10px !important;
+}
+
+.v89-side-title{
+  min-height:38px !important;
+}
+
+.v89-side-items button{
+  min-height:32px !important;
+  font-size:12px !important;
+}
+
+/* Hide old flat buttons only in the actual sidebar, not page action buttons */
+aside.v89-hide-original-menu > button,
+.sidebar.v89-hide-original-menu > button,
+#sidebar.v89-hide-original-menu > button,
+.leftbar.v89-hide-original-menu > button,
+nav.v89-hide-original-menu > button{
+  display:none !important;
 }

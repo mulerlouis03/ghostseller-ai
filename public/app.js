@@ -2004,74 +2004,7 @@ async function loadTikTokCalendar(){
 }
 
 
-function initV88DashboardUX(){
-  try{
-    const candidates = Array.from(document.querySelectorAll("button[onclick^='show(']"));
-    if(!candidates.length) return;
-
-    const parent = candidates[0].parentElement;
-    if(!parent || parent.dataset.v88Grouped === "true") return;
-
-    parent.dataset.v88Grouped = "true";
-    parent.classList.add("legacy-flat-nav");
-
-    const groups = [
-      {
-        title:"🎵 TikTok Growth",
-        match:["tiktokEngine","tiktokAutomation","autoGrowth","launchpad"],
-      },
-      {
-        title:"🤖 IA & Création",
-        match:["realAI","agents","content","creative","video","opportunities","unifiedBrain","brain","execution"],
-      },
-      {
-        title:"💰 Revenus",
-        match:["revenue","revenueAutomation","stripeLive","billing","pricing","subscription"],
-      },
-      {
-        title:"🚀 Acquisition",
-        match:["acquisition","referral","publicBeta","beta"],
-      },
-      {
-        title:"⚙️ Admin & Système",
-        match:["adminPro","socialConnectors","usage","dashboard"],
-      }
-    ];
-
-    const wrapper = document.createElement("div");
-    wrapper.id = "v88GroupedNav";
-
-    groups.forEach((group, index)=>{
-      const box = document.createElement("div");
-      box.className = "v88-nav-group" + (index === 0 ? " open" : "");
-
-      const title = document.createElement("div");
-      title.className = "v88-nav-title";
-      title.innerHTML = `<span>${group.title}</span><span>⌄</span>`;
-      title.onclick = ()=> box.classList.toggle("open");
-
-      const items = document.createElement("div");
-      items.className = "v88-nav-items";
-
-      candidates.forEach(btn=>{
-        const onclick = btn.getAttribute("onclick") || "";
-        if(group.match.some(m=>onclick.includes(m))){
-          items.appendChild(btn.cloneNode(true));
-        }
-      });
-
-      if(items.children.length){
-        box.appendChild(title);
-        box.appendChild(items);
-        wrapper.appendChild(box);
-      }
-    });
-
-    parent.parentElement.insertBefore(wrapper, parent);
-  }catch(e){
-    console.warn("V88 nav grouping skipped", e);
-  }
-}
+function initV88DashboardUX(){ return true; }
 
 document.addEventListener("DOMContentLoaded", initV88DashboardUX);
 setTimeout(initV88DashboardUX, 800);
@@ -2221,127 +2154,47 @@ setTimeout(()=>{ initV89TrueSidebar(); initV89DashboardSizing(); }, 500);
 setTimeout(()=>{ initV89TrueSidebar(); initV89DashboardSizing(); }, 1500);
 
 
-function v90Btn(label, page, loader){
-  const b=document.createElement("button");
-  b.type="button";
-  b.textContent=label;
-  b.onclick=()=>{
-    try{ show(page); }catch(e){}
-    if(loader){
-      try{ window[loader] && window[loader](); }catch(e){}
-    }
-  };
-  return b;
-}
-
-function initV90HardSidebar(){
+function initV90SingleSidebarFix(){
   try{
-    if(document.getElementById("v90Sidebar")) return;
+    // Remove duplicated V88/V89 launch/menu blocks if injected in main content
+    document.querySelectorAll("#v88GroupedNav").forEach(el=>el.remove());
 
-    document.body.classList.add("v90-active");
+    document.querySelectorAll("#v88LaunchCenter,#v89CleanLaunch").forEach(el=>el.remove());
 
-    const sidebar=document.createElement("div");
-    sidebar.id="v90Sidebar";
-
-    sidebar.innerHTML = `
-      <div class="v90Brand">
-        <div class="v90LogoDot"></div>
-        <div><strong>GhostSeller AI</strong><small>V90 Clean</small></div>
-      </div>
-    `;
-
-    const groups=[
-      {
-        title:"🎵 TikTok Launch",
-        open:true,
-        items:[
-          ["Dashboard","dashboard","loadDashboard"],
-          ["TikTok Engine","tiktokEngine","loadTikTokStatus"],
-          ["TikTok Automation","tiktokAutomation","loadTikTokAutomationStatus"],
-          ["Launch Center","v88LaunchCenter",null],
-          ["Autonomous Growth","autoGrowth","loadAutoGrowthDashboard"]
-        ]
-      },
-      {
-        title:"🚀 Acquisition",
-        open:true,
-        items:[
-          ["Acquisition","acquisition","loadAcquisitionStats"],
-          ["Referral","referral","loadReferralMe"],
-          ["Waitlist / Beta","publicBeta",null],
-          ["Launchpad","launchpad","loadLaunchpadStatus"]
-        ]
-      },
-      {
-        title:"💰 Revenus",
-        open:false,
-        items:[
-          ["Stripe Live","stripeLive","loadStripeLiveStatus"],
-          ["Revenue Automation","revenueAutomation","loadRevenueAutomationStatus"],
-          ["Revenue System","revenue","loadRevenueStatus"],
-          ["Abonnement","subscription",null]
-        ]
-      },
-      {
-        title:"🤖 IA & Création",
-        open:false,
-        items:[
-          ["Real AI Engine","realAI",null],
-          ["AI Agents","agents","loadAgentsDashboard"],
-          ["Ghost Brain","brain",null],
-          ["Unified Brain","unifiedBrain","loadUnifiedBrain"],
-          ["AI Content","content",null],
-          ["Creative Director","creative",null],
-          ["Auto Video Pipeline","video",null]
-        ]
-      },
-      {
-        title:"⚙️ Admin",
-        open:false,
-        items:[
-          ["Admin Pro","adminPro",null],
-          ["Social Connectors","socialConnectors",null],
-          ["Usage & Limits","usage",null],
-          ["Security","security",null],
-          ["Onboarding","onboarding",null],
-          ["Language","language",null]
-        ]
+    const shells = Array.from(document.querySelectorAll(".v89-sidebar-shell"));
+    shells.forEach(shell=>{
+      const inRealSidebar = shell.closest("aside,.sidebar,#sidebar,.leftbar,nav");
+      if(!inRealSidebar){
+        shell.remove();
       }
-    ];
-
-    groups.forEach(g=>{
-      const box=document.createElement("div");
-      box.className="v90Group"+(g.open?" open":"");
-
-      const head=document.createElement("button");
-      head.type="button";
-      head.className="v90GroupHead";
-      head.innerHTML=`<span>${g.title}</span><span>⌄</span>`;
-      head.onclick=()=>box.classList.toggle("open");
-
-      const items=document.createElement("div");
-      items.className="v90Items";
-
-      g.items.forEach(([label,page,loader])=>{
-        items.appendChild(v90Btn(label,page,loader));
-      });
-
-      box.appendChild(head);
-      box.appendChild(items);
-      sidebar.appendChild(box);
     });
 
-    const hint=document.createElement("div");
-    hint.className="v90LaunchHint";
-    hint.innerHTML="<strong>Ce soir :</strong><br>1 vidéo TikTok → CTA commentaire AI → waitlist → Stripe.";
-    sidebar.appendChild(hint);
+    // Rebuild grouping only inside the real left sidebar
+    const sidebars = Array.from(document.querySelectorAll("aside,.sidebar,#sidebar,.leftbar,nav"));
+    let realSidebar = null;
 
-    document.body.prepend(sidebar);
+    for(const s of sidebars){
+      const rect = s.getBoundingClientRect();
+      const buttonCount = s.querySelectorAll("button[onclick*=\"show(\"]").length;
+      if(buttonCount >= 5 && rect.left < 350){
+        realSidebar = s;
+        break;
+      }
+    }
+
+    if(!realSidebar) return;
+
+    realSidebar.querySelectorAll(".v89-sidebar-shell").forEach((el,idx)=>{
+      if(idx > 0) el.remove();
+    });
+
+    realSidebar.classList.add("v89-hide-original-menu");
   }catch(e){
-    console.warn("V90 sidebar failed", e);
+    console.warn("V90 sidebar cleanup skipped", e);
   }
 }
 
-document.addEventListener("DOMContentLoaded", initV90HardSidebar);
-setTimeout(initV90HardSidebar, 400);
-setTimeout(initV90HardSidebar, 1200);
+document.addEventListener("DOMContentLoaded", initV90SingleSidebarFix);
+setTimeout(initV90SingleSidebarFix, 300);
+setTimeout(initV90SingleSidebarFix, 1000);
+setTimeout(initV90SingleSidebarFix, 2000);

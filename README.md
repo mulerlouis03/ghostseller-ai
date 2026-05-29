@@ -1,13 +1,13 @@
-# GhostSeller AI V90 SIDEBAR HARD REPLACE
+# GhostSeller AI V90 SIDEBAR SINGLE CLEAN FIX
 
 Basé sur V89.
 
 ## Corrections
-- Remplacement direct du menu gauche,
-- ancien sidebar masqué,
-- 5 catégories claires,
-- dashboard de droite plus compact,
-- priorité TikTok Launch.
+- Supprime le menu doublon au centre,
+- garde uniquement le vrai menu gauche,
+- enlève les anciens blocs V88/V89 injectés,
+- dashboard plus compact,
+- meilleur positionnement à droite.
 
 ## Push test
 
@@ -15,7 +15,7 @@ Basé sur V89.
 git checkout -b v90-test
 npm install
 git add .
-git commit -m "GhostSeller V90 Sidebar Hard Replace"
+git commit -m "GhostSeller V90 Sidebar Single Clean Fix"
 git push -u origin v90-test
 ```
 
