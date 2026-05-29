@@ -2075,3 +2075,147 @@ function initV88DashboardUX(){
 
 document.addEventListener("DOMContentLoaded", initV88DashboardUX);
 setTimeout(initV88DashboardUX, 800);
+
+
+function initV89TrueSidebar(){
+  try{
+    const allButtons = Array.from(document.querySelectorAll("button[onclick*=\"show(\"]"));
+    if(!allButtons.length) return;
+
+    const sidebarCandidates = Array.from(document.querySelectorAll("aside, nav, .sidebar, #sidebar, .leftbar, [class*='side'], [class*='nav']"));
+    let sidebar = null;
+
+    for(const el of sidebarCandidates){
+      const count = el.querySelectorAll("button[onclick*=\"show(\"]").length;
+      if(count >= 6){
+        sidebar = el;
+        break;
+      }
+    }
+
+    if(!sidebar){
+      const first = allButtons[0];
+      sidebar = first.closest("aside, nav, .sidebar, #sidebar, .leftbar") || first.parentElement;
+    }
+
+    if(!sidebar || sidebar.dataset.v89Ready === "true") return;
+    sidebar.dataset.v89Ready = "true";
+    sidebar.classList.add("v89-hide-original-menu");
+
+    const sourceButtons = Array.from(sidebar.querySelectorAll("button[onclick*=\"show(\"]"));
+
+    const groups = [
+      {
+        title:"🎵 TikTok Launch",
+        open:true,
+        keys:["tiktokEngine","tiktokAutomation","tiktokLaunch","autoGrowth","launchpad"]
+      },
+      {
+        title:"🚀 Acquisition",
+        open:true,
+        keys:["acquisition","referral","publicBeta","beta","waitlist"]
+      },
+      {
+        title:"💰 Revenus",
+        open:false,
+        keys:["stripeLive","revenueAutomation","revenue","billing","subscription","pricing"]
+      },
+      {
+        title:"🤖 IA Création",
+        open:false,
+        keys:["realAI","content","creative","video","brain","unifiedBrain","agents","execution","opportunities","ghost"]
+      },
+      {
+        title:"⚙️ Admin",
+        open:false,
+        keys:["dashboard","admin","socialConnectors","usage","settings","security","onboarding","language"]
+      }
+    ];
+
+    const shell = document.createElement("div");
+    shell.className = "v89-sidebar-shell";
+
+    const logo = document.createElement("div");
+    logo.className = "v89-sidebar-logo";
+    logo.innerHTML = "<strong>GhostSeller AI<br><small>V89 Clean</small></strong>";
+    shell.appendChild(logo);
+
+    const used = new Set();
+
+    function addGroup(group){
+      const box = document.createElement("div");
+      box.className = "v89-side-group" + (group.open ? " open" : "");
+
+      const title = document.createElement("button");
+      title.type = "button";
+      title.className = "v89-side-title";
+      title.innerHTML = `<span>${group.title}</span><span>⌄</span>`;
+      title.onclick = () => box.classList.toggle("open");
+
+      const items = document.createElement("div");
+      items.className = "v89-side-items";
+
+      sourceButtons.forEach((btn, idx)=>{
+        const onclick = btn.getAttribute("onclick") || "";
+        const txt = (btn.textContent || "").toLowerCase();
+        const matched = group.keys.some(k => onclick.toLowerCase().includes(k.toLowerCase()) || txt.includes(k.toLowerCase()));
+        if(matched && !used.has(idx)){
+          const clone = btn.cloneNode(true);
+          items.appendChild(clone);
+          used.add(idx);
+        }
+      });
+
+      if(items.children.length){
+        box.appendChild(title);
+        box.appendChild(items);
+        shell.appendChild(box);
+      }
+    }
+
+    groups.forEach(addGroup);
+
+    const otherItems = document.createElement("div");
+    otherItems.className = "v89-side-items";
+    sourceButtons.forEach((btn, idx)=>{
+      if(!used.has(idx)){
+        const clone = btn.cloneNode(true);
+        otherItems.appendChild(clone);
+      }
+    });
+
+    if(otherItems.children.length){
+      const box = document.createElement("div");
+      box.className = "v89-side-group";
+      const title = document.createElement("button");
+      title.type = "button";
+      title.className = "v89-side-title";
+      title.innerHTML = "<span>📦 Autres modules</span><span>⌄</span>";
+      title.onclick = () => box.classList.toggle("open");
+      box.appendChild(title);
+      box.appendChild(otherItems);
+      shell.appendChild(box);
+    }
+
+    sidebar.insertBefore(shell, sidebar.firstChild);
+  }catch(e){
+    console.warn("V89 sidebar init skipped", e);
+  }
+}
+
+function initV89DashboardSizing(){
+  try{
+    document.body.classList.add("v89-dashboard-ready");
+    const bigPres = Array.from(document.querySelectorAll("pre"));
+    bigPres.forEach(pre=>{
+      if(pre.textContent.length > 1000){
+        pre.style.maxHeight = "260px";
+        pre.style.overflow = "auto";
+      }
+    });
+  }catch(e){}
+}
+
+document.addEventListener("DOMContentLoaded", ()=>{ initV89TrueSidebar(); initV89DashboardSizing(); });
+setTimeout(()=>{ initV89TrueSidebar(); initV89DashboardSizing(); }, 500);
+setTimeout(()=>{ initV89TrueSidebar(); initV89DashboardSizing(); }, 1500);

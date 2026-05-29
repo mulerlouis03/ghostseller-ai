@@ -1,32 +1,26 @@
-# GhostSeller AI V88 DASHBOARD UX TIKTOK LAUNCH
+# GhostSeller AI V89 DASHBOARD LAYOUT FIX
 
-Basé sur V87 validé.
+Basé sur V88.
 
-## Objectif
-- Remanier le dashboard,
-- regrouper les modules,
-- réduire le menu interminable,
-- mettre TikTok Launch Mode en priorité.
-
-## Ajouts
-- menu groupé automatiquement,
-- Launch Center,
-- accès rapide TikTok Engine / Automation / Acquisition / Stripe,
-- route `/api/tiktok-launch/tonight-plan`.
+## Corrections
+- Regroupement du vrai menu gauche,
+- catégories TikTok / Acquisition / Revenus / IA / Admin,
+- cartes de droite plus compactes,
+- meilleure lisibilité dashboard,
+- Launch Center plus propre.
 
 ## Push test
 
 ```bash
-git checkout -b v88-test
+git checkout -b v89-test
 npm install
 git add .
-git commit -m "GhostSeller V88 Dashboard UX TikTok Launch"
-git push -u origin v88-test
+git commit -m "GhostSeller V89 Dashboard Layout Fix"
+git push -u origin v89-test
 ```
 
 ## Test
 
 ```txt
 /api/health
-/api/tiktok-launch/tonight-plan
 ```

@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v88-dashboard-ux-tiktok-launch",
-  "version": "88.0.0",
+  "name": "ghostseller-ai-v89-dashboard-layout-fix",
+  "version": "89.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

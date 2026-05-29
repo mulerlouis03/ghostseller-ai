@@ -3,12 +3,12 @@ export const healthRouter = express.Router();
 
 healthRouter.get("/", (_req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V88 DASHBOARD UX TIKTOK LAUNCH",
-  phase:"Dashboard Cleanup + TikTok Launch",
-  basedOn:"V87 validated",
-  dashboardUX:true,
-  groupedNavigation:true,
-  tiktokLaunchMode:true,
-  simplifiedMenu:true,
-  productionFriendly:true
+  version:"GhostSeller AI V89 DASHBOARD LAYOUT FIX",
+  phase:"Sidebar + Dashboard Layout Cleanup",
+  basedOn:"V88",
+  leftSidebarGrouped:true,
+  compactDashboardCards:true,
+  cleanerPositioning:true,
+  tiktokLaunchPriority:true,
+  unifiedBrainCrashFixed:true
 }));

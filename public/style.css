@@ -569,3 +569,238 @@ pre{
 .v88-hidden-old-menu .legacy-flat-nav{
   display:none !important;
 }
+
+
+/* V89 TRUE SIDEBAR + DASHBOARD LAYOUT FIX */
+:root{
+  --v89-sidebar-w: 260px;
+  --v89-card-radius: 18px;
+}
+
+body{
+  overflow-x:hidden;
+}
+
+.sidebar,
+aside,
+nav.sidebar,
+#sidebar,
+.side,
+.leftbar{
+  width:var(--v89-sidebar-w) !important;
+  min-width:var(--v89-sidebar-w) !important;
+  max-width:var(--v89-sidebar-w) !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  padding:14px 10px !important;
+}
+
+.sidebar button,
+aside button,
+nav.sidebar button,
+#sidebar button,
+.leftbar button{
+  min-height:34px !important;
+  padding:8px 10px !important;
+  font-size:12px !important;
+  line-height:1.15 !important;
+  border-radius:12px !important;
+  white-space:normal !important;
+}
+
+.v89-sidebar-shell{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding:8px 6px 16px;
+}
+
+.v89-sidebar-logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px;
+  border-radius:16px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  margin-bottom:6px;
+}
+
+.v89-sidebar-logo strong{
+  font-size:13px;
+  line-height:1.1;
+}
+
+.v89-side-group{
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  background:rgba(255,255,255,.035);
+  overflow:hidden;
+}
+
+.v89-side-title{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:10px 11px;
+  font-weight:800;
+  color:#fff;
+  cursor:pointer;
+  background:rgba(255,255,255,.055);
+  border:0;
+  font-size:12px;
+}
+
+.v89-side-title span:first-child{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.v89-side-items{
+  display:none;
+  flex-direction:column;
+  gap:4px;
+  padding:8px;
+}
+
+.v89-side-group.open .v89-side-items{
+  display:flex;
+}
+
+.v89-side-items button{
+  width:100% !important;
+  text-align:left !important;
+  justify-content:flex-start !important;
+  opacity:.9 !important;
+  background:rgba(255,255,255,.035) !important;
+}
+
+.v89-side-items button:hover{
+  opacity:1 !important;
+  transform:translateX(2px);
+}
+
+.v89-hide-original-menu > button{
+  display:none !important;
+}
+
+main,
+.main,
+.content,
+#app,
+.dashboard,
+.page{
+  max-width:1440px;
+}
+
+.card,
+.stat,
+.panel,
+section .card{
+  border-radius:var(--v89-card-radius) !important;
+}
+
+.grid2{
+  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)) !important;
+  gap:14px !important;
+}
+
+.stats,
+.v88-dashboard-grid{
+  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)) !important;
+  gap:12px !important;
+}
+
+.stat{
+  min-height:78px !important;
+  padding:14px !important;
+}
+
+.stat span,
+.stat strong,
+.card .big,
+[class*="stat"] span{
+  font-size:clamp(22px, 2.2vw, 34px) !important;
+  line-height:1.05 !important;
+}
+
+.card{
+  padding:16px !important;
+  margin-bottom:14px !important;
+}
+
+.card h1,
+.card h2,
+.card h3,
+section h1{
+  line-height:1.1 !important;
+  margin-top:0 !important;
+}
+
+pre{
+  max-height:280px !important;
+  overflow:auto !important;
+  font-size:12px !important;
+  border-radius:14px !important;
+}
+
+input, select, textarea{
+  min-height:42px !important;
+  border-radius:14px !important;
+}
+
+textarea{
+  min-height:88px !important;
+}
+
+button{
+  min-height:38px;
+}
+
+.v89-hero-clean{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:14px;
+  align-items:stretch;
+  margin:10px 0 14px;
+}
+
+.v89-launch-card{
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:22px;
+  padding:18px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(0,212,255,.16), transparent 35%),
+    radial-gradient(circle at 100% 0%, rgba(255,0,128,.14), transparent 30%),
+    rgba(255,255,255,.04);
+}
+
+.v89-launch-card h1{
+  font-size:clamp(24px,3vw,42px);
+  margin:0 0 8px;
+}
+
+.v89-launch-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px;
+}
+
+@media(max-width:900px){
+  .v89-hero-clean{
+    grid-template-columns:1fr;
+  }
+  .sidebar,
+  aside,
+  nav.sidebar,
+  #sidebar,
+  .leftbar{
+    width:210px !important;
+    min-width:210px !important;
+    max-width:210px !important;
+  }
+}
