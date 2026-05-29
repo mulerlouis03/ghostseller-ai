@@ -1,22 +1,25 @@
-# GhostSeller AI V95 CLEAN SAAS DASHBOARD
+# GhostSeller AI V96 BUSINESS COMMAND CENTER
 
-Basé sur V94.
+Basé sur le V95 uploadé par l'utilisateur.
+
+## Objectif
+Transformer le dashboard en vraie porte d'entrée SaaS.
 
 ## Ajouts
-- Dashboard utilisateur propre
-- Dashboard owner/admin séparé
-- Menu nettoyé
-- Abonnement visible directement
-- Facturation Stripe visible directement
-- Bouton Déconnexion sécurisé
-- Stripe V94 conservé
+- Business Command Center centré sur l'action.
+- Boutons visibles : créer contenu, vidéo TikTok, connecter TikTok, leads, WhatsApp, abonnement.
+- Crédits et plan visibles dès l'ouverture.
+- Abonnement Stripe visible directement.
+- Dashboard Owner séparé.
+- Déconnexion sécurisée en haut et dans paramètres.
+- Menu simplifié.
 
 ## Commandes
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V95 Clean SaaS Dashboard"
+git commit -m "GhostSeller V96 Business Command Center"
 git push
 ```
 

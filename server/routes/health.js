@@ -3,15 +3,19 @@ export const healthRouter = express.Router();
 
 healthRouter.get("/", (_req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V95 CLEAN SAAS DASHBOARD",
-  phase:"User Dashboard + Owner Dashboard + Clean Navigation",
-  basedOn:"V94 Stripe Billing Ready",
-  clientDashboard:true,
+  version:"GhostSeller AI V96 BUSINESS COMMAND CENTER",
+  phase:"Action-First SaaS Dashboard",
+  basedOn:"V95 uploaded by user",
+  userEntryPoint:true,
   ownerDashboard:true,
-  cleanSidebar:true,
-  visibleSubscription:true,
-  visibleBilling:true,
-  secureLogout:true,
+  creditsVisible:true,
+  subscriptionVisible:true,
+  tiktokEntry:true,
+  contentGeneratorEntry:true,
+  videoGeneratorEntry:true,
+  leadsEntry:true,
+  whatsappEntry:true,
+  cleanLogout:true,
   stripeReady:true,
   tiktokInReview:true
 }));
