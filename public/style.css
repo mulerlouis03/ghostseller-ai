@@ -453,3 +453,607 @@ pre{
   border-color:rgba(0,212,255,.45);
   box-shadow:0 0 60px rgba(0,212,255,.16), 0 30px 110px rgba(0,0,0,.42);
 }
+
+
+/* V88 Dashboard UX Clean */
+.v88-topbar{
+  position:sticky;
+  top:0;
+  z-index:50;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:14px 18px;
+  background:rgba(5,8,22,.92);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.v88-topbar h2{
+  margin:0;
+  font-size:18px;
+}
+
+.v88-launch-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:999px;
+  background:linear-gradient(135deg, rgba(255,0,102,.2), rgba(0,212,255,.18));
+  border:1px solid rgba(255,255,255,.12);
+  font-size:13px;
+  font-weight:700;
+}
+
+.v88-quick-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:14px 0;
+}
+
+.v88-quick-actions button{
+  border-radius:14px;
+  padding:10px 12px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.06);
+}
+
+.v88-nav-group{
+  margin:12px 0;
+  padding:10px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  background:rgba(255,255,255,.035);
+}
+
+.v88-nav-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  padding:10px 12px;
+  border-radius:14px;
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.v88-nav-items{
+  display:none;
+  flex-direction:column;
+  gap:6px;
+  margin-top:10px;
+}
+
+.v88-nav-group.open .v88-nav-items{
+  display:flex;
+}
+
+.v88-nav-items button{
+  width:100%;
+  text-align:left;
+  justify-content:flex-start;
+  opacity:.92;
+}
+
+.v88-nav-items button:hover{
+  opacity:1;
+  transform:translateX(3px);
+}
+
+.v88-dashboard-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:14px;
+  margin:16px 0;
+}
+
+.v88-focus-card{
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:22px;
+  padding:18px;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255,0,102,.2), transparent 35%),
+    radial-gradient(circle at 85% 20%, rgba(0,212,255,.18), transparent 30%),
+    rgba(255,255,255,.045);
+}
+
+.v88-focus-card h3{
+  margin-top:0;
+}
+
+.v88-hidden-old-menu .legacy-flat-nav{
+  display:none !important;
+}
+
+
+/* V89 TRUE SIDEBAR + DASHBOARD LAYOUT FIX */
+:root{
+  --v89-sidebar-w: 260px;
+  --v89-card-radius: 18px;
+}
+
+body{
+  overflow-x:hidden;
+}
+
+.sidebar,
+aside,
+nav.sidebar,
+#sidebar,
+.side,
+.leftbar{
+  width:var(--v89-sidebar-w) !important;
+  min-width:var(--v89-sidebar-w) !important;
+  max-width:var(--v89-sidebar-w) !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  padding:14px 10px !important;
+}
+
+.sidebar button,
+aside button,
+nav.sidebar button,
+#sidebar button,
+.leftbar button{
+  min-height:34px !important;
+  padding:8px 10px !important;
+  font-size:12px !important;
+  line-height:1.15 !important;
+  border-radius:12px !important;
+  white-space:normal !important;
+}
+
+.v89-sidebar-shell{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding:8px 6px 16px;
+}
+
+.v89-sidebar-logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px;
+  border-radius:16px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.08);
+  margin-bottom:6px;
+}
+
+.v89-sidebar-logo strong{
+  font-size:13px;
+  line-height:1.1;
+}
+
+.v89-side-group{
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  background:rgba(255,255,255,.035);
+  overflow:hidden;
+}
+
+.v89-side-title{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  padding:10px 11px;
+  font-weight:800;
+  color:#fff;
+  cursor:pointer;
+  background:rgba(255,255,255,.055);
+  border:0;
+  font-size:12px;
+}
+
+.v89-side-title span:first-child{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.v89-side-items{
+  display:none;
+  flex-direction:column;
+  gap:4px;
+  padding:8px;
+}
+
+.v89-side-group.open .v89-side-items{
+  display:flex;
+}
+
+.v89-side-items button{
+  width:100% !important;
+  text-align:left !important;
+  justify-content:flex-start !important;
+  opacity:.9 !important;
+  background:rgba(255,255,255,.035) !important;
+}
+
+.v89-side-items button:hover{
+  opacity:1 !important;
+  transform:translateX(2px);
+}
+
+.v89-hide-original-menu > button{
+  display:none !important;
+}
+
+main,
+.main,
+.content,
+#app,
+.dashboard,
+.page{
+  max-width:1440px;
+}
+
+.card,
+.stat,
+.panel,
+section .card{
+  border-radius:var(--v89-card-radius) !important;
+}
+
+.grid2{
+  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)) !important;
+  gap:14px !important;
+}
+
+.stats,
+.v88-dashboard-grid{
+  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)) !important;
+  gap:12px !important;
+}
+
+.stat{
+  min-height:78px !important;
+  padding:14px !important;
+}
+
+.stat span,
+.stat strong,
+.card .big,
+[class*="stat"] span{
+  font-size:clamp(22px, 2.2vw, 34px) !important;
+  line-height:1.05 !important;
+}
+
+.card{
+  padding:16px !important;
+  margin-bottom:14px !important;
+}
+
+.card h1,
+.card h2,
+.card h3,
+section h1{
+  line-height:1.1 !important;
+  margin-top:0 !important;
+}
+
+pre{
+  max-height:280px !important;
+  overflow:auto !important;
+  font-size:12px !important;
+  border-radius:14px !important;
+}
+
+input, select, textarea{
+  min-height:42px !important;
+  border-radius:14px !important;
+}
+
+textarea{
+  min-height:88px !important;
+}
+
+button{
+  min-height:38px;
+}
+
+.v89-hero-clean{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:14px;
+  align-items:stretch;
+  margin:10px 0 14px;
+}
+
+.v89-launch-card{
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:22px;
+  padding:18px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(0,212,255,.16), transparent 35%),
+    radial-gradient(circle at 100% 0%, rgba(255,0,128,.14), transparent 30%),
+    rgba(255,255,255,.04);
+}
+
+.v89-launch-card h1{
+  font-size:clamp(24px,3vw,42px);
+  margin:0 0 8px;
+}
+
+.v89-launch-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:12px;
+}
+
+@media(max-width:900px){
+  .v89-hero-clean{
+    grid-template-columns:1fr;
+  }
+  .sidebar,
+  aside,
+  nav.sidebar,
+  #sidebar,
+  .leftbar{
+    width:210px !important;
+    min-width:210px !important;
+    max-width:210px !important;
+  }
+}
+
+
+/* V90 ONE SIDEBAR ONLY FIX */
+#v88GroupedNav{
+  display:none !important;
+}
+
+/* Hide V89 duplicated shell when it appears outside the real sidebar */
+body > .v89-sidebar-shell,
+main .v89-sidebar-shell,
+.content .v89-sidebar-shell,
+.page .v89-sidebar-shell,
+#app > .v89-sidebar-shell{
+  display:none !important;
+}
+
+/* Real left sidebar remains visible */
+aside .v89-sidebar-shell,
+.sidebar .v89-sidebar-shell,
+#sidebar .v89-sidebar-shell,
+.leftbar .v89-sidebar-shell,
+nav .v89-sidebar-shell{
+  display:flex !important;
+}
+
+/* Do not let a second navigation column live inside dashboard content */
+main .v89-side-group,
+.content .v89-side-group,
+.page .v89-side-group{
+  max-width:100%;
+}
+
+/* Clean dashboard spacing */
+main,
+.main,
+.content,
+.dashboard,
+.page{
+  padding-left:18px !important;
+  padding-right:18px !important;
+}
+
+.card,
+.panel,
+.stat{
+  max-width:100% !important;
+}
+
+.stats{
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr)) !important;
+}
+
+.grid2{
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr)) !important;
+}
+
+pre{
+  max-height:230px !important;
+}
+
+/* Make the sidebar cleaner and less huge */
+.sidebar,
+aside,
+nav.sidebar,
+#sidebar,
+.leftbar{
+  width:250px !important;
+  min-width:250px !important;
+  max-width:250px !important;
+}
+
+.v89-sidebar-logo{
+  margin-bottom:10px !important;
+}
+
+.v89-side-title{
+  min-height:38px !important;
+}
+
+.v89-side-items button{
+  min-height:32px !important;
+  font-size:12px !important;
+}
+
+/* Hide old flat buttons only in the actual sidebar, not page action buttons */
+aside.v89-hide-original-menu > button,
+.sidebar.v89-hide-original-menu > button,
+#sidebar.v89-hide-original-menu > button,
+.leftbar.v89-hide-original-menu > button,
+nav.v89-hide-original-menu > button{
+  display:none !important;
+}
+
+
+/* V91 FINAL SIDEBAR REPAIR */
+#v88GroupedNav,
+#v88LaunchCenter,
+#v89CleanLaunch,
+.v88-topbar{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+  height:0 !important;
+  width:0 !important;
+  overflow:hidden !important;
+}
+
+/* Any duplicated generated sidebar shell outside real left zone is removed visually */
+body > .v89-sidebar-shell,
+main .v89-sidebar-shell,
+.main .v89-sidebar-shell,
+.content .v89-sidebar-shell,
+.page .v89-sidebar-shell,
+#app > .v89-sidebar-shell,
+section .v89-sidebar-shell,
+div:not(aside):not(nav):not(.sidebar):not(#sidebar):not(.leftbar) > .v89-sidebar-shell{
+  display:none !important;
+}
+
+/* Keep shell only inside actual left sidebar */
+aside > .v89-sidebar-shell,
+nav > .v89-sidebar-shell,
+.sidebar > .v89-sidebar-shell,
+#sidebar > .v89-sidebar-shell,
+.leftbar > .v89-sidebar-shell{
+  display:flex !important;
+}
+
+#v91LogoutBtn{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:99999;
+  min-height:42px;
+  padding:0 16px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  background:linear-gradient(135deg,#151a2f,#2c1748);
+  color:#fff;
+  font-weight:800;
+  box-shadow:0 12px 32px rgba(0,0,0,.35);
+  cursor:pointer;
+}
+
+#v91LogoutBtn:hover{
+  transform:translateY(-1px);
+}
+
+/* Left sidebar final size */
+aside,
+nav.sidebar,
+.sidebar,
+#sidebar,
+.leftbar{
+  width:250px !important;
+  min-width:250px !important;
+  max-width:250px !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+}
+
+/* Hide only original flat menu buttons inside real sidebar, not page buttons */
+aside.v91-clean > button[onclick*="show("],
+nav.v91-clean > button[onclick*="show("],
+.sidebar.v91-clean > button[onclick*="show("],
+#sidebar.v91-clean > button[onclick*="show("],
+.leftbar.v91-clean > button[onclick*="show("]{
+  display:none !important;
+}
+
+.v91-menu{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding:8px;
+}
+
+.v91-brand{
+  padding:13px 12px;
+  border-radius:18px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.10);
+  font-weight:900;
+  color:#fff;
+}
+
+.v91-group{
+  border-radius:18px;
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(255,255,255,.08);
+  overflow:hidden;
+}
+
+.v91-group-title{
+  width:100%;
+  padding:11px 12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(255,255,255,.07);
+  border:0;
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+  font-size:13px;
+}
+
+.v91-items{
+  display:none;
+  flex-direction:column;
+  gap:5px;
+  padding:8px;
+}
+
+.v91-group.open .v91-items{
+  display:flex;
+}
+
+.v91-items button{
+  width:100% !important;
+  min-height:34px !important;
+  padding:8px 10px !important;
+  border-radius:12px !important;
+  text-align:left !important;
+  justify-content:flex-start !important;
+  font-size:12px !important;
+  background:rgba(255,255,255,.045) !important;
+}
+
+/* Right dashboard cleanup */
+main,.main,.content,.dashboard,.page{
+  max-width:1500px !important;
+}
+
+.grid2{
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr)) !important;
+  gap:14px !important;
+}
+
+.stats{
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr)) !important;
+  gap:12px !important;
+}
+
+.card,.panel,.stat{
+  border-radius:18px !important;
+  padding:15px !important;
+}
+
+pre{
+  max-height:230px !important;
+  overflow:auto !important;
+}

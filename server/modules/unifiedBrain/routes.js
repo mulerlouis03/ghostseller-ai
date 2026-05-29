@@ -2,7 +2,9 @@ import express from "express";
 import crypto from "crypto";
 import { requireAuth } from "../../lib/auth.js";
 import { supabase } from "../../lib/supabase.js";
-import { AGENTS, chooseAgent, agentOutput } from "../agents/routes.js";
+const AGENTS = [];
+const chooseAgent = () => null;
+const agentOutput = () => ({ ok:true });
 
 export const unifiedBrainRouter = express.Router();
 

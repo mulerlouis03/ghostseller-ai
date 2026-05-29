@@ -8,12 +8,24 @@
   ],
   "routes": [
     {
+      "src": "/privacy",
+      "dest": "server.js"
+    },
+    {
+      "src": "/terms",
+      "dest": "server.js"
+    },
+    {
+      "src": "/contact",
+      "dest": "server.js"
+    },
+    {
       "src": "/tiktok-developers-site-verification.txt",
       "dest": "server.js"
     },
     {
-      "src": "/favicon.ico",
-      "dest": "/favicon.ico"
+      "src": "/api/stripe-live/webhook",
+      "dest": "server.js"
     },
     {
       "src": "/api/(.*)",

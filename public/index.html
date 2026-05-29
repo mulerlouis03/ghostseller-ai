@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-
 <div id="authView" class="auth-page">
   <div class="auth-shell">
     <div class="auth-left">
@@ -67,6 +66,12 @@
     <button onclick="show('autoGrowth'); loadAutoGrowthDashboard()">📈 Autonomous Growth</button>
     <button onclick="show('launchpad'); loadLaunchpadStatus()">🚀 Launchpad</button>
     <button onclick="show('tiktokEngine'); loadTikTokStatus()">🎵 TikTok Engine</button>
+<button onclick="show('acquisition'); loadAcquisitionStats()">🚀 Acquisition</button>
+<button onclick="show('revenueAutomation'); loadRevenueAutomationStatus()">💸 Revenue Automation</button>
+<button onclick="show('stripeLive'); loadStripeLiveStatus()">💳 Stripe Live</button>
+<button onclick="show('referral'); loadReferralMe()">🎁 Referral</button>
+<button onclick="show('tiktokAutomation'); loadTikTokAutomationStatus()">📅 TikTok Automation</button>
+<button onclick="show('tiktokConnect'); loadTikTokConnectStatus()">🔗 TikTok Connect</button>
     <button onclick="show('agents'); loadAgentsDashboard()">🤖 AI Agents</button>
     <button onclick="show('publicBeta'); loadBetaLaunchChecklist()">🚀 Public Beta</button>
     <button onclick="show('adminPro'); loadAdminOverview()">👑 Admin Pro</button>
@@ -146,7 +151,13 @@
       </div>
     </section>
 
-    <section id="dashboard" class="page">
+    
+
+
+
+
+
+<section id="dashboard" class="page">
 
       <div class="stats">
         <div class="stat"><span id="statPlan">Free</span><p>Plan</p></div>
@@ -511,7 +522,7 @@
 
     <div class="card">
       <h2>Go Live Note</h2>
-      <textarea id="goLiveNote" placeholder="Note de lancement">GhostSeller AI V82 HOTFIX is ready for public launch.</textarea>
+      <textarea id="goLiveNote" placeholder="Note de lancement">GhostSeller AI V93 is ready for public launch.</textarea>
       <button onclick="saveGoLiveNote()">Save go-live note</button>
       <div id="goLiveOut"></div>
     </div>
@@ -557,7 +568,198 @@
   </div>
 </section>
 
+
+<section id="acquisition" class="page hidden">
+<h1>Real User Acquisition</h1>
+
+<div class="grid2">
+
+<div class="card">
+<h2>Waitlist</h2>
+<input id="waitlistEmail" placeholder="Email">
+<select id="waitlistSource">
+<option value="tiktok">TikTok</option>
+<option value="instagram">Instagram</option>
+<option value="youtube">YouTube</option>
+<option value="organic">Organic</option>
+</select>
+<button onclick="joinWaitlist()">Join Waitlist</button>
+<div id="waitlistOut"></div>
+</div>
+
+<div class="card">
+<h2>Acquisition Stats</h2>
+<button onclick="loadAcquisitionStats()">Load Stats</button>
+<div id="acquisitionOut"></div>
+</div>
+
+</div>
+
+<div class="card">
+<h2>Subscription Plans</h2>
+<button onclick="loadPlans()">Load Plans</button>
+<div id="plansOut"></div>
+</div>
+</section>
+
+
+<section id="revenueAutomation" class="page hidden">
+<h1>Revenue Automation</h1>
+<div class="grid2">
+<div class="card">
+<h2>Status</h2>
+<button onclick="loadRevenueAutomationStatus()">Check status</button>
+<button onclick="startTrial()">Start 7-day trial</button>
+<button onclick="sendUpgradeEmail()">Send upgrade email</button>
+<div id="revenueAutomationOut"></div>
+</div>
+<div class="card">
+<h2>Owner Activate Plan</h2>
+<input id="raEmail" placeholder="User email">
+<select id="raPlan"><option>Free</option><option>Starter</option><option>Pro</option><option>Agency</option></select>
+<button onclick="activateRevenuePlan()">Activate plan</button>
+<div id="activatePlanOut"></div>
+</div>
+</div>
+<div class="card"><h2>Revenue Logs</h2><button onclick="loadRevenueAutomationLogs()">Load logs</button><div id="revenueLogsOut"></div></div>
+</section>
+
+<section id="stripeLive" class="page hidden">
+<h1>Stripe Live Payments</h1>
+<div class="grid2">
+<div class="card">
+<h2>Status</h2>
+<button onclick="loadStripeLiveStatus()">Check Stripe Live</button>
+<button onclick="openStripePortal()">Customer Portal</button>
+<div id="stripeLiveStatusOut"></div>
+</div>
+<div class="card">
+<h2>Checkout</h2>
+<select id="stripeLivePlan"><option>Starter</option><option>Pro</option><option>Agency</option></select>
+<button onclick="startStripeLiveCheckout()">Start Checkout</button>
+<div id="stripeLiveCheckoutOut"></div>
+</div>
+</div>
+<div class="card"><h2>Billing Events</h2><button onclick="loadStripeLiveEvents()">Load events</button><div id="stripeLiveEventsOut"></div></div>
+</section>
+
+<section id="referral" class="page hidden">
+  <h1>Referral & Promo Growth</h1>
+  <p class="muted">Parrainage viral, liens d'invitation, codes promo et récompenses crédits.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>My Referral Link</h2>
+      <button onclick="loadReferralMe()">Load my link</button>
+      <div id="referralMeOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Redeem Promo Code</h2>
+      <input id="promoCode" placeholder="Promo code">
+      <button onclick="redeemPromoCode()">Redeem</button>
+      <div id="promoRedeemOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Create Promo Code</h2>
+      <input id="newPromoCode" placeholder="Code" value="GHOST100">
+      <input id="newPromoCredits" placeholder="Credits" value="100">
+      <input id="newPromoMaxUses" placeholder="Max uses" value="100">
+      <button onclick="createPromoCode()">Create Promo</button>
+      <div id="promoCreateOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Referral Leaderboard</h2>
+      <button onclick="loadReferralLeaderboard()">Load leaderboard</button>
+      <div id="referralLeaderboardOut"></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="tiktokAutomation" class="page hidden">
+  <h1>TikTok Automation Studio</h1>
+  <p class="muted">Scripts TikTok, calendrier, posts planifiés et queue de publication sécurisée.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Status</h2>
+      <button onclick="loadTikTokAutomationStatus()">Check status</button>
+      <div id="tiktokAutomationStatusOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Generate Script</h2>
+      <input id="taNiche" placeholder="Niche" value="business">
+      <input id="taTopic" placeholder="Topic" value="AI Marketing">
+      <select id="taMode">
+        <option value="viral">Viral</option>
+        <option value="story">Story</option>
+        <option value="authority">Authority</option>
+        <option value="shock">Shock</option>
+      </select>
+      <button onclick="generateTikTokAutomationScript()">Generate script</button>
+      <div id="taScriptOut"></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Schedule Post</h2>
+      <input id="taScheduleAt" placeholder="Scheduled at ISO optional">
+      <input id="taMediaUrl" placeholder="Media URL optional">
+      <textarea id="taCaption" placeholder="Caption optional"></textarea>
+      <button onclick="scheduleTikTokPost()">Schedule post</button>
+      <div id="taScheduleOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Calendar</h2>
+      <button onclick="loadTikTokCalendar()">Load calendar</button>
+      <div id="taCalendarOut"></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="tiktokConnect" class="page hidden">
+  <h1>TikTok Connect</h1>
+  <p class="muted">Connexion officielle TikTok OAuth. La publication réelle demande l'approbation TikTok Developer pour video.upload ou video.publish.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h2>Connection Status</h2>
+      <button onclick="loadTikTokConnectStatus()">Check status</button>
+      <button onclick="startTikTokConnect()">Connect TikTok</button>
+      <button onclick="refreshTikTokToken()">Refresh token</button>
+      <button onclick="disconnectTikTok()">Disconnect</button>
+      <div id="tiktokConnectStatusOut"></div>
+    </div>
+
+    <div class="card">
+      <h2>Upload Draft from URL</h2>
+      <input id="tcVideoUrl" placeholder="https://your-domain.com/video.mp4">
+      <textarea id="tcCaption" placeholder="Caption">Created with GhostSeller AI</textarea>
+      <button onclick="uploadTikTokDraftFromUrl()">Send draft to TikTok</button>
+      <div id="tiktokUploadOut"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Publish Attempts</h2>
+    <button onclick="loadTikTokAttempts()">Load attempts</button>
+    <div id="tiktokAttemptsOut"></div>
+  </div>
+</section>
+
 <section id="content" class="page hidden">
+
+
+
 
 
 
@@ -1243,5 +1445,15 @@
 
 <script src="/i18n.js"></script>
 <script src="/app.js"></script>
+
+<button id="v91LogoutBtn" onclick="v91Logout()" title="Déconnexion">⎋ Déconnexion</button>
+
+<div id="v93LegalFooter" style="position:fixed;left:12px;bottom:12px;z-index:9999;background:rgba(5,8,22,.72);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:8px 12px;font-size:12px;backdrop-filter:blur(10px)">
+  <a href="/privacy" style="color:#aeb8d6;text-decoration:none;margin-right:10px">Privacy</a>
+  <a href="/terms" style="color:#aeb8d6;text-decoration:none;margin-right:10px">Terms</a>
+  <a href="/contact" style="color:#aeb8d6;text-decoration:none">Contact</a>
+</div>
+
 </body>
+
 </html>

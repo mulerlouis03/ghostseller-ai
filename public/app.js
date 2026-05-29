@@ -1814,3 +1814,443 @@ async function loadAgentMemory(){
     out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
   }
 }
+
+
+async function joinWaitlist(){
+  const out = qs("waitlistOut");
+  out.innerHTML = "Joining waitlist...";
+
+  try{
+    const data = await api("/api/acquisition/waitlist","POST",{
+      email:val("waitlistEmail"),
+      source:val("waitlistSource")
+    });
+
+    out.innerHTML = `<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadAcquisitionStats(){
+  const out = qs("acquisitionOut");
+  out.innerHTML = "Loading stats...";
+
+  try{
+    const data = await api("/api/acquisition/stats");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.stats,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadPlans(){
+  const out = qs("plansOut");
+  out.innerHTML = "Loading plans...";
+
+  try{
+    const data = await api("/api/acquisition/plans");
+    out.innerHTML = `<pre>${esc(JSON.stringify(data.plans,null,2))}</pre>`;
+  }catch(e){
+    out.innerHTML = `<p class="error">${esc(e.message)}</p>`;
+  }
+}
+
+async function loadRevenueAutomationStatus(){
+  const out=qs("revenueAutomationOut"); out.innerHTML="Loading...";
+  try{ const data=await api("/api/revenue-automation/status"); out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`; }
+  catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+async function startTrial(){
+  const out=qs("revenueAutomationOut"); out.innerHTML="Starting trial...";
+  try{ const data=await api("/api/revenue-automation/trial-start","POST",{plan:"Starter"}); out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`; }
+  catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+async function sendUpgradeEmail(){
+  const out=qs("revenueAutomationOut"); out.innerHTML="Sending...";
+  try{ const data=await api("/api/revenue-automation/send-upgrade-email","POST",{plan:"Pro"}); out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`; }
+  catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+async function activateRevenuePlan(){
+  const out=qs("activatePlanOut"); out.innerHTML="Activating...";
+  try{ const data=await api("/api/revenue-automation/activate-plan","POST",{email:val("raEmail"),plan:val("raPlan")}); out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`; }
+  catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+async function loadRevenueAutomationLogs(){
+  const out=qs("revenueLogsOut"); out.innerHTML="Loading...";
+  try{ const data=await api("/api/revenue-automation/logs"); out.innerHTML=`<pre>${esc(JSON.stringify(data.logs,null,2))}</pre>`; }
+  catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function loadStripeLiveStatus(){
+  const out=qs("stripeLiveStatusOut"); out.innerHTML="Loading Stripe Live status...";
+  try{ const data=await api("/api/stripe-live/status"); out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`; }
+  catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+async function startStripeLiveCheckout(){
+  const out=qs("stripeLiveCheckoutOut"); out.innerHTML="Starting Stripe checkout...";
+  try{ const data=await api("/api/stripe-live/checkout","POST",{plan:val("stripeLivePlan")}); if(data.url) location.href=data.url; else out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`; }
+  catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+async function openStripePortal(){
+  try{ const data=await api("/api/stripe-live/portal","POST",{}); if(data.url) location.href=data.url; else alert("Portal unavailable."); }
+  catch(e){ alert(e.message); }
+}
+async function loadStripeLiveEvents(){
+  const out=qs("stripeLiveEventsOut"); out.innerHTML="Loading events...";
+  try{ const data=await api("/api/stripe-live/events"); out.innerHTML=`<pre>${esc(JSON.stringify(data.events,null,2))}</pre>`; }
+  catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+
+async function loadReferralMe(){
+  const out=qs("referralMeOut"); out.innerHTML="Loading referral profile...";
+  try{
+    const data=await api("/api/referral/me");
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function redeemPromoCode(){
+  const out=qs("promoRedeemOut"); out.innerHTML="Redeeming promo...";
+  try{
+    const data=await api("/api/promo/redeem","POST",{code:val("promoCode")});
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function createPromoCode(){
+  const out=qs("promoCreateOut"); out.innerHTML="Creating promo...";
+  try{
+    const data=await api("/api/promo/create","POST",{
+      code:val("newPromoCode"),
+      credits:Number(val("newPromoCredits")),
+      max_uses:Number(val("newPromoMaxUses"))
+    });
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function loadReferralLeaderboard(){
+  const out=qs("referralLeaderboardOut"); out.innerHTML="Loading leaderboard...";
+  try{
+    const data=await api("/api/referral/leaderboard");
+    out.innerHTML=`<pre>${esc(JSON.stringify(data.leaderboard,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+(function trackReferralFromUrl(){
+  try{
+    const params=new URLSearchParams(location.search);
+    const ref=params.get("ref");
+    if(ref){
+      localStorage.setItem("ghostseller_referral_code", ref);
+      fetch("/api/referral/track-click",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({ref, source:"url", path:location.pathname})
+      }).catch(()=>{});
+    }
+  }catch(_e){}
+})();
+
+
+async function loadTikTokAutomationStatus(){
+  const out=qs("tiktokAutomationStatusOut");
+  out.innerHTML="Loading TikTok automation status...";
+  try{
+    const data=await api("/api/tiktok-automation/status");
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function generateTikTokAutomationScript(){
+  const out=qs("taScriptOut");
+  out.innerHTML="Generating script...";
+  try{
+    const data=await api("/api/tiktok-automation/script","POST",{
+      niche:val("taNiche"),
+      topic:val("taTopic"),
+      mode:val("taMode")
+    });
+    out.innerHTML=`<pre>${esc(JSON.stringify(data.script,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function scheduleTikTokPost(){
+  const out=qs("taScheduleOut");
+  out.innerHTML="Scheduling post...";
+  try{
+    const data=await api("/api/tiktok-automation/schedule","POST",{
+      niche:val("taNiche"),
+      topic:val("taTopic"),
+      mode:val("taMode"),
+      scheduled_at:val("taScheduleAt") || null,
+      media_url:val("taMediaUrl"),
+      caption:val("taCaption")
+    });
+    out.innerHTML=`<pre>${esc(JSON.stringify(data.scheduled,null,2))}</pre>`;
+    await loadTikTokCalendar();
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function loadTikTokCalendar(){
+  const out=qs("taCalendarOut");
+  out.innerHTML="Loading calendar...";
+  try{
+    const data=await api("/api/tiktok-automation/calendar");
+    out.innerHTML=`<pre>${esc(JSON.stringify(data.calendar,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+
+function initV88DashboardUX(){ return true; }
+
+function initV89DashboardSizing(){
+  try{
+    document.body.classList.add("v89-dashboard-ready");
+    const bigPres = Array.from(document.querySelectorAll("pre"));
+    bigPres.forEach(pre=>{
+      if(pre.textContent.length > 1000){
+        pre.style.maxHeight = "260px";
+        pre.style.overflow = "auto";
+      }
+    });
+  }catch(e){}
+}
+
+document.addEventListener("DOMContentLoaded", ()=>{ initV89TrueSidebar(); initV89DashboardSizing(); });
+setTimeout(()=>{ initV89TrueSidebar(); initV89DashboardSizing(); }, 500);
+setTimeout(()=>{ initV89TrueSidebar(); initV89DashboardSizing(); }, 1500);
+
+
+function initV90SingleSidebarFix(){
+  try{
+    // Remove duplicated V88/V89 launch/menu blocks if injected in main content
+    document.querySelectorAll("#v88GroupedNav").forEach(el=>el.remove());
+
+    document.querySelectorAll("#v88LaunchCenter,#v89CleanLaunch").forEach(el=>el.remove());
+
+    const shells = Array.from(document.querySelectorAll(".v89-sidebar-shell"));
+    shells.forEach(shell=>{
+      const inRealSidebar = shell.closest("aside,.sidebar,#sidebar,.leftbar,nav");
+      if(!inRealSidebar){
+        shell.remove();
+      }
+    });
+
+    // Rebuild grouping only inside the real left sidebar
+    const sidebars = Array.from(document.querySelectorAll("aside,.sidebar,#sidebar,.leftbar,nav"));
+    let realSidebar = null;
+
+    for(const s of sidebars){
+      const rect = s.getBoundingClientRect();
+      const buttonCount = s.querySelectorAll("button[onclick*=\"show(\"]").length;
+      if(buttonCount >= 5 && rect.left < 350){
+        realSidebar = s;
+        break;
+      }
+    }
+
+    if(!realSidebar) return;
+
+    realSidebar.querySelectorAll(".v89-sidebar-shell").forEach((el,idx)=>{
+      if(idx > 0) el.remove();
+    });
+
+    realSidebar.classList.add("v89-hide-original-menu");
+  }catch(e){
+    console.warn("V90 sidebar cleanup skipped", e);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", initV90SingleSidebarFix);
+setTimeout(initV90SingleSidebarFix, 300);
+setTimeout(initV90SingleSidebarFix, 1000);
+setTimeout(initV90SingleSidebarFix, 2000);
+
+
+function v91Logout(){
+  try{
+    localStorage.removeItem("token");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("ghostseller_token");
+    sessionStorage.clear();
+  }catch(e){}
+  location.href="/";
+}
+
+function initV91FinalSidebarRepair(){
+  try{
+    document.querySelectorAll("#v88GroupedNav,#v88LaunchCenter,#v89CleanLaunch,.v88-topbar").forEach(el=>el.remove());
+
+    // Remove old generated shells first
+    document.querySelectorAll(".v89-sidebar-shell,.v91-menu").forEach(el=>el.remove());
+
+    const sidebarCandidates = Array.from(document.querySelectorAll("aside,nav,.sidebar,#sidebar,.leftbar,[class*='sidebar'],[class*='side']"));
+    let sidebar = null;
+
+    for(const el of sidebarCandidates){
+      const rect = el.getBoundingClientRect();
+      const btns = el.querySelectorAll("button[onclick*=\"show(\"]").length;
+      if(btns >= 5 && rect.left < 330){
+        sidebar = el;
+        break;
+      }
+    }
+
+    if(!sidebar){
+      const firstBtn = document.querySelector("button[onclick*=\"show(\"]");
+      sidebar = firstBtn ? (firstBtn.closest("aside,nav,.sidebar,#sidebar,.leftbar") || firstBtn.parentElement) : null;
+    }
+
+    if(!sidebar) return;
+
+    sidebar.classList.add("v91-clean");
+
+    const sourceButtons = Array.from(sidebar.querySelectorAll("button[onclick*=\"show(\"]"));
+    if(!sourceButtons.length) return;
+
+    const groups = [
+      { title:"🎵 TikTok Launch", open:true, keys:["dashboard","tiktokEngine","tiktokAutomation","launchpad","autoGrowth"] },
+      { title:"🚀 Acquisition", open:true, keys:["acquisition","referral","waitlist","beta"] },
+      { title:"💰 Revenus", open:false, keys:["stripeLive","revenueAutomation","revenue","billing","subscription","abonnement"] },
+      { title:"🤖 IA & Création", open:false, keys:["realAI","content","creative","video","brain","unifiedBrain","agents","execution","opportunities","ghost"] },
+      { title:"⚙️ Admin", open:false, keys:["admin","socialConnectors","usage","settings","security","onboarding","language"] }
+    ];
+
+    const menu = document.createElement("div");
+    menu.className = "v91-menu";
+    menu.innerHTML = `<div class="v91-brand">GhostSeller AI<br><small>V91 Clean</small></div>`;
+
+    const used = new Set();
+
+    groups.forEach(group=>{
+      const box = document.createElement("div");
+      box.className = "v91-group" + (group.open ? " open" : "");
+
+      const title = document.createElement("button");
+      title.type = "button";
+      title.className = "v91-group-title";
+      title.innerHTML = `<span>${group.title}</span><span>⌄</span>`;
+      title.onclick = () => box.classList.toggle("open");
+
+      const items = document.createElement("div");
+      items.className = "v91-items";
+
+      sourceButtons.forEach((btn, idx)=>{
+        const onclick = (btn.getAttribute("onclick") || "").toLowerCase();
+        const text = (btn.textContent || "").toLowerCase();
+        const match = group.keys.some(k => onclick.includes(k.toLowerCase()) || text.includes(k.toLowerCase()));
+        if(match && !used.has(idx)){
+          items.appendChild(btn.cloneNode(true));
+          used.add(idx);
+        }
+      });
+
+      if(items.children.length){
+        box.appendChild(title);
+        box.appendChild(items);
+        menu.appendChild(box);
+      }
+    });
+
+    const others = document.createElement("div");
+    others.className = "v91-items";
+    sourceButtons.forEach((btn,idx)=>{
+      if(!used.has(idx)){
+        others.appendChild(btn.cloneNode(true));
+      }
+    });
+
+    if(others.children.length){
+      const box = document.createElement("div");
+      box.className = "v91-group";
+      const title = document.createElement("button");
+      title.type = "button";
+      title.className = "v91-group-title";
+      title.innerHTML = "<span>📦 Autres</span><span>⌄</span>";
+      title.onclick = () => box.classList.toggle("open");
+      box.appendChild(title);
+      box.appendChild(others);
+      menu.appendChild(box);
+    }
+
+    sidebar.insertBefore(menu, sidebar.firstChild);
+
+    // Ensure logout exists
+    if(!document.getElementById("v91LogoutBtn")){
+      const b = document.createElement("button");
+      b.id = "v91LogoutBtn";
+      b.textContent = "⎋ Déconnexion";
+      b.onclick = v91Logout;
+      document.body.appendChild(b);
+    }
+  }catch(e){
+    console.warn("V91 sidebar repair skipped", e);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", initV91FinalSidebarRepair);
+setTimeout(initV91FinalSidebarRepair, 250);
+setTimeout(initV91FinalSidebarRepair, 1000);
+setTimeout(initV91FinalSidebarRepair, 2500);
+
+
+async function loadTikTokConnectStatus(){
+  const out=qs("tiktokConnectStatusOut");
+  out.innerHTML="Loading TikTok connection status...";
+  try{
+    const data=await api("/api/tiktok-connect/status");
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function startTikTokConnect(){
+  const out=qs("tiktokConnectStatusOut");
+  out.innerHTML="Creating TikTok OAuth link...";
+  try{
+    const data=await api("/api/tiktok-connect/start");
+    if(data.url) location.href=data.url;
+    else out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function refreshTikTokToken(){
+  const out=qs("tiktokConnectStatusOut");
+  out.innerHTML="Refreshing TikTok token...";
+  try{
+    const data=await api("/api/tiktok-connect/refresh","POST",{});
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function disconnectTikTok(){
+  const out=qs("tiktokConnectStatusOut");
+  out.innerHTML="Disconnecting TikTok...";
+  try{
+    const data=await api("/api/tiktok-connect/disconnect","POST",{});
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function uploadTikTokDraftFromUrl(){
+  const out=qs("tiktokUploadOut");
+  out.innerHTML="Sending TikTok draft...";
+  try{
+    const data=await api("/api/tiktok-connect/upload-draft-from-url","POST",{
+      video_url:val("tcVideoUrl"),
+      caption:val("tcCaption")
+    });
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function loadTikTokAttempts(){
+  const out=qs("tiktokAttemptsOut");
+  out.innerHTML="Loading TikTok attempts...";
+  try{
+    const data=await api("/api/tiktok-connect/attempts");
+    out.innerHTML=`<pre>${esc(JSON.stringify(data.attempts,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
