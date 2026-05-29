@@ -1,20 +1,41 @@
-# GhostSeller AI V93 PUBLIC LAUNCH READY
+# GhostSeller AI V94 STRIPE BILLING READY
 
-Basé sur V92 stable.
+Basé sur V93 stable.
 
 ## Ajouts
-- `/privacy`
-- `/terms`
-- `/contact`
-- footer légal public
-- contenu prêt pour TikTok Developer / Stripe trust
+- Stripe Billing API `/api/billing`
+- Plans Starter / Pro / Agency
+- Checkout Stripe
+- Customer Portal
+- Subscription status
+- Webhook billing
+- Tables Supabase billing
+
+## Variables Vercel
+
+```txt
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+STRIPE_PRICE_STARTER=
+STRIPE_PRICE_PRO=
+STRIPE_PRICE_AGENCY=
+APP_URL=https://ghostseller-ai.vercel.app
+```
+
+## Supabase
+
+Exécute :
+
+```txt
+supabase/V94_STRIPE_BILLING_READY.sql
+```
 
 ## Commandes
 
 ```bash
 npm install
 git add .
-git commit -m "GhostSeller V93 Public Launch Ready"
+git commit -m "GhostSeller V94 Stripe Billing Ready"
 git push
 ```
 
@@ -22,21 +43,18 @@ git push
 
 ```txt
 /api/health
-/privacy
-/terms
-/contact
-/tiktok-developers-site-verification.txt
+/api/billing/plans
+/api/billing/status
 ```
 
-## TikTok Developer
+## Stripe Dashboard
 
-```txt
-Terms of Service URL:
-https://ghostseller-ai.vercel.app/terms
+Créer 3 produits/prix mensuels :
+- Starter 9,99€/mois
+- Pro 29,99€/mois
+- Agency 79,99€/mois
 
-Privacy Policy URL:
-https://ghostseller-ai.vercel.app/privacy
-
-Redirect URI:
-https://ghostseller-ai.vercel.app/api/tiktok-connect/callback
-```
+Copier les Price IDs dans Vercel :
+- STRIPE_PRICE_STARTER
+- STRIPE_PRICE_PRO
+- STRIPE_PRICE_AGENCY

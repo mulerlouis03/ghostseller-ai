@@ -2254,3 +2254,33 @@ async function loadTikTokAttempts(){
     out.innerHTML=`<pre>${esc(JSON.stringify(data.attempts,null,2))}</pre>`;
   }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
 }
+
+
+async function loadBillingStatus(){
+  const out=qs("billingStatusOut");
+  out.innerHTML="Chargement billing...";
+  try{
+    const data=await api("/api/billing/status");
+    out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function startStripeCheckout(plan){
+  const out=qs("billingCheckoutOut");
+  out.innerHTML="Création du checkout Stripe...";
+  try{
+    const data=await api("/api/billing/checkout","POST",{plan});
+    if(data.url) location.href=data.url;
+    else out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
+
+async function openCustomerPortal(){
+  const out=qs("billingStatusOut");
+  out.innerHTML="Ouverture du portail Stripe...";
+  try{
+    const data=await api("/api/billing/portal","POST",{});
+    if(data.url) location.href=data.url;
+    else out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
+  }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
+}
