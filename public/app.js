@@ -2006,136 +2006,6 @@ async function loadTikTokCalendar(){
 
 function initV88DashboardUX(){ return true; }
 
-document.addEventListener("DOMContentLoaded", initV88DashboardUX);
-setTimeout(initV88DashboardUX, 800);
-
-
-function initV89TrueSidebar(){
-  try{
-    const allButtons = Array.from(document.querySelectorAll("button[onclick*=\"show(\"]"));
-    if(!allButtons.length) return;
-
-    const sidebarCandidates = Array.from(document.querySelectorAll("aside, nav, .sidebar, #sidebar, .leftbar, [class*='side'], [class*='nav']"));
-    let sidebar = null;
-
-    for(const el of sidebarCandidates){
-      const count = el.querySelectorAll("button[onclick*=\"show(\"]").length;
-      if(count >= 6){
-        sidebar = el;
-        break;
-      }
-    }
-
-    if(!sidebar){
-      const first = allButtons[0];
-      sidebar = first.closest("aside, nav, .sidebar, #sidebar, .leftbar") || first.parentElement;
-    }
-
-    if(!sidebar || sidebar.dataset.v89Ready === "true") return;
-    sidebar.dataset.v89Ready = "true";
-    sidebar.classList.add("v89-hide-original-menu");
-
-    const sourceButtons = Array.from(sidebar.querySelectorAll("button[onclick*=\"show(\"]"));
-
-    const groups = [
-      {
-        title:"🎵 TikTok Launch",
-        open:true,
-        keys:["tiktokEngine","tiktokAutomation","tiktokLaunch","autoGrowth","launchpad"]
-      },
-      {
-        title:"🚀 Acquisition",
-        open:true,
-        keys:["acquisition","referral","publicBeta","beta","waitlist"]
-      },
-      {
-        title:"💰 Revenus",
-        open:false,
-        keys:["stripeLive","revenueAutomation","revenue","billing","subscription","pricing"]
-      },
-      {
-        title:"🤖 IA Création",
-        open:false,
-        keys:["realAI","content","creative","video","brain","unifiedBrain","agents","execution","opportunities","ghost"]
-      },
-      {
-        title:"⚙️ Admin",
-        open:false,
-        keys:["dashboard","admin","socialConnectors","usage","settings","security","onboarding","language"]
-      }
-    ];
-
-    const shell = document.createElement("div");
-    shell.className = "v89-sidebar-shell";
-
-    const logo = document.createElement("div");
-    logo.className = "v89-sidebar-logo";
-    logo.innerHTML = "<strong>GhostSeller AI<br><small>V89 Clean</small></strong>";
-    shell.appendChild(logo);
-
-    const used = new Set();
-
-    function addGroup(group){
-      const box = document.createElement("div");
-      box.className = "v89-side-group" + (group.open ? " open" : "");
-
-      const title = document.createElement("button");
-      title.type = "button";
-      title.className = "v89-side-title";
-      title.innerHTML = `<span>${group.title}</span><span>⌄</span>`;
-      title.onclick = () => box.classList.toggle("open");
-
-      const items = document.createElement("div");
-      items.className = "v89-side-items";
-
-      sourceButtons.forEach((btn, idx)=>{
-        const onclick = btn.getAttribute("onclick") || "";
-        const txt = (btn.textContent || "").toLowerCase();
-        const matched = group.keys.some(k => onclick.toLowerCase().includes(k.toLowerCase()) || txt.includes(k.toLowerCase()));
-        if(matched && !used.has(idx)){
-          const clone = btn.cloneNode(true);
-          items.appendChild(clone);
-          used.add(idx);
-        }
-      });
-
-      if(items.children.length){
-        box.appendChild(title);
-        box.appendChild(items);
-        shell.appendChild(box);
-      }
-    }
-
-    groups.forEach(addGroup);
-
-    const otherItems = document.createElement("div");
-    otherItems.className = "v89-side-items";
-    sourceButtons.forEach((btn, idx)=>{
-      if(!used.has(idx)){
-        const clone = btn.cloneNode(true);
-        otherItems.appendChild(clone);
-      }
-    });
-
-    if(otherItems.children.length){
-      const box = document.createElement("div");
-      box.className = "v89-side-group";
-      const title = document.createElement("button");
-      title.type = "button";
-      title.className = "v89-side-title";
-      title.innerHTML = "<span>📦 Autres modules</span><span>⌄</span>";
-      title.onclick = () => box.classList.toggle("open");
-      box.appendChild(title);
-      box.appendChild(otherItems);
-      shell.appendChild(box);
-    }
-
-    sidebar.insertBefore(shell, sidebar.firstChild);
-  }catch(e){
-    console.warn("V89 sidebar init skipped", e);
-  }
-}
-
 function initV89DashboardSizing(){
   try{
     document.body.classList.add("v89-dashboard-ready");
@@ -2198,3 +2068,130 @@ document.addEventListener("DOMContentLoaded", initV90SingleSidebarFix);
 setTimeout(initV90SingleSidebarFix, 300);
 setTimeout(initV90SingleSidebarFix, 1000);
 setTimeout(initV90SingleSidebarFix, 2000);
+
+
+function v91Logout(){
+  try{
+    localStorage.removeItem("token");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("ghostseller_token");
+    sessionStorage.clear();
+  }catch(e){}
+  location.href="/";
+}
+
+function initV91FinalSidebarRepair(){
+  try{
+    document.querySelectorAll("#v88GroupedNav,#v88LaunchCenter,#v89CleanLaunch,.v88-topbar").forEach(el=>el.remove());
+
+    // Remove old generated shells first
+    document.querySelectorAll(".v89-sidebar-shell,.v91-menu").forEach(el=>el.remove());
+
+    const sidebarCandidates = Array.from(document.querySelectorAll("aside,nav,.sidebar,#sidebar,.leftbar,[class*='sidebar'],[class*='side']"));
+    let sidebar = null;
+
+    for(const el of sidebarCandidates){
+      const rect = el.getBoundingClientRect();
+      const btns = el.querySelectorAll("button[onclick*=\"show(\"]").length;
+      if(btns >= 5 && rect.left < 330){
+        sidebar = el;
+        break;
+      }
+    }
+
+    if(!sidebar){
+      const firstBtn = document.querySelector("button[onclick*=\"show(\"]");
+      sidebar = firstBtn ? (firstBtn.closest("aside,nav,.sidebar,#sidebar,.leftbar") || firstBtn.parentElement) : null;
+    }
+
+    if(!sidebar) return;
+
+    sidebar.classList.add("v91-clean");
+
+    const sourceButtons = Array.from(sidebar.querySelectorAll("button[onclick*=\"show(\"]"));
+    if(!sourceButtons.length) return;
+
+    const groups = [
+      { title:"🎵 TikTok Launch", open:true, keys:["dashboard","tiktokEngine","tiktokAutomation","launchpad","autoGrowth"] },
+      { title:"🚀 Acquisition", open:true, keys:["acquisition","referral","waitlist","beta"] },
+      { title:"💰 Revenus", open:false, keys:["stripeLive","revenueAutomation","revenue","billing","subscription","abonnement"] },
+      { title:"🤖 IA & Création", open:false, keys:["realAI","content","creative","video","brain","unifiedBrain","agents","execution","opportunities","ghost"] },
+      { title:"⚙️ Admin", open:false, keys:["admin","socialConnectors","usage","settings","security","onboarding","language"] }
+    ];
+
+    const menu = document.createElement("div");
+    menu.className = "v91-menu";
+    menu.innerHTML = `<div class="v91-brand">GhostSeller AI<br><small>V91 Clean</small></div>`;
+
+    const used = new Set();
+
+    groups.forEach(group=>{
+      const box = document.createElement("div");
+      box.className = "v91-group" + (group.open ? " open" : "");
+
+      const title = document.createElement("button");
+      title.type = "button";
+      title.className = "v91-group-title";
+      title.innerHTML = `<span>${group.title}</span><span>⌄</span>`;
+      title.onclick = () => box.classList.toggle("open");
+
+      const items = document.createElement("div");
+      items.className = "v91-items";
+
+      sourceButtons.forEach((btn, idx)=>{
+        const onclick = (btn.getAttribute("onclick") || "").toLowerCase();
+        const text = (btn.textContent || "").toLowerCase();
+        const match = group.keys.some(k => onclick.includes(k.toLowerCase()) || text.includes(k.toLowerCase()));
+        if(match && !used.has(idx)){
+          items.appendChild(btn.cloneNode(true));
+          used.add(idx);
+        }
+      });
+
+      if(items.children.length){
+        box.appendChild(title);
+        box.appendChild(items);
+        menu.appendChild(box);
+      }
+    });
+
+    const others = document.createElement("div");
+    others.className = "v91-items";
+    sourceButtons.forEach((btn,idx)=>{
+      if(!used.has(idx)){
+        others.appendChild(btn.cloneNode(true));
+      }
+    });
+
+    if(others.children.length){
+      const box = document.createElement("div");
+      box.className = "v91-group";
+      const title = document.createElement("button");
+      title.type = "button";
+      title.className = "v91-group-title";
+      title.innerHTML = "<span>📦 Autres</span><span>⌄</span>";
+      title.onclick = () => box.classList.toggle("open");
+      box.appendChild(title);
+      box.appendChild(others);
+      menu.appendChild(box);
+    }
+
+    sidebar.insertBefore(menu, sidebar.firstChild);
+
+    // Ensure logout exists
+    if(!document.getElementById("v91LogoutBtn")){
+      const b = document.createElement("button");
+      b.id = "v91LogoutBtn";
+      b.textContent = "⎋ Déconnexion";
+      b.onclick = v91Logout;
+      document.body.appendChild(b);
+    }
+  }catch(e){
+    console.warn("V91 sidebar repair skipped", e);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", initV91FinalSidebarRepair);
+setTimeout(initV91FinalSidebarRepair, 250);
+setTimeout(initV91FinalSidebarRepair, 1000);
+setTimeout(initV91FinalSidebarRepair, 2500);

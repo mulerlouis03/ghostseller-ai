@@ -896,3 +896,164 @@ aside.v89-hide-original-menu > button,
 nav.v89-hide-original-menu > button{
   display:none !important;
 }
+
+
+/* V91 FINAL SIDEBAR REPAIR */
+#v88GroupedNav,
+#v88LaunchCenter,
+#v89CleanLaunch,
+.v88-topbar{
+  display:none !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+  height:0 !important;
+  width:0 !important;
+  overflow:hidden !important;
+}
+
+/* Any duplicated generated sidebar shell outside real left zone is removed visually */
+body > .v89-sidebar-shell,
+main .v89-sidebar-shell,
+.main .v89-sidebar-shell,
+.content .v89-sidebar-shell,
+.page .v89-sidebar-shell,
+#app > .v89-sidebar-shell,
+section .v89-sidebar-shell,
+div:not(aside):not(nav):not(.sidebar):not(#sidebar):not(.leftbar) > .v89-sidebar-shell{
+  display:none !important;
+}
+
+/* Keep shell only inside actual left sidebar */
+aside > .v89-sidebar-shell,
+nav > .v89-sidebar-shell,
+.sidebar > .v89-sidebar-shell,
+#sidebar > .v89-sidebar-shell,
+.leftbar > .v89-sidebar-shell{
+  display:flex !important;
+}
+
+#v91LogoutBtn{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:99999;
+  min-height:42px;
+  padding:0 16px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  background:linear-gradient(135deg,#151a2f,#2c1748);
+  color:#fff;
+  font-weight:800;
+  box-shadow:0 12px 32px rgba(0,0,0,.35);
+  cursor:pointer;
+}
+
+#v91LogoutBtn:hover{
+  transform:translateY(-1px);
+}
+
+/* Left sidebar final size */
+aside,
+nav.sidebar,
+.sidebar,
+#sidebar,
+.leftbar{
+  width:250px !important;
+  min-width:250px !important;
+  max-width:250px !important;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+}
+
+/* Hide only original flat menu buttons inside real sidebar, not page buttons */
+aside.v91-clean > button[onclick*="show("],
+nav.v91-clean > button[onclick*="show("],
+.sidebar.v91-clean > button[onclick*="show("],
+#sidebar.v91-clean > button[onclick*="show("],
+.leftbar.v91-clean > button[onclick*="show("]{
+  display:none !important;
+}
+
+.v91-menu{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding:8px;
+}
+
+.v91-brand{
+  padding:13px 12px;
+  border-radius:18px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.10);
+  font-weight:900;
+  color:#fff;
+}
+
+.v91-group{
+  border-radius:18px;
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(255,255,255,.08);
+  overflow:hidden;
+}
+
+.v91-group-title{
+  width:100%;
+  padding:11px 12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(255,255,255,.07);
+  border:0;
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+  font-size:13px;
+}
+
+.v91-items{
+  display:none;
+  flex-direction:column;
+  gap:5px;
+  padding:8px;
+}
+
+.v91-group.open .v91-items{
+  display:flex;
+}
+
+.v91-items button{
+  width:100% !important;
+  min-height:34px !important;
+  padding:8px 10px !important;
+  border-radius:12px !important;
+  text-align:left !important;
+  justify-content:flex-start !important;
+  font-size:12px !important;
+  background:rgba(255,255,255,.045) !important;
+}
+
+/* Right dashboard cleanup */
+main,.main,.content,.dashboard,.page{
+  max-width:1500px !important;
+}
+
+.grid2{
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr)) !important;
+  gap:14px !important;
+}
+
+.stats{
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr)) !important;
+  gap:12px !important;
+}
+
+.card,.panel,.stat{
+  border-radius:18px !important;
+  padding:15px !important;
+}
+
+pre{
+  max-height:230px !important;
+  overflow:auto !important;
+}

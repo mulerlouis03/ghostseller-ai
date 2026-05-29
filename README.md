@@ -1,26 +1,24 @@
-# GhostSeller AI V90 SIDEBAR SINGLE CLEAN FIX
+# GhostSeller AI V91 FINAL SIDEBAR REPAIR
 
-Basé sur V89.
+Basé sur V90.
 
 ## Corrections
-- Supprime le menu doublon au centre,
-- garde uniquement le vrai menu gauche,
-- enlève les anciens blocs V88/V89 injectés,
-- dashboard plus compact,
-- meilleur positionnement à droite.
+- Supprime vraiment le deuxième menu,
+- reconstruit un seul menu dans le vrai sidebar gauche,
+- restaure le bouton Déconnexion,
+- nettoie dashboard droite.
 
 ## Push test
 
 ```bash
-git checkout -b v90-test
+git checkout -b v91-test
 npm install
 git add .
-git commit -m "GhostSeller V90 Sidebar Single Clean Fix"
-git push -u origin v90-test
+git commit -m "GhostSeller V91 Final Sidebar Repair"
+git push -u origin v91-test
 ```
 
 ## Test
-
 ```txt
 /api/health
 ```
