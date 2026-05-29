@@ -6,7 +6,8 @@
 <title>GhostSeller AI</title>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="stylesheet" href="/style.css">
-<link rel="stylesheet" href="/v98-clean.css">
+<link rel="stylesheet" href="/v99-clean.css">
+<style>.logout,.btn-logout,#logoutBtn,[onclick*="logout"],[onclick*="Logout"]{display:none}</style>
 </head>
 <body>
 <div id="authView" class="auth-page">
@@ -24,14 +25,14 @@
       </p>
 
       <div class="trust-grid">
-        <div><b>Stripe</b><span>Paiements prêts</span></div>
-        <div><b>OpenAI</b><span>IA connectée</span></div>
-        <div><b>Supabase</b><span>Auth stable</span></div>
+        <div><b>Paiement sécurisé</b><span>Paiements prêts</span></div>
+        <div><b>IA Marketing</b><span>IA connectée</span></div>
+        <div><b>Espace sécurisé</b><span>Auth stable</span></div>
       </div>
     </div>
 
     <div class="auth-card">
-      <span class="badge">V52 Access Control</span>
+      <span class="badge">Connexion sécurisée</span>
       <h2 data-i18n="login_title">Connexion</h2>
 
       <input id="name" placeholder="Nom complet">
@@ -56,7 +57,7 @@
       <img src="/ghostseller-logo.png" alt="GhostSeller AI" onerror="this.style.display='none'">
       <div>
         <b>GhostSeller AI</b>
-        <small>V52 Launch</small>
+        <small> Launch</small>
       </div>
     </div>
 
@@ -69,8 +70,8 @@
     <button onclick="show('tiktokEngine'); loadTikTokStatus()">🎵 TikTok Engine</button>
 <button onclick="show('acquisition'); loadAcquisitionStats()">🚀 Acquisition</button>
 <button onclick="show('revenueAutomation'); loadRevenueAutomationStatus()">💸 Revenue Automation</button>
-<button onclick="show('stripeLive'); loadStripeLiveStatus()">💳 Stripe Live</button>
-<button onclick="show('billing'); loadBillingStatus()">💰 Stripe Billing</button>
+<button onclick="show('stripeLive'); loadPaiement sécuriséLiveStatus()">💳 Paiement</button>
+<button onclick="show('billing'); loadBillingStatus()">💰 Mon abonnement</button>
 <button onclick="show('referral'); loadReferralMe()">🎁 Referral</button>
 <button onclick="show('tiktokAutomation'); loadTikTokAutomationStatus()">📅 TikTok Automation</button>
 <button onclick="show('tiktokConnect'); loadTikTokConnectStatus()">🔗 TikTok Connect</button>
@@ -171,7 +172,7 @@
       <div class="grid2">
         <div class="card">
           <h2>Objectif lancement</h2>
-          <p>Créer une base stable : connexion, dashboard, Stripe, IA, waitlist et analytics.</p>
+          <p>Créer une base stable : connexion, dashboard, Paiement sécurisé, IA, waitlist et analytics.</p>
           <button onclick="show('content')">Créer du contenu IA</button>
         </div>
 
@@ -285,7 +286,7 @@
 
   <div class="stats">
     <div class="stat"><span id="betaReadyScore">0%</span><p>Beta Ready</p></div>
-    <div class="stat"><span>V82</span><p>Version</p></div>
+    <div class="stat"><span></span><p>Version</p></div>
     <div class="stat"><span id="betaMode">-</span><p>Mode</p></div>
     <div class="stat"><span>Live</span><p>Status</p></div>
   </div>
@@ -335,7 +336,7 @@
 
 <section id="realAI" class="page hidden">
   <h1>Real AI Engine</h1>
-  <p class="muted">Moteur IA réel avec OpenAI, mémoire utilisateur et fallback stable si la clé API est absente.</p>
+  <p class="muted">Moteur IA réel avec IA Marketing, mémoire utilisateur et fallback stable si la clé API est absente.</p>
 
   <div class="grid2">
     <div class="card">
@@ -425,7 +426,7 @@
 
 <section id="revenue" class="page hidden">
   <h1>Revenue System</h1>
-  <p class="muted">Stripe checkout, abonnements, portail client, activation plans et événements revenus.</p>
+  <p class="muted">Paiement sécurisé checkout, abonnements, portail client, activation plans et événements revenus.</p>
 
   <div class="grid2">
     <div class="card">
@@ -508,7 +509,7 @@
 
   <div class="stats">
     <div class="stat"><span id="launchScore">0%</span><p>Launch Score</p></div>
-    <div class="stat"><span>V82</span><p>Version</p></div>
+    <div class="stat"><span></span><p>Version</p></div>
     <div class="stat"><span id="launchMode">-</span><p>Mode</p></div>
     <div class="stat"><span>Ready</span><p>Status</p></div>
   </div>
@@ -627,22 +628,22 @@
 </section>
 
 <section id="stripeLive" class="page hidden">
-<h1>Stripe Live Payments</h1>
+<h1>Paiement Payments</h1>
 <div class="grid2">
 <div class="card">
 <h2>Status</h2>
-<button onclick="loadStripeLiveStatus()">Check Stripe Live</button>
-<button onclick="openStripePortal()">Customer Portal</button>
+<button onclick="loadPaiement sécuriséLiveStatus()">Check Paiement</button>
+<button onclick="openPaiement sécuriséPortal()">Customer Portal</button>
 <div id="stripeLiveStatusOut"></div>
 </div>
 <div class="card">
 <h2>Checkout</h2>
 <select id="stripeLivePlan"><option>Starter</option><option>Pro</option><option>Agency</option></select>
-<button onclick="startStripeLiveCheckout()">Start Checkout</button>
+<button onclick="startPaiement sécuriséLiveCheckout()">Start Checkout</button>
 <div id="stripeLiveCheckoutOut"></div>
 </div>
 </div>
-<div class="card"><h2>Billing Events</h2><button onclick="loadStripeLiveEvents()">Load events</button><div id="stripeLiveEventsOut"></div></div>
+<div class="card"><h2>Billing Events</h2><button onclick="loadPaiement sécuriséLiveEvents()">Load events</button><div id="stripeLiveEventsOut"></div></div>
 </section>
 
 <section id="referral" class="page hidden">
@@ -730,7 +731,7 @@
 
 <section id="tiktokConnect" class="page hidden">
   <h1>TikTok Connect</h1>
-  <p class="muted">Connexion officielle TikTok OAuth. La publication réelle demande l'approbation TikTok Developer pour video.upload ou video.publish.</p>
+  <p class="muted">Connexion officielle TikTok Connexion. La publication réelle demande l'approbation TikTok Developer pour video.upload ou video.publish.</p>
 
   <div class="grid2">
     <div class="card">
@@ -1334,7 +1335,7 @@
 
 <section id="billing" class="page hidden">
   <h1>Pricing & Subscription</h1>
-  <p class="muted">Choisis le plan adapté. Stripe sera utilisé pour les abonnements réels.</p>
+  <p class="muted">Choisis le plan adapté. Paiement sécurisé sera utilisé pour les abonnements réels.</p>
 
   <div class="pricing-grid" id="pricingGrid">
     <div class="card plan">
@@ -1395,8 +1396,8 @@
   </div>
 
   <div class="card">
-    <h2>Stripe status</h2>
-    <button onclick="loadPlans()">Vérifier les plans Stripe</button>
+    <h2>Paiement sécurisé status</h2>
+    <button onclick="loadPlans()">Vérifier les plans Paiement sécurisé</button>
     <div id="plansOut"></div>
   </div>
 </section>
@@ -1404,7 +1405,7 @@
 <section id="waitlist" class="page hidden">
       <h1>Waitlist</h1>
       <div class="card">
-        <p>Les prospects collectés depuis la landing sont stockés dans Supabase.</p>
+        <p>Les prospects collectés depuis la landing sont stockés dans Espace sécurisé.</p>
         <a class="public-link" href="/landing#waitlist" target="_blank">Ouvrir formulaire public</a>
       </div>
     </section>
@@ -1456,7 +1457,7 @@
   <a href="/contact" style="color:#aeb8d6;text-decoration:none">Contact</a>
 </div>
 
-<script src="/v98-clean.js"></script>
+<script src="/v99-clean.js"></script>
 </body>
 
 </html>

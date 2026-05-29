@@ -43,7 +43,7 @@
 
   window.v96Checkout=async function(plan){
     const out=$("v96-checkout-out");
-    if(out) out.innerHTML="Ouverture Stripe Checkout...";
+    if(out) out.innerHTML="Ouverture Paiement sécurisé...";
     try{
       const data=await api("/api/billing/checkout","POST",{plan});
       if(data.url) location.href=data.url;
@@ -117,7 +117,7 @@
       <aside class="v96-sidebar">
         <div class="v96-brand">
           <div class="v96-logo">G</div>
-          <div><strong>GhostSeller AI</strong><span>V96 Command Center</span></div>
+          <div><strong>GhostSeller AI</strong><span> Command Center</span></div>
         </div>
 
         <div class="v96-userbox">
@@ -179,7 +179,7 @@
             <div class="v96-hero-actions">
               <button class="v96-action" onclick="v96Show('content')">🤖 Générer un post TikTok<small>Hook, script, CTA</small></button>
               <button class="v96-action" onclick="v96Show('video')">🎬 Générer une vidéo<small>5 scènes + sous-titres</small></button>
-              <button class="v96-action" onclick="v96Show('tiktok')">🎵 Connecter TikTok<small>OAuth prêt, app en review</small></button>
+              <button class="v96-action" onclick="v96Show('tiktok')">🎵 Connecter TikTok<small>Connexion prêt, app en review</small></button>
               <button class="v96-action" onclick="v96Show('leads')">👥 Trouver des leads<small>Prospects et opportunités</small></button>
               <button class="v96-action" onclick="v96Show('whatsapp')">📱 WhatsApp Automation<small>Réponses et suivi</small></button>
               <button class="v96-action" onclick="v96Show('subscription')">💳 Gérer abonnement<small>Starter, Pro, Agency</small></button>
@@ -199,7 +199,7 @@
 
         <section class="v96-page v96-hidden" id="v96-tiktok">
           <div class="v96-topbar"><div><h1>TikTok</h1><p>Connexion officielle TikTok. App actuellement en review.</p></div><span class="v96-pill">TikTok: In Review</span></div>
-          <div class="v96-card"><h2>Connecter TikTok</h2><p>Quand TikTok valide l'application, ce bouton ouvrira le flux OAuth réel.</p><button class="v96-cta">Connecter TikTok</button></div>
+          <div class="v96-card"><h2>Connecter TikTok</h2><p>Quand TikTok valide l'application, ce bouton ouvrira le flux Connexion réel.</p><button class="v96-cta">Connecter TikTok</button></div>
         </section>
 
         <section class="v96-page v96-hidden" id="v96-leads">
@@ -213,7 +213,7 @@
         </section>
 
         <section class="v96-page v96-hidden" id="v96-subscription">
-          <div class="v96-topbar"><div><h1>Abonnement</h1><p>Stripe Checkout visible pour les utilisateurs.</p></div><button class="v96-cta secondary" onclick="v96LoadBilling()">Rafraîchir</button></div>
+          <div class="v96-topbar"><div><h1>Abonnement</h1><p>Paiement sécurisé visible pour les utilisateurs.</p></div><button class="v96-cta secondary" onclick="v96LoadBilling()">Rafraîchir</button></div>
           <div class="v96-grid">
             <div class="v96-card"><h2>Starter</h2><div class="v96-price">9,99€</div><p>300 crédits/mois, 100 posts IA, 5 projets.</p><button class="v96-cta" onclick="v96Checkout('starter')">S'abonner Starter</button></div>
             <div class="v96-card"><h2>Pro</h2><div class="v96-price">29,99€</div><p>1500 crédits/mois, 500 posts IA, 25 projets.</p><button class="v96-cta" onclick="v96Checkout('pro')">S'abonner Pro</button></div>
@@ -233,7 +233,7 @@
             <div class="v96-card"><h2>💰 Revenus</h2><p>MRR, abonnements actifs et paiements Stripe.</p></div>
             <div class="v96-card"><h2>👥 Utilisateurs</h2><p>Comptes, plans et activité.</p></div>
             <div class="v96-card"><h2>🎵 TikTok</h2><p>App en review, scopes soumis.</p></div>
-            <div class="v96-card"><h2>⚙️ Système</h2><p>Supabase, OpenAI, Stripe, logs.</p></div>
+            <div class="v96-card"><h2>⚙️ Système</h2><p>Espace sécurisé, IA Marketing, Stripe, logs.</p></div>
           </div>
           <div class="v96-card v96-output" style="margin-top:14px"><h2>Diagnostic</h2><button class="v96-cta secondary" onclick="v96LoadOwner()">Charger diagnostic</button><div id="v96-owner-out" style="margin-top:12px"></div></div>
         </section>

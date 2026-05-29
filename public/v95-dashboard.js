@@ -43,7 +43,7 @@
     wrap.id="v95-shell"; wrap.className="v95-shell";
     wrap.innerHTML=`
     <aside class="v95-sidebar">
-      <div class="v95-brand"><div class="v95-logo">G</div><div><strong>GhostSeller AI</strong><span>V95 Clean SaaS</span></div></div>
+      <div class="v95-brand"><div class="v95-logo">G</div><div><strong>GhostSeller AI</strong><span> Clean SaaS</span></div></div>
       <div class="v95-nav-title">Utilisateur</div>
       <button class="v95-nav-btn primary" onclick="v95Show('dashboard')">🏠 Dashboard</button>
       <button class="v95-nav-btn" onclick="v95Show('content')">🤖 IA Content</button>
@@ -66,14 +66,14 @@
       <section class="v95-page" id="v95-dashboard">
         <div class="v95-topbar"><div><h1>Dashboard utilisateur</h1><p>Les fonctions essentielles sont visibles directement.</p></div><div class="v95-pill">SaaS prêt au lancement</div></div>
         <div class="v95-grid">
-          <div class="v95-card"><h2>🎵 TikTok</h2><p>App TikTok en review. Connexion OAuth préparée.</p><button class="v95-cta v95-secondary" onclick="v95Show('tiktok')">Ouvrir TikTok</button></div>
+          <div class="v95-card"><h2>🎵 TikTok</h2><p>App TikTok en review. Connexion Connexion préparée.</p><button class="v95-cta v95-secondary" onclick="v95Show('tiktok')">Ouvrir TikTok</button></div>
           <div class="v95-card"><h2>💳 Abonnement</h2><p>Starter, Pro et Agency branchés à Stripe.</p><button class="v95-cta" onclick="v95Show('billing')">Gérer abonnement</button></div>
           <div class="v95-card"><h2>🤖 IA Content</h2><p>Création de posts, scripts et campagnes.</p><button class="v95-cta v95-secondary" onclick="v95Show('content')">Créer contenu</button></div>
           <div class="v95-card"><h2>👥 Leads</h2><p>Prospects et workflows WhatsApp.</p><button class="v95-cta v95-secondary" onclick="v95Show('leads')">Voir leads</button></div>
         </div>
       </section>
       <section class="v95-page v95-hidden" id="v95-billing">
-        <div class="v95-topbar"><div><h1>Abonnement</h1><p>Choisis ton plan. Les boutons ouvrent Stripe Checkout.</p></div><button class="v95-cta v95-secondary" onclick="v95LoadBilling()">Rafraîchir</button></div>
+        <div class="v95-topbar"><div><h1>Abonnement</h1><p>Choisis ton plan. Les boutons ouvrent Paiement sécurisé.</p></div><button class="v95-cta v95-secondary" onclick="v95LoadBilling()">Rafraîchir</button></div>
         <div class="v95-grid">
           <div class="v95-card"><h2>Starter</h2><div class="v95-price">9,99€</div><p>300 crédits/mois, 100 posts IA, 5 projets.</p><button class="v95-cta" onclick="v95Checkout('starter')">S'abonner Starter</button></div>
           <div class="v95-card"><h2>Pro</h2><div class="v95-price">29,99€</div><p>1500 crédits/mois, 500 posts IA, 25 projets.</p><button class="v95-cta" onclick="v95Checkout('pro')">S'abonner Pro</button></div>

@@ -2004,9 +2004,9 @@ async function loadTikTokCalendar(){
 }
 
 
-function initV88DashboardUX(){ return true; }
+function initDashboardUX(){ return true; }
 
-function initV89DashboardSizing(){
+function initDashboardSizing(){
   try{
     document.body.classList.add("v89-dashboard-ready");
     const bigPres = Array.from(document.querySelectorAll("pre"));
@@ -2019,14 +2019,14 @@ function initV89DashboardSizing(){
   }catch(e){}
 }
 
-document.addEventListener("DOMContentLoaded", ()=>{ initV89TrueSidebar(); initV89DashboardSizing(); });
-setTimeout(()=>{ initV89TrueSidebar(); initV89DashboardSizing(); }, 500);
-setTimeout(()=>{ initV89TrueSidebar(); initV89DashboardSizing(); }, 1500);
+document.addEventListener("DOMContentLoaded", ()=>{ initTrueSidebar(); initDashboardSizing(); });
+setTimeout(()=>{ initTrueSidebar(); initDashboardSizing(); }, 500);
+setTimeout(()=>{ initTrueSidebar(); initDashboardSizing(); }, 1500);
 
 
-function initV90SingleSidebarFix(){
+function initSingleSidebarFix(){
   try{
-    // Remove duplicated V88/V89 launch/menu blocks if injected in main content
+    // Remove duplicated / launch/menu blocks if injected in main content
     document.querySelectorAll("#v88GroupedNav").forEach(el=>el.remove());
 
     document.querySelectorAll("#v88LaunchCenter,#v89CleanLaunch").forEach(el=>el.remove());
@@ -2060,14 +2060,14 @@ function initV90SingleSidebarFix(){
 
     realSidebar.classList.add("v89-hide-original-menu");
   }catch(e){
-    console.warn("V90 sidebar cleanup skipped", e);
+    console.warn(" sidebar cleanup skipped", e);
   }
 }
 
-document.addEventListener("DOMContentLoaded", initV90SingleSidebarFix);
-setTimeout(initV90SingleSidebarFix, 300);
-setTimeout(initV90SingleSidebarFix, 1000);
-setTimeout(initV90SingleSidebarFix, 2000);
+document.addEventListener("DOMContentLoaded", initSingleSidebarFix);
+setTimeout(initSingleSidebarFix, 300);
+setTimeout(initSingleSidebarFix, 1000);
+setTimeout(initSingleSidebarFix, 2000);
 
 
 function v91Logout(){
@@ -2080,7 +2080,7 @@ function v91Logout(){
   location.href="/";
 }
 
-function initV91FinalSidebarRepair(){
+function initFinalSidebarRepair(){
   try{
     document.querySelectorAll("#v88GroupedNav,#v88LaunchCenter,#v89CleanLaunch,.v88-topbar").forEach(el=>el.remove());
 
@@ -2121,7 +2121,7 @@ function initV91FinalSidebarRepair(){
 
     const menu = document.createElement("div");
     menu.className = "v91-menu";
-    menu.innerHTML = `<div class="v91-brand">GhostSeller AI<br><small>V91 Clean</small></div>`;
+    menu.innerHTML = `<div class="v91-brand">GhostSeller AI<br><small> Clean</small></div>`;
 
     const used = new Set();
 
@@ -2187,14 +2187,14 @@ function initV91FinalSidebarRepair(){
       document.body.appendChild(b);
     }
   }catch(e){
-    console.warn("V91 sidebar repair skipped", e);
+    console.warn(" sidebar repair skipped", e);
   }
 }
 
-document.addEventListener("DOMContentLoaded", initV91FinalSidebarRepair);
-setTimeout(initV91FinalSidebarRepair, 250);
-setTimeout(initV91FinalSidebarRepair, 1000);
-setTimeout(initV91FinalSidebarRepair, 2500);
+document.addEventListener("DOMContentLoaded", initFinalSidebarRepair);
+setTimeout(initFinalSidebarRepair, 250);
+setTimeout(initFinalSidebarRepair, 1000);
+setTimeout(initFinalSidebarRepair, 2500);
 
 
 async function loadTikTokConnectStatus(){
