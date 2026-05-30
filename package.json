@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-platform-stabilization",
-  "version": "105.0.0",
+  "name": "ghostseller-ai-beta-feedback-button",
+  "version": "106.1.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

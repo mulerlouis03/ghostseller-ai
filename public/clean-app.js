@@ -93,3 +93,19 @@ window.addEventListener('load',()=>{
   }
  }catch(e){}
 });
+
+
+function openFeedbackFromBeta(){
+  if(typeof showPage === "function"){
+    showPage("account");
+  }
+  setTimeout(function(){
+    const type = document.getElementById("accountFeedbackType");
+    const box = document.getElementById("accountFeedback");
+    if(type) type.value = "Retour général";
+    if(box){
+      box.focus();
+      box.scrollIntoView({behavior:"smooth",block:"center"});
+    }
+  },250);
+}

@@ -1,25 +1,25 @@
-# GhostSeller AI V105 PLATFORM STABILIZATION
+# GhostSeller AI V106.1 BETA FEEDBACK BUTTON
 
-## Ajouts
-- Owner Console : statistiques plus complètes
-- Utilisateurs : total, nouveaux aujourd'hui, gratuits, payants
-- Feedback : API + table Supabase + affichage owner
-- Mon compte : profil plus utile + retour testeur
-- Tables SQL : feedback, content_generations, leads
+## Ajout
+- Bouton “💬 Donner mon avis” dans la bannière bêta utilisateur.
+- Le bouton envoie l'utilisateur vers Mon compte → Donner un retour.
+- Les retours sont envoyés vers /api/feedback.
+- Les retours sont stockés dans Supabase table feedback.
+- Les retours sont visibles dans Owner Console → Retours.
 
 ## Supabase
-Exécuter :
+Si ce n'est pas déjà fait, exécuter :
 supabase/V105_PLATFORM_STABILIZATION.sql
 
-## Variable Vercel
-OWNER_EMAIL=mulerlouis03@gmail.com
+ou :
+supabase/V106_1_FEEDBACK_BUTTON_NOTE.sql
 
-## Commandes
+## Déploiement
 npm install
 git add .
-git commit -m "GhostSeller V105 Platform Stabilization"
+git commit -m "GhostSeller V106.1 Beta Feedback Button"
 git push
 
-## Tests
-https://ghostseller-ai.vercel.app/api/health
+## Où voir les retours ?
 https://ghostseller-ai.vercel.app/owner/
+Puis onglet : Retours
