@@ -141,7 +141,7 @@
               <option>Je n'aime pas</option>
             </select>
             <textarea id="dashboardFeedbackMessage" placeholder="Écris ton retour ici..."></textarea>
-            <button onclick="sendDashboardFeedback()">Envoyer mon retour</button>
+            <button onclick="sendDashboardFeedback()">Envoyer mon retour</button><button class="secondary feedbackWhatsAppBtn" onclick="sendDashboardFeedbackWhatsApp()">Envoyer sur WhatsApp</button>
             <div id="dashboardFeedbackOut" class="output"></div>
           </div>
 
@@ -237,7 +237,7 @@
               <option>Retour général</option><option>J'aime</option><option>Je n'aime pas</option><option>Bug</option><option>Idée</option>
             </select>
             <textarea id="accountFeedback" placeholder="Écris ton avis ou le bug rencontré..."></textarea>
-            <button onclick="sendTesterFeedback()">Envoyer mon retour</button>
+            <button onclick="sendTesterFeedback()">Envoyer mon retour</button><button class="secondary feedbackWhatsAppBtn" onclick="sendAccountFeedbackWhatsApp()">Envoyer sur WhatsApp</button>
             <div id="accountFeedbackOut" class="output"></div>
           </div>
         </div>

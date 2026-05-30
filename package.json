@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-user-dashboard-feedback-stable",
-  "version": "108.0.0",
+  "name": "ghostseller-ai-feedback-whatsapp-fallback",
+  "version": "109.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

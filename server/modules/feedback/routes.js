@@ -17,8 +17,8 @@ function saveLocal(payload){
 feedbackRouter.post("/", async (req,res)=>{
   const { name="", email="", rating="Retour général", message="", page="dashboard" } = req.body || {};
 
-  if(!message || String(message).trim().length < 3){
-    return res.status(400).json({ error:"Merci d'écrire un petit message avant d'envoyer." });
+  if(!message || String(message).trim().length < 1){
+    return res.status(400).json({ error:"Écris ton retour avant d'envoyer." });
   }
 
   const payload = {
@@ -26,7 +26,7 @@ feedbackRouter.post("/", async (req,res)=>{
     name,
     email,
     rating,
-    message,
+    message:String(message).trim(),
     page,
     created_at:new Date().toISOString()
   };
@@ -44,7 +44,7 @@ feedbackRouter.post("/", async (req,res)=>{
       saved:true,
       fallback:true,
       destination:"server-log",
-      message:"Retour reçu. La sauvegarde Supabase doit être vérifiée.",
+      message:"Retour reçu côté application. Vérifie Supabase pour la sauvegarde définitive.",
       feedback:payload
     });
   }

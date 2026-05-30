@@ -231,3 +231,125 @@ async function sendTesterFeedback(){
     if(box) box.value="";
   }catch(e){}
 }
+
+
+/* V109 reliable feedback + WhatsApp fallback */
+const GHOSTSELLER_WHATSAPP = "33782267983";
+
+function buildWhatsAppFeedback(message, type, source){
+  const u = currentUser || JSON.parse(localStorage.getItem("user") || "{}") || {};
+  const name = u.name || u.full_name || "Utilisateur";
+  const email = u.email || "";
+  const text =
+`Retour GhostSeller AI
+Source: ${source}
+Type: ${type || "Retour général"}
+Nom: ${name}
+Email: ${email}
+
+Message:
+${message || ""}`;
+  return "https://wa.me/" + GHOSTSELLER_WHATSAPP + "?text=" + encodeURIComponent(text);
+}
+
+function openWhatsAppFeedback(message, type, source){
+  const url = buildWhatsAppFeedback(message, type, source);
+  window.open(url, "_blank");
+}
+
+async function sendFeedbackPayload(payload, outId){
+  const out = document.getElementById(outId);
+  if(out) out.innerHTML = "Envoi du retour...";
+  try{
+    const res = await fetch("/api/feedback",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(payload)
+    });
+    const text = await res.text();
+    let data = {};
+    try{ data = JSON.parse(text); }catch(e){ data = { raw:text }; }
+    if(!res.ok) throw new Error(data.error || "Erreur serveur");
+    if(out) out.innerHTML = "Merci, ton retour a été envoyé.";
+    return data;
+  }catch(e){
+    if(out) out.innerHTML = "L'envoi automatique bloque. Clique sur “Envoyer sur WhatsApp” juste en dessous.";
+    throw e;
+  }
+}
+
+async function sendDashboardFeedback(){
+  const box = document.getElementById("dashboardFeedbackMessage");
+  const type = document.getElementById("dashboardFeedbackType");
+  const message = (box?.value || "").trim();
+
+  if(!message || message.length < 1){
+    const out = document.getElementById("dashboardFeedbackOut");
+    if(out) out.innerHTML = "Écris ton retour avant d'envoyer.";
+    if(box) box.focus();
+    return;
+  }
+
+  const u = currentUser || JSON.parse(localStorage.getItem("user") || "{}") || {};
+  try{
+    await sendFeedbackPayload({
+      name:u.name || u.full_name || "",
+      email:u.email || "",
+      rating:type?.value || "Retour général",
+      message,
+      page:"dashboard"
+    }, "dashboardFeedbackOut");
+    if(box) box.value = "";
+  }catch(e){}
+}
+
+function sendDashboardFeedbackWhatsApp(){
+  const box = document.getElementById("dashboardFeedbackMessage");
+  const type = document.getElementById("dashboardFeedbackType");
+  const message = (box?.value || "").trim();
+  if(!message){
+    const out = document.getElementById("dashboardFeedbackOut");
+    if(out) out.innerHTML = "Écris ton retour avant d'ouvrir WhatsApp.";
+    if(box) box.focus();
+    return;
+  }
+  openWhatsAppFeedback(message, type?.value || "Retour général", "Dashboard utilisateur");
+}
+
+async function sendTesterFeedback(){
+  const box=document.getElementById("accountFeedback");
+  const type=document.getElementById("accountFeedbackType");
+  const message=(box?.value||"").trim();
+
+  if(!message || message.length < 1){
+    const out=document.getElementById("accountFeedbackOut");
+    if(out) out.innerHTML="Écris ton retour avant d'envoyer.";
+    if(box) box.focus();
+    return;
+  }
+
+  const u=currentUser||JSON.parse(localStorage.getItem("user")||"{}")||{};
+  try{
+    await sendFeedbackPayload({
+      name:u.name||u.full_name||"",
+      email:u.email||"",
+      rating:type?.value||"Retour général",
+      message,
+      page:"account"
+    }, "accountFeedbackOut");
+    if(box) box.value="";
+  }catch(e){}
+}
+
+function sendAccountFeedbackWhatsApp(){
+  const box=document.getElementById("accountFeedback");
+  const type=document.getElementById("accountFeedbackType");
+  const message=(box?.value||"").trim();
+  if(!message){
+    const out=document.getElementById("accountFeedbackOut");
+    if(out) out.innerHTML="Écris ton retour avant d'ouvrir WhatsApp.";
+    if(box) box.focus();
+    return;
+  }
+  openWhatsAppFeedback(message, type?.value || "Retour général", "Mon compte");
+}

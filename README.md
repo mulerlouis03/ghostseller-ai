@@ -1,23 +1,18 @@
-# GhostSeller AI V108 USER DASHBOARD FEEDBACK STABLE
+# GhostSeller AI V109 FEEDBACK WHATSAPP FALLBACK
 
 ## Corrections
-- “Commencer ici” passe avant les compteurs.
-- Les compteurs sont descendus et moins prioritaires.
-- Ajout d’un bloc “Donner mon avis” directement sur le dashboard utilisateur.
-- Feedback corrigé côté API avec fallback serveur.
-- Mobile conservé stable.
-- Si Supabase bloque, l’utilisateur ne voit plus un échec brutal.
-
-## Supabase
-Exécuter si nécessaire :
-supabase/V108_FEEDBACK_FIX.sql
+- Le retour accepte maintenant même un message très court.
+- Si l'API feedback bloque, l'utilisateur peut envoyer directement sur WhatsApp.
+- Bouton “Envoyer sur WhatsApp” ajouté sur Dashboard et Mon compte.
+- Message d'erreur plus clair.
+- Le feedback automatique continue d'essayer /api/feedback.
 
 ## Déploiement
 npm install
 git add .
-git commit -m "GhostSeller V108 User Dashboard Feedback Stable"
+git commit -m "GhostSeller V109 Feedback WhatsApp Fallback"
 git push
 
-## Tests
-https://ghostseller-ai.vercel.app
-https://ghostseller-ai.vercel.app/api/health
+## Test
+Écris même “fd” puis clique Envoyer mon retour.
+Si ça bloque, clique Envoyer sur WhatsApp.
