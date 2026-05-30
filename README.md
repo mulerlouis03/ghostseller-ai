@@ -1,18 +1,18 @@
-# GhostSeller AI V109 FEEDBACK WHATSAPP FALLBACK
+# GhostSeller AI V110 CLEAN USER BUTTONS
 
 ## Corrections
-- Le retour accepte maintenant même un message très court.
-- Si l'API feedback bloque, l'utilisateur peut envoyer directement sur WhatsApp.
-- Bouton “Envoyer sur WhatsApp” ajouté sur Dashboard et Mon compte.
-- Message d'erreur plus clair.
-- Le feedback automatique continue d'essayer /api/feedback.
+- Suppression du bouton “Donner mon avis” dans la bannière bêta.
+- Conservation d’un seul bloc “Donner mon avis” dans le dashboard / Mon compte.
+- Suppression des boutons de déconnexion en double dans Mon compte.
+- Suppression du bouton déconnexion dans la barre mobile.
+- Conservation d’un seul bouton Déconnexion : menu gauche.
+- Interface utilisateur plus propre.
 
 ## Déploiement
 npm install
 git add .
-git commit -m "GhostSeller V109 Feedback WhatsApp Fallback"
+git commit -m "GhostSeller V110 Clean User Buttons"
 git push
 
 ## Test
-Écris même “fd” puis clique Envoyer mon retour.
-Si ça bloque, clique Envoyer sur WhatsApp.
+https://ghostseller-ai.vercel.app

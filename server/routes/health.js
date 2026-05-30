@@ -3,10 +3,10 @@ export const healthRouter = express.Router();
 
 healthRouter.get("/", (_req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V109 FEEDBACK WHATSAPP FALLBACK",
-  phase:"Feedback simplified + WhatsApp fallback",
-  feedbackAcceptsShortMessage:true,
-  whatsappFallback:true,
-  dashboardFeedback:true,
-  mobileStable:true
+  version:"GhostSeller AI V110 CLEAN USER BUTTONS",
+  phase:"Clean user feedback + single logout",
+  betaTopFeedbackRemoved:true,
+  singleFeedbackBlock:true,
+  singleUserLogout:true,
+  mobileCleaner:true
 }));

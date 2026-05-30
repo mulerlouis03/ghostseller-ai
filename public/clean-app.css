@@ -128,3 +128,31 @@ body.ghost-owner-mode::before{
   margin-top:12px;
   line-height:1.35;
 }
+
+/* V110 clean user buttons */
+.betaNotice .betaFeedbackBtn,
+#betaFeedbackBtn{
+  display:none!important;
+}
+.mobileTopbar button[onclick="logout()"]{
+  display:none!important;
+}
+#account .card button[onclick="logout()"],
+#account .danger[onclick="logout()"]{
+  display:none!important;
+}
+#account .card .danger{
+  display:none!important;
+}
+.sidebar .logout{
+  display:flex!important;
+}
+@media(max-width:860px){
+  .mobileTopbar{
+    grid-template-columns:auto 1fr!important;
+  }
+  .mobileBrand{
+    margin-left:auto;
+    margin-right:auto;
+  }
+}
