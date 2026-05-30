@@ -70,3 +70,17 @@ document.querySelectorAll(".nav[data-page]").forEach(btn=>btn.addEventListener("
   try{const cached=JSON.parse(localStorage.getItem("user")||"{}");if(cached?.email){currentUser=cached;if(redirectOwnerIfNeeded())return}}catch(e){}
   if(token()){try{const me=await api("/api/auth/me");currentUser=me.user;localStorage.setItem("user",JSON.stringify(currentUser||{}));if(redirectOwnerIfNeeded())return;await showApp()}catch(e){logout()}}
 })();
+
+async function sendTesterFeedback(){
+  const out=document.getElementById("accountFeedbackOut");
+  if(out) out.innerHTML="Envoi...";
+  try{
+    const u=currentUser||{};
+    const message=document.getElementById("accountFeedback")?.value||"";
+    const rating=document.getElementById("accountFeedbackType")?.value||"Retour général";
+    const res=await fetch("/api/feedback",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:u.name||u.full_name||"",email:u.email||"",rating,message,page:"account"})});
+    const data=await res.json();
+    if(!res.ok) throw new Error(data.error||"Erreur");
+    if(out) out.innerHTML="Merci, ton retour a été envoyé.";
+  }catch(e){ if(out) out.innerHTML="Impossible d'envoyer le retour pour le moment."; }
+}

@@ -185,7 +185,7 @@
             <p><b>Email :</b> <span id="accountEmail">-</span></p>
             <p><b>Rôle :</b> <span id="accountRole">-</span></p>
             <p><b>Plan :</b> <span id="accountPlan">-</span></p>
-            <p><b>Crédits :</b> <span id="accountCredits">-</span></p>
+            <p><b>Crédits :</b> <span id="accountCredits">-</span></p><p><b>Statut :</b> Actif</p>
             <div class="account-actions">
               <button onclick="showPage('subscription')">Gérer mon abonnement</button>
               <a id="accountOwnerLink" class="buttonLink hidden" href="/owner/">Ouvrir Owner Console</a>
@@ -197,6 +197,16 @@
             <h2>Sécurité</h2>
             <p>Depuis cet espace, tu peux vérifier ton profil et te déconnecter proprement.</p>
             <button onclick="logout()" class="danger">Déconnexion sécurisée</button>
+          </div>
+          <div class="card">
+            <h2>Donner un retour</h2>
+            <p>Ton avis aide à améliorer GhostSeller AI avant le lancement officiel.</p>
+            <select id="accountFeedbackType" class="selectField">
+              <option>Retour général</option><option>J'aime</option><option>Je n'aime pas</option><option>Bug</option><option>Idée</option>
+            </select>
+            <textarea id="accountFeedback" placeholder="Écris ton avis ou le bug rencontré..."></textarea>
+            <button onclick="sendTesterFeedback()">Envoyer mon retour</button>
+            <div id="accountFeedbackOut" class="output"></div>
           </div>
         </div>
       </section>

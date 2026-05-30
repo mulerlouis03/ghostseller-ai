@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-owner-dedup-logout-fixed",
-  "version": "104.2.0",
+  "name": "ghostseller-ai-platform-stabilization",
+  "version": "105.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
