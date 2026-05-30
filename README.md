@@ -1,18 +1,26 @@
-# GhostSeller AI V110 CLEAN USER BUTTONS
+# GhostSeller AI V111 FEEDBACK BODY FIX
 
-## Corrections
-- Suppression du bouton “Donner mon avis” dans la bannière bêta.
-- Conservation d’un seul bloc “Donner mon avis” dans le dashboard / Mon compte.
-- Suppression des boutons de déconnexion en double dans Mon compte.
-- Suppression du bouton déconnexion dans la barre mobile.
-- Conservation d’un seul bouton Déconnexion : menu gauche.
-- Interface utilisateur plus propre.
+## Problème trouvé
+/api/feedback était monté avant express.json() dans server.js.
+Le serveur ne lisait donc pas correctement le message envoyé par le formulaire.
+
+## Correction
+- express.json() est maintenant avant /api/feedback
+- feedbackRouter utilise aussi express.json() directement
+- ajout d'une page de test : /test-feedback.html
 
 ## Déploiement
 npm install
 git add .
-git commit -m "GhostSeller V110 Clean User Buttons"
+git commit -m "GhostSeller V111 Feedback Body Fix"
 git push
 
-## Test
-https://ghostseller-ai.vercel.app
+## Tests après déploiement
+1. Test technique :
+https://ghostseller-ai.vercel.app/test-feedback.html
+
+2. Test API :
+https://ghostseller-ai.vercel.app/api/health
+
+3. Test utilisateur :
+Dashboard utilisateur → Donner mon avis

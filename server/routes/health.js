@@ -3,10 +3,10 @@ export const healthRouter = express.Router();
 
 healthRouter.get("/", (_req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V110 CLEAN USER BUTTONS",
-  phase:"Clean user feedback + single logout",
-  betaTopFeedbackRemoved:true,
-  singleFeedbackBlock:true,
-  singleUserLogout:true,
-  mobileCleaner:true
+  version:"GhostSeller AI V111 FEEDBACK BODY FIX",
+  phase:"Feedback body parser fixed",
+  feedbackFixed:true,
+  expressJsonBeforeFeedback:true,
+  feedbackAcceptsShortMessage:true,
+  cleanUserButtons:true
 }));

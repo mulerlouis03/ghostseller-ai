@@ -6,6 +6,9 @@ import { supabase } from "../../lib/supabase.js";
 
 export const feedbackRouter = express.Router();
 
+// Important: this makes /api/feedback work even if server.js middleware order changes.
+feedbackRouter.use(express.json({ limit:"1mb" }));
+
 function saveLocal(payload){
   try{
     const dir = path.join(process.cwd(), "tmp");
@@ -15,10 +18,15 @@ function saveLocal(payload){
 }
 
 feedbackRouter.post("/", async (req,res)=>{
-  const { name="", email="", rating="Retour général", message="", page="dashboard" } = req.body || {};
+  const body = req.body || {};
+  const { name="", email="", rating="Retour général", message="", page="dashboard" } = body;
 
   if(!message || String(message).trim().length < 1){
-    return res.status(400).json({ error:"Écris ton retour avant d'envoyer." });
+    return res.status(400).json({
+      ok:false,
+      error:"Écris ton retour avant d'envoyer.",
+      receivedBody:body
+    });
   }
 
   const payload = {

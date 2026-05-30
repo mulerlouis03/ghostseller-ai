@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-clean-user-buttons",
-  "version": "110.0.0",
+  "name": "ghostseller-ai-feedback-body-fix",
+  "version": "111.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

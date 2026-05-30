@@ -59,7 +59,6 @@ import { brainRouter } from "./server/modules/brain/routes.js";
 import { creativeRouter } from "./server/modules/creative/routes.js";
 dotenv.config();
 const app = express();
-app.use("/api/feedback", feedbackRouter);
 app.use("/api/owner-console", ownerConsoleRouter);
 app.use("/api/billing", stripeBillingRouter);
 app.get("/tiktok-developers-site-verification.txt", (_req,res)=>res.status(200).type("text/plain").send("tiktok-developers-site-verification=MrAqN4sF4FYud7rxE0Cy87UDeSorjBtR"));
@@ -77,6 +76,7 @@ app.use(basicRateLimit(180,60000));
 app.use(securityHeaders);
 app.use("/api", apiRateLimit(120, 60_000));
 app.use(express.json({ limit: "1mb" }));
+app.use("/api/feedback", feedbackRouter);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
