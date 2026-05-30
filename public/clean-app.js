@@ -84,3 +84,12 @@ async function sendTesterFeedback(){
     if(out) out.innerHTML="Merci, ton retour a été envoyé.";
   }catch(e){ if(out) out.innerHTML="Impossible d'envoyer le retour pour le moment."; }
 }
+
+window.addEventListener('load',()=>{
+ try{
+  if(!localStorage.getItem('ghostseller_beta_seen')){
+   alert('Bienvenue dans GhostSeller AI. Vous participez actuellement à la phase bêta. Certaines fonctions sont encore en construction.');
+   localStorage.setItem('ghostseller_beta_seen','1');
+  }
+ }catch(e){}
+});
