@@ -1,27 +1,26 @@
-# GhostSeller AI V100.1 OWNER LOGOUT FIXED
+# GhostSeller AI V100.2 STABLE LAYOUT + USERS
 
-## Objectif
-Stabiliser ton espace owner ET corriger la déconnexion utilisateur.
+## Corrections incluses
+- Page utilisateur stabilisée.
+- Déconnexion visible et fonctionnelle.
+- Owner Console compacte.
+- Menu owner réduit.
+- Écran “Utilisateurs inscrits” clairement visible.
+- Recherche utilisateur par nom ou email.
+- Statistiques :
+  - Total utilisateurs
+  - Nouveaux aujourd’hui
+  - Abonnements actifs
+  - Retours reçus
 
-## Ajouts
-- Bouton Déconnexion en haut à droite après connexion.
-- Bouton Owner en haut à droite pour toi.
-- Bouton Déconnexion de secours en bas à droite.
-- Déconnexion fiable : suppression token/localStorage/sessionStorage.
-- Retour automatique vers la page d’accueil.
-- Remplacement des anciens boutons déconnexion cassés.
-- Routes stables :
-  - /owner
-  - /admin
-
-## Variable Vercel à ajouter
+## Variable Vercel
 OWNER_EMAIL=mulerlouis03@gmail.com
 
 ## Commandes
 npm install
 git add .
-git commit -m "GhostSeller V100.1 Owner Logout Fixed"
+git commit -m "GhostSeller V100.2 Stable Layout with Users"
 git push
 
-## Après déploiement
+## Accès Owner
 https://ghostseller-ai.vercel.app/owner

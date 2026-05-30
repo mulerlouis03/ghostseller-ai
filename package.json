@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-owner-logout-fixed",
-  "version": "100.1.0",
+  "name": "ghostseller-ai-stable-layout-users",
+  "version": "100.2.1",
   "type": "module",
   "scripts": {
     "start": "node server.js"

@@ -1,12 +1,135 @@
-function getToken(){return localStorage.getItem("token")||localStorage.getItem("authToken")||localStorage.getItem("ghostseller_token")||localStorage.getItem("jwt")||""}
-function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
-async function api(url){const h={"Content-Type":"application/json"};if(getToken())h.Authorization="Bearer "+getToken();const r=await fetch(url,{headers:h});const t=await r.text();let d;try{d=JSON.parse(t)}catch(e){d={raw:t}}if(!r.ok)throw new Error(d.error||d.message||t);return d}
-function tab(id){document.querySelectorAll(".tab").forEach(t=>t.classList.add("hidden"));document.getElementById(id)?.classList.remove("hidden")}
-function makeTable(rows, cols){if(!rows||!rows.length)return "<p style='padding:14px;color:#9caed2'>Aucune donnée.</p>";return `<table><thead><tr>${cols.map(c=>`<th>${esc(c.label)}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${cols.map(c=>`<td>${esc(r[c.key]||"")}</td>`).join("")}</tr>`).join("")}</tbody></table>`}
-async function loadOwner(){const out=document.getElementById("out");out.textContent="Chargement...";try{const data=await api("/api/owner-console/overview");document.getElementById("totalUsers").textContent=data.summary?.total_users??0;document.getElementById("activeSubs").textContent=data.summary?.active_subscriptions??0;document.getElementById("feedbackCount").textContent=data.summary?.feedback_count??0;document.getElementById("usersTable").innerHTML=makeTable(data.users||[],[{key:"full_name",label:"Nom"},{key:"name",label:"Nom 2"},{key:"email",label:"Email"},{key:"role",label:"Rôle"},{key:"plan",label:"Plan"},{key:"created_at",label:"Inscription"}]);document.getElementById("billingTable").innerHTML=makeTable(data.billing||[],[{key:"email",label:"Email"},{key:"plan",label:"Plan"},{key:"status",label:"Statut"},{key:"updated_at",label:"Mise à jour"}]);document.getElementById("feedbackTable").innerHTML=makeTable(data.feedback||[],[{key:"name",label:"Nom"},{key:"email",label:"Email"},{key:"rating",label:"Type"},{key:"message",label:"Message"},{key:"created_at",label:"Date"}]);out.textContent=JSON.stringify(data.summary,null,2)}catch(e){out.textContent=e.message+"\\n\\nSi tu vois 'Owner only', ajoute OWNER_EMAIL dans Vercel avec ton email propriétaire."}}
-function logout(){["token","authToken","ghostseller_token","jwt","user","profile"].forEach(k=>localStorage.removeItem(k));sessionStorage.clear();location.href="/"}
-loadOwner()
+let OWNER_DATA = { users:[], billing:[], feedback:[], summary:{} };
 
+function getToken(){
+  return localStorage.getItem("token") ||
+    localStorage.getItem("authToken") ||
+    localStorage.getItem("ghostseller_token") ||
+    localStorage.getItem("jwt") || "";
+}
 
-// V100.1 safe logout fallback
-if (typeof window !== 'undefined' && window.ghostSellerLogout) { window.logout = window.ghostSellerLogout; }
+function esc(s){
+  return String(s ?? "").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
+}
+
+async function api(url){
+  const h={"Content-Type":"application/json"};
+  if(getToken()) h.Authorization="Bearer "+getToken();
+  const r=await fetch(url,{headers:h});
+  const t=await r.text();
+  let d;
+  try{d=JSON.parse(t)}catch(e){d={raw:t}}
+  if(!r.ok) throw new Error(d.error||d.message||t);
+  return d;
+}
+
+function tab(id, btn){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.add("hidden"));
+  document.getElementById(id)?.classList.remove("hidden");
+  document.querySelectorAll(".nav").forEach(n=>n.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+  if(id==="users") renderUsers();
+}
+
+function niceDate(v){
+  if(!v) return "";
+  try{
+    const d = new Date(v);
+    if(isNaN(d.getTime())) return v;
+    return d.toLocaleString("fr-FR");
+  }catch(e){ return v; }
+}
+
+function renderUsers(){
+  const q = (document.getElementById("userSearch")?.value || "").toLowerCase().trim();
+  let users = OWNER_DATA.users || [];
+  if(q){
+    users = users.filter(u =>
+      String(u.name || "").toLowerCase().includes(q) ||
+      String(u.email || "").toLowerCase().includes(q)
+    );
+  }
+
+  if(!users.length){
+    document.getElementById("usersTable").innerHTML = "<p style='padding:14px;color:#9caed2'>Aucun utilisateur trouvé.</p>";
+    return;
+  }
+
+  document.getElementById("usersTable").innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Plan</th>
+          <th>Statut</th>
+          <th>Rôle</th>
+          <th>Date inscription</th>
+          <th>Dernière activité</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${users.map(u=>`
+          <tr>
+            <td><b>${esc(u.name || "Utilisateur")}</b></td>
+            <td>${esc(u.email || "")}</td>
+            <td><span class="badge">${esc(u.plan || "Gratuit")}</span></td>
+            <td>${esc(u.status || "Actif")}</td>
+            <td>${esc(u.role || "user")}</td>
+            <td>${esc(niceDate(u.created_at))}</td>
+            <td>${esc(niceDate(u.last_login))}</td>
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+  `;
+}
+
+function makeTable(rows, cols){
+  if(!rows||!rows.length) return "<p style='padding:14px;color:#9caed2'>Aucune donnée.</p>";
+  return `<table><thead><tr>${cols.map(c=>`<th>${esc(c.label)}</th>`).join("")}</tr></thead><tbody>${
+    rows.map(r=>`<tr>${cols.map(c=>`<td>${esc(r[c.key]||"")}</td>`).join("")}</tr>`).join("")
+  }</tbody></table>`;
+}
+
+async function loadOwner(){
+  const out=document.getElementById("out");
+  out.textContent="Chargement...";
+  try{
+    const data=await api("/api/owner-console/overview");
+    OWNER_DATA = data;
+
+    document.getElementById("totalUsers").textContent=data.summary?.total_users ?? 0;
+    document.getElementById("newToday").textContent=data.summary?.new_today ?? 0;
+    document.getElementById("activeSubs").textContent=data.summary?.active_subscriptions ?? 0;
+    document.getElementById("feedbackCount").textContent=data.summary?.feedback_count ?? 0;
+
+    renderUsers();
+
+    document.getElementById("billingTable").innerHTML=makeTable(data.billing||[],[
+      {key:"email",label:"Email"},
+      {key:"plan",label:"Plan"},
+      {key:"status",label:"Statut"},
+      {key:"updated_at",label:"Mise à jour"}
+    ]);
+
+    document.getElementById("feedbackTable").innerHTML=makeTable(data.feedback||[],[
+      {key:"name",label:"Nom"},
+      {key:"email",label:"Email"},
+      {key:"rating",label:"Type"},
+      {key:"message",label:"Message"},
+      {key:"created_at",label:"Date"}
+    ]);
+
+    out.textContent=JSON.stringify(data.summary,null,2);
+  }catch(e){
+    out.textContent=e.message+"\\n\\nSi tu vois 'Owner only', ajoute OWNER_EMAIL dans Vercel avec ton email propriétaire.";
+  }
+}
+
+function logout(){
+  ["token","authToken","ghostseller_token","jwt","user","profile"].forEach(k=>localStorage.removeItem(k));
+  sessionStorage.clear();
+  location.href="/";
+}
+
+loadOwner();

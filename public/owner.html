@@ -11,29 +11,70 @@
 <div class="shell">
   <aside>
     <div class="brand"><div class="logo">G</div><div><b>GhostSeller AI</b><span>Owner Console</span></div></div>
-    <button onclick="tab('overview')" class="nav active">📊 Vue générale</button>
-    <button onclick="tab('users')" class="nav">👥 Utilisateurs</button>
-    <button onclick="tab('billing')" class="nav">💳 Abonnements</button>
-    <button onclick="tab('feedback')" class="nav">💬 Retours</button>
+    <button onclick="tab('overview', this)" class="nav active">📊 Vue générale</button>
+    <button onclick="tab('users', this)" class="nav highlight">👥 Utilisateurs inscrits</button>
+    <button onclick="tab('billing', this)" class="nav">💳 Abonnements</button>
+    <button onclick="tab('feedback', this)" class="nav">💬 Retours</button>
     <button onclick="location.href='/'" class="nav">🏠 Espace utilisateur</button>
     <button onclick="logout()" class="logout">⎋ Déconnexion</button>
   </aside>
+
   <main>
-    <div class="top"><div><h1>Owner Console</h1><p>Ton espace propriétaire stable.</p></div><button onclick="loadOwner()" class="cta">Rafraîchir</button></div>
+    <div class="top">
+      <div>
+        <h1>Owner Console</h1>
+        <p>Espace propriétaire : inscrits, abonnements et retours testeurs.</p>
+      </div>
+      <div class="top-actions">
+        <button onclick="loadOwner()" class="cta">Rafraîchir</button>
+        <button onclick="tab('users', document.querySelector('.nav.highlight'))" class="cta secondary">Voir utilisateurs</button>
+        <button onclick="logout()" class="logoutTop">Déconnexion</button>
+      </div>
+    </div>
+
     <section id="overview" class="tab">
       <div class="cards">
-        <div class="card"><b id="totalUsers">0</b><span>Utilisateurs</span></div>
+        <div class="card"><b id="totalUsers">0</b><span>Utilisateurs inscrits</span></div>
+        <div class="card"><b id="newToday">0</b><span>Nouveaux aujourd'hui</span></div>
         <div class="card"><b id="activeSubs">0</b><span>Abonnements actifs</span></div>
-        <div class="card"><b id="feedbackCount">0</b><span>Retours</span></div>
-        <div class="card"><b>Online</b><span>Plateforme</span></div>
+        <div class="card"><b id="feedbackCount">0</b><span>Retours reçus</span></div>
+      </div>
+
+      <div class="card">
+        <h2>Accès rapide</h2>
+        <p>Ton besoin principal est ici : voir qui s'est inscrit sur GhostSeller AI.</p>
+        <button class="cta" onclick="tab('users', document.querySelector('.nav.highlight'))">Ouvrir la liste des utilisateurs</button>
       </div>
     </section>
-    <section id="users" class="tab hidden"><h2>Utilisateurs inscrits</h2><div id="usersTable" class="table"></div></section>
-    <section id="billing" class="tab hidden"><h2>Abonnements</h2><div id="billingTable" class="table"></div></section>
-    <section id="feedback" class="tab hidden"><h2>Retours utilisateurs</h2><div id="feedbackTable" class="table"></div></section>
-    <section class="card"><h2>Diagnostic</h2><pre id="out">Chargement...</pre></section>
+
+    <section id="users" class="tab hidden">
+      <div class="sectionHead">
+        <div>
+          <h2>Utilisateurs inscrits</h2>
+          <p>Liste des personnes qui ont créé un compte sur GhostSeller AI.</p>
+        </div>
+        <input id="userSearch" class="search" placeholder="Rechercher nom ou email..." oninput="renderUsers()">
+      </div>
+      <div id="usersTable" class="table"></div>
+    </section>
+
+    <section id="billing" class="tab hidden">
+      <h2>Abonnements</h2>
+      <div id="billingTable" class="table"></div>
+    </section>
+
+    <section id="feedback" class="tab hidden">
+      <h2>Retours utilisateurs</h2>
+      <div id="feedbackTable" class="table"></div>
+    </section>
+
+    <details class="diagnostic">
+      <summary>Diagnostic technique</summary>
+      <pre id="out">Chargement...</pre>
+    </details>
   </main>
 </div>
+
 <script src="/owner.js"></script>
 <script src="/global-auth-fix.js"></script>
 </body>
