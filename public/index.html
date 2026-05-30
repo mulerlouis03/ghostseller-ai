@@ -6,6 +6,7 @@
   <title>GhostSeller AI</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="stylesheet" href="/clean-app.css">
+<link rel="stylesheet" href="/v107-mobile.css">
 </head>
 <body>
   <div id="authView" class="auth-page">
@@ -47,6 +48,15 @@
   </div>
 
   <div id="appView" class="app hidden">
+    <div class="mobileTopbar">
+      <button class="menuBtn" onclick="toggleMobileMenu()">☰</button>
+      <div class="mobileBrand">
+        <div class="logo">G</div>
+        <div><strong>GhostSeller AI</strong><span>Espace membre</span></div>
+      </div>
+      <button class="menuBtn" onclick="logout()">⎋</button>
+    </div>
+    <div class="mobileOverlay" onclick="closeMobileMenu()"></div>
     <aside class="sidebar">
       <div class="brand compact">
         <div class="logo">G</div>

@@ -3,10 +3,12 @@ export const healthRouter = express.Router();
 
 healthRouter.get("/", (_req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V106.1 BETA FEEDBACK BUTTON",
-  phase:"User beta notice + feedback CTA",
-  userBetaNotice:true,
-  feedbackButton:true,
-  feedbackToSupabase:true,
-  ownerConsoleFeedback:true
+  version:"GhostSeller AI V107 MOBILE USER STABLE",
+  phase:"Mobile user dashboard + feedback fixed",
+  mobileStable:true,
+  noHorizontalScroll:true,
+  mobileMenu:true,
+  feedbackFixed:true,
+  accountImproved:true,
+  userDashboardStable:true
 }));

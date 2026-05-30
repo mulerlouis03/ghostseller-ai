@@ -1,25 +1,24 @@
-# GhostSeller AI V106.1 BETA FEEDBACK BUTTON
+# GhostSeller AI V107 MOBILE USER STABLE
 
-## Ajout
-- Bouton “💬 Donner mon avis” dans la bannière bêta utilisateur.
-- Le bouton envoie l'utilisateur vers Mon compte → Donner un retour.
-- Les retours sont envoyés vers /api/feedback.
-- Les retours sont stockés dans Supabase table feedback.
-- Les retours sont visibles dans Owner Console → Retours.
+## Corrections principales
+- Mobile utilisateur stabilisé.
+- Plus de scroll horizontal.
+- Menu mobile avec bouton ☰.
+- Boutons Accueil / Créer contenu / Vidéo / TikTok / Leads / WhatsApp replacés dans un menu coulissant.
+- Feedback utilisateur corrigé.
+- Message clair si le retour ne peut pas être envoyé.
+- Page Mon compte plus utilisable sur téléphone.
 
 ## Supabase
-Si ce n'est pas déjà fait, exécuter :
-supabase/V105_PLATFORM_STABILIZATION.sql
-
-ou :
-supabase/V106_1_FEEDBACK_BUTTON_NOTE.sql
+Si la table feedback n'existe pas encore, exécuter :
+supabase/V107_FEEDBACK_AND_MOBILE.sql
 
 ## Déploiement
 npm install
 git add .
-git commit -m "GhostSeller V106.1 Beta Feedback Button"
+git commit -m "GhostSeller V107 Mobile User Stable"
 git push
 
-## Où voir les retours ?
-https://ghostseller-ai.vercel.app/owner/
-Puis onglet : Retours
+## Tests
+https://ghostseller-ai.vercel.app
+https://ghostseller-ai.vercel.app/api/health

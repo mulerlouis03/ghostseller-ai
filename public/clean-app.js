@@ -109,3 +109,53 @@ function openFeedbackFromBeta(){
     }
   },250);
 }
+
+
+/* V107 mobile menu */
+function toggleMobileMenu(){
+  document.body.classList.toggle("mobileMenuOpen");
+}
+function closeMobileMenu(){
+  document.body.classList.remove("mobileMenuOpen");
+}
+document.addEventListener("click", function(e){
+  const nav = e.target.closest && e.target.closest(".nav[data-page]");
+  if(nav) closeMobileMenu();
+});
+
+/* V107 reliable feedback sender */
+async function sendTesterFeedback(){
+  const out=document.getElementById("accountFeedbackOut");
+  const box=document.getElementById("accountFeedback");
+  const type=document.getElementById("accountFeedbackType");
+  const message=(box?.value||"").trim();
+
+  if(out) out.innerHTML="";
+  if(!message || message.length < 3){
+    if(out) out.innerHTML="Écris un petit message avant d'envoyer.";
+    if(box) box.focus();
+    return;
+  }
+
+  if(out) out.innerHTML="Envoi du retour...";
+  try{
+    const u=currentUser||JSON.parse(localStorage.getItem("user")||"{}")||{};
+    const res=await fetch("/api/feedback",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        name:u.name||u.full_name||"",
+        email:u.email||"",
+        rating:type?.value||"Retour général",
+        message,
+        page:"account"
+      })
+    });
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok) throw new Error(data.error||"Erreur serveur");
+    if(out) out.innerHTML="Merci, ton retour a été envoyé.";
+    if(box) box.value="";
+  }catch(e){
+    if(out) out.innerHTML="Impossible d'envoyer le retour pour le moment. Tu peux aussi l'envoyer directement à Muler sur WhatsApp.";
+  }
+}
