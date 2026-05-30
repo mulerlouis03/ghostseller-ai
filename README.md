@@ -1,27 +1,20 @@
-# GhostSeller AI V103 OWNER USER MANAGEMENT
+# GhostSeller AI V104 OWNER USER SEPARATION STABLE
 
-## Ajout principal
-Un vrai espace Utilisateurs dans Owner Console.
+## Résultat attendu
+- Ton compte owner est redirigé automatiquement vers /owner.
+- Les clients restent dans l’espace utilisateur.
+- Les clients ne voient jamais Owner Console.
+- Un seul bouton Déconnexion côté utilisateur.
+- /owner affiche la vraie console avec Utilisateurs.
 
-## Ce que tu verras dans /owner
-- Menu 👥 Utilisateurs
-- Total utilisateurs inscrits
-- Nouveaux aujourd’hui
-- Clients payants
-- Comptes gratuits
-- Liste complète des utilisateurs
-- Recherche par nom/email
-- Derniers inscrits
-- Export CSV
-
-## Variable Vercel
+## Variable Vercel obligatoire
 OWNER_EMAIL=mulerlouis03@gmail.com
 
 ## Commandes
 npm install
 git add .
-git commit -m "GhostSeller V103 Owner User Management"
+git commit -m "GhostSeller V104 Owner User Separation Stable"
 git push
 
-## Accès
+## Test
 https://ghostseller-ai.vercel.app/owner
