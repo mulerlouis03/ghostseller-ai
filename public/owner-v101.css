@@ -38,3 +38,11 @@ pre{white-space:pre-wrap;max-height:220px;overflow:auto;color:#bdd0ff;font-size:
 @media(max-width:850px){
   .owner-app{grid-template-columns:1fr}.side{height:auto;position:relative}.main{padding:12px}.top{flex-direction:column;align-items:flex-start}.top h1{font-size:32px}.sectionHead{flex-direction:column;align-items:flex-start}.search{width:100%;min-width:0}
 }
+
+/* V104.2: single owner logout */
+.side .logout, aside .logout{
+  display:none!important;
+}
+.topActions .btn.danger, .logoutTop{
+  display:inline-flex!important;
+}

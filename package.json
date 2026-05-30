@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-owner-route-fixed",
-  "version": "104.1.0",
+  "name": "ghostseller-ai-owner-dedup-logout-fixed",
+  "version": "104.2.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

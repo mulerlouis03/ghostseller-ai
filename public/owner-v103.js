@@ -1,3 +1,17 @@
+
+function dedupeOwnerUsersClient(users){
+  const map = new Map();
+  (users||[]).forEach(u=>{
+    const email = String(u.email||"").toLowerCase();
+    const key = email || String(u.id||u.name||"").toLowerCase();
+    if(!key) return;
+    const isOwner = email.includes("muler") || u.role === "owner" || u.plan === "Owner";
+    const fixed = isOwner ? {...u, role:"owner", plan:"Owner", status:"Actif"} : u;
+    if(!map.has(key) || isOwner) map.set(key, fixed);
+  });
+  return Array.from(map.values());
+}
+
 let OWNER_DATA={users:[],billing:[],feedback:[],summary:{}};
 
 function getToken(){
@@ -93,7 +107,7 @@ async function loadOwner(){
   diag.textContent="Chargement...";
   try{
     const data=await api("/api/owner-console/overview");
-    OWNER_DATA=data;
+    OWNER_DATA=data; OWNER_DATA.users = dedupeOwnerUsersClient(OWNER_DATA.users); OWNER_DATA.latest_users = dedupeOwnerUsersClient(OWNER_DATA.latest_users || OWNER_DATA.users).slice(0,8);
 
     document.getElementById("totalUsers").textContent=data.summary?.total_users ?? 0;
     document.getElementById("newToday").textContent=data.summary?.new_today ?? 0;
