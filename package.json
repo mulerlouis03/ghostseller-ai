@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-stable-layout-users",
-  "version": "100.2.1",
+  "name": "ghostseller-ai-true-owner-console",
+  "version": "101.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

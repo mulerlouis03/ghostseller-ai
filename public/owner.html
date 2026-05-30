@@ -2,80 +2,99 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GhostSeller AI Owner Console</title>
-<link rel="stylesheet" href="/owner.css">
-<link rel="stylesheet" href="/global-auth-fix.css">
+<link rel="stylesheet" href="/owner-v101.css">
 </head>
 <body>
-<div class="shell">
-  <aside>
-    <div class="brand"><div class="logo">G</div><div><b>GhostSeller AI</b><span>Owner Console</span></div></div>
-    <button onclick="tab('overview', this)" class="nav active">📊 Vue générale</button>
-    <button onclick="tab('users', this)" class="nav highlight">👥 Utilisateurs inscrits</button>
-    <button onclick="tab('billing', this)" class="nav">💳 Abonnements</button>
-    <button onclick="tab('feedback', this)" class="nav">💬 Retours</button>
-    <button onclick="location.href='/'" class="nav">🏠 Espace utilisateur</button>
-    <button onclick="logout()" class="logout">⎋ Déconnexion</button>
-  </aside>
-
-  <main>
-    <div class="top">
+<div class="owner-app">
+  <aside class="side">
+    <div class="brand">
+      <div class="logo">G</div>
       <div>
-        <h1>Owner Console</h1>
-        <p>Espace propriétaire : inscrits, abonnements et retours testeurs.</p>
-      </div>
-      <div class="top-actions">
-        <button onclick="loadOwner()" class="cta">Rafraîchir</button>
-        <button onclick="tab('users', document.querySelector('.nav.highlight'))" class="cta secondary">Voir utilisateurs</button>
-        <button onclick="logout()" class="logoutTop">Déconnexion</button>
+        <strong>GhostSeller AI</strong>
+        <span>Owner Console</span>
       </div>
     </div>
 
-    <section id="overview" class="tab">
-      <div class="cards">
-        <div class="card"><b id="totalUsers">0</b><span>Utilisateurs inscrits</span></div>
-        <div class="card"><b id="newToday">0</b><span>Nouveaux aujourd'hui</span></div>
-        <div class="card"><b id="activeSubs">0</b><span>Abonnements actifs</span></div>
-        <div class="card"><b id="feedbackCount">0</b><span>Retours reçus</span></div>
+    <button class="nav active" data-tab="overview">📊 Vue générale</button>
+    <button class="nav primary" data-tab="users">👥 Utilisateurs</button>
+    <button class="nav" data-tab="billing">💳 Abonnements</button>
+    <button class="nav" data-tab="feedback">💬 Retours</button>
+
+    <div class="sep"></div>
+
+    <a class="nav link" href="/">🏠 Espace utilisateur</a>
+    <button class="logout" id="logoutBtn">⎋ Déconnexion</button>
+  </aside>
+
+  <main class="main">
+    <header class="top">
+      <div>
+        <span class="badge">OWNER</span>
+        <h1>Owner Console</h1>
+        <p>Ton espace stable pour voir les inscrits, les abonnements et les retours.</p>
+      </div>
+      <div class="topActions">
+        <button class="btn ghost" id="openUsersBtn">Voir utilisateurs</button>
+        <button class="btn" id="refreshBtn">Rafraîchir</button>
+        <button class="btn danger" id="topLogoutBtn">Déconnexion</button>
+      </div>
+    </header>
+
+    <section id="overview" class="page">
+      <div class="stats">
+        <div class="stat"><b id="totalUsers">0</b><span>Utilisateurs inscrits</span></div>
+        <div class="stat"><b id="newToday">0</b><span>Nouveaux aujourd'hui</span></div>
+        <div class="stat"><b id="activeSubs">0</b><span>Abonnements actifs</span></div>
+        <div class="stat"><b id="feedbackCount">0</b><span>Retours reçus</span></div>
       </div>
 
-      <div class="card">
-        <h2>Accès rapide</h2>
-        <p>Ton besoin principal est ici : voir qui s'est inscrit sur GhostSeller AI.</p>
-        <button class="cta" onclick="tab('users', document.querySelector('.nav.highlight'))">Ouvrir la liste des utilisateurs</button>
+      <div class="card hero">
+        <h2>Ce que tu dois regarder en premier</h2>
+        <p>Les comptes créés par tes testeurs sont dans l'onglet <b>Utilisateurs</b>. Tu peux chercher par nom ou email.</p>
+        <button class="btn" data-open="users">Ouvrir utilisateurs</button>
       </div>
     </section>
 
-    <section id="users" class="tab hidden">
+    <section id="users" class="page hidden">
       <div class="sectionHead">
         <div>
           <h2>Utilisateurs inscrits</h2>
-          <p>Liste des personnes qui ont créé un compte sur GhostSeller AI.</p>
+          <p>Liste des comptes créés sur GhostSeller AI.</p>
         </div>
-        <input id="userSearch" class="search" placeholder="Rechercher nom ou email..." oninput="renderUsers()">
+        <input id="userSearch" class="search" placeholder="Rechercher nom ou email...">
       </div>
       <div id="usersTable" class="table"></div>
     </section>
 
-    <section id="billing" class="tab hidden">
-      <h2>Abonnements</h2>
+    <section id="billing" class="page hidden">
+      <div class="sectionHead">
+        <div>
+          <h2>Abonnements</h2>
+          <p>Suivi des plans et statuts.</p>
+        </div>
+      </div>
       <div id="billingTable" class="table"></div>
     </section>
 
-    <section id="feedback" class="tab hidden">
-      <h2>Retours utilisateurs</h2>
+    <section id="feedback" class="page hidden">
+      <div class="sectionHead">
+        <div>
+          <h2>Retours utilisateurs</h2>
+          <p>Messages envoyés par les testeurs.</p>
+        </div>
+      </div>
       <div id="feedbackTable" class="table"></div>
     </section>
 
-    <details class="diagnostic">
-      <summary>Diagnostic technique</summary>
-      <pre id="out">Chargement...</pre>
+    <details class="diag">
+      <summary>Diagnostic</summary>
+      <pre id="diagOut">Chargement...</pre>
     </details>
   </main>
 </div>
 
-<script src="/owner.js"></script>
-<script src="/global-auth-fix.js"></script>
+<script src="/owner-v101.js"></script>
 </body>
 </html>

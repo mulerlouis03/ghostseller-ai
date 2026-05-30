@@ -1,26 +1,25 @@
-# GhostSeller AI V100.2 STABLE LAYOUT + USERS
+# GhostSeller AI V101 TRUE OWNER CONSOLE
 
-## Corrections incluses
-- Page utilisateur stabilisée.
-- Déconnexion visible et fonctionnelle.
-- Owner Console compacte.
-- Menu owner réduit.
-- Écran “Utilisateurs inscrits” clairement visible.
-- Recherche utilisateur par nom ou email.
-- Statistiques :
-  - Total utilisateurs
-  - Nouveaux aujourd’hui
-  - Abonnements actifs
-  - Retours reçus
+## Ce que cette version corrige vraiment
+- Crée une vraie page Owner indépendante à /owner.
+- Supprime le cockpit interminable pour ton espace propriétaire.
+- Ajoute un menu simple : Vue générale, Utilisateurs, Abonnements, Retours, Déconnexion.
+- Affiche clairement les utilisateurs inscrits.
+- Ajoute recherche par nom/email.
+- Réduit la largeur du contenu.
+- Déconnexion visible dans ton espace owner.
 
-## Variable Vercel
+## Variable Vercel obligatoire
 OWNER_EMAIL=mulerlouis03@gmail.com
 
 ## Commandes
 npm install
 git add .
-git commit -m "GhostSeller V100.2 Stable Layout with Users"
+git commit -m "GhostSeller V101 True Owner Console"
 git push
 
-## Accès Owner
+## Après déploiement
+Ouvre directement :
 https://ghostseller-ai.vercel.app/owner
+
+Si tu arrives encore sur l'ancien dashboard, c'est que tu n'es pas sur /owner ou que Vercel n'a pas redéployé le bon commit.
