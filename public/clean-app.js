@@ -12,7 +12,7 @@ function isOwnerUser(u=currentUser){
 function redirectOwnerIfNeeded(){
   if(isOwnerUser() && !location.pathname.startsWith("/owner") && !location.pathname.startsWith("/admin")){
     document.body.classList.add("ghost-owner-mode");
-    location.href="/owner";
+    location.href="/owner/";
     return true;
   }
   return false;

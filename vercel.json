@@ -9,11 +9,11 @@
   "routes": [
     {
       "src": "/owner",
-      "dest": "/owner.html"
+      "dest": "/owner/"
     },
     {
       "src": "/admin",
-      "dest": "/owner.html"
+      "dest": "/admin/"
     },
     {
       "src": "/privacy",
@@ -42,6 +42,16 @@
     {
       "src": "/(.*)",
       "dest": "server.js"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/admin",
+      "destination": "/admin/"
+    },
+    {
+      "source": "/owner",
+      "destination": "/owner/"
     }
   ]
 }
