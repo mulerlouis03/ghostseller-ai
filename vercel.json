@@ -13,7 +13,7 @@
     },
     {
       "src": "/admin",
-      "dest": "/admin.html"
+      "dest": "/owner.html"
     },
     {
       "src": "/privacy",

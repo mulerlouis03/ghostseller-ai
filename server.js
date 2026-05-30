@@ -79,6 +79,15 @@ app.use("/api", apiRateLimit(120, 60_000));
 app.use(express.json({ limit: "1mb" }));
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+app.get("/owner", (_req, res) => {
+  res.sendFile(path.join(__dirname, "public", "owner.html"));
+});
+
+app.get("/admin", (_req, res) => {
+  res.sendFile(path.join(__dirname, "public", "owner.html"));
+});
+
 app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/landing", (req, res) => {

@@ -3,13 +3,13 @@ export const healthRouter = express.Router();
 
 healthRouter.get("/", (_req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V101 TRUE OWNER CONSOLE",
-  phase:"Clean Independent Owner Dashboard",
-  ownerConsoleStandalone:true,
-  ownerRoute:"/owner",
-  adminRoute:"/admin",
-  cleanOwnerMenu:true,
-  usersView:true,
+  version:"GhostSeller AI V102 CLEAN APP OWNER STABLE",
+  phase:"Main App Replaced + Stable Owner Console",
+  mainAppReplaced:true,
+  oldDashboardBypassed:true,
+  userMenuClean:true,
+  accountPageUseful:true,
   logoutFixed:true,
-  oldAdminHidden:true
+  ownerConsoleStable:true,
+  ownerUsersVisible:true
 }));
