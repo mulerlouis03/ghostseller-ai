@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GhostSeller AI Owner Console</title>
-<link rel="stylesheet" href="/owner-v101.css">
+<link rel="stylesheet" href="/owner-v103.css">
 </head>
 <body>
 <div class="owner-app">
@@ -33,10 +33,10 @@
       <div>
         <span class="badge">OWNER</span>
         <h1>Owner Console</h1>
-        <p>Ton espace stable pour voir les inscrits, les abonnements et les retours.</p>
+        <p>Ton centre de contrôle : utilisateurs inscrits, abonnements et retours.</p>
       </div>
       <div class="topActions">
-        <button class="btn ghost" id="openUsersBtn">Voir utilisateurs</button>
+        <button class="btn ghost" id="openUsersBtn">👥 Voir utilisateurs</button>
         <button class="btn" id="refreshBtn">Rafraîchir</button>
         <button class="btn danger" id="topLogoutBtn">Déconnexion</button>
       </div>
@@ -44,34 +44,52 @@
 
     <section id="overview" class="page">
       <div class="stats">
-        <div class="stat"><b id="totalUsers">0</b><span>Utilisateurs inscrits</span></div>
+        <div class="stat mainStat"><b id="totalUsers">0</b><span>Utilisateurs inscrits</span></div>
         <div class="stat"><b id="newToday">0</b><span>Nouveaux aujourd'hui</span></div>
-        <div class="stat"><b id="activeSubs">0</b><span>Abonnements actifs</span></div>
+        <div class="stat"><b id="payingUsers">0</b><span>Clients payants</span></div>
         <div class="stat"><b id="feedbackCount">0</b><span>Retours reçus</span></div>
       </div>
 
-      <div class="card hero">
-        <h2>Ce que tu dois regarder en premier</h2>
-        <p>Les comptes créés par tes testeurs sont dans l'onglet <b>Utilisateurs</b>. Tu peux chercher par nom ou email.</p>
-        <button class="btn" data-open="users">Ouvrir utilisateurs</button>
+      <div class="grid">
+        <div class="card hero">
+          <h2>Utilisateurs inscrits</h2>
+          <p>Tu peux voir ici toutes les personnes qui ont créé un compte sur GhostSeller AI.</p>
+          <button class="btn" data-open="users">Ouvrir la liste complète</button>
+        </div>
+
+        <div class="card">
+          <h2>Derniers inscrits</h2>
+          <div id="latestUsers" class="miniList"></div>
+        </div>
       </div>
     </section>
 
     <section id="users" class="page hidden">
       <div class="sectionHead">
         <div>
-          <h2>Utilisateurs inscrits</h2>
-          <p>Liste des comptes créés sur GhostSeller AI.</p>
+          <h2>👥 Utilisateurs inscrits</h2>
+          <p>Liste complète des comptes créés sur GhostSeller AI.</p>
         </div>
-        <input id="userSearch" class="search" placeholder="Rechercher nom ou email...">
+        <div class="tools">
+          <input id="userSearch" class="search" placeholder="Rechercher nom ou email...">
+          <button class="btn ghost" id="exportUsersBtn">Exporter CSV</button>
+        </div>
       </div>
+
+      <div class="stats small">
+        <div class="stat"><b id="usersTotal2">0</b><span>Total</span></div>
+        <div class="stat"><b id="usersNew2">0</b><span>Aujourd'hui</span></div>
+        <div class="stat"><b id="usersFree2">0</b><span>Gratuits</span></div>
+        <div class="stat"><b id="usersPaid2">0</b><span>Payants</span></div>
+      </div>
+
       <div id="usersTable" class="table"></div>
     </section>
 
     <section id="billing" class="page hidden">
       <div class="sectionHead">
         <div>
-          <h2>Abonnements</h2>
+          <h2>💳 Abonnements</h2>
           <p>Suivi des plans et statuts.</p>
         </div>
       </div>
@@ -81,7 +99,7 @@
     <section id="feedback" class="page hidden">
       <div class="sectionHead">
         <div>
-          <h2>Retours utilisateurs</h2>
+          <h2>💬 Retours utilisateurs</h2>
           <p>Messages envoyés par les testeurs.</p>
         </div>
       </div>
@@ -95,6 +113,6 @@
   </main>
 </div>
 
-<script src="/owner-v101.js"></script>
+<script src="/owner-v103.js"></script>
 </body>
 </html>

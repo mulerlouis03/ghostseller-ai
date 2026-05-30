@@ -1,16 +1,18 @@
-# GhostSeller AI V102 CLEAN APP OWNER STABLE
+# GhostSeller AI V103 OWNER USER MANAGEMENT
 
-## Ce qui change vraiment
-Cette fois, l'ancienne page utilisateur a été remplacée complètement.
+## Ajout principal
+Un vrai espace Utilisateurs dans Owner Console.
 
-## Corrections
-- Suppression du vieux dashboard avec menus interminables côté utilisateur.
-- Nouveau dashboard utilisateur propre.
-- Mon compte devient utile : nom, email, rôle, plan, crédits, déconnexion.
-- Déconnexion visible et fonctionnelle.
-- Bouton Owner visible seulement pour toi.
-- Owner Console séparée à /owner.
-- Route /owner forcée côté serveur.
+## Ce que tu verras dans /owner
+- Menu 👥 Utilisateurs
+- Total utilisateurs inscrits
+- Nouveaux aujourd’hui
+- Clients payants
+- Comptes gratuits
+- Liste complète des utilisateurs
+- Recherche par nom/email
+- Derniers inscrits
+- Export CSV
 
 ## Variable Vercel
 OWNER_EMAIL=mulerlouis03@gmail.com
@@ -18,12 +20,8 @@ OWNER_EMAIL=mulerlouis03@gmail.com
 ## Commandes
 npm install
 git add .
-git commit -m "GhostSeller V102 Clean App Owner Stable"
+git commit -m "GhostSeller V103 Owner User Management"
 git push
 
-## Après déploiement
-Utilisateur :
-https://ghostseller-ai.vercel.app
-
-Owner :
+## Accès
 https://ghostseller-ai.vercel.app/owner
