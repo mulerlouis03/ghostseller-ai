@@ -159,3 +159,75 @@ async function sendTesterFeedback(){
     if(out) out.innerHTML="Impossible d'envoyer le retour pour le moment. Tu peux aussi l'envoyer directement à Muler sur WhatsApp.";
   }
 }
+
+
+async function sendFeedbackPayload(payload, outId){
+  const out = document.getElementById(outId);
+  if(out) out.innerHTML = "Envoi du retour...";
+  try{
+    const res = await fetch("/api/feedback",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(payload)
+    });
+    const text = await res.text();
+    let data = {};
+    try{ data = JSON.parse(text); }catch(e){ data = { raw:text }; }
+    if(!res.ok) throw new Error(data.error || "Erreur serveur");
+    if(out) out.innerHTML = "Merci, ton retour a été envoyé.";
+    return data;
+  }catch(e){
+    if(out) out.innerHTML = "Le retour n'a pas pu partir automatiquement. Copie ton message et envoie-le à Muler sur WhatsApp.";
+    throw e;
+  }
+}
+
+async function sendDashboardFeedback(){
+  const box = document.getElementById("dashboardFeedbackMessage");
+  const type = document.getElementById("dashboardFeedbackType");
+  const message = (box?.value || "").trim();
+
+  if(!message || message.length < 3){
+    const out = document.getElementById("dashboardFeedbackOut");
+    if(out) out.innerHTML = "Écris un petit message avant d'envoyer.";
+    if(box) box.focus();
+    return;
+  }
+
+  const u = currentUser || JSON.parse(localStorage.getItem("user") || "{}") || {};
+  try{
+    await sendFeedbackPayload({
+      name:u.name || u.full_name || "",
+      email:u.email || "",
+      rating:type?.value || "Retour général",
+      message,
+      page:"dashboard"
+    }, "dashboardFeedbackOut");
+    if(box) box.value = "";
+  }catch(e){}
+}
+
+async function sendTesterFeedback(){
+  const box=document.getElementById("accountFeedback");
+  const type=document.getElementById("accountFeedbackType");
+  const message=(box?.value||"").trim();
+
+  if(!message || message.length < 3){
+    const out=document.getElementById("accountFeedbackOut");
+    if(out) out.innerHTML="Écris un petit message avant d'envoyer.";
+    if(box) box.focus();
+    return;
+  }
+
+  const u=currentUser||JSON.parse(localStorage.getItem("user")||"{}")||{};
+  try{
+    await sendFeedbackPayload({
+      name:u.name||u.full_name||"",
+      email:u.email||"",
+      rating:type?.value||"Retour général",
+      message,
+      page:"account"
+    }, "accountFeedbackOut");
+    if(box) box.value="";
+  }catch(e){}
+}

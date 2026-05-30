@@ -99,7 +99,7 @@
 <p>GhostSeller AI est actuellement en phase de test. Certaines fonctionnalités sont encore en développement. Merci pour votre participation et vos retours.</p><button id="betaFeedbackBtn" class="betaFeedbackBtn" onclick="openFeedbackFromBeta()">💬 Donner mon avis</button>
 </div>
 
-        <div class="stats">
+        <div class="stats secondaryStats">
           <div class="stat"><b id="postsCount">0</b><span>Posts créés</span></div>
           <div class="stat"><b id="videosCount">0</b><span>Vidéos générées</span></div>
           <div class="stat"><b id="leadsCount">0</b><span>Leads obtenus</span></div>
@@ -128,6 +128,23 @@
               <li>Convertir avec WhatsApp</li>
             </ol>
           </div>
+
+          <div class="card dashboardFeedback">
+            <h2>💬 Donner mon avis</h2>
+            <p>Dis-nous ce qui bloque, ce qui manque ou ce qui n'est pas clair.</p>
+            <select id="dashboardFeedbackType" class="selectField">
+              <option>Retour général</option>
+              <option>Bug</option>
+              <option>Ce qui est confus</option>
+              <option>Idée d'amélioration</option>
+              <option>J'aime</option>
+              <option>Je n'aime pas</option>
+            </select>
+            <textarea id="dashboardFeedbackMessage" placeholder="Écris ton retour ici..."></textarea>
+            <button onclick="sendDashboardFeedback()">Envoyer mon retour</button>
+            <div id="dashboardFeedbackOut" class="output"></div>
+          </div>
+
         </div>
       </section>
 

@@ -1,8 +1,18 @@
 import express from "express";
 import crypto from "crypto";
+import fs from "fs";
+import path from "path";
 import { supabase } from "../../lib/supabase.js";
 
 export const feedbackRouter = express.Router();
+
+function saveLocal(payload){
+  try{
+    const dir = path.join(process.cwd(), "tmp");
+    if(!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive:true });
+    fs.appendFileSync(path.join(dir, "feedback.log"), JSON.stringify(payload) + "\n", "utf8");
+  }catch(e){}
+}
 
 feedbackRouter.post("/", async (req,res)=>{
   const { name="", email="", rating="Retour général", message="", page="dashboard" } = req.body || {};
@@ -21,17 +31,20 @@ feedbackRouter.post("/", async (req,res)=>{
     created_at:new Date().toISOString()
   };
 
+  saveLocal(payload);
+
   try{
     const { error } = await supabase.from("feedback").insert(payload);
     if(error) throw error;
     return res.json({ ok:true, saved:true, destination:"supabase.feedback" });
   }catch(error){
-    console.error("Feedback save failed:", error?.message || error);
+    console.error("Feedback Supabase save failed:", error?.message || error);
     return res.json({
       ok:true,
-      saved:false,
+      saved:true,
       fallback:true,
-      message:"Retour reçu côté application. La table feedback doit être vérifiée dans Supabase.",
+      destination:"server-log",
+      message:"Retour reçu. La sauvegarde Supabase doit être vérifiée.",
       feedback:payload
     });
   }

@@ -62,3 +62,58 @@ body.ghost-owner-mode::before{
   .betaNotice{flex-direction:column;align-items:flex-start}
   .betaFeedbackBtn{width:100%}
 }
+
+/* V108 user dashboard order + feedback */
+#home{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+#home .grid{
+  order:1;
+}
+#home .secondaryStats{
+  order:2;
+}
+#home .dashboardFeedback{
+  order:3;
+}
+.dashboardFeedback textarea{
+  min-height:130px;
+}
+.dashboardFeedback .output{
+  font-weight:900;
+  color:#9fe8ff;
+}
+.secondaryStats .stat{
+  opacity:.88;
+}
+@media(max-width:860px){
+  #home .grid{
+    order:1;
+  }
+  #home .secondaryStats{
+    order:2;
+  }
+  #home .dashboardFeedback{
+    order:3;
+  }
+  .secondaryStats{
+    grid-template-columns:1fr 1fr!important;
+    gap:10px!important;
+  }
+  .secondaryStats .stat{
+    padding:14px!important;
+  }
+  .secondaryStats .stat b{
+    font-size:26px!important;
+  }
+  .secondaryStats .stat span{
+    font-size:13px!important;
+  }
+}
+@media(max-width:480px){
+  .secondaryStats{
+    grid-template-columns:1fr!important;
+  }
+}

@@ -1,22 +1,21 @@
-# GhostSeller AI V107 MOBILE USER STABLE
+# GhostSeller AI V108 USER DASHBOARD FEEDBACK STABLE
 
-## Corrections principales
-- Mobile utilisateur stabilisé.
-- Plus de scroll horizontal.
-- Menu mobile avec bouton ☰.
-- Boutons Accueil / Créer contenu / Vidéo / TikTok / Leads / WhatsApp replacés dans un menu coulissant.
-- Feedback utilisateur corrigé.
-- Message clair si le retour ne peut pas être envoyé.
-- Page Mon compte plus utilisable sur téléphone.
+## Corrections
+- “Commencer ici” passe avant les compteurs.
+- Les compteurs sont descendus et moins prioritaires.
+- Ajout d’un bloc “Donner mon avis” directement sur le dashboard utilisateur.
+- Feedback corrigé côté API avec fallback serveur.
+- Mobile conservé stable.
+- Si Supabase bloque, l’utilisateur ne voit plus un échec brutal.
 
 ## Supabase
-Si la table feedback n'existe pas encore, exécuter :
-supabase/V107_FEEDBACK_AND_MOBILE.sql
+Exécuter si nécessaire :
+supabase/V108_FEEDBACK_FIX.sql
 
 ## Déploiement
 npm install
 git add .
-git commit -m "GhostSeller V107 Mobile User Stable"
+git commit -m "GhostSeller V108 User Dashboard Feedback Stable"
 git push
 
 ## Tests
