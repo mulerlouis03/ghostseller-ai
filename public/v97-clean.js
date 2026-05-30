@@ -36,3 +36,7 @@ document.body.innerHTML="";document.body.appendChild(app)}
 function shouldActivate(){const body=document.body.innerText||"";const login=body.includes("Connexion")&&body.includes("Créer un compte");const dash=body.includes("Dashboard")||body.includes("Business Command Center")||body.includes("Abonnement")||body.includes("Revenue")||body.includes("Créer contenu");return dash&&!login}
 document.addEventListener("DOMContentLoaded",()=>setTimeout(()=>{if(shouldActivate())build()},700));setTimeout(()=>{if(shouldActivate())build()},1800);
 })();
+
+
+// V100.1 safe logout fallback
+if (typeof window !== 'undefined' && window.ghostSellerLogout) { window.logout = window.ghostSellerLogout; }

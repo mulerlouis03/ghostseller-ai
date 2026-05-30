@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="/style.css">
 <link rel="stylesheet" href="/v99-clean.css">
 <style>.logout,.btn-logout,#logoutBtn,[onclick*="logout"],[onclick*="Logout"]{display:none}</style>
+<link rel="stylesheet" href="/global-auth-fix.css">
 </head>
 <body>
 <div id="authView" class="auth-page">
@@ -1458,6 +1459,23 @@
 </div>
 
 <script src="/v99-clean.js"></script>
+
+<script>
+(function(){
+  function hasToken(){return localStorage.getItem("token")||localStorage.getItem("authToken")||localStorage.getItem("ghostseller_token")||localStorage.getItem("jwt")}
+  function logout(){["token","authToken","ghostseller_token","jwt","user","profile"].forEach(k=>localStorage.removeItem(k));sessionStorage.clear();location.href="/"}
+  setTimeout(function(){
+    if(!hasToken()) return;
+    var box=document.createElement("div");
+    box.id="owner-quick-access-old";
+    box.style.cssText="position:fixed;right:14px;bottom:14px;z-index:999999;display:flex;gap:8px;flex-wrap:wrap";
+    box.innerHTML='<a href="/owner" style="background:#111b3d;color:white;padding:11px 14px;border-radius:999px;text-decoration:none;font-weight:900;border:1px solid rgba(255,255,255,.2)">👑 Owner</a><button id="globalLogoutBtn" style="background:#5b1025;color:white;padding:11px 14px;border-radius:999px;font-weight:900;border:1px solid rgba(255,255,255,.2)">Déconnexion</button>';
+    document.body.appendChild(box);
+    document.getElementById("globalLogoutBtn").onclick=logout;
+  },1000);
+})();
+</script>
+<script src="/global-auth-fix.js"></script>
 </body>
 
 </html>

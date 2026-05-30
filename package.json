@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-clean-public-beta",
-  "version": "99.0.0",
+  "name": "ghostseller-ai-owner-logout-fixed",
+  "version": "100.1.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

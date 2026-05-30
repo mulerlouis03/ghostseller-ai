@@ -262,3 +262,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
   applyTranslations();
   showLanguagePopup();
 });
+
+
+// V100.1 safe logout fallback
+if (typeof window !== 'undefined' && window.ghostSellerLogout) { window.logout = window.ghostSellerLogout; }

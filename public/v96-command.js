@@ -253,3 +253,7 @@
   document.addEventListener("DOMContentLoaded",()=>setTimeout(()=>{if(shouldActivate())build()},700));
   setTimeout(()=>{if(shouldActivate())build()},1800);
 })();
+
+
+// V100.1 safe logout fallback
+if (typeof window !== 'undefined' && window.ghostSellerLogout) { window.logout = window.ghostSellerLogout; }

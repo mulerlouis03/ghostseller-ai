@@ -99,3 +99,7 @@
   document.addEventListener("DOMContentLoaded",()=>setTimeout(()=>{if(shouldActivate())build()},800));
   setTimeout(()=>{if(shouldActivate())build()},2200);
 })();
+
+
+// V100.1 safe logout fallback
+if (typeof window !== 'undefined' && window.ghostSellerLogout) { window.logout = window.ghostSellerLogout; }

@@ -1,0 +1,63 @@
+/* GhostSeller AI V100.1 logout/access fix */
+#ghostseller-global-actions{
+  position:fixed;
+  top:14px;
+  right:14px;
+  z-index:2147483647;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  flex-wrap:wrap;
+  font-family:Inter,Arial,sans-serif;
+}
+#ghostseller-global-actions a,
+#ghostseller-global-actions button{
+  min-height:38px;
+  padding:0 13px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(9,15,34,.88);
+  color:#fff;
+  text-decoration:none;
+  font-weight:900;
+  cursor:pointer;
+  backdrop-filter:blur(14px);
+  box-shadow:0 8px 25px rgba(0,0,0,.22);
+}
+#ghostseller-global-actions .owner-link{
+  background:linear-gradient(135deg,rgba(36,214,255,.28),rgba(255,200,87,.18));
+}
+#ghostseller-global-actions .logout-btn{
+  background:rgba(255,92,124,.18);
+  border-color:rgba(255,92,124,.35);
+}
+#ghostseller-bottom-actions{
+  position:fixed;
+  right:14px;
+  bottom:14px;
+  z-index:2147483646;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  font-family:Inter,Arial,sans-serif;
+}
+#ghostseller-bottom-actions a,
+#ghostseller-bottom-actions button{
+  min-height:36px;
+  padding:0 12px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(9,15,34,.82);
+  color:#fff;
+  text-decoration:none;
+  font-weight:850;
+  cursor:pointer;
+}
+#ghostseller-bottom-actions .logout-btn{
+  background:rgba(255,92,124,.16);
+  border-color:rgba(255,92,124,.35);
+}
+body:not(.ghostseller-authenticated) #ghostseller-global-actions,
+body:not(.ghostseller-authenticated) #ghostseller-bottom-actions{
+  display:none!important;
+}

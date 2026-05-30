@@ -8,6 +8,14 @@
   ],
   "routes": [
     {
+      "src": "/owner",
+      "dest": "/owner.html"
+    },
+    {
+      "src": "/admin",
+      "dest": "/admin.html"
+    },
+    {
       "src": "/privacy",
       "dest": "server.js"
     },

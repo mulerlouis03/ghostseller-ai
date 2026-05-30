@@ -60,3 +60,7 @@ window.v98SendFeedback = async function(){
   }
 };
 })();
+
+
+// V100.1 safe logout fallback
+if (typeof window !== 'undefined' && window.ghostSellerLogout) { window.logout = window.ghostSellerLogout; }

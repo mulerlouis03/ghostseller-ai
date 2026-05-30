@@ -1,28 +1,27 @@
-# GhostSeller AI V99 CLEAN PUBLIC BETA
+# GhostSeller AI V100.1 OWNER LOGOUT FIXED
 
 ## Objectif
-Nettoyer complètement l’interface publique avant d’envoyer le lien à des testeurs.
+Stabiliser ton espace owner ET corriger la déconnexion utilisateur.
 
-## Ce qui est nettoyé
-- Aucun OpenAI visible côté client.
-- Aucun Supabase visible côté client.
-- Aucun Stripe visible côté client.
-- Aucun OAuth visible côté client.
-- Suppression de V52 Access Control.
-- Suppression des références Vxx visibles.
-- Déconnexion masquée avant connexion.
-- Dashboard utilisateur simple.
-- Owner Console séparée.
+## Ajouts
+- Bouton Déconnexion en haut à droite après connexion.
+- Bouton Owner en haut à droite pour toi.
+- Bouton Déconnexion de secours en bas à droite.
+- Déconnexion fiable : suppression token/localStorage/sessionStorage.
+- Retour automatique vers la page d’accueil.
+- Remplacement des anciens boutons déconnexion cassés.
+- Routes stables :
+  - /owner
+  - /admin
+
+## Variable Vercel à ajouter
+OWNER_EMAIL=mulerlouis03@gmail.com
 
 ## Commandes
 npm install
 git add .
-git commit -m "GhostSeller V99 Clean Public Beta"
+git commit -m "GhostSeller V100.1 Owner Logout Fixed"
 git push
 
-## Lien à envoyer
-https://ghostseller-ai.vercel.app
-
-## Tests
-/api/health
-/api/billing/plans
+## Après déploiement
+https://ghostseller-ai.vercel.app/owner

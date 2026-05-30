@@ -2284,3 +2284,7 @@ async function openCustomerPortal(){
     else out.innerHTML=`<pre>${esc(JSON.stringify(data,null,2))}</pre>`;
   }catch(e){ out.innerHTML=`<p class="error">${esc(e.message)}</p>`; }
 }
+
+
+// V100.1 safe logout fallback
+if (typeof window !== 'undefined' && window.ghostSellerLogout) { window.logout = window.ghostSellerLogout; }

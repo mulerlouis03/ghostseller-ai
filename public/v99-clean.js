@@ -41,3 +41,7 @@ function shouldActivate(){const body=document.body.innerText||"";const login=bod
 document.addEventListener("DOMContentLoaded",()=>{setTimeout(cleanPublicText,300);setTimeout(()=>{if(shouldActivate())build();else cleanPublicText()},800)});
 setTimeout(()=>{if(shouldActivate())build();else cleanPublicText()},1800);
 })();
+
+
+// V100.1 safe logout fallback
+if (typeof window !== 'undefined' && window.ghostSellerLogout) { window.logout = window.ghostSellerLogout; }
