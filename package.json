@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-mobile-saas-ux",
-  "version": "123.0.0",
+  "name": "ghostseller-ai-tiktok-cta-upgrade",
+  "version": "124.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
