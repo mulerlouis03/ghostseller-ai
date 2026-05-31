@@ -624,3 +624,106 @@ pre[data-raw-json="true"]{
     min-height:auto;
   }
 }
+
+/* V121 Product Upload */
+.productUploadBox{
+  margin:14px 0 10px;
+  border:1px dashed rgba(56,189,248,.30);
+  background:rgba(56,189,248,.055);
+  border-radius:22px;
+  padding:16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+}
+.uploadText{
+  display:grid;
+  gap:4px;
+}
+.uploadText b{
+  color:white;
+  font-size:16px;
+}
+.uploadText span{
+  color:#aebee2;
+  line-height:1.4;
+}
+.productUploadBtn{
+  min-width:170px;
+  height:46px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 18px;
+  cursor:pointer;
+  font-weight:1000;
+  color:white;
+  background:linear-gradient(135deg,#24d6ff,#b84cff);
+  box-shadow:0 0 26px rgba(56,189,248,.18);
+}
+.productUploadBtn input{
+  display:none;
+}
+.productImagePreview{
+  margin:10px 0 16px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+  border-radius:22px;
+  padding:14px;
+  display:grid;
+  grid-template-columns:120px 1fr auto;
+  align-items:center;
+  gap:14px;
+}
+.productImagePreview.hidden{
+  display:none!important;
+}
+.productImagePreview img{
+  width:120px;
+  height:120px;
+  object-fit:cover;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.14);
+}
+.productImagePreview b{
+  display:block;
+  color:white;
+  margin-bottom:6px;
+}
+.productImagePreview span{
+  color:#aebee2;
+}
+.removeImageBtn{
+  width:auto!important;
+  min-width:120px;
+  background:rgba(255,255,255,.08)!important;
+  border:1px solid rgba(255,255,255,.14)!important;
+}
+.productVisualNote{
+  border:1px solid rgba(255,200,87,.25);
+  background:rgba(255,200,87,.08);
+  border-radius:16px;
+  padding:12px;
+  margin:12px 0;
+  color:#ffe7b0;
+  font-weight:800;
+}
+@media(max-width:760px){
+  .productUploadBox{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .productUploadBtn{
+    width:100%;
+  }
+  .productImagePreview{
+    grid-template-columns:1fr;
+  }
+  .productImagePreview img{
+    width:100%;
+    height:auto;
+    max-height:260px;
+  }
+}

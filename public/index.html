@@ -226,6 +226,17 @@
           <h2>Créer contenu</h2>
           <p>Décris ton offre. GhostSeller prépare plusieurs contenus prêts à publier.</p>
           <textarea id="contentPrompt" placeholder="Décris le produit ou service à promouvoir..."></textarea>
+        <div class="productUploadBox">
+          <div class="uploadText">
+            <b>📎 Ajouter une photo du produit</b>
+            <span>Optionnel : ajoute une image, un logo, un flyer ou une capture pour guider GhostSeller.</span>
+          </div>
+          <label class="productUploadBtn">
+            Choisir une image
+            <input type="file" id="productImageInput" accept="image/*" onchange="handleProductImage(event)">
+          </label>
+        </div>
+        <div id="productImagePreview" class="productImagePreview hidden"></div>
           <button onclick="generateContent()">Créer les contenus prêts</button>
           <div id="contentOut" class="output"></div>
         </div>

@@ -858,3 +858,66 @@ function generateWhatsApp(){
 }
 
 function placeResult(btn, html){ /* V120 disables old preview injector */ }
+
+
+/* V121 Product Upload */
+function handleProductImage(event){
+  const file = event.target.files && event.target.files[0];
+  if(!file) return;
+  if(!file.type.startsWith("image/")){
+    alert("Merci de choisir une image.");
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(){
+    localStorage.setItem("ghostseller_product_image", reader.result);
+    localStorage.setItem("ghostseller_product_image_name", file.name || "image-produit");
+    renderProductImagePreview();
+  };
+  reader.readAsDataURL(file);
+}
+function removeProductImage(){
+  localStorage.removeItem("ghostseller_product_image");
+  localStorage.removeItem("ghostseller_product_image_name");
+  const input = document.getElementById("productImageInput");
+  if(input) input.value = "";
+  renderProductImagePreview();
+}
+function renderProductImagePreview(){
+  const box = document.getElementById("productImagePreview");
+  if(!box) return;
+  const img = localStorage.getItem("ghostseller_product_image");
+  const name = localStorage.getItem("ghostseller_product_image_name") || "Image produit";
+  if(!img){
+    box.classList.add("hidden");
+    box.innerHTML = "";
+    return;
+  }
+  box.classList.remove("hidden");
+  box.innerHTML = `
+    <img src="${img}" alt="Image produit">
+    <div>
+      <b>${name}</b>
+      <span>Cette image sera utilisée comme contexte visuel pour préparer le contenu.</span>
+    </div>
+    <button class="removeImageBtn" onclick="removeProductImage()">Supprimer</button>
+  `;
+}
+document.addEventListener("DOMContentLoaded", renderProductImagePreview);
+setInterval(renderProductImagePreview, 1500);
+
+function productVisualNote(){
+  const img = localStorage.getItem("ghostseller_product_image");
+  if(!img) return "";
+  return `<div class="productVisualNote">📎 Image produit ajoutée : GhostSeller adapte le contenu au visuel fourni.</div>`;
+}
+
+/* V121 override content generator to include image context notice */
+const gsContentEmployeeV120 = typeof gsContentEmployee === "function" ? gsContentEmployee : null;
+function gsContentEmployee(prompt){
+  if(gsContentEmployeeV120){
+    const html = gsContentEmployeeV120(prompt);
+    return html.replace('<div class="deliverableGrid">', productVisualNote() + '<div class="deliverableGrid">');
+  }
+  return `<div class="generatedResult">Contenu généré avec contexte produit.</div>`;
+}
