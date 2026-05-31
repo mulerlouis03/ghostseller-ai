@@ -130,25 +130,78 @@
             <button onclick="showPage('tiktok')">Voir détails TikTok</button>
           </div>
 
-          <div class="card premiumCard">
-            <h2>📈 Activité récente</h2>
-            <div class="emptyActivity"><div class="emptyIcon">✨</div><h3>Aucune activité pour le moment</h3><p>Commence par créer ton premier contenu. Tes scripts, vidéos, leads et messages apparaîtront ici.</p><button onclick="showPage('content')">Créer mon premier contenu</button></div>
+          <div class="card premiumCard missionCenter">
+            <h2>🎯 Ta prochaine étape</h2>
+            <div class="missionBox">
+              <div class="missionIcon">🚀</div>
+              <div>
+                <h3>Lance ta première création</h3>
+                <p>Commence par générer un contenu. Ensuite GhostSeller t’aidera à le transformer en vidéo, prospect et message WhatsApp.</p>
+              </div>
+            </div>
+
+            <div class="progressPanel">
+              <div class="progressHeader">
+                <b>Progression de démarrage</b>
+                <span>40%</span>
+              </div>
+              <div class="progressBar"><i></i></div>
+              <div class="checkList">
+                <div class="done">✓ Compte créé</div>
+                <div class="done">✓ Accès dashboard</div>
+                <div>□ Premier contenu</div>
+                <div>□ Première vidéo</div>
+                <div>□ Premier lead</div>
+              </div>
+            </div>
+
+            <button onclick="showPage('content')">Créer mon premier contenu</button>
           </div>
 
           <div class="card premiumCard roadmapPremium">
-            <h2>🛣️ Roadmap</h2>
-            <div class="roadmapTimeline">
-              <div class="done"><b>Stabilisation bêta</b><span>Comptes, dashboard et retours testeurs.</span></div>
-              <div class="done"><b>Création contenu IA</b><span>Posts, hooks, scripts et campagnes.</span></div>
-              <div class="active"><b>Validation TikTok</b><span>Connexion officielle en cours.</span></div>
-              <div class="locked"><b>Automatisation complète</b><span>Publication, leads et WhatsApp.</span></div>
+            <h2>🛣️ Évolution du produit</h2>
+            <div class="premiumTimeline">
+              <div class="tlItem done">
+                <span></span>
+                <div><b>Bêta privée</b><p>Comptes, dashboard et retours testeurs stabilisés.</p></div>
+              </div>
+              <div class="tlItem done">
+                <span></span>
+                <div><b>Création contenu IA</b><p>Posts, hooks, publicités et scripts courts.</p></div>
+              </div>
+              <div class="tlItem current">
+                <span></span>
+                <div><b>Validation TikTok</b><p>Connexion officielle en cours de validation.</p></div>
+              </div>
+              <div class="tlItem locked">
+                <span></span>
+                <div><b>Autopilot GhostSeller</b><p>Publication automatique, leads et WhatsApp.</p></div>
+              </div>
             </div>
           </div>
+          </div>
 
-          <div class="card premiumCard feedbackPro">
+          </div>
+
+        <div class="feedbackMiniBar">
+          <span>💬 Un problème ou une idée ?</span>
+          <button onclick="openFeedbackModal()">Donner mon avis</button>
+        </div>
+
+        <div id="feedbackModal" class="feedbackModal hidden">
+          <div class="feedbackModalBackdrop" onclick="closeFeedbackModal()"></div>
+          <div class="feedbackModalCard">
+            <button class="modalClose" onclick="closeFeedbackModal()">×</button>
             <h2>💬 Donner mon avis</h2>
-            <p>Dis-nous ce qui bloque, ce qui manque ou ce qui n’est pas clair.</p>
-            <select id="dashboardFeedbackType" class="selectField"><option>Retour général</option><option>Bug</option><option>Ce qui est confus</option><option>Idée d'amélioration</option><option>J'aime</option><option>Je n'aime pas</option></select>
+            <p>Ton retour aide à améliorer GhostSeller AI pendant la bêta.</p>
+            <select id="dashboardFeedbackType" class="selectField">
+              <option>Retour général</option>
+              <option>Bug</option>
+              <option>Ce qui est confus</option>
+              <option>Idée d'amélioration</option>
+              <option>J'aime</option>
+              <option>Je n'aime pas</option>
+            </select>
             <textarea id="dashboardFeedbackMessage" placeholder="Écris ton retour ici..."></textarea>
             <button onclick="sendDashboardFeedback()">Envoyer mon retour</button>
             <div id="dashboardFeedbackOut" class="output"></div>

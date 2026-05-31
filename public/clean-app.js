@@ -371,3 +371,18 @@ async function sendDashboardFeedback(){
     if(box) box.value="";
   }catch(e){ if(out) out.innerHTML="Impossible d'envoyer automatiquement. Tu peux aussi envoyer ton retour sur WhatsApp à Muler."; }
 }
+
+
+/* V116 Feedback modal */
+function openFeedbackModal(){
+  const modal = document.getElementById("feedbackModal");
+  if(modal) modal.classList.remove("hidden");
+  setTimeout(()=>document.getElementById("dashboardFeedbackMessage")?.focus(),80);
+}
+function closeFeedbackModal(){
+  const modal = document.getElementById("feedbackModal");
+  if(modal) modal.classList.add("hidden");
+}
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape") closeFeedbackModal();
+});

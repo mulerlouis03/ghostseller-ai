@@ -1,17 +1,16 @@
-# GhostSeller AI V115 PREMIUM UX DASHBOARD
+# GhostSeller AI V116 MISSION CENTER FEEDBACK MODAL
 
 ## Améliorations
-- Hero plus premium.
-- Textes plus courts et plus commerciaux.
-- 4 cartes d’action haut de gamme.
-- Carte “Activité récente”.
-- Statistiques à 0 dans un bloc repliable.
-- TikTok séparé en “Disponible maintenant” et “Bientôt”.
-- Roadmap plus visuelle.
-- Micro-effets hover premium.
+- Remplace “Activité récente” vide par un centre de mission motivant.
+- Ajoute une progression de démarrage à 40%.
+- Remplace la Roadmap texte par une timeline verticale premium.
+- Retire le formulaire avis du dashboard principal.
+- Ajoute une mini-bar “Un problème ou une idée ?”.
+- Le feedback s’ouvre maintenant dans une popup propre.
+- Dashboard plus centré sur l’action principale.
 
-## Déploiement
+## Push
 npm install
 git add .
-git commit -m "GhostSeller V115 Premium UX Dashboard"
+git commit -m "GhostSeller V116 Mission Center Feedback Modal"
 git push
