@@ -1,22 +1,22 @@
-# GhostSeller AI V118 OWNER IDENTITY
+
+# GhostSeller AI V119 AI EMPLOYEE PROFILE
+
+## Vision
+Passage du mode "assistant" au mode "employé IA".
 
 ## Ajouts
-- Nouvelle section 👑 Propriétaire dans l’Owner Console.
-- Carte propriétaire dédiée : Muler Louis.
-- Badge OWNER doré.
-- Plan Owner.
-- Crédits illimités.
-- Stripe : Exempt / Ne pas facturer.
-- Ton compte reste exclu des utilisateurs.
-- Ton compte reste exclu des clients payants.
-- Ton compte reste exclu des abonnements actifs.
+- Profil utilisateur renforcé (photo + nom complet).
+- Espace profil prêt pour société, pays et WhatsApp.
+- Génération orientée livrables complets :
+  - publications prêtes à publier,
+  - scripts vidéo complets,
+  - séquences WhatsApp complètes,
+  - fiches prospects exploitables.
+- Historique utilisateur préparé.
+- Base pour système de crédits réels.
 
-## Important
-Cette version corrige l’affichage et les statistiques GhostSeller.
-Pour annuler un prélèvement Stripe déjà actif, il faut toujours annuler la subscription dans Stripe.
-
-## Déploiement
+## Push
 npm install
 git add .
-git commit -m "GhostSeller V118 Owner Identity"
+git commit -m "GhostSeller V119 AI Employee Profile"
 git push
