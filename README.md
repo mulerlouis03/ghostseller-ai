@@ -1,20 +1,17 @@
-# GhostSeller AI V114 UX DASHBOARD PRO
+# GhostSeller AI V115 PREMIUM UX DASHBOARD
 
-## Objectif
-Rendre le dashboard utilisateur plus professionnel, plus rassurant et moins vide pendant la bêta.
+## Améliorations
+- Hero plus premium.
+- Textes plus courts et plus commerciaux.
+- 4 cartes d’action haut de gamme.
+- Carte “Activité récente”.
+- Statistiques à 0 dans un bloc repliable.
+- TikTok séparé en “Disponible maintenant” et “Bientôt”.
+- Roadmap plus visuelle.
+- Micro-effets hover premium.
 
-## Corrections UX
-- Nouveau hero “Construis ton système de contenu avant l’ouverture TikTok”.
-- 4 cartes d’actions visuelles : contenu, vidéo, leads, WhatsApp.
-- TikTok expliqué clairement comme API en validation.
-- Roadmap bêta visible.
-- Formulaire avis conservé en un seul bloc.
-- Statistiques cachées dans une section repliable.
-- Meilleure occupation du centre de la page.
-- Mobile plus propre.
-
-## Push
+## Déploiement
 npm install
 git add .
-git commit -m "GhostSeller V114 UX Dashboard Pro"
+git commit -m "GhostSeller V115 Premium UX Dashboard"
 git push

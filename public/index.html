@@ -94,96 +94,76 @@
       </header>
 
       <section id="home" class="page">
-        <div class="proHero">
+        <div class="premiumHero">
           <div>
-            <span class="proBadge">🧪 BÊTA PRIVÉE</span>
-            <h2>Construis ton système de contenu avant l’ouverture TikTok.</h2>
-            <p>GhostSeller AI t’aide déjà à préparer tes idées, scripts vidéo, prospects et messages WhatsApp. L’automatisation TikTok sera activée après validation officielle de l’API.</p>
+            <span class="premiumBadge">🧪 BÊTA PRIVÉE</span>
+            <h2>Crée du contenu qui génère des clients.</h2>
+            <p>Prépare tes vidéos, tes prospects et tes messages WhatsApp pendant la validation officielle de TikTok.</p>
+            <div class="heroActions">
+              <button onclick="showPage('content')">Créer mon premier contenu</button>
+              <button class="secondary" onclick="showPage('tiktok')">Voir le statut TikTok</button>
+            </div>
           </div>
-          <div class="proHeroBox">
-            <b>Statut actuel</b>
-            <span>✅ Compte actif</span>
-            <span>🟡 TikTok API en validation</span>
-            <span>🚀 Prêt pour tests utilisateurs</span>
+          <div class="premiumStatus">
+            <h3>Statut actuel</h3>
+            <span class="statusBadge ok">ACTIF</span>
+            <span class="statusBadge wait">TIKTOK EN VALIDATION</span>
+            <span class="statusBadge beta">BÊTA PRIVÉE</span>
           </div>
         </div>
 
-        <div class="actionGrid">
-          <div class="actionCard" onclick="showPage('content')">
-            <div class="actionIcon">🤖</div>
-            <h3>Créer un contenu</h3>
-            <p>Génère un hook, un post, une pub ou une idée de campagne.</p>
-            <button>Commencer</button>
-          </div>
-
-          <div class="actionCard" onclick="showPage('video')">
-            <div class="actionIcon">🎬</div>
-            <h3>Préparer une vidéo</h3>
-            <p>Transforme une idée en script court pour Reels, Shorts ou TikTok.</p>
-            <button>Générer un script</button>
-          </div>
-
-          <div class="actionCard" onclick="showPage('leads')">
-            <div class="actionIcon">👥</div>
-            <h3>Organiser des prospects</h3>
-            <p>Structure les clients à contacter et prépare ta prospection.</p>
-            <button>Trouver des leads</button>
-          </div>
-
-          <div class="actionCard" onclick="showPage('whatsapp')">
-            <div class="actionIcon">💬</div>
-            <h3>Convertir avec WhatsApp</h3>
-            <p>Prépare des messages simples pour transformer un prospect en client.</p>
-            <button>Préparer messages</button>
-          </div>
+        <div class="premiumActions">
+          <div class="premiumActionCard" onclick="showPage('content')"><div class="premiumIcon">🤖</div><h3>Créer un contenu</h3><p>Posts IA, hooks et publicités.</p><button>Commencer</button></div>
+          <div class="premiumActionCard" onclick="showPage('video')"><div class="premiumIcon">🎬</div><h3>Générer une vidéo</h3><p>Scripts TikTok, Reels et Shorts.</p><button>Créer un script</button></div>
+          <div class="premiumActionCard" onclick="showPage('leads')"><div class="premiumIcon">👥</div><h3>Trouver des prospects</h3><p>Recherche et gestion de leads.</p><button>Voir leads</button></div>
+          <div class="premiumActionCard" onclick="showPage('whatsapp')"><div class="premiumIcon">💬</div><h3>WhatsApp</h3><p>Messages prêts à convertir.</p><button>Préparer messages</button></div>
         </div>
 
-        <div class="proGrid">
-          <div class="card proCard">
-            <h2>🎵 TikTok : ce qui est prêt / ce qui arrive</h2>
-            <div class="statusList">
-              <div>✅ Création de contenu <span>Disponible maintenant.</span></div>
-              <div>✅ Scripts vidéo <span>Disponible maintenant.</span></div>
-              <div>🟡 Connexion TikTok <span>En attente de validation API officielle.</span></div>
-              <div>🟡 Publication automatique <span>Activée après validation TikTok.</span></div>
+        <div class="premiumMainGrid">
+          <div class="card premiumCard">
+            <h2>🎵 TikTok</h2>
+            <div class="splitStatus">
+              <div><h3>Disponible maintenant</h3><ul><li>✅ Création de contenu</li><li>✅ Scripts vidéo</li><li>✅ Leads</li><li>✅ WhatsApp</li></ul></div>
+              <div><h3>Bientôt</h3><ul><li>🟡 Connexion TikTok</li><li>🟡 Publication automatique</li></ul></div>
             </div>
-            <button onclick="showPage('tiktok')">Voir le statut TikTok</button>
+            <p class="mutedLine">L’API TikTok est en attente de validation officielle. En attendant, tu peux préparer ton système de contenu.</p>
+            <button onclick="showPage('tiktok')">Voir détails TikTok</button>
           </div>
 
-          <div class="card proCard">
-            <h2>🛣️ Roadmap bêta</h2>
-            <div class="roadmapList">
-              <div><b>Étape 1</b><span>Stabiliser comptes, dashboard et retours testeurs.</span></div>
-              <div><b>Étape 2</b><span>Finaliser création contenu + scripts vidéo.</span></div>
-              <div><b>Étape 3</b><span>Activer TikTok dès validation API.</span></div>
-              <div><b>Étape 4</b><span>Automatiser publication, leads et WhatsApp.</span></div>
+          <div class="card premiumCard">
+            <h2>📈 Activité récente</h2>
+            <div class="emptyActivity"><div class="emptyIcon">✨</div><h3>Aucune activité pour le moment</h3><p>Commence par créer ton premier contenu. Tes scripts, vidéos, leads et messages apparaîtront ici.</p><button onclick="showPage('content')">Créer mon premier contenu</button></div>
+          </div>
+
+          <div class="card premiumCard roadmapPremium">
+            <h2>🛣️ Roadmap</h2>
+            <div class="roadmapTimeline">
+              <div class="done"><b>Stabilisation bêta</b><span>Comptes, dashboard et retours testeurs.</span></div>
+              <div class="done"><b>Création contenu IA</b><span>Posts, hooks, scripts et campagnes.</span></div>
+              <div class="active"><b>Validation TikTok</b><span>Connexion officielle en cours.</span></div>
+              <div class="locked"><b>Automatisation complète</b><span>Publication, leads et WhatsApp.</span></div>
             </div>
           </div>
 
-          <div class="card proCard feedbackPro">
+          <div class="card premiumCard feedbackPro">
             <h2>💬 Donner mon avis</h2>
             <p>Dis-nous ce qui bloque, ce qui manque ou ce qui n’est pas clair.</p>
-            <select id="dashboardFeedbackType" class="selectField">
-              <option>Retour général</option>
-              <option>Bug</option>
-              <option>Ce qui est confus</option>
-              <option>Idée d'amélioration</option>
-              <option>J'aime</option>
-              <option>Je n'aime pas</option>
-            </select>
+            <select id="dashboardFeedbackType" class="selectField"><option>Retour général</option><option>Bug</option><option>Ce qui est confus</option><option>Idée d'amélioration</option><option>J'aime</option><option>Je n'aime pas</option></select>
             <textarea id="dashboardFeedbackMessage" placeholder="Écris ton retour ici..."></textarea>
             <button onclick="sendDashboardFeedback()">Envoyer mon retour</button>
             <div id="dashboardFeedbackOut" class="output"></div>
           </div>
         </div>
 
-        <details class="uxStatsDetails">
-          <summary>Voir mes statistiques bêta</summary>
-          <div class="stats secondaryStats">
-            <div class="stat"><b id="postsCount">0</b><span>Posts créés</span></div>
-            <div class="stat"><b id="videosCount">0</b><span>Vidéos générées</span></div>
-            <div class="stat"><b id="leadsCount">0</b><span>Leads obtenus</span></div>
-            <div class="stat"><b id="clientsCount">0</b><span>Clients convertis</span></div>
+        <details class="premiumStats">
+          <summary>📊 Statistiques bêta</summary>
+          <div class="statsEmpty"><p>Les statistiques seront disponibles après ta première création.</p>
+            <div class="stats secondaryStats">
+              <div class="stat"><b id="postsCount">0</b><span>Posts créés</span></div>
+              <div class="stat"><b id="videosCount">0</b><span>Vidéos générées</span></div>
+              <div class="stat"><b id="leadsCount">0</b><span>Leads obtenus</span></div>
+              <div class="stat"><b id="clientsCount">0</b><span>Clients convertis</span></div>
+            </div>
           </div>
         </details>
       </section>
