@@ -921,3 +921,14 @@ function gsContentEmployee(prompt){
   }
   return `<div class="generatedResult">Contenu généré avec contexte produit.</div>`;
 }
+
+/* V122 compact product upload preview override */
+function renderProductImagePreview(){
+  const box=document.getElementById("productImagePreview");
+  if(!box) return;
+  const img=localStorage.getItem("ghostseller_product_image");
+  const name=localStorage.getItem("ghostseller_product_image_name") || "Image produit";
+  if(!img){ box.classList.add("hidden"); box.innerHTML=""; return; }
+  box.classList.remove("hidden");
+  box.innerHTML=`<img src="${img}" alt="Image produit"><div><b>${name}</b><span>Image ajoutée au brief.</span></div><button class="removeImageBtn" onclick="removeProductImage()">Retirer</button>`;
+}

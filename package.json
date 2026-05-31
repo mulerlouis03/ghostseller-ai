@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-product-upload",
-  "version": "121.0.0",
+  "name": "ghostseller-ai-workspace-ux-fix",
+  "version": "122.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

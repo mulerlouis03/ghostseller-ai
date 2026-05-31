@@ -1,16 +1,14 @@
-# GhostSeller AI V121 PRODUCT UPLOAD
+# GhostSeller AI V122 WORKSPACE UX FIX
 
-## Ajouts
-- Zone “Ajouter une photo du produit” dans Créer contenu.
-- Upload image optionnel.
-- Aperçu de l’image.
-- Bouton supprimer image.
-- Image gardée temporairement dans le navigateur.
-- Le résultat indique que GhostSeller utilise le visuel produit.
-- Base prête pour OpenAI Vision / Supabase Storage plus tard.
+## Corrections
+- Upload image remplacé par un bouton compact “📎 Image”.
+- Suppression du gros bloc explicatif inutile.
+- Aperçu image plus petit et propre.
+- Pages de travail plus compactes.
+- Réduction du vide sur Générer vidéo, Leads, WhatsApp et Créer contenu.
 
 ## Déploiement
 npm install
 git add .
-git commit -m "GhostSeller V121 Product Upload"
+git commit -m "GhostSeller V122 Workspace UX Fix"
 git push
