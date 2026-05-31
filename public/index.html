@@ -94,44 +94,49 @@
       </header>
 
       <section id="home" class="page">
-<div class="beta-banner">
-<h3>🧪 BÊTA PRIVÉE EN COURS</h3>
-<p>GhostSeller AI est actuellement en phase de test. Certaines fonctionnalités sont encore en développement. Merci pour votre participation et vos retours.</p>
-</div>
-
-        <div class="stats secondaryStats">
-          <div class="stat"><b id="postsCount">0</b><span>Posts créés</span></div>
-          <div class="stat"><b id="videosCount">0</b><span>Vidéos générées</span></div>
-          <div class="stat"><b id="leadsCount">0</b><span>Leads obtenus</span></div>
-          <div class="stat"><b id="clientsCount">0</b><span>Clients convertis</span></div>
+        <div class="uxWelcome">
+          <span class="uxBadge">🧪 BÊTA PRIVÉE</span>
+          <h2>Bienvenue sur GhostSeller AI</h2>
+          <p>GhostSeller AI aide les entrepreneurs à créer du contenu, préparer des vidéos, organiser des prospects et convertir avec WhatsApp.</p>
         </div>
 
-        <div class="grid">
-          <div class="card hero">
-            <h2>Commencer ici</h2>
-            <p>Décris ton activité, puis GhostSeller t’aide à préparer ton contenu, tes vidéos, tes leads et tes messages.</p>
-            <textarea id="mainPrompt" placeholder="Exemple : Je vends un service de recharge mobile pour la diaspora..."></textarea>
-            <div class="quick-actions">
-              <button onclick="showPage('content')">Créer contenu</button>
-              <button onclick="showPage('video')">Générer vidéo</button>
-              <button onclick="showPage('leads')">Trouver leads</button>
-              <button onclick="showPage('whatsapp')">Messages WhatsApp</button>
+        <div class="uxGrid">
+          <div class="card uxCard">
+            <h2>🚀 Bien démarrer</h2>
+            <p>Utilise le menu pour avancer étape par étape. Les actions ne sont plus doublées ici pour garder le dashboard propre.</p>
+            <ol class="uxSteps">
+              <li><b>Créer contenu</b><span>Prépare un post, un hook et un appel à l’action.</span></li>
+              <li><b>Générer vidéo</b><span>Transforme une idée en script vidéo court.</span></li>
+              <li><b>Leads</b><span>Organise les prospects à contacter.</span></li>
+              <li><b>WhatsApp</b><span>Prépare les messages de conversion.</span></li>
+            </ol>
+            <button onclick="showPage('content')">Commencer par créer contenu</button>
+          </div>
+
+          <div class="card uxCard">
+            <h2>🟡 État de la plateforme</h2>
+            <div class="statusList">
+              <div>✅ Création de contenu <span>Disponible en bêta</span></div>
+              <div>✅ Génération vidéo <span>Disponible en bêta</span></div>
+              <div>✅ Leads <span>Disponible en bêta</span></div>
+              <div>✅ WhatsApp <span>Disponible en bêta</span></div>
+              <div>🟡 TikTok API <span>En attente de validation officielle</span></div>
             </div>
           </div>
 
-          <div class="card">
-            <h2>Comment ça marche ?</h2>
-            <ol>
-              <li>Créer un contenu</li>
-              <li>Préparer une vidéo</li>
-              <li>Attirer des prospects</li>
-              <li>Convertir avec WhatsApp</li>
-            </ol>
+          <div class="card uxCard">
+            <h2>🛣️ Roadmap</h2>
+            <div class="roadmapList">
+              <div><b>TikTok API</b><span>Connexion et publication après validation.</span></div>
+              <div><b>Automatisation TikTok</b><span>Planification et workflows.</span></div>
+              <div><b>WhatsApp automatique</b><span>Relances et séquences.</span></div>
+              <div><b>Statistiques avancées</b><span>Suivi des performances.</span></div>
+            </div>
           </div>
 
-          <div class="card dashboardFeedback">
+          <div class="card dashboardFeedback uxCard">
             <h2>💬 Donner mon avis</h2>
-            <p>Dis-nous ce qui bloque, ce qui manque ou ce qui n'est pas clair.</p>
+            <p>Ton retour aide à améliorer GhostSeller AI pendant la bêta.</p>
             <select id="dashboardFeedbackType" class="selectField">
               <option>Retour général</option>
               <option>Bug</option>
@@ -141,11 +146,20 @@
               <option>Je n'aime pas</option>
             </select>
             <textarea id="dashboardFeedbackMessage" placeholder="Écris ton retour ici..."></textarea>
-            <button onclick="sendDashboardFeedback()">Envoyer mon retour</button><button class="secondary feedbackWhatsAppBtn" onclick="sendDashboardFeedbackWhatsApp()">Envoyer sur WhatsApp</button>
+            <button onclick="sendDashboardFeedback()">Envoyer mon retour</button>
             <div id="dashboardFeedbackOut" class="output"></div>
           </div>
-
         </div>
+
+        <details class="uxStatsDetails">
+          <summary>Voir mes statistiques bêta</summary>
+          <div class="stats secondaryStats">
+            <div class="stat"><b id="postsCount">0</b><span>Posts créés</span></div>
+            <div class="stat"><b id="videosCount">0</b><span>Vidéos générées</span></div>
+            <div class="stat"><b id="leadsCount">0</b><span>Leads obtenus</span></div>
+            <div class="stat"><b id="clientsCount">0</b><span>Clients convertis</span></div>
+          </div>
+        </details>
       </section>
 
       <section id="content" class="page hidden">
@@ -170,9 +184,16 @@
 
       <section id="tiktok" class="page hidden">
         <div class="card">
-          <h2>TikTok</h2>
-          <p>Connecte ton compte TikTok quand la connexion sera disponible pour ton compte.</p>
-          <button>Connecter TikTok</button>
+          <h2>🎵 TikTok</h2>
+          <p><b>Intégration TikTok en cours de validation.</b></p>
+          <p>L'application attend la validation officielle pour activer la connexion et la publication TikTok.</p>
+          <div class="statusList">
+            <div>🟡 Connexion TikTok <span>En validation</span></div>
+            <div>🟡 Publication TikTok <span>En attente API</span></div>
+            <div>✅ Génération de contenu <span>Utilisable maintenant</span></div>
+            <div>✅ Génération vidéo <span>Utilisable maintenant</span></div>
+          </div>
+          <button onclick="showPage('content')">Créer du contenu en attendant</button>
         </div>
       </section>
 

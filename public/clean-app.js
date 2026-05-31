@@ -353,3 +353,21 @@ function sendAccountFeedbackWhatsApp(){
   }
   openWhatsAppFeedback(message, type?.value || "Retour général", "Mon compte");
 }
+
+/* V112 feedback guard */
+async function sendDashboardFeedback(){
+  const box=document.getElementById("dashboardFeedbackMessage");
+  const type=document.getElementById("dashboardFeedbackType");
+  const out=document.getElementById("dashboardFeedbackOut");
+  const message=(box?.value||"").trim();
+  if(!message){ if(out) out.innerHTML="Écris ton retour avant d'envoyer."; if(box) box.focus(); return; }
+  if(out) out.innerHTML="Envoi du retour...";
+  try{
+    const u=currentUser||JSON.parse(localStorage.getItem("user")||"{}")||{};
+    const res=await fetch("/api/feedback",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:u.name||u.full_name||"",email:u.email||"",rating:type?.value||"Retour général",message,page:"dashboard"})});
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok) throw new Error(data.error||"Erreur");
+    if(out) out.innerHTML="Merci, ton retour a été envoyé.";
+    if(box) box.value="";
+  }catch(e){ if(out) out.innerHTML="Impossible d'envoyer automatiquement. Tu peux aussi envoyer ton retour sur WhatsApp à Muler."; }
+}

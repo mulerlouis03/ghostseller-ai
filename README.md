@@ -1,26 +1,18 @@
-# GhostSeller AI V111 FEEDBACK BODY FIX
+# GhostSeller AI V112 USER EXPERIENCE REBUILD
 
-## Problème trouvé
-/api/feedback était monté avant express.json() dans server.js.
-Le serveur ne lisait donc pas correctement le message envoyé par le formulaire.
-
-## Correction
-- express.json() est maintenant avant /api/feedback
-- feedbackRouter utilise aussi express.json() directement
-- ajout d'une page de test : /test-feedback.html
+## Changements
+- Suppression du doublon “Commencer ici”.
+- Nouveau bloc “Bienvenue”.
+- Nouveau bloc “Bien démarrer”.
+- Ajout de “État de la plateforme”.
+- TikTok expliqué clairement : API en validation.
+- Ajout de Roadmap.
+- Un seul bloc principal “Donner mon avis”.
+- Statistiques mises dans une section repliable.
+- Mobile plus propre.
 
 ## Déploiement
 npm install
 git add .
-git commit -m "GhostSeller V111 Feedback Body Fix"
+git commit -m "GhostSeller V112 User Experience Rebuild"
 git push
-
-## Tests après déploiement
-1. Test technique :
-https://ghostseller-ai.vercel.app/test-feedback.html
-
-2. Test API :
-https://ghostseller-ai.vercel.app/api/health
-
-3. Test utilisateur :
-Dashboard utilisateur → Donner mon avis

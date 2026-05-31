@@ -156,3 +156,20 @@ body.ghost-owner-mode::before{
     margin-right:auto;
   }
 }
+
+/* V112 User Experience Rebuild */
+.uxWelcome{border:1px solid rgba(255,200,87,.35);background:linear-gradient(135deg,rgba(255,200,87,.10),rgba(36,214,255,.08));border-radius:24px;padding:20px;margin-bottom:14px}
+.uxWelcome h2{margin:10px 0 8px;font-size:clamp(28px,4vw,46px);letter-spacing:-.05em}
+.uxWelcome p{margin:0;color:#dce8ff;line-height:1.55;max-width:850px}
+.uxBadge{display:inline-flex;padding:7px 10px;border-radius:999px;background:rgba(255,200,87,.14);border:1px solid rgba(255,200,87,.35);color:#ffe1a0;font-weight:1000;font-size:12px}
+.uxGrid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;align-items:start}
+.uxSteps{display:grid;gap:10px;padding-left:0;list-style:none}
+.uxSteps li,.statusList div,.roadmapList div{border:1px solid rgba(255,255,255,.10);border-radius:16px;padding:12px;background:rgba(255,255,255,.04)}
+.uxSteps b,.roadmapList b{display:block;color:white}
+.uxSteps span,.statusList span,.roadmapList span{display:block;color:var(--muted);margin-top:4px;font-weight:700}
+.statusList,.roadmapList{display:grid;gap:10px}
+.uxStatsDetails{margin-top:14px;border:1px solid rgba(255,255,255,.10);border-radius:20px;padding:14px;background:rgba(255,255,255,.035)}
+.uxStatsDetails summary{cursor:pointer;font-weight:950;color:#cfe8ff}
+.uxStatsDetails .stats{margin-top:14px}
+.betaNotice .betaFeedbackBtn,#betaFeedbackBtn{display:none!important}
+@media(max-width:860px){.uxGrid{grid-template-columns:1fr!important}.uxWelcome{padding:16px;border-radius:20px}.uxWelcome h2{font-size:30px}}
