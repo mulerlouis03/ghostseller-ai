@@ -52,7 +52,7 @@
       <button class="menuBtn" onclick="toggleMobileMenu()">☰</button>
       <div class="mobileBrand">
         <div class="logo">G</div>
-        <div><strong>GhostSeller AI</strong><span>Espace membre</span></div>
+        <div><strong>GhostSeller AI</strong><span id="sidebarUserName">Espace membre</span></div>
       </div>
       
     </div>
@@ -298,6 +298,22 @@
 
       <section id="account" class="page hidden">
         <div class="grid">
+          <div class="card profileIdentityCard">
+            <h2>👤 Mon profil</h2>
+            <div class="profileIdentity">
+              <div class="profileAvatar" id="profileAvatarPreview">G</div>
+              <div>
+                <p><b id="profileFullNameLabel">Utilisateur GhostSeller</b></p>
+                <p id="profileEmailLabel">Compte connecté</p>
+              </div>
+            </div>
+            <label class="uploadAvatarBtn">
+              Ajouter / changer ma photo
+              <input type="file" id="profileAvatarInput" accept="image/*" onchange="saveProfileAvatar(event)">
+            </label>
+            <p class="mutedSmall">La photo reste dans ton navigateur pour personnaliser ton espace.</p>
+          </div>
+
           <div class="card">
             <h2>Mon compte</h2>
             <p><b>Nom :</b> <span id="accountName">-</span></p>

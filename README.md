@@ -1,16 +1,17 @@
-# GhostSeller AI V116 MISSION CENTER FEEDBACK MODAL
+# GhostSeller AI V117 USER FUNCTIONS REAL OUTPUT
 
-## Améliorations
-- Remplace “Activité récente” vide par un centre de mission motivant.
-- Ajoute une progression de démarrage à 40%.
-- Remplace la Roadmap texte par une timeline verticale premium.
-- Retire le formulaire avis du dashboard principal.
-- Ajoute une mini-bar “Un problème ou une idée ?”.
-- Le feedback s’ouvre maintenant dans une popup propre.
-- Dashboard plus centré sur l’action principale.
+## Corrections
+- Les fonctions utilisateur n'affichent plus du JSON brut.
+- Création de contenu affiche une vraie carte lisible.
+- Génération vidéo affiche un script en 5 scènes.
+- Leads affiche une stratégie et un message d'approche.
+- WhatsApp affiche une séquence de messages.
+- Ajout d'un bouton copier.
+- Ajout profil utilisateur : nom complet + photo/avatar.
+- Le nom de l'utilisateur apparaît dans l'espace membre.
 
-## Push
+## Déploiement
 npm install
 git add .
-git commit -m "GhostSeller V116 Mission Center Feedback Modal"
+git commit -m "GhostSeller V117 User Functions Real Output"
 git push

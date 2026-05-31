@@ -386,3 +386,188 @@ function closeFeedbackModal(){
 document.addEventListener("keydown", function(e){
   if(e.key === "Escape") closeFeedbackModal();
 });
+
+
+/* V117: readable user results, no raw JSON */
+function gsUser(){
+  try{return currentUser || JSON.parse(localStorage.getItem("user")||"{}") || {}}catch(e){return {}}
+}
+function gsName(){
+  const u=gsUser();
+  return u.full_name || u.name || u.username || (u.email?u.email.split("@")[0]:"Utilisateur");
+}
+function updateProfileIdentity(){
+  const u=gsUser();
+  const name=gsName();
+  const email=u.email || "Compte connecté";
+  const n1=document.getElementById("profileFullNameLabel");
+  const e1=document.getElementById("profileEmailLabel");
+  const s1=document.getElementById("sidebarUserName");
+  const s2=document.getElementById("mobileUserName");
+  if(n1) n1.textContent=name;
+  if(e1) e1.textContent=email;
+  if(s1) s1.textContent=name;
+  if(s2) s2.textContent=name;
+  const saved=localStorage.getItem("ghostseller_avatar");
+  const avatar=document.getElementById("profileAvatarPreview");
+  if(avatar){
+    if(saved) avatar.innerHTML='<img src="'+saved+'" alt="Photo profil">';
+    else avatar.textContent=(name||"G").slice(0,1).toUpperCase();
+  }
+}
+function saveProfileAvatar(event){
+  const file=event.target.files && event.target.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=function(){
+    localStorage.setItem("ghostseller_avatar", reader.result);
+    updateProfileIdentity();
+  };
+  reader.readAsDataURL(file);
+}
+setInterval(updateProfileIdentity,1200);
+document.addEventListener("DOMContentLoaded",updateProfileIdentity);
+
+function copyText(text){
+  navigator.clipboard?.writeText(text).then(()=>alert("Copié !")).catch(()=>{});
+}
+function cleanPromptText(v){
+  return String(v||"").trim();
+}
+function makeContentResult(prompt){
+  const niche = cleanPromptText(prompt) || "ton offre";
+  const script = `Hook : Tu veux attirer plus de clients sans passer ta journée à chercher quoi poster ?
+
+Post :
+${niche}
+
+Le problème, ce n’est pas seulement le produit. C’est la façon de le présenter.
+Montre le résultat, crée une émotion, puis donne une action simple.
+
+CTA :
+Écris “INFO” en commentaire ou envoie un message pour recevoir l’offre.`;
+  return `
+    <div class="generatedResult">
+      <h2>🤖 Contenu généré</h2>
+      <div class="resultGrid">
+        <div class="resultMiniCard"><b>Angle</b><p>Curiosité + bénéfice client</p></div>
+        <div class="resultMiniCard"><b>Format</b><p>Post court / TikTok / Reels</p></div>
+        <div class="resultMiniCard"><b>Objectif</b><p>Attirer des prospects</p></div>
+      </div>
+      <div class="scriptBlock">${script}</div>
+      <button class="copyBtn" onclick='copyText(${JSON.stringify(script)})'>Copier le contenu</button>
+    </div>`;
+}
+function makeVideoResult(prompt){
+  const topic=cleanPromptText(prompt)||"ton produit";
+  const script=`Scène 1 — Hook
+Plan serré sur le produit.
+Texte écran : “Tu cherches quelque chose qui attire vraiment l’attention ?”
+
+Scène 2 — Problème
+Montre une situation simple : les gens passent devant sans réagir.
+Voix off : “Le problème, ce n’est pas ton offre, c’est la présentation.”
+
+Scène 3 — Solution
+Présente ${topic} avec un angle premium et émotionnel.
+Texte écran : “Design. Désir. Confiance.”
+
+Scène 4 — Preuve / bénéfice
+Montre le produit en utilisation ou en situation.
+Voix off : “Une bonne vidéo doit donner envie en quelques secondes.”
+
+Scène 5 — CTA
+Texte écran : “Écris INFO pour recevoir l’offre.”
+Bouton / message : “Contacte-nous maintenant.”`;
+  return `
+    <div class="generatedResult">
+      <h2>🎬 Script vidéo généré</h2>
+      <div class="resultGrid">
+        <div class="resultMiniCard"><b>Durée conseillée</b><p>15 à 25 secondes</p></div>
+        <div class="resultMiniCard"><b>Format</b><p>TikTok, Reels, Shorts</p></div>
+        <div class="resultMiniCard"><b>Style</b><p>Rapide, visuel, premium</p></div>
+      </div>
+      <div class="scriptBlock">${script}</div>
+      <button class="copyBtn" onclick='copyText(${JSON.stringify(script)})'>Copier le script</button>
+    </div>`;
+}
+function makeLeadsResult(prompt){
+  const q=cleanPromptText(prompt)||"clients potentiels";
+  return `
+    <div class="generatedResult">
+      <h2>👥 Recherche de leads préparée</h2>
+      <p class="mutedLine">GhostSeller prépare une stratégie de recherche. La collecte automatique sera renforcée dans une prochaine version.</p>
+      <div class="resultGrid">
+        <div class="resultMiniCard"><b>Cible</b><p>${q}</p></div>
+        <div class="resultMiniCard"><b>Où chercher</b><p>Facebook Groups, TikTok comments, Instagram, Google Maps, LinkedIn</p></div>
+        <div class="resultMiniCard"><b>Message d’approche</b><p>Proposer une aide simple, pas vendre directement.</p></div>
+      </div>
+      <div class="scriptBlock">Message type :
+Bonjour, j’ai vu votre activité et je pense qu’un contenu court pourrait vous aider à attirer plus de clients. Je peux vous montrer une idée simple adaptée à votre business.</div>
+    </div>`;
+}
+function makeWhatsappResult(prompt){
+  const topic=cleanPromptText(prompt)||"ton offre";
+  const msg=`Message 1 :
+Bonjour, j’ai vu votre activité et je pense que ${topic} peut intéresser vos clients. Je peux vous envoyer une idée simple ?
+
+Message 2 :
+L’objectif est de vous aider à attirer plus de personnes avec un message clair et facile à comprendre.
+
+Message 3 :
+Si vous voulez, je peux vous préparer un exemple adapté à votre business.`;
+  return `
+    <div class="generatedResult">
+      <h2>💬 Séquence WhatsApp générée</h2>
+      <div class="resultGrid">
+        <div class="resultMiniCard"><b>Ton</b><p>Simple, direct, humain</p></div>
+        <div class="resultMiniCard"><b>Objectif</b><p>Obtenir une réponse</p></div>
+      </div>
+      <div class="scriptBlock">${msg}</div>
+      <button class="copyBtn" onclick='copyText(${JSON.stringify(msg)})'>Copier les messages</button>
+    </div>`;
+}
+
+function findNearestTextarea(btn){
+  const section=btn.closest("section") || document;
+  return section.querySelector("textarea");
+}
+function placeResult(btn, html){
+  const section=btn.closest("section") || document;
+  let out=section.querySelector(".generatedResult");
+  if(out) out.remove();
+  btn.insertAdjacentHTML("afterend", html);
+}
+
+/* Capture old buttons and replace visible result after original action */
+document.addEventListener("click", function(e){
+  const btn=e.target.closest("button");
+  if(!btn) return;
+  const label=(btn.textContent||"").toLowerCase();
+  const section=btn.closest("section");
+  if(!section) return;
+  const pageId=section.id || "";
+  if(label.includes("générer contenu") || (pageId==="content" && label.includes("générer"))){
+    setTimeout(()=>placeResult(btn, makeContentResult(findNearestTextarea(btn)?.value)), 350);
+  }
+  if(label.includes("script vidéo") || pageId==="video"){
+    setTimeout(()=>placeResult(btn, makeVideoResult(findNearestTextarea(btn)?.value)), 350);
+  }
+  if(label.includes("préparer une recherche") || pageId==="leads"){
+    setTimeout(()=>placeResult(btn, makeLeadsResult(findNearestTextarea(btn)?.value)), 350);
+  }
+  if(label.includes("générer messages") || pageId==="whatsapp"){
+    setTimeout(()=>placeResult(btn, makeWhatsappResult(findNearestTextarea(btn)?.value)), 350);
+  }
+}, true);
+
+/* Hide raw JSON pre blocks after generation */
+setInterval(()=>{
+  document.querySelectorAll("pre").forEach(pre=>{
+    const t=pre.textContent.trim();
+    if(t.startsWith("{") && (t.includes('"type"') || t.includes('"result"') || t.includes('"prochaines_etapes"'))){
+      pre.setAttribute("data-raw-json","true");
+      pre.style.display="none";
+    }
+  });
+},500);

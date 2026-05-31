@@ -3,11 +3,13 @@ export const healthRouter = express.Router();
 
 healthRouter.get("/", (_req,res)=>res.json({
   ok:true,
-  version:"GhostSeller AI V116 MISSION CENTER FEEDBACK MODAL",
-  phase:"Mission center + visual roadmap + feedback modal",
-  missionCenter:true,
-  progressChecklist:true,
-  feedbackModal:true,
-  visualTimeline:true,
-  dashboardCleaner:true
+  version:"GhostSeller AI V117 USER FUNCTIONS REAL OUTPUT",
+  phase:"Readable user outputs + profile identity",
+  rawJsonHidden:true,
+  contentCards:true,
+  videoCards:true,
+  leadsCards:true,
+  whatsappCards:true,
+  profileAvatar:true,
+  profileName:true
 }));
