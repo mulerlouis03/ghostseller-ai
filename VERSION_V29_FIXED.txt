@@ -1,0 +1,1 @@
+GhostSeller AI V29 STRIPE FIXED - ouvre CE dossier dans VS Code avant git add/commit/push.
