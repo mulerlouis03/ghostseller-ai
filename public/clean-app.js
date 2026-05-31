@@ -571,3 +571,290 @@ setInterval(()=>{
     }
   });
 },500);
+
+
+/* V120 AI EMPLOYEE ENGINE — final deliverables, not advice */
+function gsEscapeHtml(s){
+  return String(s ?? "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function gsInput(v){
+  return String(v || "").trim().replace(/\s+/g," ");
+}
+function gsKeyword(prompt){
+  const p = gsInput(prompt);
+  if(!p) return "votre offre";
+  return p.length > 90 ? p.slice(0,90) + "..." : p;
+}
+function gsHas(word, text){
+  return String(text||"").toLowerCase().includes(word);
+}
+function gsProductName(prompt){
+  const p = gsInput(prompt);
+  const low = p.toLowerCase();
+  if(low.includes("basket")) return "baskets";
+  if(low.includes("parfum")) return "parfum";
+  if(low.includes("recharge")) return "service de recharge";
+  if(low.includes("coiff")) return "service coiffure";
+  if(low.includes("restaurant")) return "restaurant";
+  if(low.includes("immobilier")) return "service immobilier";
+  return "offre";
+}
+function gsAudience(prompt){
+  const p = gsInput(prompt);
+  const m = p.match(/(\d{2}\s*(?:à|a|-)\s*\d{2}\s*ans)/i);
+  if(m) return m[1];
+  if(p.toLowerCase().includes("jeune")) return "jeunes actifs";
+  return "clients potentiels";
+}
+function gsCopy(text){
+  navigator.clipboard?.writeText(text).then(()=>alert("Copié !")).catch(()=>alert("Copie impossible sur ce navigateur."));
+}
+function gsSaveHistory(type, title, text){
+  try{
+    const list = JSON.parse(localStorage.getItem("ghostseller_history") || "[]");
+    list.unshift({type,title,text,created_at:new Date().toISOString()});
+    localStorage.setItem("ghostseller_history", JSON.stringify(list.slice(0,50)));
+  }catch(e){}
+}
+function gsResultShell(title, body, copyText, badge="Travail terminé"){
+  return `
+    <div class="employeeResult">
+      <div class="employeeHeader">
+        <div><span class="employeeBadge">✅ ${badge}</span><h2>${title}</h2></div>
+        <button class="copyBtn" onclick='gsCopy(${JSON.stringify(copyText)})'>Copier tout</button>
+      </div>
+      ${body}
+    </div>`;
+}
+function gsContentEmployee(prompt){
+  const product = gsProductName(prompt);
+  const audience = gsAudience(prompt);
+  const base = gsKeyword(prompt);
+
+  const facebook = `🔥 Vous cherchez une offre qui attire vraiment l’attention ?
+
+${base}
+
+Ce qui fait la différence aujourd’hui, ce n’est pas seulement le produit : c’est la façon de le présenter.
+
+✅ Style clair
+✅ Message direct
+✅ Offre facile à comprendre
+✅ Action simple pour passer à l’étape suivante
+
+📩 Écrivez “INFO” en commentaire ou envoyez un message privé pour recevoir les détails.`;
+
+  const instagram = `✨ ${product.charAt(0).toUpperCase()+product.slice(1)} pour ${audience}
+
+Tu veux quelque chose qui se remarque vite ?
+Cette offre est pensée pour créer l’effet “je veux en savoir plus”.
+
+🔥 Look / valeur / confiance
+📌 Message simple
+📩 DM “INFO” pour recevoir les détails
+
+#business #marketing #vente #tiktokbusiness #reels #entrepreneur`;
+
+  const tiktok = `🎬 SCRIPT TIKTOK — prêt à publier
+
+HOOK :
+“Tu passes à côté de cette offre et tu ne le sais même pas.”
+
+PLAN 1 :
+Montre le produit ou l’offre en gros plan.
+
+PLAN 2 :
+Texte écran : “Pensé pour ${audience}.”
+
+PLAN 3 :
+Montre le bénéfice principal en situation réelle.
+
+PLAN 4 :
+Texte écran : “Simple. Rapide. Efficace.”
+
+CTA :
+“Écris INFO pour recevoir les détails.”`;
+
+  const hashtags = `#business #vente #marketingdigital #tiktokfrance #reelsfrance #entrepreneur #offre #clients`;
+
+  const all = `PUBLICATION FACEBOOK\n\n${facebook}\n\n---\n\nPUBLICATION INSTAGRAM\n\n${instagram}\n\n---\n\nSCRIPT TIKTOK\n\n${tiktok}\n\n---\n\nHASHTAGS\n${hashtags}`;
+
+  gsSaveHistory("content","Contenus prêts à publier",all);
+
+  return gsResultShell("🤖 Contenus prêts à publier", `
+    <div class="deliverableGrid">
+      <div class="deliverableCard"><h3>Facebook</h3><div class="deliverableText">${gsEscapeHtml(facebook)}</div><button onclick='gsCopy(${JSON.stringify(facebook)})'>Copier Facebook</button></div>
+      <div class="deliverableCard"><h3>Instagram</h3><div class="deliverableText">${gsEscapeHtml(instagram)}</div><button onclick='gsCopy(${JSON.stringify(instagram)})'>Copier Instagram</button></div>
+      <div class="deliverableCard"><h3>TikTok</h3><div class="deliverableText">${gsEscapeHtml(tiktok)}</div><button onclick='gsCopy(${JSON.stringify(tiktok)})'>Copier TikTok</button></div>
+    </div>
+    <div class="employeeSection"><b>Hashtags prêts :</b><p>${gsEscapeHtml(hashtags)}</p></div>
+  `, all);
+}
+function gsVideoEmployee(prompt){
+  const product = gsProductName(prompt);
+  const audience = gsAudience(prompt);
+  const topic = gsKeyword(prompt);
+
+  const script = `🎬 SCRIPT VIDÉO COMPLET — 20 secondes
+
+SCÈNE 1 — HOOK (0-3s)
+Plan : gros plan rapide sur ${product}.
+Texte écran : “Tu veux attirer l’attention en quelques secondes ?”
+Voix off : “Regarde bien ça.”
+
+SCÈNE 2 — DÉSIR (3-7s)
+Plan : montrer le produit / l’offre en situation.
+Texte écran : “Pensé pour ${audience}.”
+Voix off : “Le bon message peut transformer une simple offre en vraie envie.”
+
+SCÈNE 3 — PREUVE (7-12s)
+Plan : zoom sur détail, bénéfice, résultat ou usage.
+Texte écran : “Simple. Visuel. Direct.”
+Voix off : “On comprend tout de suite pourquoi ça donne envie.”
+
+SCÈNE 4 — OFFRE (12-17s)
+Plan : montrer clairement l’offre.
+Texte écran : “Disponible maintenant.”
+Voix off : “Si tu veux les infos, c’est le moment.”
+
+SCÈNE 5 — CTA (17-20s)
+Plan : écran final avec contact.
+Texte écran : “Écris INFO maintenant.”
+Voix off : “Envoie INFO et je t’envoie les détails.”
+
+DESCRIPTION TIKTOK :
+${topic}
+Une offre claire, un message simple, une action directe. Écris INFO pour recevoir les détails.
+
+HASHTAGS :
+#tiktokbusiness #reels #shorts #vente #marketing #entrepreneur #clients`;
+
+  gsSaveHistory("video","Script vidéo complet",script);
+
+  return gsResultShell("🎬 Script vidéo complet prêt à tourner", `
+    <div class="resultGrid">
+      <div class="resultMiniCard"><b>Durée</b><p>20 secondes</p></div>
+      <div class="resultMiniCard"><b>Format</b><p>TikTok / Reels / Shorts</p></div>
+      <div class="resultMiniCard"><b>Objectif</b><p>Faire répondre “INFO”</p></div>
+    </div>
+    <div class="scriptBlock employeeScript">${gsEscapeHtml(script)}</div>
+  `, script);
+}
+function gsLeadsEmployee(prompt){
+  const target = gsKeyword(prompt);
+  const pack = `👥 PLAN DE PROSPECTION PRÊT À UTILISER
+
+CIBLE :
+${target}
+
+PROFILS À CONTACTER :
+1. Petits commerces qui publient peu sur les réseaux
+2. Entrepreneurs avec une offre claire mais peu de contenu
+3. Boutiques locales avec Instagram/Facebook actifs
+4. Prestataires qui dépendent du bouche-à-oreille
+5. Créateurs qui vendent déjà mais sans système régulier
+
+OÙ LES TROUVER :
+- Facebook Groups locaux
+- Commentaires TikTok sous vidéos business
+- Instagram avec hashtags de niche
+- Google Maps commerces locaux
+- LinkedIn pour services B2B
+
+MOTS-CLÉS À CHERCHER :
+business local, boutique, entrepreneur, service, promotion, lancement, offre, client, vente, marketing
+
+MESSAGE D’APPROCHE :
+Bonjour, j’ai vu votre activité et je pense qu’un contenu court pourrait vous aider à attirer plus de clients.
+Je peux vous montrer une idée simple adaptée à votre business. Vous voulez que je vous envoie un exemple ?
+
+RELANCE 24H :
+Je me permets de relancer. L’idée serait de vous proposer un exemple concret, sans engagement, pour voir si ça peut vous aider à obtenir plus de visibilité.
+
+RELANCE 72H :
+Dernière relance de ma part. Si vous voulez tester une idée de contenu pour votre activité, je peux vous préparer un exemple rapide.`;
+
+  gsSaveHistory("leads","Plan de prospection",pack);
+
+  return gsResultShell("👥 Plan de prospection prêt", `
+    <div class="deliverableGrid three">
+      <div class="deliverableCard"><h3>Cibles</h3><div class="deliverableText">Petits commerces<br>Entrepreneurs<br>Boutiques locales<br>Prestataires<br>Créateurs vendeurs</div></div>
+      <div class="deliverableCard"><h3>Canaux</h3><div class="deliverableText">Facebook Groups<br>TikTok comments<br>Instagram<br>Google Maps<br>LinkedIn</div></div>
+      <div class="deliverableCard"><h3>Action</h3><div class="deliverableText">Contacter 20 profils<br>Envoyer le message<br>Relancer J+1<br>Relancer J+3</div></div>
+    </div>
+    <div class="scriptBlock employeeScript">${gsEscapeHtml(pack)}</div>
+  `, pack);
+}
+function gsWhatsAppEmployee(prompt){
+  const offer = gsKeyword(prompt);
+  const seq = `💬 SÉQUENCE WHATSAPP PRÊTE À ENVOYER
+
+MESSAGE 1 — Premier contact
+Bonjour 👋
+J’ai vu votre activité et je pense que ${offer} peut être présenté de manière plus claire pour attirer plus de clients.
+Je peux vous envoyer une idée simple adaptée à votre business ?
+
+MESSAGE 2 — Si la personne répond “oui”
+Parfait. L’idée est de créer un contenu court qui montre votre offre, donne envie rapidement et pousse les gens à vous contacter.
+Je peux vous préparer un exemple avec un hook + un message + un appel à l’action.
+
+MESSAGE 3 — Relance 24h
+Bonjour, je me permets de relancer rapidement.
+Je pense vraiment qu’un contenu simple pourrait vous aider à rendre votre offre plus visible.
+Vous voulez que je vous montre un exemple ?
+
+MESSAGE 4 — Relance 72h
+Dernière relance de ma part.
+Si ce n’est pas le bon moment, aucun souci.
+Mais si vous voulez tester une idée de contenu pour votre business, je peux vous préparer un exemple rapide.
+
+MESSAGE 5 — Closing
+Super. Envoyez-moi juste :
+1. le nom de votre activité
+2. ce que vous vendez
+3. le type de client que vous voulez attirer
+et je vous prépare une première idée.`;
+
+  gsSaveHistory("whatsapp","Séquence WhatsApp",seq);
+
+  return gsResultShell("💬 Séquence WhatsApp prête à envoyer", `
+    <div class="resultGrid">
+      <div class="resultMiniCard"><b>Nombre de messages</b><p>5</p></div>
+      <div class="resultMiniCard"><b>Objectif</b><p>Obtenir une réponse</p></div>
+      <div class="resultMiniCard"><b>Ton</b><p>Humain, clair, direct</p></div>
+    </div>
+    <div class="scriptBlock employeeScript">${gsEscapeHtml(seq)}</div>
+  `, seq);
+}
+
+/* Strong override of core functions */
+async function generateContent(){
+  const out=document.getElementById("contentOut");
+  const prompt=(document.getElementById("contentPrompt")?.value||"").trim();
+  if(!prompt){out.innerHTML="<div class='generatedResult'>Décris ton offre avant de lancer GhostSeller.</div>";return;}
+  out.innerHTML="GhostSeller travaille...";
+  setTimeout(()=>{out.innerHTML=gsContentEmployee(prompt);},500);
+}
+function generateVideo(){
+  const out=document.getElementById("videoOut");
+  const prompt=(document.getElementById("videoPrompt")?.value||"").trim();
+  if(!prompt){out.innerHTML="<div class='generatedResult'>Décris le sujet de la vidéo avant de lancer GhostSeller.</div>";return;}
+  out.innerHTML="GhostSeller prépare le script complet...";
+  setTimeout(()=>{out.innerHTML=gsVideoEmployee(prompt);},500);
+}
+function generateLeads(){
+  const out=document.getElementById("leadsOut");
+  const prompt=(document.getElementById("leadsPrompt")?.value||"").trim();
+  if(!prompt){out.innerHTML="<div class='generatedResult'>Décris les clients que tu veux cibler.</div>";return;}
+  out.innerHTML="GhostSeller prépare le plan de prospection...";
+  setTimeout(()=>{out.innerHTML=gsLeadsEmployee(prompt);},500);
+}
+function generateWhatsApp(){
+  const out=document.getElementById("whatsappOut");
+  const prompt=(document.getElementById("whatsappPrompt")?.value||"").trim();
+  if(!prompt){out.innerHTML="<div class='generatedResult'>Décris ton offre avant de générer les messages.</div>";return;}
+  out.innerHTML="GhostSeller rédige la séquence...";
+  setTimeout(()=>{out.innerHTML=gsWhatsAppEmployee(prompt);},500);
+}
+
+function placeResult(btn, html){ /* V120 disables old preview injector */ }

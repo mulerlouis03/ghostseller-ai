@@ -1,22 +1,19 @@
+# GhostSeller AI V120 AI EMPLOYEE ENGINE
 
-# GhostSeller AI V119 AI EMPLOYEE PROFILE
+## Objectif
+GhostSeller ne répond plus comme un conseiller. Il livre des éléments prêts à utiliser.
 
-## Vision
-Passage du mode "assistant" au mode "employé IA".
+## Corrections
+- Créer contenu : génère Facebook + Instagram + TikTok + hashtags prêts à publier.
+- Générer vidéo : génère un script vidéo complet avec scènes, texte écran, voix off, CTA, description et hashtags.
+- Leads : génère un plan de prospection exploitable avec cibles, canaux, mots-clés, message et relances.
+- WhatsApp : génère une séquence complète de 5 messages prête à envoyer.
+- Suppression des JSON bruts.
+- Boutons copier conservés.
+- Historique local préparé dans le navigateur.
 
-## Ajouts
-- Profil utilisateur renforcé (photo + nom complet).
-- Espace profil prêt pour société, pays et WhatsApp.
-- Génération orientée livrables complets :
-  - publications prêtes à publier,
-  - scripts vidéo complets,
-  - séquences WhatsApp complètes,
-  - fiches prospects exploitables.
-- Historique utilisateur préparé.
-- Base pour système de crédits réels.
-
-## Push
+## Déploiement
 npm install
 git add .
-git commit -m "GhostSeller V119 AI Employee Profile"
+git commit -m "GhostSeller V120 AI Employee Engine"
 git push

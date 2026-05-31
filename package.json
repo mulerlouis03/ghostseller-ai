@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-employee-profile",
-  "version": "119.0.0",
+  "name": "ghostseller-ai-employee-engine",
+  "version": "120.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
