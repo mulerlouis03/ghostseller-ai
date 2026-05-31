@@ -94,49 +94,75 @@
       </header>
 
       <section id="home" class="page">
-        <div class="uxWelcome">
-          <span class="uxBadge">🧪 BÊTA PRIVÉE</span>
-          <h2>Bienvenue sur GhostSeller AI</h2>
-          <p>GhostSeller AI aide les entrepreneurs à créer du contenu, préparer des vidéos, organiser des prospects et convertir avec WhatsApp.</p>
+        <div class="proHero">
+          <div>
+            <span class="proBadge">🧪 BÊTA PRIVÉE</span>
+            <h2>Construis ton système de contenu avant l’ouverture TikTok.</h2>
+            <p>GhostSeller AI t’aide déjà à préparer tes idées, scripts vidéo, prospects et messages WhatsApp. L’automatisation TikTok sera activée après validation officielle de l’API.</p>
+          </div>
+          <div class="proHeroBox">
+            <b>Statut actuel</b>
+            <span>✅ Compte actif</span>
+            <span>🟡 TikTok API en validation</span>
+            <span>🚀 Prêt pour tests utilisateurs</span>
+          </div>
         </div>
 
-        <div class="uxGrid">
-          <div class="card uxCard">
-            <h2>🚀 Bien démarrer</h2>
-            <p>Utilise le menu pour avancer étape par étape. Les actions ne sont plus doublées ici pour garder le dashboard propre.</p>
-            <ol class="uxSteps">
-              <li><b>Créer contenu</b><span>Prépare un post, un hook et un appel à l’action.</span></li>
-              <li><b>Générer vidéo</b><span>Transforme une idée en script vidéo court.</span></li>
-              <li><b>Leads</b><span>Organise les prospects à contacter.</span></li>
-              <li><b>WhatsApp</b><span>Prépare les messages de conversion.</span></li>
-            </ol>
-            <button onclick="showPage('content')">Commencer par créer contenu</button>
+        <div class="actionGrid">
+          <div class="actionCard" onclick="showPage('content')">
+            <div class="actionIcon">🤖</div>
+            <h3>Créer un contenu</h3>
+            <p>Génère un hook, un post, une pub ou une idée de campagne.</p>
+            <button>Commencer</button>
           </div>
 
-          <div class="card uxCard">
-            <h2>🟡 État de la plateforme</h2>
+          <div class="actionCard" onclick="showPage('video')">
+            <div class="actionIcon">🎬</div>
+            <h3>Préparer une vidéo</h3>
+            <p>Transforme une idée en script court pour Reels, Shorts ou TikTok.</p>
+            <button>Générer un script</button>
+          </div>
+
+          <div class="actionCard" onclick="showPage('leads')">
+            <div class="actionIcon">👥</div>
+            <h3>Organiser des prospects</h3>
+            <p>Structure les clients à contacter et prépare ta prospection.</p>
+            <button>Trouver des leads</button>
+          </div>
+
+          <div class="actionCard" onclick="showPage('whatsapp')">
+            <div class="actionIcon">💬</div>
+            <h3>Convertir avec WhatsApp</h3>
+            <p>Prépare des messages simples pour transformer un prospect en client.</p>
+            <button>Préparer messages</button>
+          </div>
+        </div>
+
+        <div class="proGrid">
+          <div class="card proCard">
+            <h2>🎵 TikTok : ce qui est prêt / ce qui arrive</h2>
             <div class="statusList">
-              <div>✅ Création de contenu <span>Disponible en bêta</span></div>
-              <div>✅ Génération vidéo <span>Disponible en bêta</span></div>
-              <div>✅ Leads <span>Disponible en bêta</span></div>
-              <div>✅ WhatsApp <span>Disponible en bêta</span></div>
-              <div>🟡 TikTok API <span>En attente de validation officielle</span></div>
+              <div>✅ Création de contenu <span>Disponible maintenant.</span></div>
+              <div>✅ Scripts vidéo <span>Disponible maintenant.</span></div>
+              <div>🟡 Connexion TikTok <span>En attente de validation API officielle.</span></div>
+              <div>🟡 Publication automatique <span>Activée après validation TikTok.</span></div>
             </div>
+            <button onclick="showPage('tiktok')">Voir le statut TikTok</button>
           </div>
 
-          <div class="card uxCard">
-            <h2>🛣️ Roadmap</h2>
+          <div class="card proCard">
+            <h2>🛣️ Roadmap bêta</h2>
             <div class="roadmapList">
-              <div><b>TikTok API</b><span>Connexion et publication après validation.</span></div>
-              <div><b>Automatisation TikTok</b><span>Planification et workflows.</span></div>
-              <div><b>WhatsApp automatique</b><span>Relances et séquences.</span></div>
-              <div><b>Statistiques avancées</b><span>Suivi des performances.</span></div>
+              <div><b>Étape 1</b><span>Stabiliser comptes, dashboard et retours testeurs.</span></div>
+              <div><b>Étape 2</b><span>Finaliser création contenu + scripts vidéo.</span></div>
+              <div><b>Étape 3</b><span>Activer TikTok dès validation API.</span></div>
+              <div><b>Étape 4</b><span>Automatiser publication, leads et WhatsApp.</span></div>
             </div>
           </div>
 
-          <div class="card dashboardFeedback uxCard">
+          <div class="card proCard feedbackPro">
             <h2>💬 Donner mon avis</h2>
-            <p>Ton retour aide à améliorer GhostSeller AI pendant la bêta.</p>
+            <p>Dis-nous ce qui bloque, ce qui manque ou ce qui n’est pas clair.</p>
             <select id="dashboardFeedbackType" class="selectField">
               <option>Retour général</option>
               <option>Bug</option>
@@ -183,17 +209,24 @@
       </section>
 
       <section id="tiktok" class="page hidden">
-        <div class="card">
+        <div class="card tiktokStatusPage">
           <h2>🎵 TikTok</h2>
-          <p><b>Intégration TikTok en cours de validation.</b></p>
-          <p>L'application attend la validation officielle pour activer la connexion et la publication TikTok.</p>
+          <p><b>L’intégration TikTok officielle est en cours de validation.</b></p>
+          <p>En attendant, tu peux déjà préparer ton contenu, tes scripts vidéo, tes offres et tes messages de prospection. Quand TikTok sera validé, l’automatisation pourra être activée plus vite.</p>
+
           <div class="statusList">
-            <div>🟡 Connexion TikTok <span>En validation</span></div>
-            <div>🟡 Publication TikTok <span>En attente API</span></div>
-            <div>✅ Génération de contenu <span>Utilisable maintenant</span></div>
-            <div>✅ Génération vidéo <span>Utilisable maintenant</span></div>
+            <div>✅ Génération de contenu <span>Fonction disponible en bêta.</span></div>
+            <div>✅ Génération de scripts vidéo <span>Fonction disponible en bêta.</span></div>
+            <div>🟡 Connexion TikTok <span>En attente de validation API.</span></div>
+            <div>🟡 Publication automatique <span>Prévue après validation officielle.</span></div>
           </div>
-          <button onclick="showPage('content')">Créer du contenu en attendant</button>
+
+          <div class="temporaryPlan">
+            <h3>Plan temporaire</h3>
+            <p>Utilise GhostSeller pour créer tes scripts et idées. Tu peux ensuite publier manuellement sur TikTok, Instagram Reels ou YouTube Shorts en attendant l’automatisation.</p>
+          </div>
+
+          <button onclick="showPage('content')">Créer un contenu maintenant</button>
         </div>
       </section>
 

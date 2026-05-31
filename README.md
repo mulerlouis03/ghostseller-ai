@@ -1,19 +1,20 @@
-# GhostSeller AI V113 OWNER BILLING EXCLUSION
+# GhostSeller AI V114 UX DASHBOARD PRO
 
-## Corrigé
-- Ton compte owner n'apparaît plus dans la liste utilisateurs.
-- Ton compte owner n'est plus compté comme client payant.
-- Ton compte owner n'est plus compté dans les abonnés actifs.
+## Objectif
+Rendre le dashboard utilisateur plus professionnel, plus rassurant et moins vide pendant la bêta.
 
-## Important prélèvement 9€
-Si Stripe prélève 9€, c'est qu'un abonnement Stripe Starter existe vraiment.
-Cette version corrige l'affichage GhostSeller, mais n'annule pas Stripe.
-
-Pour arrêter le prélèvement :
-Stripe Dashboard -> Customers -> cherche ton email -> Subscriptions -> Cancel subscription.
+## Corrections UX
+- Nouveau hero “Construis ton système de contenu avant l’ouverture TikTok”.
+- 4 cartes d’actions visuelles : contenu, vidéo, leads, WhatsApp.
+- TikTok expliqué clairement comme API en validation.
+- Roadmap bêta visible.
+- Formulaire avis conservé en un seul bloc.
+- Statistiques cachées dans une section repliable.
+- Meilleure occupation du centre de la page.
+- Mobile plus propre.
 
 ## Push
 npm install
 git add .
-git commit -m "GhostSeller V113 Owner Billing Exclusion"
+git commit -m "GhostSeller V114 UX Dashboard Pro"
 git push

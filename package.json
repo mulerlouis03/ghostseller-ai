@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-owner-billing-exclusion",
-  "version": "113.0.0",
+  "name": "ghostseller-ai-ux-dashboard-pro",
+  "version": "114.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

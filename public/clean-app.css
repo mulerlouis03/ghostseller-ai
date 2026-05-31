@@ -173,3 +173,45 @@ body.ghost-owner-mode::before{
 .uxStatsDetails .stats{margin-top:14px}
 .betaNotice .betaFeedbackBtn,#betaFeedbackBtn{display:none!important}
 @media(max-width:860px){.uxGrid{grid-template-columns:1fr!important}.uxWelcome{padding:16px;border-radius:20px}.uxWelcome h2{font-size:30px}}
+
+/* V114 UX Dashboard Pro */
+.proHero{
+  display:grid;
+  grid-template-columns:1.4fr .6fr;
+  gap:16px;
+  border:1px solid rgba(36,214,255,.18);
+  background:linear-gradient(135deg,rgba(36,214,255,.10),rgba(184,76,255,.10));
+  border-radius:26px;
+  padding:22px;
+  margin-bottom:16px;
+}
+.proHero h2{
+  margin:10px 0 8px;
+  font-size:clamp(30px,4.8vw,56px);
+  line-height:.98;
+  letter-spacing:-.07em;
+}
+.proHero p{margin:0;color:#cfe0ff;line-height:1.55;max-width:880px}
+.proBadge{display:inline-flex;padding:7px 11px;border-radius:999px;background:rgba(255,200,87,.14);border:1px solid rgba(255,200,87,.38);color:#ffe2a0;font-weight:1000;font-size:12px}
+.proHeroBox{border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.14);border-radius:20px;padding:16px;display:grid;gap:9px;align-content:center}
+.proHeroBox b{color:white;font-size:18px}
+.proHeroBox span{color:#cfe0ff;font-weight:800}
+.actionGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:16px}
+.actionCard{border:1px solid rgba(255,255,255,.12);background:rgba(13,22,49,.92);border-radius:24px;padding:18px;cursor:pointer;transition:transform .18s ease,border-color .18s ease,background .18s ease;min-height:235px;display:flex;flex-direction:column}
+.actionCard:hover{transform:translateY(-2px);border-color:rgba(36,214,255,.34);background:rgba(18,31,68,.95)}
+.actionIcon{width:52px;height:52px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:26px;background:linear-gradient(135deg,rgba(36,214,255,.18),rgba(184,76,255,.18));margin-bottom:12px}
+.actionCard h3{margin:0 0 8px;font-size:22px}
+.actionCard p{color:var(--muted);line-height:1.45;flex:1}
+.actionCard button{width:100%}
+.proGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;align-items:start}
+.statusList,.roadmapList{display:grid;gap:10px;margin:12px 0}
+.statusList div,.roadmapList div{border:1px solid rgba(255,255,255,.10);border-radius:16px;padding:12px;background:rgba(255,255,255,.04);color:white;font-weight:900}
+.statusList span,.roadmapList span{display:block;color:var(--muted);font-weight:700;margin-top:4px}
+.temporaryPlan{border:1px solid rgba(255,200,87,.22);background:rgba(255,200,87,.08);border-radius:18px;padding:14px;margin:14px 0}
+.temporaryPlan h3{margin:0 0 6px}.temporaryPlan p{margin:0;color:#ffe6b0}
+.uxStatsDetails{margin-top:14px;border:1px solid rgba(255,255,255,.10);border-radius:20px;padding:14px;background:rgba(255,255,255,.035)}
+.uxStatsDetails summary{cursor:pointer;font-weight:950;color:#cfe8ff}
+.uxStatsDetails .stats{margin-top:14px}
+.betaNotice .betaFeedbackBtn,#betaFeedbackBtn{display:none!important}
+@media(max-width:1100px){.actionGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.proGrid{grid-template-columns:1fr 1fr}.feedbackPro{grid-column:span 2}}
+@media(max-width:860px){.proHero{grid-template-columns:1fr;padding:16px;border-radius:22px}.proHero h2{font-size:34px}.actionGrid,.proGrid{grid-template-columns:1fr!important}.feedbackPro{grid-column:auto}.actionCard{min-height:auto}}
