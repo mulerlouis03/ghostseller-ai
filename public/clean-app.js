@@ -932,3 +932,23 @@ function renderProductImagePreview(){
   box.classList.remove("hidden");
   box.innerHTML=`<img src="${img}" alt="Image produit"><div><b>${name}</b><span>Image ajoutée au brief.</span></div><button class="removeImageBtn" onclick="removeProductImage()">Retirer</button>`;
 }
+
+
+/* V123 put attachment button inside textarea */
+function setupInlineAttachment(){
+  const content = document.getElementById("content");
+  if(!content || content.querySelector(".workspaceInputWrap")) return;
+  const ta = content.querySelector("textarea");
+  if(!ta) return;
+  const wrapper = document.createElement("div");
+  wrapper.className = "workspaceInputWrap";
+  ta.parentNode.insertBefore(wrapper, ta);
+  wrapper.appendChild(ta);
+  const label = document.createElement("label");
+  label.className = "inlineAttachBtn";
+  label.title = "Ajouter une image";
+  label.innerHTML = `📎<input type="file" id="productImageInput" accept="image/*" onchange="handleProductImage(event)">`;
+  wrapper.appendChild(label);
+}
+document.addEventListener("DOMContentLoaded", setupInlineAttachment);
+setInterval(setupInlineAttachment, 1000);

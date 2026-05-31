@@ -1,14 +1,15 @@
-# GhostSeller AI V122 WORKSPACE UX FIX
+# GhostSeller AI V123 MOBILE SAAS UX
 
 ## Corrections
-- Upload image remplacé par un bouton compact “📎 Image”.
-- Suppression du gros bloc explicatif inutile.
-- Aperçu image plus petit et propre.
-- Pages de travail plus compactes.
-- Réduction du vide sur Générer vidéo, Leads, WhatsApp et Créer contenu.
+- Suppression des 4 grosses cartes doublons sur l’accueil.
+- Accueil recentré sur une action principale.
+- Bouton trombone placé directement dans la zone de texte.
+- Pages de travail plus adaptées au mobile.
+- Menu mobile rendu plus compact.
+- Moins de vide et moins de scroll inutile.
 
 ## Déploiement
 npm install
 git add .
-git commit -m "GhostSeller V122 Workspace UX Fix"
+git commit -m "GhostSeller V123 Mobile SaaS UX"
 git push

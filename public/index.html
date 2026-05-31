@@ -94,94 +94,45 @@
       </header>
 
       <section id="home" class="page">
-        <div class="premiumHero">
+        <div class="premiumHero mobileHero">
           <div>
             <span class="premiumBadge">🧪 BÊTA PRIVÉE</span>
-            <h2>Crée du contenu qui génère des clients.</h2>
-            <p>Prépare tes vidéos, tes prospects et tes messages WhatsApp pendant la validation officielle de TikTok.</p>
+            <h2>GhostSeller travaille pour ton business.</h2>
+            <p>Décris ton offre. L’employé IA prépare tes contenus, scripts vidéo, prospects et messages WhatsApp prêts à utiliser.</p>
             <div class="heroActions">
-              <button onclick="showPage('content')">Créer mon premier contenu</button>
-              <button class="secondary" onclick="showPage('tiktok')">Voir le statut TikTok</button>
+              <button onclick="showPage('content')">Commencer maintenant</button>
+              <button class="secondary" onclick="showPage('tiktok')">Statut TikTok</button>
             </div>
           </div>
           <div class="premiumStatus">
             <h3>Statut actuel</h3>
-            <span class="statusBadge ok">ACTIF</span>
+            <span class="statusBadge ok">CRÉATION IA ACTIVE</span>
             <span class="statusBadge wait">TIKTOK EN VALIDATION</span>
             <span class="statusBadge beta">BÊTA PRIVÉE</span>
           </div>
         </div>
 
-        <div class="premiumActions">
-          <div class="premiumActionCard" onclick="showPage('content')"><div class="premiumIcon">🤖</div><h3>Créer un contenu</h3><p>Posts IA, hooks et publicités.</p><button>Commencer</button></div>
-          <div class="premiumActionCard" onclick="showPage('video')"><div class="premiumIcon">🎬</div><h3>Générer une vidéo</h3><p>Scripts TikTok, Reels et Shorts.</p><button>Créer un script</button></div>
-          <div class="premiumActionCard" onclick="showPage('leads')"><div class="premiumIcon">👥</div><h3>Trouver des prospects</h3><p>Recherche et gestion de leads.</p><button>Voir leads</button></div>
-          <div class="premiumActionCard" onclick="showPage('whatsapp')"><div class="premiumIcon">💬</div><h3>WhatsApp</h3><p>Messages prêts à convertir.</p><button>Préparer messages</button></div>
-        </div>
-
-        <div class="premiumMainGrid">
-          <div class="card premiumCard">
-            <h2>🎵 TikTok</h2>
-            <div class="splitStatus">
-              <div><h3>Disponible maintenant</h3><ul><li>✅ Création de contenu</li><li>✅ Scripts vidéo</li><li>✅ Leads</li><li>✅ WhatsApp</li></ul></div>
-              <div><h3>Bientôt</h3><ul><li>🟡 Connexion TikTok</li><li>🟡 Publication automatique</li></ul></div>
-            </div>
-            <p class="mutedLine">L’API TikTok est en attente de validation officielle. En attendant, tu peux préparer ton système de contenu.</p>
-            <button onclick="showPage('tiktok')">Voir détails TikTok</button>
-          </div>
-
+        <div class="homeMissionGrid">
           <div class="card premiumCard missionCenter">
-            <h2>🎯 Ta prochaine étape</h2>
+            <h2>🎯 Ta prochaine action</h2>
             <div class="missionBox">
               <div class="missionIcon">🚀</div>
               <div>
-                <h3>Lance ta première création</h3>
-                <p>Commence par générer un contenu. Ensuite GhostSeller t’aidera à le transformer en vidéo, prospect et message WhatsApp.</p>
+                <h3>Crée ton premier livrable</h3>
+                <p>Commence par décrire ce que tu vends. GhostSeller va produire des contenus prêts à copier-coller.</p>
               </div>
             </div>
-
-            <div class="progressPanel">
-              <div class="progressHeader">
-                <b>Progression de démarrage</b>
-                <span>40%</span>
-              </div>
-              <div class="progressBar"><i></i></div>
-              <div class="checkList">
-                <div class="done">✓ Compte créé</div>
-                <div class="done">✓ Accès dashboard</div>
-                <div>□ Premier contenu</div>
-                <div>□ Première vidéo</div>
-                <div>□ Premier lead</div>
-              </div>
-            </div>
-
-            <button onclick="showPage('content')">Créer mon premier contenu</button>
+            <button onclick="showPage('content')">Créer un contenu prêt</button>
           </div>
 
-          <div class="card premiumCard roadmapPremium">
-            <h2>🛣️ Évolution du produit</h2>
-            <div class="premiumTimeline">
-              <div class="tlItem done">
-                <span></span>
-                <div><b>Bêta privée</b><p>Comptes, dashboard et retours testeurs stabilisés.</p></div>
-              </div>
-              <div class="tlItem done">
-                <span></span>
-                <div><b>Création contenu IA</b><p>Posts, hooks, publicités et scripts courts.</p></div>
-              </div>
-              <div class="tlItem current">
-                <span></span>
-                <div><b>Validation TikTok</b><p>Connexion officielle en cours de validation.</p></div>
-              </div>
-              <div class="tlItem locked">
-                <span></span>
-                <div><b>Autopilot GhostSeller</b><p>Publication automatique, leads et WhatsApp.</p></div>
-              </div>
+          <div class="card premiumCard">
+            <h2>🎵 TikTok</h2>
+            <div class="splitStatus">
+              <div><h3>Disponible</h3><ul><li>✅ Contenu</li><li>✅ Scripts vidéo</li><li>✅ Leads</li><li>✅ WhatsApp</li></ul></div>
+              <div><h3>Bientôt</h3><ul><li>🟡 Connexion TikTok</li><li>🟡 Publication automatique</li></ul></div>
             </div>
           </div>
-          </div>
-
-          </div>
+        </div>
 
         <div class="feedbackMiniBar">
           <span>💬 Un problème ou une idée ?</span>
@@ -207,18 +158,6 @@
             <div id="dashboardFeedbackOut" class="output"></div>
           </div>
         </div>
-
-        <details class="premiumStats">
-          <summary>📊 Statistiques bêta</summary>
-          <div class="statsEmpty"><p>Les statistiques seront disponibles après ta première création.</p>
-            <div class="stats secondaryStats">
-              <div class="stat"><b id="postsCount">0</b><span>Posts créés</span></div>
-              <div class="stat"><b id="videosCount">0</b><span>Vidéos générées</span></div>
-              <div class="stat"><b id="leadsCount">0</b><span>Leads obtenus</span></div>
-              <div class="stat"><b id="clientsCount">0</b><span>Clients convertis</span></div>
-            </div>
-          </div>
-        </details>
       </section>
 
       <section id="content" class="page hidden workspacePage">
@@ -226,12 +165,6 @@
           <h2>Créer contenu</h2>
           <p>Décris ton offre. GhostSeller prépare plusieurs contenus prêts à publier.</p>
           <textarea id="contentPrompt" placeholder="Décris le produit ou service à promouvoir..."></textarea>
-        <div class="compactActionRow">
-          <label class="compactUploadBtn" title="Ajouter une image produit">
-            <span>📎</span> Image
-            <input type="file" id="productImageInput" accept="image/*" onchange="handleProductImage(event)">
-          </label>
-        </div>
         <div id="productImagePreview" class="productImagePreview hidden"></div>
           <button onclick="generateContent()">Créer les contenus prêts</button>
           <div id="contentOut" class="output"></div>

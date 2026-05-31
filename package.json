@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-workspace-ux-fix",
-  "version": "122.0.0",
+  "name": "ghostseller-ai-mobile-saas-ux",
+  "version": "123.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"
