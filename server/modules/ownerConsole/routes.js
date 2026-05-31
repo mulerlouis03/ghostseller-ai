@@ -7,13 +7,16 @@ export const ownerConsoleRouter = express.Router();
 function ownerEmail(){
   return (process.env.OWNER_EMAIL || "mulerlouis03@gmail.com").toLowerCase().trim();
 }
+
 function isOwnerEmail(email){
   const e = String(email || "").toLowerCase().trim();
   return e === ownerEmail() || e.includes("mulerlouis03") || e.includes("muler") || e.includes("ghostseller.ai@gmail");
 }
+
 function isOwner(user){
   return ["owner","admin"].includes(user?.role || "") || isOwnerEmail(user?.email);
 }
+
 function todayPrefix(){ return new Date().toISOString().slice(0,10); }
 
 async function readTable(name, orderColumn="created_at", limit=1000){
@@ -29,11 +32,13 @@ function normalizeUser(u, billing=[]){
   const bp = billing.find(b => String(b.email || "").toLowerCase().trim() === email || (b.user_id && b.user_id === u.id));
   return {
     id:u.id || "",
-    name:u.full_name || u.name || u.display_name || u.username || email || "Utilisateur",
+    name:u.full_name || u.name || u.display_name || u.username || (owner ? "Muler Louis" : email || "Utilisateur"),
     email,
     role:owner ? "owner" : (u.role || "user"),
     plan:owner ? "Owner" : (bp?.plan || u.plan || "Gratuit"),
     status:owner ? "Actif" : (bp?.status || u.subscription_status || "Actif"),
+    credits:owner ? "Illimités" : (u.credits ?? ""),
+    stripe_status:owner ? "Exempt" : (bp?.status || ""),
     created_at:u.created_at || "",
     last_login:u.last_login || u.updated_at || "",
     is_owner:owner
@@ -53,7 +58,20 @@ function dedupeUsers(users){
 }
 
 ownerConsoleRouter.get("/me", requireAuth, async (req,res)=>{
-  res.json({ ok:true, user:req.user, isOwner:isOwner(req.user) });
+  const user = req.user || {};
+  res.json({
+    ok:true,
+    user,
+    isOwner:isOwner(user),
+    owner:{
+      name:"Muler Louis",
+      email:ownerEmail(),
+      role:"OWNER",
+      plan:"Owner",
+      credits:"Illimités",
+      stripe_status:"Exempt"
+    }
+  });
 });
 
 ownerConsoleRouter.get("/overview", requireAuth, async (req,res)=>{
@@ -68,7 +86,24 @@ ownerConsoleRouter.get("/overview", requireAuth, async (req,res)=>{
   ]);
 
   const allUsers = dedupeUsers(rawUsers.map(u => normalizeUser(u, rawBilling)));
-  const ownerAccounts = allUsers.filter(u => u.is_owner || u.role === "owner" || u.plan === "Owner");
+  let ownerAccounts = allUsers.filter(u => u.is_owner || u.role === "owner" || u.plan === "Owner");
+
+  if(ownerAccounts.length === 0){
+    ownerAccounts = [{
+      id:"owner",
+      name:"Muler Louis",
+      email:ownerEmail(),
+      role:"owner",
+      plan:"Owner",
+      status:"Actif",
+      credits:"Illimités",
+      stripe_status:"Exempt",
+      created_at:"",
+      last_login:"",
+      is_owner:true
+    }];
+  }
+
   const users = allUsers.filter(u => !(u.is_owner || u.role === "owner" || u.plan === "Owner"));
   const billing = rawBilling.filter(b => !isOwnerEmail(b.email));
 

@@ -46,3 +46,77 @@ pre{white-space:pre-wrap;max-height:220px;overflow:auto;color:#bdd0ff;font-size:
 .topActions .btn.danger, .logoutTop{
   display:inline-flex!important;
 }
+
+/* V118 Owner identity CSS */
+.ownerNav{
+  background:linear-gradient(135deg,rgba(255,200,87,.16),rgba(184,76,255,.13))!important;
+  border-color:rgba(255,200,87,.34)!important;
+}
+.ownerIdentityHero{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  border:1px solid rgba(255,200,87,.28);
+  background:linear-gradient(135deg,rgba(255,200,87,.10),rgba(184,76,255,.10));
+  border-radius:28px;
+  padding:22px;
+  margin-bottom:16px;
+}
+.ownerAvatar{
+  width:84px;
+  height:84px;
+  border-radius:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:38px;
+  background:linear-gradient(135deg,#ffc857,#b84cff);
+  box-shadow:0 18px 45px rgba(255,200,87,.14);
+}
+.ownerBadge{
+  display:inline-flex;
+  padding:7px 12px;
+  border-radius:999px;
+  background:rgba(255,200,87,.15);
+  border:1px solid rgba(255,200,87,.42);
+  color:#ffe2a0;
+  font-weight:1000;
+  font-size:12px;
+}
+.ownerIdentityHero h2{
+  margin:8px 0 4px;
+  font-size:36px;
+}
+.ownerIdentityHero p{
+  margin:0;
+  color:#aebee2;
+}
+.ownerIdentityGrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:14px;
+  margin-bottom:16px;
+}
+.ownerIdentityCard{
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(13,22,49,.92);
+  border-radius:22px;
+  padding:18px;
+}
+.ownerIdentityCard b{
+  display:block;
+  color:#ffe2a0;
+  margin-bottom:8px;
+}
+.ownerIdentityCard span{
+  color:#f8fbff;
+  font-weight:900;
+}
+.ownerNotice{
+  border:1px solid rgba(36,214,255,.20);
+  background:rgba(36,214,255,.08);
+  border-radius:20px;
+  padding:16px;
+  color:#d7e5ff;
+  line-height:1.5;
+}

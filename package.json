@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-user-functions-real-output",
-  "version": "117.0.0",
+  "name": "ghostseller-ai-owner-identity",
+  "version": "118.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

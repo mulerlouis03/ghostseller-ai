@@ -112,3 +112,22 @@ document.getElementById("topLogoutBtn")?.addEventListener("click",logout);
 document.getElementById("userSearch")?.addEventListener("input",renderUsers);
 
 loadOwner();
+
+
+/* V118 Owner identity display */
+function renderOwnerIdentityV118(){
+  try{
+    const data = window.OWNER_DATA || OWNER_DATA || {};
+    const owner = (data.owner_accounts && data.owner_accounts[0]) || {
+      name:"Muler Louis",
+      email:"mulerlouis03@gmail.com",
+      role:"owner",
+      plan:"Owner",
+      credits:"Illimités",
+      stripe_status:"Exempt"
+    };
+    const emailEl=document.getElementById("ownerEmailText");
+    if(emailEl) emailEl.textContent=owner.email || "mulerlouis03@gmail.com";
+  }catch(e){}
+}
+setInterval(renderOwnerIdentityV118,1200);
