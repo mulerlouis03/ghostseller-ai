@@ -2409,3 +2409,99 @@ function placeResult(btn, html){}
   window.generateContent=window.v150Run;
   window.v148Run=function(){window.v150Run();};
 })();
+
+/* V151 — MULTI-SCENE CINEMATIC ENGINE
+   Upgrade over V150: separate visual scene per platform + photorealism lock + real DALL-E route button.
+*/
+(function(){
+  const $=(id)=>document.getElementById(id);
+  const E=(s)=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const enc=(v)=>encodeURIComponent(String(v||''));
+  const dec=(v)=>decodeURIComponent(String(v||''));
+  const clean=(s)=>String(s||'').replace(/\s+/g,' ').trim();
+  const copy=(t)=>{try{navigator.clipboard?.writeText(String(t||''));}catch(e){}};
+  window.v151Copy=copy;
+  function offer(){return ($('contentPrompt')?.value || $('contentNiche')?.value || '').trim();}
+  function first(re,txt,def=''){const m=txt.match(re);return m?clean(m[1]||m[0]):def;}
+  function extract(input){
+    const raw=clean(input), l=raw.toLowerCase();
+    const route=raw.match(/(cayenne)\s*(?:-|→|a|à|vers|et)\s*(saint[-\s]?laurent(?:[-\s]?du[-\s]?maroni)?|st[-\s]?laurent(?:[-\s]?du[-\s]?maroni)?)/i) || raw.match(/entre\s+([A-Za-zÀ-ÿ-]+)\s+et\s+([A-Za-zÀ-ÿ-]+)/i);
+    const departure=route?clean(route[1]).replace(/\b\w/g,c=>c.toUpperCase()):(/cayenne/i.test(raw)?'Cayenne':'ville de départ');
+    const destination=route?clean(route[2]).replace(/saint\s?laurent/i,'Saint-Laurent-du-Maroni').replace(/st\s?laurent/i,'Saint-Laurent-du-Maroni'):(/saint[-\s]?laurent/i.test(raw)?'Saint-Laurent-du-Maroni':'destination');
+    const time=first(/\b(\d{1,2}\s*h(?:\s*\d{0,2})?)\b/i,raw,'7h');
+    const day=first(/\b(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\b/i,raw,'mardi');
+    const seats=Number(first(/\b(\d{1,2})\s*(?:places?|si[eè]ges?)\b/i,raw,'0')) || 4;
+    const station=/gare\s+routi[eè]re/i.test(raw)?`gare routière de ${departure}`:`point de départ à ${departure}`;
+    const hasLuggage=/petit\s+bagage|bagage\s+accept|valise|sac/i.test(raw);
+    const kind=/covoiturage|trajet|voiture|gare|route|passager|transport|cayenne|saint/i.test(l)?'transport':(/montre|bijou|luxe/i.test(l)?'luxury':(/parfum|cosm[eé]tique|beaut[eé]/i.test(l)?'beauty':(/basket|sport|chaussure/i.test(l)?'sport':'general')));
+    return {raw,kind,departure,destination,time,day,seats,station,hasLuggage,luggage:hasLuggage?'small backpacks and cabin-size travel bags visible':'small bags visible',comfort:/confort|d[eé]tendu|tranquille|malin/i.test(raw),economy:/[eé]conom|pas cher|budget|malin/i.test(raw)};
+  }
+  const photoLock='Photorealistic, cinematic shot, shot on iPhone 15 Pro, 8k resolution, highly detailed, real human faces, natural lighting, professional advertising photography, no illustration, no cartoon, no vector art, no flat design.';
+  const negative='cartoon, vector art, flat design, illustration, drawing, clipart, 3d render, toy car, empty road, road only, no people, wrong number of passengers, no luggage, black abstract background, blurry, low quality, watermark, logo, fake unreadable text, stock photo look';
+  function scene(d,platform){
+    const p=platform.toLowerCase();
+    const ar=p.includes('tiktok')||p.includes('story')||p.includes('reels')?'--ar 9:16':p.includes('facebook')?'--ar 4:5':p.includes('instagram')?'--ar 4:5':'--ar 1:1';
+    if(d.kind==='transport'){
+      if(p.includes('facebook')) return `A clear informative photorealistic advertising photo for Facebook: a modern white minivan parked in front of the Cayenne bus station in French Guiana at ${d.time}, route from ${d.departure} to ${d.destination}. Show exactly ${d.seats} real passengers visible through the windows and near the doors, smiling and ready to leave. Small backpacks and cabin-size bags are visible near the trunk. Tropical trees, sunny asphalt road, warm morning sunlight, safe and comfortable travel mood. ${photoLock} ${ar}`;
+      if(p.includes('instagram')) return `Warm lifestyle travel photography for Instagram: inside a clean modern white minivan, exactly ${d.seats} diverse passengers smiling, chatting and feeling relaxed during a shared ride in French Guiana. Golden hour sunlight through the windows, tropical greenery outside, small backpacks on the floor, friendly comfortable atmosphere, shallow depth of field, premium lifestyle ad. ${photoLock} ${ar}`;
+      if(p.includes('tiktok')||p.includes('reels')) return `Dynamic vertical cinematic TikTok/Reels frame: exactly ${d.seats} passengers are boarding a modern white minivan at the Cayenne bus station at ${d.time}; the driver helps load small bags into the trunk, one passenger steps into the car, tropical sunrise, slight motion blur, energetic action, route ${d.departure} to ${d.destination}. ${photoLock} ${ar}`;
+      if(p.includes('whatsapp')) return `Clean square WhatsApp advertising image: modern white minivan ready for departure from ${d.departure} to ${d.destination}, exactly ${d.seats} available seats/passengers clearly visible, small travel bags near the vehicle, reassuring driver, bright tropical morning, simple composition for fast conversion. ${photoLock} ${ar}`;
+      return `Vertical mobile story advertisement: a passenger entering a modern white minivan at sunrise in French Guiana, driver smiling, small luggage visible, tropical vegetation and real asphalt road, visual message of departure ${d.day} at ${d.time} from ${d.departure} to ${d.destination}. ${photoLock} ${ar}`;
+    }
+    const product=d.raw.slice(0,120);
+    if(d.kind==='luxury') return `Luxury photorealistic product advertising photo for ${platform}: premium wristwatch or jewelry on dark black marble, dramatic soft rim light, elegant shadows, premium mysterious atmosphere, product as focal point with clean negative space for text. ${photoLock} ${ar}`;
+    if(d.kind==='beauty') return `Beauty product photorealistic advertising background for ${platform}: perfume or cosmetic bottle on smooth dark surface, soft cinematic light, subtle smoke and liquid texture, clean premium composition with negative space for text. ${photoLock} ${ar}`;
+    if(d.kind==='sport') return `Sport product photorealistic advertising background for ${platform}: sneakers or athletic product on wet dark asphalt, blurred neon city lights, urban energy, dramatic contrast, space for white text overlay. ${photoLock} ${ar}`;
+    return `Photorealistic cinematic advertising image for ${platform}, representing this offer: ${product}. Show the real product/service in use by happy customers, natural lighting, professional ad composition, clear benefit, no generic abstract background. ${photoLock} ${ar}`;
+  }
+  function bg(platform){
+    const p=platform.toLowerCase();
+    if(p.includes('facebook')) return 'linear-gradient(135deg,rgba(0,0,0,.22),rgba(0,0,0,.72)),radial-gradient(circle at 20% 20%,rgba(250,204,21,.42),transparent 25%),radial-gradient(circle at 80% 40%,rgba(34,197,94,.38),transparent 28%),linear-gradient(120deg,#064e3b,#0f172a 62%,#020617)';
+    if(p.includes('instagram')) return 'linear-gradient(135deg,rgba(0,0,0,.18),rgba(0,0,0,.68)),radial-gradient(circle at 22% 30%,rgba(251,191,36,.52),transparent 24%),radial-gradient(circle at 75% 38%,rgba(236,72,153,.35),transparent 28%),linear-gradient(120deg,#7c2d12,#134e4a 55%,#020617)';
+    if(p.includes('tiktok')||p.includes('reels')) return 'linear-gradient(135deg,rgba(0,0,0,.15),rgba(0,0,0,.72)),radial-gradient(circle at 15% 45%,rgba(34,211,238,.50),transparent 23%),radial-gradient(circle at 85% 30%,rgba(168,85,247,.45),transparent 25%),linear-gradient(140deg,#020617,#0f766e 48%,#111827)';
+    if(p.includes('whatsapp')) return 'linear-gradient(135deg,rgba(0,0,0,.22),rgba(0,0,0,.72)),radial-gradient(circle at 20% 30%,rgba(34,197,94,.50),transparent 24%),linear-gradient(120deg,#064e3b,#052e16 55%,#020617)';
+    return 'linear-gradient(135deg,rgba(0,0,0,.18),rgba(0,0,0,.78)),radial-gradient(circle at 50% 18%,rgba(250,204,21,.48),transparent 22%),linear-gradient(180deg,#0f766e,#020617)';
+  }
+  function pack(d){return {
+    facebook:`🚗✨ Vous cherchez un moyen pratique et économique de voyager entre ${d.departure} et ${d.destination} ?\n\nChaque ${d.day} à ${d.time}, départ depuis la ${d.station}.\n\n✅ ${d.seats} places disponibles\n✅ Petit bagage accepté\n✅ Voyage confortable\n\nRéservez votre place maintenant.`,
+    instagram:`🌍💚 Covoiturer, c’est voyager malin.\n\n${d.departure} → ${d.destination}\nDépart ${d.day} à ${d.time}.\n\n${d.seats} places disponibles, petit bagage accepté, ambiance confortable.\n\n#Covoiturage #Cayenne #SaintLaurent #Guyane`,
+    tiktok:`SCÈNE 1 (0-2s)\nPlan vertical : voiture devant la ${d.station}.\n\nSCÈNE 2 (2-5s)\n${d.seats} passagers montent dans la voiture avec petits bagages.\n\nSCÈNE 3 (5-8s)\nConducteur accueille, coffre ouvert, sacs visibles.\n\nSCÈNE 4 (8-11s)\nDépart ${d.day} à ${d.time}, direction ${d.destination}.\n\nSCÈNE 5 (11-15s)\nTexte écran : ${d.seats} places disponibles, réserve maintenant.`,
+    whatsapp:`Salut 👋\n\nTrajet ${d.departure} → ${d.destination}\nDépart ${d.day} à ${d.time} depuis la ${d.station}.\n\n🚗 ${d.seats} places disponibles\n🎒 Petit bagage accepté\n✅ Voyage confortable\n\nRéponds TRAJET pour réserver.`,
+    story:`${d.departure} → ${d.destination}\n${d.day} ${d.time}\n${d.seats} places • petit bagage accepté\nRéserve maintenant ✨`,
+    hashtags:'#Covoiturage #Cayenne #SaintLaurent #Guyane #TransportGuyane #BonPlan #VoyageConfortable #TrajetGuyane'
+  }}
+  async function makeImage(btn,id,ep,platform){
+    const box=$(id); if(!box) return; const old=btn?btn.innerHTML:''; if(btn){btn.disabled=true;btn.innerHTML='Image IA...';}
+    box.insertAdjacentHTML('beforeend','<div class="v151Loading">🎬 Génération image réelle...</div>');
+    try{
+      const r=await fetch('/api/creative/v151-image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:dec(ep),platform})});
+      const data=await r.json();
+      box.querySelector('.v151Loading')?.remove();
+      if(data.ok && data.url){box.style.backgroundImage=`linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.70)),url('${data.url}')`;box.classList.add('aiReady');}
+      else box.insertAdjacentHTML('beforeend',`<div class="v151Error">${E(data.error||'Image non générée')}</div>`);
+    }catch(e){box.querySelector('.v151Loading')?.remove();box.insertAdjacentHTML('beforeend','<div class="v151Error">Erreur réseau génération image.</div>');}
+    if(btn){btn.disabled=false;btn.innerHTML=old;}
+  }
+  window.v151MakeImage=makeImage;
+  function card(title,body,platform,d){
+    const prompt=scene(d,title); const id='v151_'+Math.random().toString(36).slice(2,9);
+    return `<article class='v148Card v151Card'>
+      <div class='v151Badge'>V151 Multi-Scene</div>
+      <div class='v148Top'><div class='v148Icon'>${title.includes('Facebook')?'f':title.includes('Instagram')?'◎':title.includes('TikTok')?'♪':title.includes('WhatsApp')?'☏':'↗'}</div><div><h3>${E(title)}</h3><span>${title.includes('TikTok')?'SCRIPT + IMAGE VERTICALE':'POST + IMAGE UNIQUE'}</span></div></div>
+      <div id='${id}' class='v151HeroPhoto' style="background-image:${bg(title)}"><span>${E(title)} : scène différente, photoréaliste, fidèle au texte</span></div>
+      <div class='v151Meta'><span>📍 ${E(d.station)}</span><span>🕖 ${E(d.day)} ${E(d.time)}</span><span>👥 ${E(d.seats)} places</span><span>🎒 Bagage</span></div>
+      <div class='v151Check'><span>Vrais humains</span><span>${E(d.seats)} passagers</span><span>Style photo</span></div>
+      <div class='v148Text'>${E(body).replace(/\n/g,'<br>')}</div>
+      <div class='v151PromptTitle'>Prompt DALL·E 3 spécifique ${E(title)}</div><div class='v151PromptBox'>${E(prompt)}</div>
+      <div class='v151PromptTitle'>Negative prompt</div><div class='v151PromptBox'>${E(negative)}</div>
+      <div class='v148Bottom'><button type='button' onclick="v151MakeImage(this,'${id}',decodeURIComponent('${enc(prompt)}'),'${E(title)}')">Créer vraie image IA</button><button type='button' onclick="v151Copy(decodeURIComponent('${enc(prompt)}'))">Copier prompt</button><button type='button' onclick="v151Copy(decodeURIComponent('${enc(body)}'))">Copier texte</button></div>
+    </article>`;
+  }
+  function render(input){
+    const d=extract(input), p=pack(d);
+    const all=['FACEBOOK',p.facebook,scene(d,'Facebook'),'INSTAGRAM',p.instagram,scene(d,'Instagram'),'TIKTOK',p.tiktok,scene(d,'TikTok / Reels'),'WHATSAPP',p.whatsapp,scene(d,'WhatsApp'),'STORY',p.story,scene(d,'Story / Statut'),'NEGATIVE PROMPT',negative].join('\n\n');
+    return `<section class='v148Results v151Results'><div class='v148Header'><div><span class='v151Badge'>V151 ACTIVÉ</span><h2>Résultats de votre campagne</h2><p>1 pub = 5 scènes différentes. Facebook informe, Instagram vend l’émotion, TikTok montre l’action, WhatsApp convertit.</p></div><div class='v148HeaderBtns'><button onclick="$('contentPrompt')?.focus()">✎ Modifier ma demande</button><button onclick="v151Copy(decodeURIComponent('${enc(all)}'))">⇩ Exporter tout</button></div></div><div class='v148Grid'>${card('Facebook',p.facebook,'facebook',d)}${card('Instagram',p.instagram,'instagram',d)}${card('TikTok / Reels',p.tiktok,'tiktok',d)}</div><div class='v148MiniGrid'>${card('WhatsApp',p.whatsapp,'whatsapp',d)}${card('Story / Statut',p.story,'story',d)}<article class='v148Card v151Card'><div class='v151Badge'>Hashtags</div><div class='v148Text'>${E(p.hashtags)}</div><div class='v151PromptTitle'>Contrôle qualité V151</div><div class='v151PromptBox'>Chaque réseau reçoit une scène différente. Les prompts forcent : photoréalisme, vrais humains, bagages, heure, lieu, nombre de places, lumière naturelle.</div><div class='v148Bottom'><button onclick="v151Copy(decodeURIComponent('${enc(p.hashtags)}'))">Copier hashtags</button></div></article></div></section>`;
+  }
+  window.v151Run=function(){const input=offer();const out=$('contentOut');if(!out)return;if(!input){out.innerHTML='<div class="employeeResult">Décris ton offre avant de générer.</div>';return;}out.innerHTML=render(input);};
+  window.generateContent=window.v151Run; window.v148Run=function(){window.v151Run();}; window.v150Run=function(){window.v151Run();};
+})();

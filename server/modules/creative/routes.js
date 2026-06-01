@@ -2,6 +2,7 @@ import express from "express";
 import crypto from "crypto";
 import { requireAuth } from "../../lib/auth.js";
 import { requireCredits, consumeUsage } from "../../middleware/usageLimits.js";
+import { openai } from "../../lib/openai.js";
 
 export const creativeRouter = express.Router();
 
@@ -148,4 +149,33 @@ creativeRouter.post("/generate", requireAuth, requireCredits(2,"posts"), async (
     ok:true,
     result
   });
+});
+
+
+// V151 — Context-aware real image generation for campaign visuals.
+// Uses OpenAI DALL-E 3 when OPENAI_API_KEY is configured.
+creativeRouter.post("/v151-image", async (req,res)=>{
+  try{
+    const { prompt="", platform="Facebook" } = req.body || {};
+    if(!prompt || String(prompt).trim().length < 20){
+      return res.status(400).json({ ok:false, error:"Prompt image manquant ou trop court." });
+    }
+    if(!openai){
+      return res.status(200).json({ ok:false, error:"OPENAI_API_KEY manquant. Ajoute la clé OpenAI dans les variables d'environnement." });
+    }
+    const pf = String(platform).toLowerCase();
+    const size = pf.includes("tiktok") || pf.includes("story") || pf.includes("reels") ? "1024x1792" : "1024x1024";
+    const finalPrompt = `${prompt}\n\nStrict visual style: photorealistic, cinematic shot, real human faces, natural light, high detail, professional advertising photography. Avoid all illustration, cartoon, vector art, flat design, abstract graphics, fake text, watermark or logo.`;
+    const img = await openai.images.generate({
+      model:"dall-e-3",
+      prompt: finalPrompt,
+      size,
+      quality:"standard",
+      n:1
+    });
+    const url = img?.data?.[0]?.url || null;
+    res.json({ ok:!!url, url, size, platform });
+  }catch(e){
+    res.status(500).json({ ok:false, error:e?.message || "Erreur génération image V151" });
+  }
 });
