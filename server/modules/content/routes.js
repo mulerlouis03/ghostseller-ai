@@ -250,7 +250,10 @@ contentRouter.post("/social-pack", requireAuth, async (req,res)=>{
         {role:"user",content:JSON.stringify({task:"Create a complete ready-to-publish social media marketing pack",offer,angle,required_keys:["facebook","instagram","tiktok","whatsapp","story","hashtags","hooks","cta"],rules:["French language","specific to the offer","TikTok has 5 scenes with timing","WhatsApp is ready to send","hashtags as one string with 20-30 hashtags","hooks as numbered list of 20","cta as numbered list of 10","do not explain what to do"]})}
       ]);
       const fallback=v133FallbackPack(offer,angle);
-      return res.json({ok:true,provider:"openai",pack:{...fallback,...v134NormalizePack(json),provider:"openai"}});
+      
+      const normalized = v134NormalizePack(json);
+      const cleaned = Object.fromEntries(Object.entries(normalized).filter(([_,v]) => String(v||'').trim()));
+      return res.json({ok:true,provider:"openai",pack:{...fallback,...cleaned,provider:"openai"}});
     }
     return res.json({ok:true,provider:"fallback",pack:v134NormalizePack(v133FallbackPack(offer,angle))});
   }catch(e){

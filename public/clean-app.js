@@ -1687,3 +1687,124 @@ function placeResult(btn, html){}
 })();
 
 /* V134: normalized AI objects, direct logout, cleaner account security, background image executes without showing instructions */
+
+/* V135 — REAL EXECUTION UX FIX: no useless loader text, active buttons, auto background image, clean account logout */
+(function(){
+  function E(s){return String(s ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+  function offer(){return (document.getElementById('contentPrompt')?.value || document.getElementById('contentNiche')?.value || '').trim();}
+  function enc(v){return encodeURIComponent(String(v||''));}
+  function dec(v){try{return decodeURIComponent(String(v||''));}catch(e){return String(v||'');}}
+  function copy(t){navigator.clipboard?.writeText(String(t||''));}
+  window.v135Copy = window.v133Copy = window.v129Copy = window.gsCopy = copy;
+  function text(v){
+    if(v==null) return '';
+    if(Array.isArray(v)) return v.map(text).filter(Boolean).join('\n');
+    if(typeof v==='object'){
+      const preferred = v.content ?? v.text ?? v.body ?? v.caption ?? v.message ?? v.script ?? v.value;
+      if(preferred!=null) return text(preferred);
+      return Object.entries(v).map(([k,val])=>{const t=text(val);return t?`${k.toUpperCase()}\n${t}`:'';}).filter(Boolean).join('\n\n');
+    }
+    return String(v);
+  }
+  function normalize(raw){
+    raw = raw && typeof raw==='object' ? raw : {};
+    return {
+      facebook: text(raw.facebook || raw.fb || raw.facebook_post),
+      instagram: text(raw.instagram || raw.instagram_post || raw.ig),
+      tiktok: text(raw.tiktok || raw.tiktok_reels || raw.reels || raw.video_script),
+      whatsapp: text(raw.whatsapp || raw.whatsapp_message),
+      story: text(raw.story || raw.statut || raw.status),
+      hashtags: text(raw.hashtags),
+      hooks: text(raw.hooks),
+      cta: text(raw.cta || raw.ctas)
+    };
+  }
+  function meta(p){
+    const s=String(p||'').toLowerCase();
+    if(s.includes('café')||s.includes('cafe')||s.includes('coffee')) return {product:'café premium',kw:'CAFÉ',tags:['#KafeLakay','#Cafe','#Haiti','#Gourmandise','#CafeHaitien','#CafeArtisanal','#CafeLover']};
+    if(s.includes('haiti')||s.includes('haïti')) return {product:'produit venant d’Haïti',kw:'INFO',tags:['#Haiti','#MadeInHaiti','#DiasporaHaitienne','#Lakou','#CaribbeanBusiness']};
+    if(s.includes('nike')||s.includes('adidas')||s.includes('basket')||s.includes('chaussure')) return {product:'baskets tendance',kw:'BASKET',tags:['#Sneakers','#Nike','#Adidas','#Streetwear','#Mode']};
+    if(s.includes('sac')) return {product:'sac tendance',kw:'INFO',tags:['#Sac','#ModeFemme','#Shopping','#Tendance']};
+    if(s.includes('parfum')||s.includes('cosm')||s.includes('beaut')) return {product:'cosmétique premium',kw:'BEAUTÉ',tags:['#Parfum','#Beaute','#Cosmetique','#Luxe']};
+    if(s.includes('montre')||s.includes('bijou')||s.includes('luxe')) return {product:'produit luxe',kw:'LUXE',tags:['#Luxe','#Montre','#Bijoux','#Premium']};
+    return {product:'offre',kw:'INFO',tags:['#Business','#Marketing','#Vente','#Offre']};
+  }
+  function fallbackPack(p,angle='base'){
+    const m=meta(p); const prod=m.product; const kw=m.kw;
+    const name = angle==='viral'?'🔥 Angle viral':angle==='emotion'?'❤️ Angle émotionnel':angle==='premium'?'💎 Angle premium':angle==='aggressive'?'⚡ Angle direct':angle==='promo'?'🏷️ Angle promotion':'✨ Offre disponible';
+    const facebook=`${name}\n\n${p}\n\nDécouvre ${prod} avec une présentation claire, simple et prête à publier.\n\n✅ Facile à comprendre\n✅ Donne envie d’essayer\n✅ Disponible maintenant\n\n📩 Écris “${kw}” pour recevoir les détails.`;
+    const instagram=`${name}\n\n${p}\n\nUn contenu propre pour attirer l’attention et donner envie de passer à l’action.\n\nDM “${kw}” pour recevoir les infos.\n\n${m.tags.concat(['#Reels','#TikTokFrance','#InstagramFrance','#Clients']).join(' ')}`;
+    const tiktok=`🎬 SCRIPT TIKTOK / REELS\n\nSCÈNE 1 — HOOK (0-2s)\nTexte écran : “Tu cherchais une offre qui attire vraiment ?”\n\nSCÈNE 2 — PRODUIT (2-6s)\nMontrer ${prod} en gros plan.\nTexte écran : “${p}”\n\nSCÈNE 3 — DÉSIR (6-12s)\nMontrer les détails, la texture, l’ambiance et le bénéfice.\nVoix off : “Simple, beau et disponible maintenant.”\n\nSCÈNE 4 — PREUVE (12-17s)\nAfficher 2 bénéfices clairs.\nTexte écran : “Prêt à commander.”\n\nSCÈNE 5 — CTA (17-22s)\nTexte écran : “Écris ${kw} pour les infos.”\n\nCAPTION : ${p}\nCTA : Commente ${kw} ou envoie un DM.`;
+    const whatsapp=`Bonjour 👋\n\nJe te partage cette offre :\n\n${p}\n\nC’est simple, clair et disponible maintenant.\n\n✅ Infos rapides\n✅ Offre facile à comprendre\n✅ Prêt à commander\n\nRéponds “${kw}” et je t’envoie les détails.`;
+    const story=`📱 STORY / STATUT\n\n${prod.toUpperCase()}\n${p}\n\nTu veux les détails ?\nRéponds “${kw}” maintenant.`;
+    const hooks=Array.from({length:20},(_,i)=>`${i+1}. ${['Stop, cette offre peut t’intéresser.','POV : tu découvres le produit au bon moment.','Avant d’acheter ailleurs, regarde ça.','Tu veux les détails ? Écris '+kw+'.'][i%4]}`).join('\n');
+    const cta=['Écris '+kw+' pour recevoir les détails.','Envoie-moi un DM maintenant.','Commente '+kw+'.','Demande la disponibilité.','Réserve avant que ça parte.','Partage à quelqu’un que ça peut aider.','Clique pour en savoir plus.','Réponds OUI et je t’envoie tout.','Garde cette offre.','Passe commande maintenant.'].map((x,i)=>`${i+1}. ${x}`).join('\n');
+    const hashtags=m.tags.concat(['#Offre','#Promotion','#Business','#Vente','#Marketing','#ReelsFrance','#Tendance','#Nouveaute','#Clients','#Achat']).slice(0,30).join(' ');
+    return {facebook,instagram,tiktok,whatsapp,story,hashtags,hooks,cta};
+  }
+  function all(pack){pack=normalize(pack);return `FACEBOOK\n\n${pack.facebook}\n\n---\nINSTAGRAM\n\n${pack.instagram}\n\n---\nTIKTOK / REELS\n\n${pack.tiktok}\n\n---\nWHATSAPP\n\n${pack.whatsapp}\n\n---\nSTORY / STATUT\n\n${pack.story}\n\n---\nHASHTAGS\n\n${pack.hashtags}`;}
+  function card(title,body){body=text(body); return `<div class="deliverableCard v133SocialCard"><h3>${E(title)}</h3><div class="deliverableText">${E(body)}</div><button type="button" onclick="v135Copy(decodeURIComponent('${enc(body)}'))">Copier</button></div>`;}
+  function actions(p){const q=enc(p);return `<div class="v133Actions v135Actions">
+    <button type="button" onclick="v135Run('ideas','${q}')">🔄 Générer d'autres idées</button>
+    <button type="button" onclick="v135Run('viral','${q}')">🔥 Version virale</button>
+    <button type="button" onclick="v135Run('emotion','${q}')">❤️ Émotionnelle</button>
+    <button type="button" onclick="v135Run('premium','${q}')">💎 Premium</button>
+    <button type="button" onclick="v135Run('aggressive','${q}')">⚡ Agressive</button>
+    <button type="button" onclick="v135Run('promo','${q}')">🏷️ Promotion</button>
+    <button type="button" onclick="v135Extra('hooks','${q}')">🎣 20 Hooks</button>
+    <button type="button" onclick="v135Extra('cta','${q}')">📢 10 CTA</button>
+    <button type="button" onclick="v135Extra('hashtags','${q}')">#️⃣ 30 Hashtags</button>
+    <button type="button" onclick="v135Background('${q}')">🖼️ Créer fond IA</button>
+  </div>`;}
+  function render(pack,p,title){pack=normalize(pack); const a=all(pack); return `<div class="employeeResult v133Result v135Result"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail terminé</span><h2>${E(title||'Pack réseaux sociaux prêt')}</h2><p class="muted">Facebook, Instagram, TikTok/Reels, WhatsApp, Story et hashtags prêts à publier.</p></div><button class="copyBtn" type="button" onclick="v135Copy(decodeURIComponent('${enc(a)}'))">Copier tout</button></div>${actions(p)}<div class="deliverableGrid v133Grid">${card('Facebook',pack.facebook)}${card('Instagram',pack.instagram)}${card('TikTok / Reels',pack.tiktok)}${card('WhatsApp',pack.whatsapp)}${card('Story / Statut',pack.story)}${card('Hashtags',pack.hashtags)}</div><div id="v135BgOut"></div><div id="v133ExtraOut"></div></div>`;}
+  async function post(path,body){
+    const headers={'Content-Type':'application/json'}; const t=localStorage.getItem('ghostseller_token'); if(t) headers.Authorization='Bearer '+t;
+    const res=await fetch(path,{method:'POST',headers,body:JSON.stringify(body)}); const data=await res.json().catch(()=>({}));
+    if(!res.ok) throw new Error(data.error||data.message||'Erreur API'); return data;
+  }
+  function setButtonsBusy(busy){document.querySelectorAll('.v135Actions button,.v133Actions button').forEach(b=>{b.disabled=!!busy; b.style.opacity=busy?'.65':'';});}
+  window.v135Run = async function(angle,ep){
+    const p=dec(ep)||offer(); const out=document.getElementById('contentOut'); if(!out) return;
+    if(!p){out.innerHTML='<div class="employeeResult">Décris ton offre avant de générer.</div>';return;}
+    // Render immediately so buttons never look frozen.
+    out.innerHTML=render(fallbackPack(p,angle),p,angle==='base'?'Pack réseaux sociaux prêt':'Pack '+angle+' prêt');
+    setButtonsBusy(true);
+    try{
+      const data=await post('/api/content/social-pack',{offer:p,angle});
+      const pack=normalize(data.pack||{});
+      out.innerHTML=render(pack.facebook||pack.instagram||pack.tiktok?pack:fallbackPack(p,angle),p,angle==='base'?'Pack réseaux sociaux prêt':'Pack '+angle+' prêt');
+    }catch(e){
+      // Keep already rendered pack instead of blocking the screen.
+      const x=document.getElementById('v133ExtraOut'); if(x) x.innerHTML=`<div class="employeeResult error">API indisponible, pack local affiché. ${E(e.message||'')}</div>`;
+    }finally{setButtonsBusy(false);}
+  };
+  window.v135Extra = async function(type,ep){
+    const p=dec(ep)||offer(); const box=document.getElementById('v133ExtraOut')||document.getElementById('contentOut'); if(!box) return;
+    const local=fallbackPack(p,type); let body=type==='hooks'?local.hooks:type==='cta'?local.cta:local.hashtags;
+    box.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail terminé</span><h2>${type==='hooks'?'20 Hooks':type==='cta'?'10 CTA':'30 Hashtags'}</h2></div><button class="copyBtn" onclick="v135Copy(decodeURIComponent('${enc(body)}'))">Copier tout</button></div><div class="scriptBlock employeeScript">${E(body)}</div></div>`;
+    try{const data=await post('/api/content/social-pack',{offer:p,angle:type}); const pack=normalize(data.pack||{}); const remote=text(type==='hooks'?pack.hooks:type==='cta'?pack.cta:pack.hashtags); if(remote){body=remote; box.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail terminé</span><h2>${type==='hooks'?'20 Hooks':type==='cta'?'10 CTA':'30 Hashtags'}</h2></div><button class="copyBtn" onclick="v135Copy(decodeURIComponent('${enc(body)}'))">Copier tout</button></div><div class="scriptBlock employeeScript">${E(body)}</div></div>`;}}catch(e){}
+  };
+  function clientSvg(p){
+    const m=meta(p); const emoji=m.product.includes('café')?'☕':m.product.includes('Haïti')?'🇭🇹':m.product.includes('basket')?'👟':m.product.includes('sac')?'👜':m.product.includes('luxe')?'💎':'✨';
+    const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='720' height='1280'><defs><linearGradient id='a' x1='0' y1='0' x2='1' y2='1'><stop stop-color='#030712'/><stop offset='.45' stop-color='#0b1735'/><stop offset='1' stop-color='#230b3d'/></linearGradient><radialGradient id='b' cx='25%' cy='20%'><stop stop-color='#38bdf8' stop-opacity='.35'/><stop offset='1' stop-color='#000' stop-opacity='0'/></radialGradient><radialGradient id='c' cx='80%' cy='70%'><stop stop-color='#a855f7' stop-opacity='.32'/><stop offset='1' stop-color='#000' stop-opacity='0'/></radialGradient></defs><rect width='720' height='1280' fill='url(#a)'/><rect width='720' height='1280' fill='url(#b)'/><rect width='720' height='1280' fill='url(#c)'/><text x='360' y='570' font-size='148' text-anchor='middle' opacity='.22'>${emoji}</text><rect x='70' y='760' width='580' height='210' rx='34' fill='#000' opacity='.28' stroke='#fff' stroke-opacity='.10'/></svg>`;
+    return 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(svg)));
+  }
+  window.v135Background = async function(ep){
+    const p=dec(ep)||offer(); const box=document.getElementById('v135BgOut')||document.getElementById('v133ExtraOut')||document.getElementById('contentOut'); if(!box) return;
+    const local=clientSvg(p);
+    box.innerHTML=`<div class="employeeResult v133BgDone"><div class="employeeHeader"><div><span class="employeeBadge">🖼️ Fond IA</span><h2>Fond sombre prêt</h2><p class="muted">Visuel généré automatiquement pour ton offre.</p></div></div><div class="v133GeneratedImageWrap"><img src="${local}" alt="Fond IA"/></div></div>`;
+    try{const data=await post('/api/content/background-image',{offer:p}); if(data.imageUrl){box.innerHTML=`<div class="employeeResult v133BgDone"><div class="employeeHeader"><div><span class="employeeBadge">✅ Fond créé</span><h2>Fond IA prêt</h2><p class="muted">Image sombre générée automatiquement.</p></div></div><div class="v133GeneratedImageWrap"><img src="${E(data.imageUrl)}" alt="Fond IA généré"/></div></div>`;}}catch(e){}
+  };
+  window.generateContent=function(){window.v135Run('base',enc(offer()));};
+  window.v133Run=window.v129Regen=window.v135Run;
+  window.v133Extra=window.v135Extra; window.v129Hooks=p=>window.v135Extra('hooks',p); window.v129CTA=p=>window.v135Extra('cta',p); window.v129Hashtags=p=>window.v135Extra('hashtags',p); window.v133GenerateBackground=window.v132Background=window.v135Background;
+  window.logout=window.v133Logout=window.v135Logout=function(){try{['ghostseller_token','token','authToken','supabase.auth.token'].forEach(k=>localStorage.removeItem(k));sessionStorage.clear();}catch(e){} location.href='/';};
+  function cleanAccount(){
+    document.querySelectorAll('aside .logout,#v91LogoutBtn').forEach(el=>el.remove());
+    document.querySelectorAll('.securityPanelV131,.securityLogoutBoxV132').forEach(el=>{
+      el.innerHTML='<div class="securityLogoutBoxV132 securityLogoutBoxV133 securityLogoutBoxV134"><div><b>Déconnexion</b><span>Se déconnecter de ton compte sur cet appareil.</span></div><button type="button" class="logoutAccountBtn logoutAccountBtnV131 logoutAccountBtnV133">⎋ Se déconnecter</button></div>';
+    });
+    document.querySelectorAll('.logoutAccountBtn,.logoutAccountBtnV133,[onclick*="logout"]').forEach(btn=>{btn.onclick=function(ev){ev.preventDefault();window.v135Logout();};});
+  }
+  document.addEventListener('DOMContentLoaded',cleanAccount); setInterval(cleanAccount,1500);
+})();
