@@ -1,7 +1,0 @@
-GhostSeller AI V149 HOTFIX
-
-Correction importante :
-- Le bouton principal "Créer les contenus prêts" ne lance plus uniquement le Creative Director.
-- Il génère à nouveau la campagne complète Facebook / Instagram / TikTok / WhatsApp.
-- Le Creative Director V149 reste disponible pour les visuels, prompts DALL-E, negative prompts et génération image IA.
-- Correction du problème où l'utilisateur ne voyait que des prompts au lieu de contenus prêts.

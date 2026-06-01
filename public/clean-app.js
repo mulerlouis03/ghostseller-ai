@@ -2324,34 +2324,88 @@ function placeResult(btn, html){}
   window.v145ChangeImage=window.v148ChangeImage;
 })();
 
-/* V149 — Creative Director Engine: copy-aware DALL-E prompts, negative prompts, ad score, platform formats */
+
+/* V150 — CONTEXT AWARE VISUAL ENGINE
+   Fixes generic visuals: extracts locations, time, quantity, luggage, actions and turns them into scene-specific prompts.
+*/
 (function(){
-  const $=id=>document.getElementById(id);
-  const E=s=>String(s||'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
-  const enc=s=>encodeURIComponent(String(s||''));
-  const dec=s=>decodeURIComponent(String(s||''));
-  function offer(){return ($('contentPrompt')?.value||$('mainPrompt')?.value||'').trim();}
-  function tokenHeaders(){const h={'Content-Type':'application/json'}; const t=localStorage.getItem('ghostseller_token'); if(t) h.Authorization='Bearer '+t; return h;}
-  async function post(path,body){const r=await fetch(path,{method:'POST',headers:tokenHeaders(),body:JSON.stringify(body)}); const d=await r.json().catch(()=>({})); if(!r.ok) throw new Error(d.error||d.message||'Erreur API'); return d;}
-  function localDirector(copy,platform){
-    const l=String(copy||'').toLowerCase(); let product='Offre commerciale', target='Clients potentiels', emotion='Confiance', benefit='Solution simple', visual='personnes réelles utilisant le produit';
-    if(/covoiturage|trajet|passager|cayenne|saint-laurent|voiture|transport/.test(l)){product='Covoiturage / transport';target='Voyageurs, travailleurs, étudiants';emotion='Sécurité et convivialité';benefit='Trajet pratique et rassurant';visual='passagers souriants dans une voiture moderne avec conducteur rassurant';}
-    else if(/recharge|digicel|natcom|haiti|haïti|crédit|mobile/.test(l)){product='Recharge mobile Haïti';target='Diaspora haïtienne';emotion='Proximité familiale';benefit='Recharge instantanée';visual='famille haïtienne souriante recevant une notification de recharge sur smartphone';}
-    else if(/ia|ai|saas|ghostseller|automatique/.test(l)){product='SaaS IA marketing';target='Entrepreneurs';emotion='Puissance et gain de temps';benefit='Campagnes créées automatiquement';visual='entrepreneur devant un dashboard IA futuriste générant des publicités';}
-    const ar=/tiktok|story|reel/i.test(platform)?'9:16':/linkedin/i.test(platform)?'1.91:1':'1:1';
-    return {ok:true,version:'V149',analysis:{product,target,emotion,benefit,visual,platform,aspect_ratio:ar},prompt_image:`Photorealistic high-quality advertising image for ${platform}. Scene: ${visual}. Show benefit: ${benefit}. Target audience: ${target}. Emotion: ${emotion}. Professional commercial photography, cinematic lighting, ultra realistic, clean composition, safe empty space for text overlay, no written text inside image, ${ar} aspect ratio. Marketing copy: ${copy}`,negative_prompt:'empty road, road only, no people, generic landscape, blurry, low quality, dark, unrelated objects, text overload, watermark, deformed faces, distorted hands',score:{total:93,impact:92,emotion:94,relevance:96,conversion:91}};
+  const $ = (id)=>document.getElementById(id);
+  const E = (s)=>String(s ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const enc=(v)=>encodeURIComponent(String(v||''));
+  const copy=(t)=>{try{navigator.clipboard?.writeText(String(t||''));}catch(e){}};
+  window.v150Copy=copy;
+  function offer(){return ($('contentPrompt')?.value || $('contentNiche')?.value || '').trim();}
+  function clean(s){return String(s||'').replace(/\s+/g,' ').trim();}
+  function first(re,txt,def=''){const m=txt.match(re);return m?clean(m[1]||m[0]):def;}
+  function extract(input){
+    const raw=clean(input), l=raw.toLowerCase();
+    const route=raw.match(/(cayenne)\s*(?:-|→|a|à|vers|et)\s*(saint[-\s]?laurent(?:[-\s]?du[-\s]?maroni)?|st[-\s]?laurent(?:[-\s]?du[-\s]?maroni)?)/i);
+    const dep=route?route[1]:(/cayenne/i.test(raw)?'Cayenne':'');
+    const dest=route?route[2].replace(/\s+/g,'-'):(/saint[-\s]?laurent/i.test(raw)?'Saint-Laurent-du-Maroni':'');
+    const time=first(/\b(\d{1,2}\s*h(?:\s*\d{0,2})?)\b/i,raw,'');
+    const day=first(/\b(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\b/i,raw,'');
+    const seats=Number(first(/\b(\d{1,2})\s*(?:places?|si[eè]ges?)\b/i,raw,'0'))||(/4\s*places/i.test(raw)?4:0);
+    const luggage=/petit\s+bagage|bagage\s+accept/i.test(raw)?'small backpack and cabin-size travel bag visible':(/valise|bagage/i.test(raw)?'visible travel bags':'');
+    const station=/gare\s+routi[eè]re/i.test(raw)?'Cayenne bus station':'departure point';
+    const comfort=/confort|comfortable|d[eé]tendu|tranquille/i.test(raw);
+    const economical=/[eé]conom|malin|budget|moins cher|pas cher/i.test(raw);
+    const security=/s[eé]cur|safe|confiance/i.test(raw);
+    const kind=/covoiturage|trajet|voiture|gare|route|passager|transport|cayenne|saint/i.test(l)?'transport':'general';
+    return {raw,kind,departure:dep||'departure city',destination:dest||'destination',time:time||'morning',day:day||'scheduled day',seats:seats||4,luggage:luggage||'small travel bags visible',station,comfort,economical,security};
   }
-  function promptCard(platform,data){const a=data.analysis||{};return `<article class='v149PromptCard'><div class='v149PromptTop'><div><span>🎨 ${E(platform)}</span><h3>${E(a.aspect_ratio||'1:1')} — ${E(a.product||'Publicité')}</h3></div><strong>${E((data.score&&data.score.total)||95)}/100</strong></div><div class='v149Analysis'><b>Cible</b> ${E(a.target)}<br><b>Émotion</b> ${E(a.emotion)}<br><b>Bénéfice</b> ${E(a.benefit)}</div><label>Prompt Image DALL·E</label><textarea readonly>${E(data.prompt_image)}</textarea><label>Negative Prompt</label><textarea readonly class='negative'>${E(data.negative_prompt)}</textarea><div class='v149Buttons'><button onclick="v149Copy(decodeURIComponent('${enc(data.prompt_image)}'))">Copier prompt</button><button onclick="v149Copy(decodeURIComponent('${enc(data.negative_prompt)}'))">Copier négatif</button><button onclick="v149GenerateImage('${E(platform)}',decodeURIComponent('${enc(window.__v149Copy||'')}'))">Créer image IA</button></div>${data.imageUrl?`<img class='v149GeneratedImg' src='${E(data.imageUrl)}' alt='Image générée V149'/>`:''}</article>`}
-  function render(copy,items,title='Creative Director V149'){return `<section class='v149Box'><div class='v149Hero'><div><span>V149 ACTIVÉ</span><h2>${E(title)}</h2><p>L'IA analyse le texte avant l'image : produit, cible, émotion, bénéfice, format et negative prompt.</p></div><button onclick="v149CopyAll()">Exporter tous les prompts</button></div><div class='v149Grid'>${items.map(([p,d])=>promptCard(p,d)).join('')}</div></section>`}
-  window.v149Copy=async function(t){try{await navigator.clipboard.writeText(t); alert('Copié');}catch(e){console.log(t)}};
-  window.v149CopyAll=function(){const txt=(window.__v149Items||[]).map(([p,d])=>`--- ${p} ---\nPROMPT IMAGE:\n${d.prompt_image}\n\nNEGATIVE PROMPT:\n${d.negative_prompt}`).join('\n\n'); window.v149Copy(txt);};
-  window.v149GenerateImage=async function(platform,copy){const out=$('contentOut'); if(!out)return; out.insertAdjacentHTML('afterbegin','<div class="gs143Loading">🎨 Génération image IA V149...</div>'); try{const data=await post('/api/creative/generate-image',{copy,platform}); const idx=(window.__v149Items||[]).findIndex(x=>x[0]===platform); if(idx>=0) window.__v149Items[idx]=[platform,data]; out.innerHTML=render(copy,window.__v149Items,'Image IA générée');}catch(e){alert(e.message||'Erreur image');}};
-  window.v149Director=async function(ep){const copy=dec(ep)||offer(); const out=$('contentOut'); if(!out)return; if(!copy){out.innerHTML='<div class="employeeResult">Écris le texte de ta pub avant de lancer le Directeur Artistique V149.</div>';return;} window.__v149Copy=copy; out.innerHTML='<div class="gs143Loading">🎨 Directeur Artistique V149 analyse la publicité...</div>'; const platforms=['Facebook','Instagram','TikTok','WhatsApp']; const items=[]; for(const p of platforms){try{items.push([p,await post('/api/creative/director',{copy,platform:p})]);}catch(e){items.push([p,localDirector(copy,p)]);}} window.__v149Items=items; out.innerHTML=render(copy,items);};
-  // V149 FIX: ne plus remplacer le bouton principal "Créer les contenus prêts".
-  // Le bouton principal doit garder le pack complet Facebook / Instagram / TikTok / WhatsApp.
-  // Le Creative Director reste disponible uniquement via les actions image/visuel.
-  const oldGenerate=window.generateContent;
-  window.generateContent=function(){return oldGenerate ? oldGenerate() : window.v149Director(enc(offer()));};
-  window.v149OpenDirector=function(){return window.v149Director(enc(offer()));};
-  window.v148Background=function(ep){return window.v149Director(ep);};
+  function svgScene(d,platform){
+    const W=1100,H=620, vertical=/tiktok|story/i.test(platform); const h=vertical?1400:H, w=vertical?780:W;
+    const passengers=Math.max(1,Math.min(6,d.seats||4));
+    const sky=`<linearGradient id='sky' x1='0' y1='0' x2='1' y2='1'><stop stop-color='#7dd3fc'/><stop offset='.36' stop-color='#0f766e'/><stop offset='1' stop-color='#020617'/></linearGradient>`;
+    const roadY=vertical?h*.74:h*.70, carY=vertical?h*.55:h*.50;
+    const people=Array.from({length:passengers}).map((_,i)=>{const x=(vertical?w*.22+i*w*.13:w*.22+i*w*.095);return `<g><circle cx='${x}' cy='${carY-92}' r='26' fill='${['#7c2d12','#92400e','#b45309','#78350f','#451a03','#a16207'][i%6]}'/><rect x='${x-30}' y='${carY-68}' width='60' height='62' rx='18' fill='${['#2563eb','#16a34a','#db2777','#ca8a04','#7c3aed','#0891b2'][i%6]}'/></g>`}).join('');
+    const bags=`<g><rect x='${vertical?w*.61:w*.70}' y='${carY+38}' width='62' height='48' rx='10' fill='#7c2d12'/><rect x='${vertical?w*.70:w*.78}' y='${carY+44}' width='50' height='42' rx='9' fill='#334155'/><path d='M${vertical?w*.63:w*.715} ${carY+38} q18 -22 36 0' stroke='#e5e7eb' stroke-width='6' fill='none'/></g>`;
+    const station=`<g><rect x='${w*.05}' y='${vertical?h*.13:h*.11}' width='${vertical?w*.62:w*.38}' height='72' rx='12' fill='rgba(2,6,23,.78)' stroke='#bae6fd' stroke-width='3'/><text x='${w*.08}' y='${vertical?h*.13+45:h*.11+45}' fill='white' font-family='Arial' font-weight='900' font-size='30'>Gare routière ${E(d.departure||'Cayenne')}</text></g>`;
+    const sign=`<g><rect x='${vertical?w*.09:w*.70}' y='${vertical?h*.25:h*.13}' width='${vertical?w*.82:w*.25}' height='72' rx='12' fill='rgba(255,255,255,.92)'/><text x='${vertical?w*.13:w*.72}' y='${vertical?h*.25+44:h*.13+44}' fill='#0f172a' font-family='Arial' font-weight='900' font-size='28'>${E(d.departure)} → ${E(d.destination)}</text></g>`;
+    const time=`<g><circle cx='${vertical?w*.15:w*.61}' cy='${vertical?h*.37:h*.16}' r='44' fill='#f59e0b'/><text x='${vertical?w*.15:w*.61}' y='${vertical?h*.37+10:h*.16+10}' fill='#111827' font-family='Arial' font-weight='900' font-size='26' text-anchor='middle'>${E(d.time)}</text></g>`;
+    const car=`<g>${people}<path d='M${w*.11} ${carY} C${w*.18} ${carY-95} ${w*.66} ${carY-115} ${w*.82} ${carY-5} L${w*.89} ${carY+80} H${w*.08} Z' fill='#f8fafc' stroke='#082f49' stroke-width='8'/><path d='M${w*.25} ${carY-72} H${w*.61} C${w*.69} ${carY-62} ${w*.74} ${carY-28} ${w*.77} ${carY+3} H${w*.16} C${w*.18} ${carY-34} ${w*.21} ${carY-58} ${w*.25} ${carY-72}Z' fill='rgba(14,165,233,.35)' stroke='#075985' stroke-width='5'/>${bags}<rect x='${w*.08}' y='${carY+55}' width='${w*.82}' height='78' rx='34' fill='#0f172a'/><circle cx='${w*.25}' cy='${carY+136}' r='56' fill='#020617' stroke='#e5e7eb' stroke-width='11'/><circle cx='${w*.73}' cy='${carY+136}' r='56' fill='#020617' stroke='#e5e7eb' stroke-width='11'/><rect x='${w*.12}' y='${carY+75}' width='76' height='25' rx='12' fill='#f59e0b'/><rect x='${w*.79}' y='${carY+76}' width='72' height='24' rx='12' fill='#ef4444'/></g>`;
+    const road=`<path d='M0 ${roadY} C${w*.30} ${roadY-70} ${w*.63} ${roadY-20} ${w} ${roadY-120} L${w} ${h} H0 Z' fill='#111827'/><path d='M${w*.10} ${h} C${w*.34} ${roadY+40} ${w*.65} ${roadY+8} ${w*.96} ${roadY-75}' stroke='white' stroke-width='10' stroke-dasharray='70 55' opacity='.72' fill='none'/>`;
+    const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}' viewBox='0 0 ${w} ${h}'><defs>${sky}<filter id='blur'><feGaussianBlur stdDeviation='35'/></filter></defs><rect width='${w}' height='${h}' fill='url(#sky)'/><circle cx='${w*.82}' cy='${h*.13}' r='115' fill='#fde68a'/><circle cx='${w*.15}' cy='${h*.20}' r='230' fill='#22c55e' opacity='.22' filter='url(#blur)'/><path d='M0 ${h*.44} C${w*.20} ${h*.34} ${w*.40} ${h*.48} ${w*.56} ${h*.34} C${w*.72} ${h*.22} ${w*.86} ${h*.28} ${w} ${h*.20} V${h} H0 Z' fill='rgba(20,83,45,.46)'/>${road}${station}${sign}${time}${car}<rect width='${w}' height='${h}' fill='rgba(0,0,0,.05)'/><text x='${w*.06}' y='${h*.94}' fill='white' font-family='Arial' font-weight='900' font-size='${vertical?38:32}' opacity='.94'>${passengers} passengers • small bags • comfortable ride</text></svg>`;
+    return 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(svg)));
+  }
+  function promptFor(d,platform){
+    const pf=platform.toLowerCase();
+    let ar=pf.includes('tiktok')||pf.includes('story')?'--ar 9:16':pf.includes('instagram')?'--ar 4:5':'--ar 4:5';
+    const base=`Photorealistic cinematic advertising photo for ${platform}. A modern white car at ${d.station} in French Guiana, route ${d.departure} to ${d.destination}, departure on ${d.day} at ${d.time}. Show exactly ${d.seats} passengers visible, smiling, relaxed and ready to travel. Show small backpacks and cabin-size travel bags because small luggage is accepted. Warm tropical sunrise, clean vehicle interior, safe and comfortable travel mood, professional commercial lighting, high quality, ultra realistic.`;
+    if(pf.includes('instagram')) return `Lifestyle travel photography for Instagram. Inside a clean modern car in French Guiana, exactly ${d.seats} passengers smiling and chatting, warm sunrise light through windows, small backpacks visible, cozy comfortable ride atmosphere, tropical colors, shallow depth of field, premium lifestyle ad photography, route ${d.departure} to ${d.destination}. ${ar}`;
+    if(pf.includes('tiktok')) return `Dynamic vertical cinematic TikTok/Reels frame. Exactly ${d.seats} passengers boarding a modern white car at ${d.station} at ${d.time}, driver welcoming them, small bags being loaded, tropical sunrise in French Guiana, energetic motion, route ${d.departure} to ${d.destination}, high-converting social ad, ultra realistic. ${ar}`;
+    if(pf.includes('whatsapp')) return `Clear square WhatsApp advertising image. Modern white car ready for a shared ride from ${d.departure} to ${d.destination}, exactly ${d.seats} seats/passengers visible, small travel bags, reassuring driver, tropical morning light, easy reservation mood, professional realistic photo. --ar 1:1`;
+    return `${base} Clear informative composition for Facebook feed, passengers and luggage must be visible, no empty road. ${ar}`;
+  }
+  function negative(){return 'empty road, road only, no people, one person only, wrong number of passengers, no luggage, large bus, dark image, blurry, cartoon, generic landscape, random building, stock photo look, unreadable text';}
+  function pack(d){return {
+    facebook:`🚗✨ Vous cherchez un moyen pratique et économique de voyager entre ${d.departure} et ${d.destination} ?\n\nChaque ${d.day} à ${d.time}, départ depuis la ${d.station}.\n\n✅ ${d.seats} places disponibles\n✅ Petit bagage accepté\n✅ Voyage confortable\n\nRéservez votre place maintenant.`,
+    instagram:`🌍💚 Covoiturer, c’est voyager malin.\n\n${d.departure} → ${d.destination}\nDépart ${d.day} à ${d.time}.\n\n${d.seats} places disponibles, petit bagage accepté, ambiance confortable.\n\n#Covoiturage #Cayenne #SaintLaurent #Guyane`,
+    tiktok:`SCÈNE 1 (0-2s)\nVoiture prête devant la gare routière de ${d.departure}.\n\nSCÈNE 2 (2-5s)\n${d.seats} passagers montent dans la voiture avec petits bagages.\n\nSCÈNE 3 (5-8s)\nDépart ${d.day} à ${d.time}, direction ${d.destination}.\n\nSCÈNE 4 (8-11s)\nAmbiance confortable, passagers souriants.\n\nSCÈNE 5 (11-15s)\nTexte écran : ${d.seats} places disponibles, réserve maintenant.`,
+    whatsapp:`Salut 👋\n\nTrajet ${d.departure} → ${d.destination}\nDépart ${d.day} à ${d.time} depuis la ${d.station}.\n\n🚗 ${d.seats} places disponibles\n🎒 Petit bagage accepté\n✅ Voyage confortable\n\nRéponds TRAJET pour réserver.`,
+    story:`${d.departure} → ${d.destination}\n${d.day} ${d.time}\n${d.seats} places • petit bagage accepté\nRéserve maintenant ✨`,
+    hashtags:'#Covoiturage #Cayenne #SaintLaurent #Guyane #TransportGuyane #BonPlan #VoyageConfortable #TrajetGuyane'
+  };}
+  function card(title,body,platform,d){
+    const prompt=promptFor(d,title); const bg=svgScene(d,platform); const pclean=prompt; const n=negative();
+    const seats=Array.from({length:Math.max(1,Math.min(6,d.seats||4))}).map(()=>'<i class="v150Seat"></i>').join('');
+    return `<article class='v148Card v150Card'>
+      <div class='v150Badge'>V150 Context Aware</div>
+      <div class='v148Top'><div class='v148Icon'>${title.includes('Facebook')?'f':title.includes('Instagram')?'◎':title.includes('TikTok')?'♪':title.includes('WhatsApp')?'☏':'#'}</div><div><h3>${E(title)}</h3><span>${title.includes('TikTok')?'SCRIPT + PROMPT VIDÉO':'POST + PROMPT IMAGE'}</span></div></div>
+      <div class='v150Visual' style="background-image:url('${bg}')"><span>${E(d.departure)} → ${E(d.destination)} • ${E(d.time)}</span></div>
+      <div class='v150Insight'><span>📍 ${E(d.station)}</span><span>🕖 ${E(d.day)} ${E(d.time)}</span><span>👥 ${E(d.seats)} places</span><span>🎒 Petit bagage</span></div>
+      <div class='v150Seats'>${seats}</div>
+      <div class='v148Text'>${E(body).replace(/\n/g,'<br>')}</div>
+      <div class='v150PromptTitle'>Prompt DALL·E 3 fidèle au texte</div><div class='v150PromptBox'>${E(pclean)}</div>
+      <div class='v150PromptTitle'>Negative prompt</div><div class='v150PromptBox'>${E(n)}</div>
+      <div class='v148Bottom'><button type='button' onclick="v150Copy(decodeURIComponent('${enc(pclean)}'))">Copier prompt image</button><button type='button' onclick="v150Copy(decodeURIComponent('${enc(body)}'))">Copier texte</button></div>
+    </article>`;
+  }
+  function render(input){
+    const d=extract(input); const p=pack(d); const all=['FACEBOOK',p.facebook,'\nINSTAGRAM',p.instagram,'\nTIKTOK',p.tiktok,'\nWHATSAPP',p.whatsapp,'\nPROMPTS IMAGE',promptFor(d,'Facebook'),promptFor(d,'Instagram'),promptFor(d,'TikTok / Reels'),negative()].join('\n\n');
+    return `<section class='v148Results v150Results'><div class='v148Header'><div><span class='v150Badge'>V150 ACTIVÉ</span><h2>Résultats de votre campagne</h2><p>Textes prêts + images contextuelles. Le moteur extrait lieux, heure, nombre de places, bagages et action.</p></div><div class='v148HeaderBtns'><button onclick="$('contentPrompt')?.focus()">✎ Modifier ma demande</button><button onclick="v150Copy(decodeURIComponent('${enc(all)}'))">⇩ Exporter tout</button></div></div><div class='v148Grid'>${card('Facebook',p.facebook,'facebook',d)}${card('Instagram',p.instagram,'instagram',d)}${card('TikTok / Reels',p.tiktok,'tiktok',d)}</div><div class='v148MiniGrid'>${card('WhatsApp',p.whatsapp,'whatsapp',d)}${card('Story / Statut',p.story,'story',d)}<article class='v148Card'><div class='v150Badge'>Hashtags</div><div class='v148Text'>${E(p.hashtags)}</div><div class='v148Bottom'><button onclick="v150Copy(decodeURIComponent('${enc(p.hashtags)}'))">Copier hashtags</button></div></article></div></section>`;
+  }
+  window.v150Run=function(){const input=offer(); const out=$('contentOut'); if(!out)return; if(!input){out.innerHTML='<div class="employeeResult">Décris ton offre avant de générer.</div>';return;} out.innerHTML=render(input);};
+  window.generateContent=window.v150Run;
+  window.v148Run=function(){window.v150Run();};
 })();
