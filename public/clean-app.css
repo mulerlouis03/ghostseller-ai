@@ -1021,3 +1021,6 @@ pre[data-raw-json="true"]{
   .employeeHeader .copyBtn{width:100%!important}
   .deliverableText{min-height:auto}
 }
+
+/* V126 */
+.v125Result .deliverableText{min-height:180px}

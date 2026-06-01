@@ -1249,3 +1249,59 @@ function generateWhatsApp(){
   setTimeout(()=>empSet("whatsappOut", empWhatsApp(prompt)),450);
 }
 function placeResult(btn, html){ /* V125 disables old preview injector */ }
+
+
+/* V126 PROMPT INTELLIGENCE FIX */
+function v126esc(s){return String(s??"").replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function v126clean(s){return String(s||"").trim().replace(/\s+/g," ")}
+function v126copy(t){navigator.clipboard?.writeText(t).then(()=>alert("Copié !")).catch(()=>alert("Copie impossible."))}
+function v126biz(prompt){
+  const p=v126clean(prompt), l=p.toLowerCase();
+  const days=["lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"];
+  const day=days.find(d=>l.includes(d))||"jour prévu";
+  const route=p.match(/(?:de|depuis)?\s*([A-Za-zÀ-ÿ\-\s]+?)\s+(?:vers|à|a|pour)\s+([A-Za-zÀ-ÿ\-\s]+?)(?:\s+(?:le|la|ce|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|$))/i);
+  if(l.includes("covoiturage")||l.includes("covoit")||l.includes("trajet")||l.includes("transport")){
+    return {cat:"transport",name:"Covoiturage",from:route?route[1].trim():"Saint-Laurent",to:route?route[2].trim():"Cayenne",day,kw:"PLACE"};
+  }
+  if(l.includes("kartayiti")||l.includes("digicel")||l.includes("natcom")||(l.includes("recharge")&&(l.includes("haiti")||l.includes("haïti")))){
+    return {cat:"recharge",name:l.includes("kartayiti")?"Kartayiti":"plateforme de recharge",kw:"RECHARGE"};
+  }
+  if(l.includes("basket")||l.includes("nike")||l.includes("chaussure")) return {cat:"basket",name:"baskets",kw:"BASKET"};
+  if(l.includes("parfum")) return {cat:"parfum",name:"parfum",kw:"PARFUM"};
+  if(l.includes("coiff")) return {cat:"coiffure",name:"service coiffure",kw:"COIFFURE"};
+  return {cat:"general",name:p||"votre offre",kw:"INFO"};
+}
+function v126pack(prompt){
+  const b=v126biz(prompt);
+  if(b.cat==="transport"){
+    const fb=`🚗 Covoiturage ${b.from} → ${b.to}\n\nDépart : ${b.day}\n\nPlaces disponibles pour un trajet simple, confortable et organisé.\n\n✅ Départ : ${b.from}\n✅ Arrivée : ${b.to}\n✅ Jour : ${b.day}\n✅ Places limitées\n\n📩 Écris “${b.kw}” pour réserver.`;
+    const ig=`🚘 Direction ${b.to} ${b.day}\n\nCovoiturage disponible :\n📍 ${b.from} → ${b.to}\n📅 ${b.day}\n\nPlaces limitées.\nDM “${b.kw}” pour réserver.\n\n#covoiturage #guyane #transport #saintlaurent #cayenne`;
+    const tk=`🎬 SCRIPT TIKTOK\n\nSCÈNE 1 — HOOK\nTexte écran : “Tu vas à ${b.to} ${b.day} ?”\n\nSCÈNE 2 — TRAJET\nTexte écran : “${b.from} → ${b.to}”\n\nSCÈNE 3 — CONFIANCE\nTexte écran : “Places limitées • trajet organisé”\n\nSCÈNE 4 — CTA\nTexte écran : “Écris ${b.kw} pour réserver.”`;
+    const wa=`🚗 Bonjour 👋\n\nJe propose un covoiturage ${b.from} → ${b.to} ${b.day}.\n\nIl reste des places disponibles.\n\n✅ Départ : ${b.from}\n✅ Arrivée : ${b.to}\n✅ Jour : ${b.day}\n\nRéponds “${b.kw}” pour réserver.`;
+    return {fb,ig,tk,wa,b};
+  }
+  if(b.cat==="recharge"){
+    const fb=`🇭🇹 ${b.name} est disponible !\n\nEnvoyez une recharge Digicel ou Natcom à vos proches en Haïti plus simplement.\n\n✅ Digicel\n✅ Natcom\n✅ Pratique\n✅ Pensé pour la diaspora\n\n📩 Écrivez “${b.kw}” pour recevoir les détails.`;
+    const ig=`🇭🇹 Recharge Haïti simplifiée\n\nDigicel & Natcom disponibles.\nSimple, rapide et pratique pour aider vos proches.\n\nDM “${b.kw}” pour les infos.\n\n#haiti #digicel #natcom #diaspora #recharge`;
+    const tk=`🎬 SCRIPT TIKTOK\n\nSCÈNE 1 — “Tu veux envoyer du crédit en Haïti ?”\nSCÈNE 2 — “Digicel ou Natcom ?”\nSCÈNE 3 — “Une solution simple pour la diaspora.”\nSCÈNE 4 — “Écris ${b.kw} pour recevoir le lien.”`;
+    const wa=`🇭🇹 Bonjour 👋\n\nVous pouvez envoyer une recharge Digicel ou Natcom à vos proches en Haïti.\n\n✅ Simple\n✅ Pratique\n✅ Digicel & Natcom\n\nRépondez “${b.kw}” pour recevoir les détails.`;
+    return {fb,ig,tk,wa,b};
+  }
+  const title=b.name;
+  const fb=`🔥 Offre disponible\n\n${title}\n\nUne proposition claire pour attirer l’attention et donner envie d’agir.\n\n✅ Simple\n✅ Direct\n✅ Disponible maintenant\n\n📩 Écrivez “${b.kw}” pour recevoir les détails.`;
+  const ig=`✨ ${title}\n\nUne offre simple, claire et prête à découvrir.\n\nDM “${b.kw}” pour recevoir les infos.\n\n#business #vente #offre #marketing`;
+  const tk=`🎬 SCRIPT TIKTOK\n\nSCÈNE 1 — “Tu cherches une solution simple ?”\nSCÈNE 2 — Présenter : ${title}\nSCÈNE 3 — Montrer le bénéfice.\nSCÈNE 4 — CTA : “Écris ${b.kw}.”`;
+  const wa=`Bonjour 👋\n\nJe vous partage cette offre : ${title}\n\n✅ Simple\n✅ Clair\n✅ Disponible maintenant\n\nRépondez “${b.kw}” pour recevoir les détails.`;
+  return {fb,ig,tk,wa,b};
+}
+function v126shell(title,body,all){return `<div class="employeeResult v125Result"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail terminé</span><h2>${title}</h2></div><button class="copyBtn" onclick='v126copy(${JSON.stringify(all)})'>Copier tout</button></div>${body}</div>`}
+function v126content(prompt){
+  const p=v126pack(prompt);
+  const all=`FACEBOOK\n\n${p.fb}\n\n---\nINSTAGRAM\n\n${p.ig}\n\n---\nTIKTOK\n\n${p.tk}\n\n---\nWHATSAPP\n\n${p.wa}`;
+  return v126shell("Pack marketing prêt à publier",`<div class="deliverableGrid"><div class="deliverableCard"><h3>Facebook</h3><div class="deliverableText">${v126esc(p.fb)}</div><button onclick='v126copy(${JSON.stringify(p.fb)})'>Copier Facebook</button></div><div class="deliverableCard"><h3>Instagram</h3><div class="deliverableText">${v126esc(p.ig)}</div><button onclick='v126copy(${JSON.stringify(p.ig)})'>Copier Instagram</button></div><div class="deliverableCard"><h3>TikTok</h3><div class="deliverableText">${v126esc(p.tk)}</div><button onclick='v126copy(${JSON.stringify(p.tk)})'>Copier TikTok</button></div><div class="deliverableCard"><h3>WhatsApp</h3><div class="deliverableText">${v126esc(p.wa)}</div><button onclick='v126copy(${JSON.stringify(p.wa)})'>Copier WhatsApp</button></div></div>`,all);
+}
+async function generateContent(){const prompt=document.getElementById("contentPrompt")?.value||"";document.getElementById("contentOut").innerHTML="<div class='employeeResult'>GhostSeller analyse ta demande...</div>";setTimeout(()=>document.getElementById("contentOut").innerHTML=v126content(prompt),350)}
+function generateVideo(){const prompt=document.getElementById("videoPrompt")?.value||"";const p=v126pack(prompt);document.getElementById("videoOut").innerHTML=v126shell("Script vidéo prêt à tourner",`<div class="scriptBlock employeeScript">${v126esc(p.tk)}</div>`,p.tk)}
+function generateWhatsApp(){const prompt=document.getElementById("whatsappPrompt")?.value||"";const p=v126pack(prompt);let seq=p.wa+`\n\nRELANCE 1 :\nBonjour, je reviens vers vous. Voulez-vous recevoir les détails ?\n\nRELANCE 2 :\nDernière relance. Répondez “${p.b.kw}” si vous voulez les infos.`;document.getElementById("whatsappOut").innerHTML=v126shell("Campagne WhatsApp prête à envoyer",`<div class="scriptBlock employeeScript">${v126esc(seq)}</div>`,seq)}
+function generateLeads(){const prompt=document.getElementById("leadsPrompt")?.value||"";const p=v126pack(prompt);let plan=`👥 PLAN DE PROSPECTION PRÊT\n\nCIBLE : ${p.b.cat==="transport"?"personnes qui voyagent sur ce trajet":"clients intéressés par l’offre"}\n\nOÙ PUBLIER :\n- Groupes Facebook\n- Statut WhatsApp\n- Instagram stories\n- Commentaires TikTok\n\nMESSAGE :\n${p.wa}`;document.getElementById("leadsOut").innerHTML=v126shell("Plan de prospection prêt",`<div class="scriptBlock employeeScript">${v126esc(plan)}</div>`,plan)}
+function placeResult(btn, html){}
