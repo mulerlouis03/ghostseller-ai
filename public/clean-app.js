@@ -1808,3 +1808,101 @@ function placeResult(btn, html){}
   }
   document.addEventListener('DOMContentLoaded',cleanAccount); setInterval(cleanAccount,1500);
 })();
+
+/* V136 — Restore strong copy + visible dark background + buttons that really change content */
+(function(){
+  function E(s){return String(s ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+  function enc(v){return encodeURIComponent(String(v||''));}
+  function dec(v){try{return decodeURIComponent(String(v||''));}catch(e){return String(v||'');}}
+  function offer(){return (document.getElementById('contentPrompt')?.value || document.getElementById('contentNiche')?.value || '').trim();}
+  function copy(t){try{navigator.clipboard?.writeText(String(t||''));}catch(e){}}
+  window.v135Copy = window.v133Copy = window.v129Copy = window.gsCopy = copy;
+  function text(v){
+    if(v==null) return '';
+    if(Array.isArray(v)) return v.map(text).filter(Boolean).join('\n');
+    if(typeof v==='object'){
+      const preferred=v.content ?? v.text ?? v.body ?? v.caption ?? v.message ?? v.script ?? v.value;
+      if(preferred!=null) return text(preferred);
+      return Object.entries(v).map(([k,val])=>{const t=text(val); return t?`${k.toUpperCase()}\n${t}`:'';}).filter(Boolean).join('\n\n');
+    }
+    return String(v);
+  }
+  function normalize(raw){raw=raw&&typeof raw==='object'?raw:{}; return {
+    facebook:text(raw.facebook||raw.fb||raw.facebook_post), instagram:text(raw.instagram||raw.instagram_post||raw.ig),
+    tiktok:text(raw.tiktok||raw.tiktok_reels||raw.reels||raw.video_script), whatsapp:text(raw.whatsapp||raw.whatsapp_message),
+    story:text(raw.story||raw.statut||raw.status), hashtags:text(raw.hashtags), hooks:text(raw.hooks), cta:text(raw.cta||raw.ctas)
+  };}
+  function brand(p){
+    const s=String(p||'');
+    const q=s.match(/["'“”‘’]([^"'“”‘’]{3,40})["'“”‘’]/); if(q) return q[1].trim();
+    const m=s.match(/marque\s+(?:de\s+)?(?:café|cafe|coffee)?\s*([A-Z0-9][A-Z0-9\s-]{3,35})/i); if(m) return m[1].replace(/venant.*$/i,'').trim();
+    return '';
+  }
+  function meta(p){
+    const s=String(p||'').toLowerCase(); const b=brand(p);
+    if(s.includes('café')||s.includes('cafe')||s.includes('coffee')) return {kind:'coffee', product:'café haïtien premium', brand:b||'KAFE LAKAY', kw:'CAFÉ', tags:['#KafeLakay','#CafeHaitien','#Haiti','#CoffeeLovers','#MadeInHaiti','#DiasporaHaitienne','#CafeArtisanal']};
+    if(s.includes('nike')||s.includes('adidas')||s.includes('basket')||s.includes('sneaker')||s.includes('chaussure')) return {kind:'sport', product:'baskets tendance', brand:b||'Sneakers', kw:'BASKET', tags:['#Sneakers','#Streetwear','#Nike','#Adidas','#ModeUrbaine','#FootLocker']};
+    if(s.includes('montre')||s.includes('bijou')||s.includes('luxe')) return {kind:'luxury', product:'pièce de luxe', brand:b||'Collection premium', kw:'LUXE', tags:['#Luxe','#Montre','#Bijoux','#Premium','#ElegantStyle']};
+    if(s.includes('parfum')||s.includes('cosm')||s.includes('beaut')) return {kind:'beauty', product:'parfum / cosmétique', brand:b||'Beauté premium', kw:'BEAUTÉ', tags:['#Parfum','#Cosmetique','#Beaute','#LuxuryBeauty','#Glow']};
+    if(s.includes('sac')) return {kind:'fashion', product:'sac tendance', brand:b||'Sac tendance', kw:'INFO', tags:['#Sac','#ModeFemme','#Shopping','#Tendance','#Style']};
+    return {kind:'generic', product:'offre', brand:b||'Offre spéciale', kw:'INFO', tags:['#Business','#Vente','#Marketing','#Offre','#Clients']};
+  }
+  function angleName(angle){return ({base:'',ideas:'nouvelle idée',viral:'viral',emotion:'émotionnel',premium:'premium',aggressive:'direct',promo:'promotion'}[angle]||'');}
+  function opening(m,angle){
+    if(m.kind==='coffee'){
+      if(angle==='viral') return `🔥 Le café d’Haïti qui peut faire parler de lui : ${m.brand}`;
+      if(angle==='premium') return `☕ ${m.brand} — l’élégance d’un café haïtien authentique`;
+      if(angle==='emotion') return `🇭🇹 Un goût qui rappelle Haïti, la famille et les bons matins`;
+      if(angle==='aggressive') return `⚡ Tu aimes le vrai café ? Découvre ${m.brand} maintenant.`;
+      if(angle==='promo') return `🏷️ Offre spéciale sur ${m.brand}, café haïtien premium`;
+      return `☕ ${m.brand} — café premium venu d’Haïti`;
+    }
+    if(m.kind==='sport') return angle==='viral'?`🔥 Les baskets qui attirent les regards cette saison`:`👟 ${m.brand} — style urbain prêt à porter`;
+    if(m.kind==='luxury') return angle==='premium'?`💎 Une présence élégante, pensée pour ceux qui aiment le détail`:`💎 ${m.brand} — style luxe et caractère`;
+    if(m.kind==='beauty') return angle==='emotion'?`✨ Un parfum, une sensation, une signature`:`✨ ${m.brand} — beauté premium à découvrir`;
+    return `✨ ${m.brand}`;
+  }
+  function localPack(p,angle='base'){
+    const m=meta(p); const head=opening(m,angle); const specific = m.kind==='coffee' ? 'grains sélectionnés, arôme intense, inspiration haïtienne et présentation premium' : m.kind==='sport' ? 'style, confort et énergie urbaine' : m.kind==='luxury' ? 'élégance, détail et finition premium' : m.kind==='beauty' ? 'douceur, sensation et image soignée' : 'présentation claire, désir et passage à l’action';
+    const benefit = angle==='viral' ? 'un angle qui capte l’attention dès la première seconde' : angle==='emotion' ? 'une approche plus humaine, chaude et mémorable' : angle==='premium' ? 'une image plus haut de gamme et rassurante' : angle==='aggressive' ? 'un message direct qui pousse à demander les infos' : angle==='promo' ? 'une offre simple à comprendre et facile à commander' : 'un message prêt à publier';
+    const facebook=`${head}\n\n${m.kind==='coffee'?`${m.brand}, c’est le goût du café haïtien dans une version propre, moderne et prête à séduire les amateurs de bon café.`:`${p}`}\n\nCe contenu met en avant ${specific}.\n\n✅ ${benefit}\n✅ Facile à comprendre\n✅ Donne envie d’essayer\n✅ Disponible maintenant\n\n📩 Écris “${m.kw}” pour recevoir les détails.`;
+    const instagram=`${head}\n\n${m.kind==='coffee'?`Un café qui porte une histoire, une origine et une vraie identité : Haïti.`:p}\n\nVisuel sombre, message clair, produit mis en valeur : parfait pour attirer l’œil et donner envie de passer en DM.\n\nDM “${m.kw}” pour les infos.\n\n${m.tags.concat(['#Reels','#TikTokFrance','#InstagramFrance','#SmallBusiness']).join(' ')}`;
+    const tiktok=`🎬 SCRIPT TIKTOK / REELS\n\nSCÈNE 1 — HOOK (0-2s)\nTexte écran : “Tu connais ${m.brand} ?”\nPlan : gros plan sombre, produit au centre, lumière cinématique.\n\nSCÈNE 2 — ORIGINE (2-6s)\nTexte écran : “${m.kind==='coffee'?'Un café venu d’Haïti':'Une offre à découvrir'}”\nPlan : détails du produit, texture, ambiance premium.\n\nSCÈNE 3 — DÉSIR (6-12s)\nTexte écran : “${m.kind==='coffee'?'Arôme intense. Goût authentique. Présentation premium.':'Simple, beau, disponible maintenant.'}”\nVoix off : “Une offre faite pour attirer l’attention et donner envie d’essayer.”\n\nSCÈNE 4 — PREUVE (12-17s)\nTexte écran : “Prêt à publier / prêt à commander”\nPlan : 2 bénéfices qui apparaissent à l’écran.\n\nSCÈNE 5 — CTA (17-22s)\nTexte écran : “Écris ${m.kw} pour recevoir les infos”\nCaption : ${head}\nCTA : Commente ${m.kw} ou envoie un DM.`;
+    const whatsapp=`Bonjour 👋\n\nJe te partage cette offre :\n\n${head}\n\n${m.kind==='coffee'?`${m.brand} met en avant un café haïtien premium, avec une image propre et un message simple à comprendre.`:p}\n\n✅ Infos rapides\n✅ Offre claire\n✅ Disponible maintenant\n\nRéponds “${m.kw}” et je t’envoie les détails.`;
+    const story=`📱 STORY / STATUT\n\n${head}\n\n${m.kind==='coffee'?'Café haïtien premium à découvrir.':'Offre disponible maintenant.'}\n\nTu veux les détails ?\nRéponds “${m.kw}”.`;
+    const hooks=Array.from({length:20},(_,i)=>{
+      const arr=[`Tu connais ${m.brand} ?`,`${m.kind==='coffee'?'Le café haïtien mérite plus de visibilité.':'Cette offre mérite ton attention.'}`,`POV : tu découvres ${m.product} au bon moment.`,`Écris ${m.kw} si tu veux les infos.`,`Stop, regarde cette offre avant de scroller.`]; return `${i+1}. ${arr[i%arr.length]}`;}).join('\n');
+    const cta=[`Écris ${m.kw} pour recevoir les détails.`,`Envoie-moi un DM maintenant.`,`Commente ${m.kw}.`,`Demande la disponibilité.`,`Réserve avant que ça parte.`,`Partage à quelqu’un que ça peut intéresser.`,`Clique pour en savoir plus.`,`Réponds OUI et je t’envoie tout.`,`Garde cette offre pour plus tard.`,`Passe commande maintenant.`].map((x,i)=>`${i+1}. ${x}`).join('\n');
+    const hashtags=m.tags.concat(['#Offre','#Promotion','#Marketing','#Vente','#Clients','#Business','#Tendance','#Nouveaute','#France','#Diaspora']).slice(0,30).join(' ');
+    return {facebook,instagram,tiktok,whatsapp,story,hashtags,hooks,cta};
+  }
+  function all(pack){pack=normalize(pack); return `FACEBOOK\n\n${pack.facebook}\n\n---\nINSTAGRAM\n\n${pack.instagram}\n\n---\nTIKTOK / REELS\n\n${pack.tiktok}\n\n---\nWHATSAPP\n\n${pack.whatsapp}\n\n---\nSTORY / STATUT\n\n${pack.story}\n\n---\nHASHTAGS\n\n${pack.hashtags}`;}
+  function card(t,b){b=text(b); return `<div class="deliverableCard v133SocialCard"><h3>${E(t)}</h3><div class="deliverableText">${E(b)}</div><button type="button" onclick="v136Copy(decodeURIComponent('${enc(b)}'))">Copier</button></div>`;}
+  function bgSvg(p){
+    const m=meta(p); const emoji=m.kind==='coffee'?'☕':m.kind==='sport'?'👟':m.kind==='luxury'?'💎':m.kind==='beauty'?'✨':m.kind==='fashion'?'👜':'✦';
+    const label=m.kind==='coffee'?'Café Haïti premium':m.kind==='sport'?'Urban sport night':m.kind==='luxury'?'Luxury dark marble':m.kind==='beauty'?'Beauty soft smoke':'Dark premium background';
+    const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='720' height='1280' viewBox='0 0 720 1280'><defs><linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'><stop stop-color='#020617'/><stop offset='.45' stop-color='#0b1735'/><stop offset='1' stop-color='#210b35'/></linearGradient><filter id='f'><feGaussianBlur stdDeviation='38'/></filter></defs><rect width='720' height='1280' fill='url(#bg)'/><circle cx='120' cy='180' r='190' fill='#38bdf8' opacity='.23' filter='url(#f)'/><circle cx='590' cy='980' r='260' fill='#a855f7' opacity='.28' filter='url(#f)'/><circle cx='500' cy='260' r='130' fill='#f59e0b' opacity='.12' filter='url(#f)'/><g opacity='.12' fill='#fff'>${Array.from({length:38},(_,i)=>`<circle cx='${(i*97)%720}' cy='${100+(i*181)%1080}' r='${2+(i%5)}'/>`).join('')}</g><text x='360' y='520' font-size='150' text-anchor='middle' opacity='.23'>${emoji}</text><rect x='70' y='780' width='580' height='230' rx='36' fill='#000' opacity='.30' stroke='#fff' stroke-opacity='.10'/><text x='360' y='900' font-family='Arial' font-size='38' font-weight='700' text-anchor='middle' fill='#fff' opacity='.50'>${label}</text></svg>`;
+    return 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(svg)));
+  }
+  function bgPanel(p){const img=bgSvg(p);return `<div id="v136BgOut" class="employeeResult v136BgPanel"><div class="employeeHeader"><div><span class="employeeBadge">🖼️ Fond prêt</span><h2>Fond sombre généré</h2><p class="muted">Prêt pour mettre le texte blanc de ta pub par-dessus.</p></div><button class="copyBtn" type="button" onclick="v136Background('${enc(p)}')">Régénérer fond</button></div><div class="v133GeneratedImageWrap"><img src="${img}" alt="Fond publicitaire sombre"/></div></div>`;}
+  function actions(p){const q=enc(p); return `<div class="v133Actions v136Actions"><button type="button" onclick="v136Run('ideas','${q}')">🔄 Générer d'autres idées</button><button type="button" onclick="v136Run('viral','${q}')">🔥 Version virale</button><button type="button" onclick="v136Run('emotion','${q}')">❤️ Émotionnelle</button><button type="button" onclick="v136Run('premium','${q}')">💎 Premium</button><button type="button" onclick="v136Run('aggressive','${q}')">⚡ Agressive</button><button type="button" onclick="v136Run('promo','${q}')">🏷️ Promotion</button><button type="button" onclick="v136Extra('hooks','${q}')">🎣 20 Hooks</button><button type="button" onclick="v136Extra('cta','${q}')">📢 10 CTA</button><button type="button" onclick="v136Extra('hashtags','${q}')">#️⃣ 30 Hashtags</button><button type="button" onclick="v136Background('${q}')">🖼️ Créer fond IA</button></div>`;}
+  function render(pack,p,title){pack=normalize(pack); const a=all(pack); return `<div class="employeeResult v133Result v136Result"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail terminé</span><h2>${E(title||'Pack réseaux sociaux prêt')}</h2><p class="muted">Facebook, Instagram, TikTok/Reels, WhatsApp, Story et hashtags prêts à publier.</p></div><button class="copyBtn" type="button" onclick="v136Copy(decodeURIComponent('${enc(a)}'))">Copier tout</button></div>${actions(p)}<div class="deliverableGrid v133Grid">${card('Facebook',pack.facebook)}${card('Instagram',pack.instagram)}${card('TikTok / Reels',pack.tiktok)}${card('WhatsApp',pack.whatsapp)}${card('Story / Statut',pack.story)}${card('Hashtags',pack.hashtags)}</div>${bgPanel(p)}<div id="v133ExtraOut"></div></div>`;}
+  async function post(path,body){const headers={'Content-Type':'application/json'}; const t=localStorage.getItem('ghostseller_token'); if(t) headers.Authorization='Bearer '+t; const r=await fetch(path,{method:'POST',headers,body:JSON.stringify(body)}); const d=await r.json().catch(()=>({})); if(!r.ok) throw new Error(d.error||d.message||'Erreur API'); return d;}
+  window.v136Copy=copy;
+  window.v136Run=async function(angle,ep){
+    const p=dec(ep)||offer(); const out=document.getElementById('contentOut'); if(!out) return; if(!p){out.innerHTML='<div class="employeeResult">Décris ton offre avant de générer.</div>';return;}
+    out.innerHTML=render(localPack(p,angle),p,angle==='base'?'Pack réseaux sociaux prêt':'Pack '+angleName(angle)+' prêt');
+    try{const data=await post('/api/content/social-pack',{offer:p,angle}); if(data.provider==='openai'){const pack=normalize(data.pack||{}); if(pack.facebook&&pack.instagram&&pack.tiktok) out.innerHTML=render(pack,p,angle==='base'?'Pack réseaux sociaux prêt':'Pack '+angleName(angle)+' prêt');}}catch(e){}
+  };
+  window.v136Extra=async function(type,ep){const p=dec(ep)||offer(); const box=document.getElementById('v133ExtraOut')||document.getElementById('contentOut'); if(!box) return; const pack=localPack(p,type); let body=type==='hooks'?pack.hooks:type==='cta'?pack.cta:pack.hashtags; box.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail terminé</span><h2>${type==='hooks'?'20 Hooks':type==='cta'?'10 CTA':'30 Hashtags'}</h2></div><button class="copyBtn" onclick="v136Copy(decodeURIComponent('${enc(body)}'))">Copier tout</button></div><div class="scriptBlock employeeScript">${E(body)}</div></div>`; try{const data=await post('/api/content/social-pack',{offer:p,angle:type}); if(data.provider==='openai'){const remote=normalize(data.pack||{}); const rb=text(type==='hooks'?remote.hooks:type==='cta'?remote.cta:remote.hashtags); if(rb){body=rb; box.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail terminé</span><h2>${type==='hooks'?'20 Hooks':type==='cta'?'10 CTA':'30 Hashtags'}</h2></div><button class="copyBtn" onclick="v136Copy(decodeURIComponent('${enc(body)}'))">Copier tout</button></div><div class="scriptBlock employeeScript">${E(body)}</div></div>`;}}}catch(e){} };
+  window.v136Background=async function(ep){const p=dec(ep)||offer(); const box=document.getElementById('v136BgOut')||document.getElementById('v133ExtraOut')||document.getElementById('contentOut'); if(!box) return; box.outerHTML=bgPanel(p); try{const data=await post('/api/content/background-image',{offer:p}); if(data.provider==='openai'&&data.imageUrl){const el=document.getElementById('v136BgOut'); if(el) el.innerHTML=`<div class="employeeHeader"><div><span class="employeeBadge">✅ Fond créé</span><h2>Fond IA prêt</h2><p class="muted">Image sombre générée automatiquement.</p></div><button class="copyBtn" type="button" onclick="v136Background('${enc(p)}')">Régénérer fond</button></div><div class="v133GeneratedImageWrap"><img src="${E(data.imageUrl)}" alt="Fond IA généré"/></div>`;}}catch(e){} };
+  window.generateContent=function(){window.v136Run('base',enc(offer()));};
+  window.v135Run=window.v133Run=window.v129Regen=window.v136Run; window.v135Extra=window.v133Extra=window.v136Extra; window.v135Background=window.v133GenerateBackground=window.v132Background=window.v136Background;
+  window.logout=window.v133Logout=window.v135Logout=window.v136Logout=function(){try{['ghostseller_token','token','authToken','supabase.auth.token'].forEach(k=>localStorage.removeItem(k));sessionStorage.clear();}catch(e){} location.href='/';};
+  function cleanAccount(){
+    document.querySelectorAll('aside .logout,#v91LogoutBtn').forEach(el=>el.remove());
+    document.querySelectorAll('.securityPanelV131,.securityLogoutBoxV132,.securityLogoutBoxV133,.securityLogoutBoxV134').forEach(el=>{el.innerHTML='<div class="securityLogoutBoxV132 securityLogoutBoxV136"><div><b>Déconnexion</b><span>Se déconnecter de ton compte sur cet appareil.</span></div><button type="button" class="logoutAccountBtn logoutAccountBtnV136">⎋ Se déconnecter</button></div>';});
+    document.querySelectorAll('.logoutAccountBtn,.logoutAccountBtnV136,[onclick*="logout"]').forEach(btn=>{btn.onclick=function(ev){ev.preventDefault(); window.v136Logout();};});
+  }
+  document.addEventListener('DOMContentLoaded',cleanAccount); setTimeout(cleanAccount,500); setTimeout(cleanAccount,1800);
+})();

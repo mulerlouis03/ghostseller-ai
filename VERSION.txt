@@ -1,6 +1,1 @@
-GhostSeller AI V135 REAL BUTTONS BACKGROUND UX FIX
-- Suppression message inutile IA en action
-- Boutons actifs avec rendu immédiat
-- Fond IA affiché directement
-- Déconnexion directe sans popup
-- Sécurité nettoyée
+GhostSeller AI V136 RESTORE GOOD COPY BUTTONS BACKGROUND FIX

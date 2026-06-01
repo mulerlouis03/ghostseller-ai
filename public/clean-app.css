@@ -1318,3 +1318,11 @@ aside .logout, #v91LogoutBtn{display:none!important;}
 .v133GeneratedImageWrap img{display:block;width:100%;height:auto;}
 .v133BgDone .small{font-size:12px;opacity:.8;max-height:140px;overflow:auto;}
 @media(max-width:900px){.v133Grid{grid-template-columns:1fr!important}.v133Actions{gap:8px}.v133Actions button{width:100%;padding:12px 14px}.securityLogoutBoxV132,.securityLogoutBoxV133{flex-direction:column;align-items:stretch}.logoutAccountBtnV131,.logoutAccountBtnV133{width:100%;min-width:0}.v133GeneratedImageWrap{max-width:100%;}}
+
+/* V136 fixes */
+.v136Actions button{opacity:1!important;filter:none!important;cursor:pointer!important;}
+.v136BgPanel{margin-top:18px;}
+.v136BgPanel .v133GeneratedImageWrap{max-width:360px;margin-top:14px;}
+.securityLogoutBoxV136{display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;padding:22px;border:1px solid rgba(239,68,68,.45);border-radius:22px;background:linear-gradient(135deg,rgba(127,29,29,.30),rgba(15,23,42,.65));}
+.securityLogoutBoxV136 b{display:block;color:#fecaca;font-size:1.1rem;margin-bottom:6px}.securityLogoutBoxV136 span{display:block;color:#bfdbfe}.logoutAccountBtnV136{border:1px solid rgba(248,113,113,.7);background:linear-gradient(135deg,#991b1b,#dc2626);color:white;border-radius:16px;padding:14px 20px;font-weight:900;cursor:pointer;min-width:210px;}
+@media(max-width:900px){.securityLogoutBoxV136{flex-direction:column;align-items:stretch}.logoutAccountBtnV136{width:100%;min-width:0}.v136BgPanel .v133GeneratedImageWrap{max-width:100%;}}
