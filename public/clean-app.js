@@ -1460,3 +1460,67 @@ function placeResult(btn, html){}
     }, 400);
   };
 })();
+
+/* V129 — SOCIAL PACK REGENERATION + MOBILE COMPACT FIX */
+(function(){
+  function E(s){ return (typeof gsEscapeHtml === 'function' ? gsEscapeHtml(s) : String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))); }
+  function C(text){ if(typeof gsCopy === 'function') return gsCopy(text); navigator.clipboard?.writeText(text || ''); }
+  window.v129Copy = C;
+  function prompt(){ return (document.getElementById('contentPrompt')?.value || '').trim(); }
+  function shortOffer(p){ p=String(p||'').trim(); return p ? (p.length>140 ? p.slice(0,140)+'...' : p) : 'votre offre'; }
+  function audience(p){
+    const s=String(p||'').toLowerCase();
+    if(s.includes('fille')) return 'les jeunes filles';
+    if(s.includes('jeune')) return 'les jeunes';
+    if(s.includes('diaspora')) return 'la diaspora';
+    if(s.includes('maman') || s.includes('femme')) return 'les femmes actives';
+    if(s.includes('business') || s.includes('entrepreneur')) return 'les entrepreneurs';
+    return 'les clients intéressés';
+  }
+  function product(p){
+    const s=String(p||'').toLowerCase();
+    if(s.includes('sac')) return 'ce sac tendance';
+    if(s.includes('nike')||s.includes('basket')||s.includes('chaussure')) return 'ces baskets';
+    if(s.includes('recharge')||s.includes('digicel')||s.includes('natcom')) return 'la recharge Haïti';
+    if(s.includes('coiff')) return 'cette offre coiffure';
+    return 'cette offre';
+  }
+  function keyword(p){ return 'INFO'; }
+  function makePack(kind, p){
+    const offer=shortOffer(p), aud=audience(p), prod=product(p), kw=keyword(p);
+    const styles={
+      base:['🔥 Offre disponible','simple, utile et facile à comprendre','Découvre cette offre'],
+      ideas:['💡 Nouvelle idée marketing','avec un angle différent','Voici une autre façon de présenter cette offre'],
+      viral:['🔥 Angle viral','qui attire l’attention dès les 2 premières secondes','POV : tu trouves enfin une offre qui colle à ton style'],
+      emotion:['❤️ Angle émotionnel','qui parle au besoin réel du client','Parfois, une petite chose change tout'],
+      premium:['💎 Angle premium','plus propre, plus sérieux, plus désirable','Une offre présentée avec plus de valeur'],
+      aggressive:['⚡ Angle direct','clair, rapide, sans tourner autour','Arrête de chercher partout'],
+      promo:['🏷️ Angle promotion','qui donne envie d’agir maintenant','Disponible maintenant, mais pas à ignorer']
+    };
+    const st=styles[kind]||styles.base;
+    const facebook=`${st[0]}\n\n${offer}\n\n${st[2]}.\n\nCette proposition est pensée pour ${aud}. Le but est simple : montrer ${prod} de façon claire, directe et attirante.\n\n✅ Facile à comprendre\n✅ Prêt à utiliser\n✅ Message qui donne envie d’en savoir plus\n\n📩 Écris “${kw}” en commentaire ou en message privé pour recevoir les détails.`;
+    const instagram=`✨ ${prod.charAt(0).toUpperCase()+prod.slice(1)} pour ${aud}\n\n${offer}\n\n${st[1]}.\n\nLe bon style, le bon message, la bonne envie.\n\n📩 DM “${kw}” pour recevoir les détails.\n\n#tendance #style #shopping #marketing #vente #offre #instagramfrance #reelsfrance`;
+    const tiktok=`🎬 SCRIPT TIKTOK / REELS\n\nSCÈNE 1 — HOOK (0-2s)\nTexte écran : “${kind==='viral'?'POV : tu découvres le sac que tout le monde va demander':'Tu cherchais quelque chose de tendance ?'}”\n\nSCÈNE 2 — PRODUIT (2-6s)\nMontre ${prod} en gros plan.\nTexte écran : “Pensé pour ${aud}.”\n\nSCÈNE 3 — DÉSIR (6-12s)\nMontre le produit porté / utilisé / mis en valeur.\nVoix off : “Simple, beau, pratique et facile à aimer.”\n\nSCÈNE 4 — PREUVE (12-17s)\nMontre 2 ou 3 détails qui donnent envie.\nTexte écran : “Tendance maintenant.”\n\nSCÈNE 5 — CTA (17-22s)\nTexte écran : “Écris ${kw} pour les infos.”\n\nCAPTION : ${offer}\nCTA : Commente ${kw} ou envoie un DM.`;
+    const whatsapp=`Bonjour 👋\n\nJe te partage une offre qui peut t’intéresser :\n\n${offer}\n\nC’est pensé pour ${aud}, avec un message simple et clair.\n\n✅ Tendance\n✅ Facile à comprendre\n✅ Disponible maintenant\n\nRéponds “${kw}” et je t’envoie les détails.`;
+    const story=`📱 STORY / STATUT\n\n${prod.toUpperCase()}\n${offer}\n\nTu veux les détails ?\nRéponds “${kw}” maintenant.`;
+    const hashtags=['#tendance','#shopping','#sac','#style','#mode','#jeunesfilles','#offre','#vente','#marketing','#tiktokfrance','#reels','#instagramfrance','#business','#clients','#promotion'];
+    return {facebook, instagram, tiktok, whatsapp, story, hashtags:hashtags.join(' ')};
+  }
+  function allText(pack){
+    return `FACEBOOK\n\n${pack.facebook}\n\n---\nINSTAGRAM\n\n${pack.instagram}\n\n---\nTIKTOK / REELS\n\n${pack.tiktok}\n\n---\nWHATSAPP\n\n${pack.whatsapp}\n\n---\nSTORY / STATUT\n\n${pack.story}\n\n---\nHASHTAGS\n\n${pack.hashtags}`;
+  }
+  function card(title,text){ return `<div class="deliverableCard v129SocialCard"><h3>${E(title)}</h3><div class="deliverableText">${E(text)}</div><button onclick='v129Copy(${JSON.stringify(text)})'>Copier</button></div>`; }
+  function actionButtons(p){ const q=JSON.stringify(p); return `<div class="v129Actions"><button onclick='v129Regen("ideas",${q})'>🔄 Générer d'autres idées</button><button onclick='v129Regen("viral",${q})'>🔥 Version virale</button><button onclick='v129Regen("emotion",${q})'>❤️ Émotionnelle</button><button onclick='v129Regen("premium",${q})'>💎 Premium</button><button onclick='v129Regen("aggressive",${q})'>⚡ Agressive</button><button onclick='v129Regen("promo",${q})'>🏷️ Promotion</button><button onclick='v129Hooks(${q})'>🎣 20 Hooks</button><button onclick='v129CTA(${q})'>📢 10 CTA</button><button onclick='v129Hashtags(${q})'>#️⃣ 30 Hashtags</button></div>`; }
+  function render(kind,p,title){
+    const pack=makePack(kind,p); const all=allText(pack);
+    return `<div class="employeeResult v129Result"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail terminé</span><h2>${E(title||'Pack réseaux sociaux prêt')}</h2><p class="muted">Facebook, Instagram, TikTok/Reels, WhatsApp, Story et hashtags.</p></div><button class="copyBtn" onclick='v129Copy(${JSON.stringify(all)})'>Copier tout</button></div>${actionButtons(p)}<div class="deliverableGrid v129Grid">${card('Facebook',pack.facebook)}${card('Instagram',pack.instagram)}${card('TikTok / Reels',pack.tiktok)}${card('WhatsApp',pack.whatsapp)}${card('Story / Statut',pack.story)}${card('Hashtags',pack.hashtags)}</div><div id="v129ExtraOut"></div></div>`;
+  }
+  window.v129Regen=function(kind,p){ const out=document.getElementById('contentOut'); if(out) out.innerHTML=render(kind,p, kind==='ideas'?'Nouveau pack avec autre angle':'Pack '+kind+' pour tous les réseaux'); };
+  window.v129Hooks=function(p){
+    const prod=product(p); const arr=[`Stop, ce ${prod} va te plaire.`,`POV : tu trouves enfin un accessoire tendance.`,`Les jeunes filles vont adorer ça.`,`Tu cherchais un sac simple mais stylé ?`,`Regarde ce détail avant de choisir ton sac.`,`Une offre qui mérite plus d’attention.`,`Ce n’est pas juste un sac, c’est le détail qui change le look.`,`Tu veux un style plus propre ? Commence ici.`,`Avant d’acheter ailleurs, regarde ça.`,`Ce sac peut compléter ton look en 2 secondes.`,`Le genre d’accessoire qu’on remarque vite.`,`Simple, tendance, efficace.`,`Tu vas comprendre pourquoi il attire l’œil.`,`Une idée cadeau qui marche toujours.`,`Le style commence souvent par les détails.`,`Si tu aimes les sacs tendance, regarde ça.`,`Ce modèle peut vite partir.`,`Tu veux les infos ? Écris INFO.`,`Le sac à main qui donne envie de sortir.`,`Garde cette idée pour ton prochain look.`];
+    const text=arr.map((x,i)=>`${i+1}. ${x}`).join('\n'); const extra=document.getElementById('v129ExtraOut')||document.getElementById('contentOut'); extra.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ Hooks prêts</span><h2>20 hooks à tester</h2></div><button class="copyBtn" onclick='v129Copy(${JSON.stringify(text)})'>Copier tout</button></div><div class="scriptBlock employeeScript">${E(text)}</div></div>`;
+  };
+  window.v129CTA=function(p){ const arr=['Écris INFO pour recevoir les détails.','Envoie-moi un DM maintenant.','Commente SAC si tu veux les infos.','Réserve avant que ça parte.','Clique et demande la disponibilité.','Partage à une amie qui aime ce style.','Demande le prix en privé.','Réponds OUI et je t’envoie tout.','Passe commande maintenant.','Garde cette offre avant de l’oublier.']; const text=arr.map((x,i)=>`${i+1}. ${x}`).join('\n'); const extra=document.getElementById('v129ExtraOut')||document.getElementById('contentOut'); extra.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ CTA prêts</span><h2>10 CTA</h2></div><button class="copyBtn" onclick='v129Copy(${JSON.stringify(text)})'>Copier tout</button></div><div class="scriptBlock employeeScript">${E(text)}</div></div>`; };
+  window.v129Hashtags=function(p){ const text=['#sac','#sacmain','#sactendance','#modefemme','#jeunesfilles','#stylefemme','#lookdujour','#shopping','#accessoire','#fashion','#outfit','#tendance','#boutique','#vente','#promotion','#instashop','#tiktokshop','#reelsfrance','#tiktokfrance','#ideecadeau','#sacfashion','#mode2026','#business','#clients','#offre','#nouveaute','#style','#fille','#beauty','#viral'].join(' '); const extra=document.getElementById('v129ExtraOut')||document.getElementById('contentOut'); extra.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ Hashtags prêts</span><h2>30 hashtags</h2></div><button class="copyBtn" onclick='v129Copy(${JSON.stringify(text)})'>Copier tout</button></div><div class="scriptBlock employeeScript">${E(text)}</div></div>`; };
+  window.generateContent=function(){ const out=document.getElementById('contentOut'); const p=prompt(); if(!out) return; if(!p){ out.innerHTML='<div class="employeeResult">Décris ton offre avant de générer.</div>'; return; } out.innerHTML='<div class="employeeResult">GhostSeller prépare le pack complet réseaux sociaux...</div>'; setTimeout(()=>{ out.innerHTML=render('base',p,'Pack réseaux sociaux prêt'); try{ if(typeof gsSaveHistory==='function') gsSaveHistory('content','Pack réseaux sociaux prêt',allText(makePack('base',p))); }catch(e){} },250); };
+})();
