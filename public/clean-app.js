@@ -1995,3 +1995,84 @@ function placeResult(btn, html){}
   window.generateContent=function(){ const p=offer(); saveHistory('Pack réseaux sociaux',p); if(typeof oldGen==='function') return oldGen(); };
   ready(()=>{ buildSidebar(); ensureHistoryPage(); setTitles(); tabs(); renderHistory(); document.addEventListener('click',()=>setTimeout(()=>{const active=document.querySelector('#v140NetworkTabs button.active')?.dataset.filter; if(active) filterCards(active);},200)); if(typeof window.showPage==='function') window.showPage('home'); });
 })();
+
+
+/* V141 — Sidebar finale claire + réseaux dans Nouvelle Création */
+(function(){
+  function ready(fn){ document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', fn) : fn(); }
+  function qs(s){ return document.querySelector(s); }
+  function qsa(s){ return Array.from(document.querySelectorAll(s)); }
+  function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  const titles={
+    home:['Accueil','Vue d’ensemble de ton espace GhostSeller.'],
+    content:['Nouvelle Création','Décris ton offre. GhostSeller prépare un pack complet, puis tu choisis les réseaux à afficher.'],
+    history:['Mes Contenus','Retrouve les anciennes générations sauvegardées dans ce navigateur.'],
+    leads:['Leads','Gestion des prospects.'],
+    account:['Mon Compte','Profil, abonnement et réglages.']
+  };
+  function rebuildSidebar(){
+    const side=qs('aside.sidebar'); if(!side) return;
+    const brand=side.querySelector('.brand')?.outerHTML || '<div class="brand compact"><div class="logo">G</div><div><strong>GhostSeller AI</strong><span>Espace membre</span></div></div>';
+    const owner=qs('#ownerSideLink')?.classList.contains('hidden') ? 'hidden' : '';
+    side.innerHTML = brand + `
+      <button class="nav" data-page="home">🏠 Accueil</button>
+      <button class="nav nav-primary v141MainCreate" data-page="content">✨ Nouvelle Création</button>
+      <button class="nav" data-page="history">📁 Mes Contenus</button>
+      <button class="nav" data-page="leads">👥 Leads</button>
+      <button class="nav" data-page="account">👤 Mon Compte</button>
+      <a id="ownerSideLink" class="nav owner ${owner}" href="/owner/">👑 Owner Console</a>`;
+    qsa('aside.sidebar .nav[data-page]').forEach(btn=>{
+      btn.addEventListener('click',()=>{ if(typeof window.showPage==='function') window.showPage(btn.dataset.page); closeMobile(); });
+    });
+  }
+  function closeMobile(){ try{ document.body.classList.remove('menuOpen','mobileMenuOpen'); qs('.sidebar')?.classList.remove('open'); qs('.mobileOverlay')?.classList.remove('show'); }catch(e){} }
+  function patchShowPage(){
+    if(window.__v141ShowPagePatched || typeof window.showPage!=='function') return;
+    window.__v141ShowPagePatched=true;
+    const old=window.showPage;
+    window.showPage=function(id){
+      old(id==='subscription'?'account':id);
+      const real=id==='subscription'?'account':id;
+      qsa('aside.sidebar .nav[data-page]').forEach(b=>b.classList.toggle('active', b.dataset.page===real));
+      const t=titles[real]; if(t){ const h=qs('#pageTitle'), p=qs('#pageSubtitle'); if(h) h.textContent=t[0]; if(p) p.textContent=t[1]; }
+      if(real==='history') renderHistoryPage();
+      if(real==='content') ensureNetworkTabs();
+      closeMobile();
+    };
+  }
+  function ensureHistoryPage(){
+    const main=qs('main.main'); if(!main || qs('#history')) return;
+    const sec=document.createElement('section'); sec.id='history'; sec.className='page hidden';
+    sec.innerHTML='<div class="card premiumCard"><h2>📁 Mes Contenus</h2><p class="muted">Tes générations récentes apparaîtront ici automatiquement.</p><div id="v141HistoryList" class="v141HistoryList"></div></div>';
+    main.appendChild(sec);
+  }
+  function renderHistoryPage(){
+    ensureHistoryPage(); const box=qs('#v141HistoryList'); if(!box) return;
+    let arr=[]; try{ arr=JSON.parse(localStorage.getItem('ghostseller_history')||'[]'); }catch(e){}
+    if(!arr.length){ box.innerHTML='<div class="v141Empty">Aucun contenu sauvegardé pour le moment. Va dans Nouvelle Création pour générer ton premier pack.</div>'; return; }
+    box.innerHTML=arr.slice(0,24).map((x,i)=>`<div class="v141HistoryItem"><b>${esc(x.title||'Pack généré')}</b><span>${esc(x.date||'')}</span><p>${esc((x.offer||x.prompt||'').slice(0,140))}</p><button type="button" data-offer="${encodeURIComponent(x.offer||x.prompt||'')}">Réouvrir</button></div>`).join('');
+    box.querySelectorAll('button[data-offer]').forEach(btn=>btn.onclick=()=>{ const ta=qs('#contentPrompt'); if(ta) ta.value=decodeURIComponent(btn.dataset.offer||''); window.showPage('content'); });
+  }
+  function ensureNetworkTabs(){
+    const page=qs('#content'); if(!page || qs('#v141NetworkTabs')) return;
+    const target=qs('#contentOut') || page.querySelector('.card') || page.firstElementChild;
+    const tabs=document.createElement('div'); tabs.id='v141NetworkTabs'; tabs.className='v141NetworkTabs';
+    tabs.innerHTML='<button class="active" data-filter="all">Tous</button><button data-filter="facebook">Facebook</button><button data-filter="instagram">Instagram</button><button data-filter="tiktok">TikTok/Reels</button><button data-filter="whatsapp">WhatsApp</button><button data-filter="story">Story</button><button data-filter="hashtags">Hashtags</button>';
+    if(target) target.parentNode.insertBefore(tabs, target); else page.prepend(tabs);
+    tabs.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{ tabs.querySelectorAll('button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); filterCards(btn.dataset.filter); });
+  }
+  function filterCards(filter){
+    qsa('.deliverableCard,.v133SocialCard').forEach(card=>{
+      const title=(card.querySelector('h3')?.textContent||'').toLowerCase();
+      let show=filter==='all' || title.includes(filter);
+      if(filter==='tiktok') show=title.includes('tiktok') || title.includes('reels');
+      if(filter==='story') show=title.includes('story') || title.includes('statut');
+      card.style.display=show?'':'none';
+    });
+  }
+  function observeResults(){
+    const out=qs('#contentOut'); if(!out || window.__v141Observer) return; window.__v141Observer=true;
+    new MutationObserver(()=>{ const active=qs('#v141NetworkTabs button.active')?.dataset.filter || 'all'; filterCards(active); }).observe(out,{childList:true,subtree:true});
+  }
+  ready(()=>{ rebuildSidebar(); patchShowPage(); ensureHistoryPage(); ensureNetworkTabs(); observeResults(); setTimeout(()=>{ rebuildSidebar(); patchShowPage(); ensureNetworkTabs(); observeResults(); },700); });
+})();

@@ -1383,3 +1383,17 @@ aside .logout, #v91LogoutBtn{display:none!important;}
 .v140CardWithBg::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(2,6,23,.60),rgba(2,6,23,.82));z-index:-1;}
 .v140CardWithBg .deliverableText,.v140CardWithBg h3,.v140CardWithBg button{position:relative;z-index:2;}
 @media(max-width:900px){.v140NetworkTabs button{flex:1 1 calc(50% - 10px)}.sidebar .v140PrimaryNav{transform:none}}
+
+
+/* V141 — Sidebar finale SaaS */
+aside.sidebar .nav{display:flex!important;align-items:center!important;gap:12px!important;border-radius:16px!important;margin:8px 14px!important;padding:14px 16px!important;font-weight:850!important;letter-spacing:.1px!important;}
+aside.sidebar .nav-primary,
+aside.sidebar .v141MainCreate{background:linear-gradient(135deg,#38bdf8,#7c3aed,#a855f7)!important;color:#fff!important;border:1px solid rgba(255,255,255,.18)!important;box-shadow:0 18px 42px rgba(56,189,248,.20)!important;font-size:1.02rem!important;transform:translateX(2px)!important;}
+aside.sidebar .nav-primary:hover{filter:brightness(1.08)!important;transform:translateX(4px)!important;}
+aside.sidebar .logout,[data-page="tiktok"],[data-page="whatsapp"],[data-page="video"],[data-page="subscription"]{display:none!important;}
+.v141NetworkTabs{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 18px!important;padding:10px;border:1px solid rgba(148,163,184,.18);background:rgba(15,23,42,.45);border-radius:20px;}
+.v141NetworkTabs button{border:1px solid rgba(148,163,184,.24);background:rgba(2,6,23,.72);color:#bfdbfe;border-radius:999px;padding:11px 16px;font-weight:900;cursor:pointer;transition:.15s ease;}
+.v141NetworkTabs button:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.v141NetworkTabs button.active{background:linear-gradient(135deg,#38bdf8,#a855f7);color:white;border-color:rgba(255,255,255,.25);box-shadow:0 10px 25px rgba(56,189,248,.18);}
+.v141HistoryList{display:grid;gap:14px;margin-top:16px}.v141HistoryItem{padding:16px;border-radius:18px;border:1px solid rgba(148,163,184,.22);background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(30,27,75,.44))}.v141HistoryItem b{display:block;color:white;font-size:1.05rem}.v141HistoryItem span{display:block;color:#93c5fd;font-size:13px;margin:5px 0}.v141HistoryItem p{color:#c7d2fe}.v141HistoryItem button{border:0;border-radius:999px;padding:10px 14px;background:linear-gradient(135deg,#38bdf8,#a855f7);color:#fff;font-weight:900;cursor:pointer}.v141Empty{padding:22px;border-radius:18px;background:rgba(15,23,42,.66);color:#bfdbfe;border:1px dashed rgba(148,163,184,.28)}
+@media(max-width:900px){.v141NetworkTabs button{flex:1 1 calc(50% - 10px)}aside.sidebar .nav-primary{transform:none!important}}
