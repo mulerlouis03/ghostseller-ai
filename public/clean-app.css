@@ -1409,3 +1409,55 @@ aside .logout, #v91LogoutBtn{display:none!important;}
 .v138Loader{padding:18px;border:1px dashed rgba(255,255,255,.22);border-radius:18px;background:rgba(255,255,255,.06);font-weight:900;color:#cfe8ff}
 .v138Err{padding:14px;border:1px solid rgba(248,113,113,.4);border-radius:16px;background:rgba(127,29,29,.22);color:#fecaca;font-weight:900;margin:12px 0}
 @media(max-width:900px){.v138Grid{grid-template-columns:1fr!important}.v138Actions button{width:100%;justify-content:center}.v138BgStatus{flex-direction:column;align-items:flex-start}.v138BgStatus button{width:100%}}
+
+/* V139 — background image really visible inside each pub card */
+.v138Result{
+  background:transparent!important;
+}
+.v138Result::before{
+  opacity:.92!important;
+  transform:scale(1.02);
+}
+.v138Result::after{
+  background:linear-gradient(180deg, rgba(2,6,23,.56), rgba(2,6,23,.76))!important;
+}
+.v138Grid .deliverableCard{
+  position:relative!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  background:rgba(2,6,23,.38)!important;
+  border:1px solid rgba(255,255,255,.20)!important;
+  box-shadow:0 22px 70px rgba(0,0,0,.30)!important;
+}
+.v138Grid .deliverableCard::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background-image:var(--gs-bg-image);
+  background-size:cover;
+  background-position:center;
+  opacity:.55;
+  filter:saturate(1.12) contrast(1.08) brightness(.82);
+  transform:scale(1.04);
+}
+.v138Grid .deliverableCard::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  background:linear-gradient(180deg, rgba(2,6,23,.64), rgba(2,6,23,.86));
+  pointer-events:none;
+}
+.v138Grid .deliverableCard > *{
+  position:relative!important;
+  z-index:2!important;
+}
+.v138Grid .deliverableCard h3,
+.v138Grid .deliverableCard .v138Text{
+  text-shadow:0 2px 14px rgba(0,0,0,.78)!important;
+}
+.v138BgStatus{
+  background:rgba(6,78,59,.18)!important;
+  backdrop-filter:blur(10px);
+}
