@@ -1,0 +1,7 @@
+GhostSeller AI V145 - Internal Visual Composer
+- Garde la pub V142 qui fonctionne
+- Ajoute un petit logiciel interne de composition visuelle
+- Détecte automatiquement le thème : covoiturage, café, sport, luxe, beauté
+- Place un fond sombre derrière chaque carte sans cacher le texte
+- Supprime les placeholders IMAGE / url_image
+- Bouton Créer fond IA reconnecté au moteur visuel interne
