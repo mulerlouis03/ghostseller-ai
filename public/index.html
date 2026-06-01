@@ -250,50 +250,56 @@
         </div>
       </section>
 
-      <section id="account" class="page hidden accountPagePro">
+      <section id="account" class="page hidden accountPagePro accountPageV131">
         <div class="accountHero">
           <div>
             <h1>Mon compte</h1>
-            <p>Gère ton profil, ton abonnement et ta sécurité.</p>
+            <p>Gère ton compte, ton abonnement et ta sécurité.</p>
           </div>
         </div>
-        <div class="accountGridPro">
-          <div class="card profileIdentityCard accountCompactCard">
-            <h2>👤 Mon profil</h2>
-            <div class="profileIdentity">
-              <div class="profileAvatar" id="profileAvatarPreview">G</div>
-              <div>
-                <p><b id="profileFullNameLabel">Utilisateur GhostSeller</b></p>
+
+        <div class="accountV131Wrap">
+          <div class="card accountMainV131">
+            <div class="accountProfileV131">
+              <div class="profileAvatar avatarV131" id="profileAvatarPreview">G</div>
+              <div class="accountProfileTextV131">
+                <h2 id="profileFullNameLabel">Utilisateur GhostSeller</h2>
                 <p id="profileEmailLabel">Compte connecté</p>
+                <label class="uploadAvatarBtn uploadAvatarBtnV131">
+                  📷 Changer ma photo
+                  <input type="file" id="profileAvatarInput" accept="image/*" onchange="saveProfileAvatar(event)">
+                </label>
               </div>
             </div>
-            <label class="uploadAvatarBtn">
-              Ajouter / changer ma photo
-              <input type="file" id="profileAvatarInput" accept="image/*" onchange="saveProfileAvatar(event)">
-            </label>
-            <p class="mutedSmall">La photo reste dans ton navigateur pour personnaliser ton espace.</p>
-          </div>
 
-          <div class="card accountCompactCard accountInfoCard">
-            <h2>Mon compte</h2>
-            <p><b>Nom :</b> <span id="accountName">-</span></p>
-            <p><b>Email :</b> <span id="accountEmail">-</span></p>
-            <p><b>Rôle :</b> <span id="accountRole">-</span></p>
-            <p><b>Plan :</b> <span id="accountPlan">-</span></p>
-            <p><b>Crédits :</b> <span id="accountCredits">-</span></p><p><b>Statut :</b> Actif</p>
-            <div class="account-actions">
-              <button onclick="showPage('subscription')">Gérer mon abonnement</button>
-              <a id="accountOwnerLink" class="buttonLink hidden" href="/owner/">Ouvrir Owner Console</a>
-              
+            <div class="accountInfoPanelV131">
+              <h3>Informations du compte</h3>
+              <div class="accountInfoGridV131">
+                <div><span>Nom</span><b id="accountName">-</b></div>
+                <div><span>Email</span><b id="accountEmail">-</b></div>
+                <div><span>Rôle</span><b id="accountRole">-</b></div>
+                <div><span>Plan</span><b id="accountPlan">-</b></div>
+                <div><span>Crédits</span><b id="accountCredits">-</b></div>
+                <div><span>Statut</span><b class="statusPillV131">Actif</b></div>
+              </div>
+              <div class="account-actions accountActionsV131">
+                <button onclick="showPage('subscription')">💳 Gérer mon abonnement</button>
+                <a id="accountOwnerLink" class="buttonLink hidden" href="/owner/">Ouvrir Owner Console</a>
+              </div>
+            </div>
+
+            <div class="securityPanelV131">
+              <div class="securityHeadV131">
+                <div>
+                  <h3>🔐 Sécurité</h3>
+                  <p>Quitte ta session sur cet appareil quand tu as terminé.</p>
+                </div>
+              </div>
+              <button class="logoutAccountBtn logoutAccountBtnV131" onclick="logout()">⎋ Se déconnecter</button>
             </div>
           </div>
 
-          <div class="card accountCompactCard securityCardPro">
-            <h2>Sécurité</h2>
-            <p>Depuis cet espace, tu peux vérifier ton profil et quitter ta session rapidement.</p>
-            <button class="logoutAccountBtn" onclick="logout()">⎋ Se déconnecter</button>
-          </div>
-          <div class="card accountFeedbackCard">
+          <div class="card accountFeedbackCard accountFeedbackV131">
             <h2>Donner un retour</h2>
             <p>Ton avis aide à améliorer GhostSeller AI avant le lancement officiel.</p>
             <select id="accountFeedbackType" class="selectField">

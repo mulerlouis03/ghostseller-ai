@@ -14,3 +14,9 @@ npm install
 git add .
 git commit -m "GhostSeller V126 Prompt Intelligence Fix"
 git push
+
+
+## V131
+- Page Mon compte unifiée.
+- Bouton déconnexion intégré dans la sécurité.
+- Photo ronde et email non dupliqué.
