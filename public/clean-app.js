@@ -1927,101 +1927,71 @@ function placeResult(btn, html){}
   document.addEventListener('DOMContentLoaded',cleanAccount); setTimeout(cleanAccount,500); setTimeout(cleanAccount,1800);
 })();
 
-/* V138 - real connected buttons + background behind cards */
+/* V140 — Sidebar UX + real background card placement */
 (function(){
-  const $ = (id)=>document.getElementById(id);
-  const E = (s)=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
-  const enc = (s)=>encodeURIComponent(String(s??""));
-  const dec = (s)=>{try{return decodeURIComponent(String(s||""))}catch(e){return String(s||"")}};
-  const text = (v)=>{
-    if(v == null) return "";
-    if(Array.isArray(v)) return v.map(text).filter(Boolean).join("\n");
-    if(typeof v === "object") return text(v.content||v.text||v.body||v.caption||v.message||v.script||v.items||Object.entries(v).map(([k,val])=>`${k.toUpperCase()}\n${text(val)}`).join("\n\n"));
-    return String(v);
+  function ready(fn){ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', fn); else fn(); }
+  function esc(s){return String(s||'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+  function enc(s){return encodeURIComponent(String(s||''));}
+  function dec(s){try{return decodeURIComponent(String(s||''));}catch(e){return s||'';}}
+  function offer(){return document.getElementById('contentPrompt')?.value?.trim()||'';}
+  function setTitles(){
+    if(!window.__v140TitlePatched && typeof window.showPage==='function'){
+      const old=window.showPage;
+      window.showPage=function(id){ old(id); const t={home:['Accueil','Vue d’ensemble de ton espace GhostSeller.'],content:['Nouvelle Création','Crée un pack complet puis choisis les réseaux à afficher.'],leads:['Leads','Gestion des prospects.'],account:['Mon compte','Profil, abonnement et réglages.'],history:['Mes Contenus','Historique de tes générations.']}; if(t[id]){const h=document.getElementById('pageTitle'),p=document.getElementById('pageSubtitle'); if(h) h.textContent=t[id][0]; if(p) p.textContent=t[id][1];}}
+      window.__v140TitlePatched=true;
+    }
+  }
+  function buildSidebar(){
+    const side=document.querySelector('aside.sidebar'); if(!side) return;
+    const brand=side.querySelector('.brand')?.outerHTML||'';
+    side.innerHTML=brand+`\n<button class="nav" data-page="home">🏠 Accueil</button>\n<button class="nav v140PrimaryNav" data-page="content">✨ Nouvelle Création</button>\n<button class="nav" data-page="history">📁 Mes Contenus</button>\n<button class="nav" data-page="leads">👥 Leads</button>\n<button class="nav" data-page="account">👤 Mon Compte</button>\n<a id="ownerSideLink" class="nav owner hidden" href="/owner/">👑 Owner Console</a>`;
+    side.querySelectorAll('.nav[data-page]').forEach(btn=>btn.addEventListener('click',()=>{ if(typeof window.showPage==='function') window.showPage(btn.dataset.page); if(typeof window.closeMobileMenu==='function') window.closeMobileMenu(); }));
+  }
+  function ensureHistoryPage(){
+    if(document.getElementById('history')) return;
+    const main=document.querySelector('main.main'); if(!main) return;
+    const sec=document.createElement('section'); sec.id='history'; sec.className='page hidden workspacePage'; sec.innerHTML=`<div class="card"><h2>Mes Contenus</h2><p>Retrouve les derniers packs générés dans ce navigateur.</p><div id="v140HistoryList" class="v140HistoryList"></div></div>`;
+    main.appendChild(sec);
+  }
+  function renderHistory(){
+    const box=document.getElementById('v140HistoryList'); if(!box) return;
+    let arr=[]; try{arr=JSON.parse(localStorage.getItem('ghostseller_v140_history')||'[]')}catch(e){}
+    box.innerHTML=arr.length?arr.slice(0,20).map(x=>`<div class="v140HistoryItem"><b>${esc(x.title||'Pack généré')}</b><span>${esc(x.date||'')}</span><p>${esc((x.offer||'').slice(0,120))}</p><button onclick="document.getElementById('contentPrompt').value=decodeURIComponent('${enc(x.offer||'')}');showPage('content')">Réouvrir</button></div>`).join(''):`<div class="v140Empty">Aucun contenu sauvegardé pour le moment. Génère ton premier pack dans Nouvelle Création.</div>`;
+  }
+  function saveHistory(title, of){
+    let arr=[]; try{arr=JSON.parse(localStorage.getItem('ghostseller_v140_history')||'[]')}catch(e){}
+    arr.unshift({title:title||'Pack réseaux sociaux',offer:of||offer(),date:new Date().toLocaleString('fr-FR')}); localStorage.setItem('ghostseller_v140_history',JSON.stringify(arr.slice(0,50)));
+  }
+  function tabs(){
+    const card=document.querySelector('#content .card'); if(!card || document.getElementById('v140NetworkTabs')) return;
+    const t=document.createElement('div'); t.id='v140NetworkTabs'; t.className='v140NetworkTabs'; t.innerHTML=`<button class="active" data-filter="all">Tous</button><button data-filter="facebook">Facebook</button><button data-filter="instagram">Instagram</button><button data-filter="tiktok">TikTok/Reels</button><button data-filter="whatsapp">WhatsApp</button><button data-filter="story">Story</button><button data-filter="hashtags">Hashtags</button>`;
+    const p=card.querySelector('p'); p?.after(t);
+    t.addEventListener('click',e=>{const b=e.target.closest('button[data-filter]'); if(!b) return; t.querySelectorAll('button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); filterCards(b.dataset.filter);});
+  }
+  function filterCards(f){
+    document.querySelectorAll('#contentOut .deliverableCard').forEach(c=>{const h=(c.querySelector('h3')?.textContent||'').toLowerCase(); let show=f==='all'||h.includes(f)|| (f==='tiktok'&&h.includes('tiktok')) || (f==='story'&&h.includes('story')) || (f==='hashtags'&&h.includes('hashtag')); c.style.display=show?'':'none';});
+  }
+  function applyBg(img){
+    if(!img) return;
+    document.querySelectorAll('.v137BgIntegrated,.v136Result,.v133Result').forEach(root=>{ root.style.setProperty('--gs-bg-image',`url("${img}")`); root.classList.add('v140HasBg'); });
+    document.querySelectorAll('#contentOut .deliverableCard').forEach(card=>{ card.style.setProperty('--gs-card-bg',`url("${img}")`); card.classList.add('v140CardWithBg'); });
+  }
+  const oldBg=window.v136Background||window.v135Background||window.v133GenerateBackground;
+  window.v136Background=window.v135Background=window.v133GenerateBackground=async function(ep){
+    const p=dec(ep)||offer(); const status=document.getElementById('v136BgStatus');
+    if(status) status.innerHTML='<span>🖼️ Génération du fond IA en cours...</span><button class="copyBtn" disabled>...</button>';
+    // local instant background, visible immediately
+    let local=''; try{ if(typeof oldBg==='function') await oldBg(ep); }catch(e){}
+    const root=document.querySelector('.v137BgIntegrated,.v136Result,.v133Result');
+    const computed=root?getComputedStyle(root).getPropertyValue('--gs-bg-image').trim():'';
+    if(computed && computed.startsWith('url(')){ local=computed.slice(4,-1).replace(/^['"]|['"]$/g,''); applyBg(local); }
+    try{
+      const r=await fetch('/api/content/background-image',{method:'POST',headers:{'Content-Type':'application/json',...(localStorage.getItem('ghostseller_token')?{Authorization:'Bearer '+localStorage.getItem('ghostseller_token')}: {})},body:JSON.stringify({offer:p})});
+      const d=await r.json().catch(()=>({})); if(d.imageUrl){applyBg(d.imageUrl);}
+      if(status) status.innerHTML='<span>✅ Fond IA placé derrière les pubs</span><button class="copyBtn" type="button" onclick="v136Background(\''+enc(p)+'\')">Régénérer fond</button>';
+    }catch(e){ if(status) status.innerHTML='<span>✅ Fond sombre local placé derrière les pubs</span><button class="copyBtn" type="button" onclick="v136Background(\''+enc(p)+'\')">Régénérer fond</button>'; }
   };
-  const offer = ()=>($('contentPrompt')?.value||'').trim();
-  const token = ()=>localStorage.getItem('ghostseller_token')||localStorage.getItem('token')||localStorage.getItem('authToken')||localStorage.getItem('jwt')||'';
-  async function post(path,body){
-    const headers={'Content-Type':'application/json','X-GhostSeller-Language':'fr'};
-    if(token()) headers.Authorization='Bearer '+token();
-    const res=await fetch(path,{method:'POST',headers,body:JSON.stringify(body||{})});
-    const data=await res.json().catch(()=>({}));
-    if(!res.ok) throw new Error(data.error||data.message||'Erreur API');
-    return data;
-  }
-  function meta(p){
-    const l=p.toLowerCase(); let kw='INFO', name='Cette offre', tags=['#Offre','#Promo','#France'];
-    if(l.includes('café')||l.includes('cafe')||l.includes('coffee')){kw='CAFÉ';name='KAFE LAKAY';tags=['#KafeLakay','#CafeHaitien','#Cafe','#Haiti','#CafeGourmet','#CafeArtisan'];}
-    else if(l.includes('sac')){kw='SAC';name='Sac tendance';tags=['#Sac','#Mode','#Fashion','#Style','#Shopping'];}
-    else if(l.includes('nike')||l.includes('adidas')||l.includes('basket')){kw='BASKET';name='Baskets tendance';tags=['#Sneakers','#Nike','#Adidas','#Basket','#Streetwear'];}
-    else if(l.includes('montre')||l.includes('bijou')||l.includes('luxe')){kw='LUXE';name='Offre premium';tags=['#Luxe','#Montre','#Bijoux','#Premium','#Elegance'];}
-    else if(l.includes('parfum')||l.includes('cosm')||l.includes('beaut')){kw='BEAUTÉ';name='Beauté premium';tags=['#Beaute','#Parfum','#Cosmetique','#Glow','#Premium'];}
-    if(l.includes('haiti')||l.includes('haïti')) tags=[...tags,'#Haiti','#DiasporaHaitienne','#MadeInHaiti'];
-    return {kw,name,tags:[...new Set(tags)]};
-  }
-  function localPack(p,angle='base'){
-    const m=meta(p); const tone={viral:'🔥 Ce produit peut devenir le détail qui fait parler.',emotion:'❤️ Il y a des produits qui rappellent une origine, une histoire, une fierté.',premium:'💎 Présentation premium, image soignée, sensation haut de gamme.',aggressive:'⚡ Ne laisse pas cette offre passer pendant que les autres en profitent.',promo:'🏷️ Offre spéciale disponible maintenant.',ideas:'✨ Nouvelle idée prête à publier.',base:'✨ Offre disponible'}[angle]||'✨ Offre disponible';
-    const facebook=`${tone}\n\nDécouvrez ${m.name} : ${p}.\n\nUn produit présenté clairement pour attirer l’attention, donner envie et déclencher le passage à l’action.\n\n✅ Facile à comprendre\n✅ Message prêt à publier\n✅ Disponible maintenant\n\nÉcris ${m.kw} en commentaire ou en message privé pour recevoir les détails.`;
-    const instagram=`${tone}\n\n${m.name}\n\n${p}\n\nUne publication claire, visuelle et prête à convertir.\n\nDM “${m.kw}” pour recevoir les infos.\n\n${m.tags.concat(['#Reels','#Shopping','#Business']).join(' ')}`;
-    const tiktok=`🎬 SCRIPT TIKTOK / REELS\n\nSCÈNE 1 — HOOK (0-2s)\nTexte écran : “Tu cherchais une offre qui attire vraiment ?”\n\nSCÈNE 2 — PRODUIT (2-6s)\nMontrer : ${m.name} en gros plan.\nTexte écran : “${p}”\n\nSCÈNE 3 — BÉNÉFICE (6-12s)\nMontrer le détail qui donne envie : qualité, style, origine ou résultat.\n\nSCÈNE 4 — PREUVE (12-17s)\nMontrer une personne qui découvre l’offre.\nTexte écran : “Disponible maintenant”\n\nSCÈNE 5 — CTA (17-22s)\nTexte écran : “Écris ${m.kw} pour les infos.”`;
-    const whatsapp=`Bonjour 👋\n\nJe te partage une offre qui peut t’intéresser :\n\n${p}\n\nC’est clair, simple et disponible maintenant. Réponds ${m.kw} et je t’envoie les détails.`;
-    const story=`${m.name}\n\n${p}\n\nTu veux les détails ? Réponds “${m.kw}” maintenant.`;
-    const hooks=Array.from({length:20},(_,i)=>`${i+1}. ${['Tu connaissais cette offre ?','Stop, regarde ça avant de scroller.','Cette nouveauté peut vite partir.','Le détail qui change tout.','Une offre simple, mais efficace.'][i%5]}`).join('\n');
-    const cta=['Écris '+m.kw+' pour recevoir les détails.','Envoie-moi un DM maintenant.','Commente '+m.kw+'.','Demande la disponibilité.','Réserve avant que ça parte.','Partage à quelqu’un que ça peut intéresser.','Clique pour en savoir plus.','Réponds OUI et je t’envoie tout.','Garde cette offre pour plus tard.','Passe commande maintenant.'].map((x,i)=>`${i+1}. ${x}`).join('\n');
-    const hashtags=m.tags.concat(['#Offre','#Vente','#Marketing','#Clients','#Tendance','#Nouveaute','#France','#Diaspora','#Entrepreneur']).slice(0,30).join(' ');
-    return {facebook,instagram,tiktok,whatsapp,story,hashtags,hooks,cta};
-  }
-  function normalize(raw){raw=raw&&typeof raw==='object'?raw:{}; const fallback=localPack(offer()||'offre'); return {
-    facebook:text(raw.facebook)||fallback.facebook,
-    instagram:text(raw.instagram)||fallback.instagram,
-    tiktok:text(raw.tiktok||raw.reels||raw.video_script)||fallback.tiktok,
-    whatsapp:text(raw.whatsapp)||fallback.whatsapp,
-    story:text(raw.story||raw.status)||fallback.story,
-    hashtags:text(raw.hashtags)||fallback.hashtags,
-    hooks:text(raw.hooks)||fallback.hooks,
-    cta:text(raw.cta||raw.ctas)||fallback.cta
-  };}
-  function all(pack){return `FACEBOOK\n\n${pack.facebook}\n\n---\nINSTAGRAM\n\n${pack.instagram}\n\n---\nTIKTOK / REELS\n\n${pack.tiktok}\n\n---\nWHATSAPP\n\n${pack.whatsapp}\n\n---\nSTORY / STATUT\n\n${pack.story}\n\n---\nHASHTAGS\n\n${pack.hashtags}`;}
-  function card(title,body){const b=text(body); return `<div class="deliverableCard"><h3>${E(title)}</h3><div class="v138Text">${E(b)}</div><button type="button" data-v138-copy="${enc(b)}">Copier</button></div>`;}
-  function localBg(p){
-    const m=meta(p); const lower=p.toLowerCase(); const emoji=lower.includes('café')||lower.includes('cafe')?'☕':lower.includes('haiti')||lower.includes('haïti')?'🇭🇹':lower.includes('basket')||lower.includes('nike')?'👟':lower.includes('montre')||lower.includes('luxe')?'💎':lower.includes('parfum')?'✨':'✦';
-    const label=lower.includes('café')||lower.includes('cafe')?'Café premium sombre':lower.includes('haiti')||lower.includes('haïti')?'Ambiance Haïti sombre':m.name;
-    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#061526"/><stop offset=".55" stop-color="#070b19"/><stop offset="1" stop-color="#241046"/></linearGradient><filter id="b"><feGaussianBlur stdDeviation="42"/></filter></defs><rect width="1200" height="900" fill="url(#g)"/><circle cx="130" cy="100" r="250" fill="#38bdf8" opacity=".22" filter="url(#b)"/><circle cx="1050" cy="150" r="280" fill="#a855f7" opacity=".23" filter="url(#b)"/><circle cx="720" cy="760" r="320" fill="#111827" opacity=".82" filter="url(#b)"/><g fill="#fff" opacity=".09">${Array.from({length:50},(_,i)=>`<circle cx="${(i*113)%1200}" cy="${(i*197)%900}" r="${2+i%7}"/>`).join('')}</g><text x="930" y="710" font-size="180" text-anchor="middle" opacity=".18">${emoji}</text><text x="100" y="780" font-family="Arial" font-size="42" font-weight="700" fill="#fff" opacity=".25">${label}</text></svg>`;
-    return 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(svg)));
-  }
-  function actions(p){const q=enc(p); const buttons=[['ideas','🔄 Générer d’autres idées'],['viral','🔥 Version virale'],['emotion','❤️ Émotionnelle'],['premium','💎 Premium'],['aggressive','⚡ Agressive'],['promo','🏷️ Promotion'],['hooks','🎣 20 Hooks','extra'],['cta','📢 10 CTA','extra'],['hashtags','#️⃣ 30 Hashtags','extra'],['background','🖼️ Créer fond IA','bg']]; return `<div class="v138Actions">${buttons.map(([a,l,t])=>`<button type="button" data-v138-action="${a}" data-offer="${q}" data-kind="${t||'pack'}">${l}</button>`).join('')}</div>`;}
-  function render(pack,p,title,bg){pack=normalize(pack); const a=all(pack); return `<div class="employeeResult v138Result" style="--gs-bg-image:url('${bg||localBg(p)}')"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail terminé</span><h2>${E(title||'Pack réseaux sociaux prêt')}</h2><p class="muted">Facebook, Instagram, TikTok/Reels, WhatsApp, Story et hashtags prêts à publier.</p></div><button class="copyBtn" type="button" data-v138-copy="${enc(a)}">Copier tout</button></div>${actions(p)}<div id="v138BgStatus" class="v138BgStatus"><span>🖼️ Fond sombre intégré derrière les pubs</span><button type="button" data-v138-action="background" data-offer="${enc(p)}" data-kind="bg">Régénérer fond</button></div><div class="deliverableGrid v138Grid">${card('Facebook',pack.facebook)}${card('Instagram',pack.instagram)}${card('TikTok / Reels',pack.tiktok)}${card('WhatsApp',pack.whatsapp)}${card('Story / Statut',pack.story)}${card('Hashtags',pack.hashtags)}</div><div id="v138ExtraOut" class="v138Extra"></div></div>`;}
-  function titleFor(a){return ({ideas:'Nouvelles idées prêtes',viral:'Version virale prête',emotion:'Version émotionnelle prête',premium:'Version premium prête',aggressive:'Version agressive prête',promo:'Version promotion prête',base:'Pack réseaux sociaux prêt'})[a]||'Pack réseaux sociaux prêt';}
-  async function runPack(action,p){
-    const out=$('contentOut'); if(!out) return; if(!p){out.innerHTML='<div class="employeeResult">Décris ton offre avant de générer.</div>';return;}
-    out.innerHTML='<div class="employeeResult v138Loader">GhostSeller prépare le pack...</div>';
-    let pack=localPack(p,action), bg=localBg(p); out.innerHTML=render(pack,p,titleFor(action),bg);
-    try{const data=await post('/api/content/social-pack',{offer:p,angle:action}); const remote=normalize(data.pack||data.result||{}); pack={...pack,...remote}; out.innerHTML=render(pack,p,titleFor(action),bg);}catch(e){const extra=$('v138ExtraOut'); if(extra) extra.innerHTML=`<div class="v138Err">API indisponible : version locale affichée.</div>`;}
-  }
-  async function runExtra(type,p){
-    const box=$('v138ExtraOut')||$('contentOut'); if(!box) return; const pack=localPack(p,type); let body=type==='hooks'?pack.hooks:type==='cta'?pack.cta:pack.hashtags;
-    box.innerHTML=`<div class="employeeResult v138Loader">Génération ${E(type)}...</div>`;
-    try{const data=await post('/api/content/social-pack',{offer:p,angle:type}); const remote=normalize(data.pack||data.result||{}); body=text(type==='hooks'?remote.hooks:type==='cta'?remote.cta:remote.hashtags)||body;}catch(e){}
-    box.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail terminé</span><h2>${type==='hooks'?'20 Hooks':type==='cta'?'10 CTA':'30 Hashtags'}</h2></div><button class="copyBtn" type="button" data-v138-copy="${enc(body)}">Copier tout</button></div><div class="scriptBlock employeeScript">${E(body)}</div></div>`;
-  }
-  async function runBackground(p,btn){
-    const root=document.querySelector('.v138Result')||document.querySelector('.v136Result')||$('contentOut');
-    const status=$('v138BgStatus')||$('v136BgStatus');
-    if(btn){btn.classList.add('is-loading');btn.disabled=true;}
-    if(status) status.innerHTML='<span>🖼️ Génération du fond IA en cours...</span><button type="button" disabled>...</button>';
-    const fallback=localBg(p); if(root?.style) root.style.setProperty('--gs-bg-image',`url('${fallback}')`);
-    try{const data=await post('/api/content/background-image',{offer:p}); const img=data.imageUrl||fallback; if(root?.style) root.style.setProperty('--gs-bg-image',`url('${String(img).replace(/'/g,'%27')}')`); if(status) status.innerHTML=`<span>✅ Fond IA placé derrière les pubs</span><button type="button" data-v138-action="background" data-offer="${enc(p)}" data-kind="bg">Régénérer fond</button>`;}
-    catch(e){if(status) status.innerHTML=`<span>✅ Fond sombre local placé derrière les pubs</span><button type="button" data-v138-action="background" data-offer="${enc(p)}" data-kind="bg">Régénérer fond</button>`;}
-    finally{if(btn){btn.disabled=false;btn.classList.remove('is-loading');}}
-  }
-  window.v138Run=runPack; window.v138Extra=runExtra; window.v138Background=runBackground;
-  window.generateContent=function(){runPack('base',offer());};
-  document.addEventListener('click',function(e){
-    const copy=e.target.closest('[data-v138-copy]'); if(copy){navigator.clipboard?.writeText(dec(copy.dataset.v138Copy)); copy.textContent='Copié'; setTimeout(()=>copy.textContent=copy.classList.contains('copyBtn')?'Copier tout':'Copier',900); return;}
-    const btn=e.target.closest('[data-v138-action]'); if(!btn) return;
-    e.preventDefault(); const action=btn.dataset.v138Action; const p=dec(btn.dataset.offer)||offer();
-    if(action==='background') return runBackground(p,btn);
-    if(btn.dataset.kind==='extra') return runExtra(action,p);
-    return runPack(action,p);
-  },true);
+  const oldGen=window.generateContent;
+  window.generateContent=function(){ const p=offer(); saveHistory('Pack réseaux sociaux',p); if(typeof oldGen==='function') return oldGen(); };
+  ready(()=>{ buildSidebar(); ensureHistoryPage(); setTitles(); tabs(); renderHistory(); document.addEventListener('click',()=>setTimeout(()=>{const active=document.querySelector('#v140NetworkTabs button.active')?.dataset.filter; if(active) filterCards(active);},200)); if(typeof window.showPage==='function') window.showPage('home'); });
 })();

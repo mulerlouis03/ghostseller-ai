@@ -1,5 +1,0 @@
-GhostSeller AI V139 - Background Really Behind Pub Cards
-- AI/generated background injected into each social card
-- Dark overlay keeps text readable
-- Background regenerate button updates CSS variable used by all cards
-- No copy/design regression from V138
