@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-prompt-intelligence-fix",
-  "version": "126.0.0",
+  "name": "ghostseller-ai-v128-marketing-engine",
+  "version": "128.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

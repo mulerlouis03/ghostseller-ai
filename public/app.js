@@ -115,85 +115,62 @@ function logout(){
   location.reload();
 }
 
-let lastMarketingPrompt = "";
-
-function marketingPayload(mode="standard"){
-  const prompt = val("contentPrompt") || val("contentNiche") || lastMarketingPrompt || "Produit ou service à promouvoir";
-  lastMarketingPrompt = prompt;
-  const modeMap = {
-    standard: { tone:"professionnel", goal:"Créer une campagne claire qui vend" },
-    variants: { tone:"multi-angle", goal:"Générer plusieurs nouvelles publicités complètement différentes" },
-    viral: { tone:"viral TikTok", goal:"Créer une version virale avec hook fort et FOMO" },
-    emotion: { tone:"émotionnel", goal:"Créer une version qui touche le besoin profond du client" },
-    luxury: { tone:"premium luxe", goal:"Positionner l'offre comme haut de gamme et désirable" },
-    hooks: { tone:"hooks", goal:"Générer 20 hooks courts et puissants" },
-    cta: { tone:"cta", goal:"Générer 10 appels à l'action prêts à copier" },
-    hashtags: { tone:"hashtags", goal:"Générer 30 hashtags pertinents" },
-    video: { tone:"video TikTok", goal:"Créer un plan vidéo TikTok 5 scènes avec sous-titres et CTA" }
-  };
-  const cfg = modeMap[mode] || modeMap.standard;
-  return { niche: prompt, platform:"Tous", tone:cfg.tone, goal:cfg.goal, mode };
-}
-
-function formatCampaign(r, mode="standard"){
-  const title = {
-    standard:"Campagne générée", variants:"Nouvelles idées publicitaires", viral:"Version virale", emotion:"Version émotion", luxury:"Version premium", hooks:"20 Hooks", cta:"10 CTA", hashtags:"Hashtags", video:"Script vidéo TikTok"
-  }[mode] || "Campagne générée";
-  return `
-    <div class="card gs-result-card">
-      <div class="gs-result-head">
-        <span class="badge">${esc(title)}</span>
-        <span class="badge">Viral Score ${esc(r.viral_score || "-")}</span>
-      </div>
-      <h2>${esc(r.hook || "Idée marketing")}</h2>
-      <div class="grid2">
-        <div class="item"><h3>Angle marketing</h3><p>${esc(r.psychological_angle || r.tone || "-")}</p><p><b>Émotion:</b> ${esc(r.dominant_emotion || "-")}</p></div>
-        <div class="item"><h3>CTA</h3><p>${esc(r.cta || "Contacte-nous maintenant.")}</p><p><b>Miniature:</b> ${esc(r.thumbnail_idea || "Texte court + image forte")}</p></div>
-      </div>
-      <div class="item"><h3>TikTok</h3><pre>${esc(JSON.stringify(r.tiktok_version || {}, null, 2))}</pre></div>
-      <div class="item"><h3>Instagram / Facebook</h3><pre>${esc(JSON.stringify(r.instagram_version || {}, null, 2))}</pre></div>
-      <div class="item"><h3>WhatsApp</h3><pre>${esc(JSON.stringify(r.whatsapp_version || {}, null, 2))}</pre></div>
-      <div class="item"><h3>Hashtags</h3><pre>${esc(JSON.stringify(r.hashtags || [], null, 2))}</pre></div>
-      <div class="advanced-actions">
-        <button onclick="generateContentVariant('variants')">🔄 Générer d'autres idées</button>
-        <button onclick="generateContentVariant('viral')">🔥 Version virale</button>
-        <button onclick="generateContentVariant('emotion')">❤️ Version émotion</button>
-        <button onclick="generateContentVariant('luxury')">💎 Version premium</button>
-        <button onclick="generateContentVariant('hooks')">🎣 20 hooks</button>
-        <button onclick="generateContentVariant('cta')">📢 10 CTA</button>
-        <button onclick="generateContentVariant('hashtags')">#️⃣ Hashtags</button>
-        <button onclick="generateContentVariant('video')">🎬 Générer vidéo</button>
-      </div>
-    </div>`;
-}
-
 async function generateContent(){
   const out = qs("contentOut");
-  if(!val("contentPrompt") && !val("contentNiche")){
-    out.innerHTML = `<div class="card error">Décris d'abord ton produit ou ton offre.</div>`;
-    return;
-  }
   out.innerHTML = "<div class='card'>Génération...</div>";
+
   try{
-    const data = await api("/api/content/generate","POST", marketingPayload("standard"));
+    const data = await api("/api/content/generate","POST",{
+      niche: val("contentNiche"),
+      platform: val("contentPlatform"),
+      tone: val("contentTone"),
+      goal: val("contentGoal")
+    });
+
     const r = data.result || data;
-    out.innerHTML = formatCampaign(r,"standard");
+
+    out.innerHTML = `
+      <div class="card">
+        <span class="badge">Viral Score ${esc(r.viral_score || "-")}</span>
+        <h2>${esc(r.hook || "Generated content")}</h2>
+
+        <div class="grid2">
+          <div class="item">
+            <h3>Psychology</h3>
+            <p><b>Angle:</b> ${esc(r.psychological_angle || "-")}</p>
+            <p><b>Emotion:</b> ${esc(r.dominant_emotion || "-")}</p>
+          </div>
+
+          <div class="item">
+            <h3>CTA</h3>
+            <p>${esc(r.cta || "-")}</p>
+            <p><b>Thumbnail:</b> ${esc(r.thumbnail_idea || "-")}</p>
+          </div>
+        </div>
+
+        <div class="item">
+          <h3>TikTok Script</h3>
+          <pre>${esc(JSON.stringify(r.tiktok_version || {}, null, 2))}</pre>
+        </div>
+
+        <div class="item">
+          <h3>Instagram Version</h3>
+          <pre>${esc(JSON.stringify(r.instagram_version || {}, null, 2))}</pre>
+        </div>
+
+        <div class="item">
+          <h3>WhatsApp Version</h3>
+          <pre>${esc(JSON.stringify(r.whatsapp_version || {}, null, 2))}</pre>
+        </div>
+
+        <div class="item">
+          <h3>Hashtags</h3>
+          <pre>${esc(JSON.stringify(r.hashtags || [], null, 2))}</pre>
+        </div>
+      </div>
+    `;
   }catch(e){
     out.innerHTML = `<div class="card error">${esc(e.message)}</div>`;
-  }
-}
-
-async function generateContentVariant(mode){
-  const out = qs("contentOut");
-  out.insertAdjacentHTML("afterbegin", "<div id='variantLoading' class='card'>Nouvelle génération...</div>");
-  try{
-    const data = await api("/api/content/generate","POST", marketingPayload(mode));
-    const r = data.result || data;
-    qs("variantLoading")?.remove();
-    out.insertAdjacentHTML("afterbegin", formatCampaign(r,mode));
-  }catch(e){
-    qs("variantLoading")?.remove();
-    out.insertAdjacentHTML("afterbegin", `<div class="card error">${esc(e.message)}</div>`);
   }
 }
 

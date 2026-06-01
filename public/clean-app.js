@@ -1305,3 +1305,158 @@ function generateVideo(){const prompt=document.getElementById("videoPrompt")?.va
 function generateWhatsApp(){const prompt=document.getElementById("whatsappPrompt")?.value||"";const p=v126pack(prompt);let seq=p.wa+`\n\nRELANCE 1 :\nBonjour, je reviens vers vous. Voulez-vous recevoir les détails ?\n\nRELANCE 2 :\nDernière relance. Répondez “${p.b.kw}” si vous voulez les infos.`;document.getElementById("whatsappOut").innerHTML=v126shell("Campagne WhatsApp prête à envoyer",`<div class="scriptBlock employeeScript">${v126esc(seq)}</div>`,seq)}
 function generateLeads(){const prompt=document.getElementById("leadsPrompt")?.value||"";const p=v126pack(prompt);let plan=`👥 PLAN DE PROSPECTION PRÊT\n\nCIBLE : ${p.b.cat==="transport"?"personnes qui voyagent sur ce trajet":"clients intéressés par l’offre"}\n\nOÙ PUBLIER :\n- Groupes Facebook\n- Statut WhatsApp\n- Instagram stories\n- Commentaires TikTok\n\nMESSAGE :\n${p.wa}`;document.getElementById("leadsOut").innerHTML=v126shell("Plan de prospection prêt",`<div class="scriptBlock employeeScript">${v126esc(plan)}</div>`,plan)}
 function placeResult(btn, html){}
+
+/* V128 MARKETING VARIANTS ENGINE — regeneration automatique */
+(function(){
+  const angles = {
+    ideas: { label:"🔄 Générer d'autres idées", title:"5 nouvelles variantes marketing", badge:"Variantes générées" },
+    viral: { label:"🔥 Version virale", title:"Version virale TikTok", badge:"Angle viral" },
+    emotion: { label:"❤️ Version émotionnelle", title:"Version émotionnelle", badge:"Angle émotion" },
+    premium: { label:"💎 Version premium", title:"Version premium", badge:"Angle premium" },
+    aggressive: { label:"⚡ Version agressive", title:"Version directe / agressive", badge:"Angle agressif" },
+    hooks: { label:"🎣 20 Hooks", title:"20 hooks prêts à tester", badge:"Hooks" },
+    cta: { label:"📢 10 CTA", title:"10 appels à l'action", badge:"CTA" },
+    hashtags: { label:"#️⃣ 30 Hashtags", title:"30 hashtags prêts", badge:"Hashtags" }
+  };
+
+  function safeText(v){ return String(v || "").trim(); }
+  function offerName(prompt){
+    const p = safeText(prompt);
+    if(!p) return "votre offre";
+    return p.length > 110 ? p.slice(0,110) + "..." : p;
+  }
+  function audienceFromPrompt(prompt){
+    const p = safeText(prompt).toLowerCase();
+    const age = safeText(prompt).match(/\d{2}\s*(?:à|a|-|–)\s*\d{2}\s*ans/i);
+    if(age) return age[0];
+    if(p.includes("jeune")) return "jeunes clients";
+    if(p.includes("diaspora")) return "diaspora";
+    if(p.includes("business") || p.includes("entrepreneur")) return "entrepreneurs";
+    return "clients potentiels";
+  }
+  function productType(prompt){
+    const p=safeText(prompt).toLowerCase();
+    if(p.includes("nike") || p.includes("basket") || p.includes("chaussure")) return "baskets";
+    if(p.includes("recharge") || p.includes("digicel") || p.includes("natcom")) return "recharge Haïti";
+    if(p.includes("coiff")) return "coiffure";
+    if(p.includes("parfum")) return "parfum";
+    if(p.includes("restaurant")) return "restaurant";
+    return "offre";
+  }
+  function block(title, text){
+    return `<div class="deliverableCard"><h3>${gsEscapeHtml(title)}</h3><div class="deliverableText">${gsEscapeHtml(text)}</div><button onclick='gsCopy(${JSON.stringify(text)})'>Copier</button></div>`;
+  }
+  function variantActions(prompt){
+    const encoded = JSON.stringify(prompt);
+    return `<div class="v128Actions">
+      <button onclick='v128GenerateVariant("ideas", ${encoded})'>🔄 Générer d'autres idées</button>
+      <button onclick='v128GenerateVariant("viral", ${encoded})'>🔥 Version virale</button>
+      <button onclick='v128GenerateVariant("emotion", ${encoded})'>❤️ Version émotionnelle</button>
+      <button onclick='v128GenerateVariant("premium", ${encoded})'>💎 Version premium</button>
+      <button onclick='v128GenerateVariant("aggressive", ${encoded})'>⚡ Version agressive</button>
+      <button onclick='v128GenerateVariant("hooks", ${encoded})'>🎣 20 Hooks</button>
+      <button onclick='v128GenerateVariant("cta", ${encoded})'>📢 10 CTA</button>
+      <button onclick='v128GenerateVariant("hashtags", ${encoded})'>#️⃣ 30 Hashtags</button>
+    </div><div id="v128VariantOut" class="v128VariantOut"></div>`;
+  }
+  function withActions(html, prompt){
+    return html.replace("</div>", `${variantActions(prompt)}</div>`);
+  }
+  function makeIdeas(prompt){
+    const offer=offerName(prompt), aud=audienceFromPrompt(prompt), type=productType(prompt);
+    return [
+      `ANGLE 1 — Urgence\n${offer}\nMessage : “Les personnes qui attendent ratent souvent les meilleures opportunités.”\nCTA : Écris INFO maintenant.`,
+      `ANGLE 2 — Storytelling\nAvant : le client hésite.\nAprès : il découvre ${type} et comprend pourquoi c’est fait pour ${aud}.\nCTA : Envoie “DETAILS”.`,
+      `ANGLE 3 — Preuve sociale\n“Tout le monde cherche une solution simple, mais peu trouvent une offre claire comme celle-ci.”\nCTA : Demande les infos en privé.`,
+      `ANGLE 4 — Lifestyle\nNe vends pas seulement ${type}. Vends le style, la confiance et l’envie que ça crée.\nCTA : DM “STYLE”.`,
+      `ANGLE 5 — FOMO\n“Quand l’offre sera partout, il sera déjà trop tard.”\nCTA : Écris “GO” pour recevoir les détails.`
+    ];
+  }
+  function makeViral(prompt){
+    const offer=offerName(prompt), aud=audienceFromPrompt(prompt);
+    return `🎬 SCRIPT TIKTOK VIRAL\n\nHOOK 0-2s\n“Attends… pourquoi personne ne parle de ça ?”\n\nSCÈNE 1\nMontre rapidement l’offre : ${offer}\nTexte écran : “Pensé pour ${aud}.”\n\nSCÈNE 2\n“Le problème, ce n’est pas le produit. C’est la façon de le présenter.”\n\nSCÈNE 3\nMontre le bénéfice principal en 1 phrase claire.\n\nSCÈNE 4\n“Si tu veux les détails, écris INFO maintenant.”\n\nCAPTION\nJ’ai trouvé une offre qui mérite plus d’attention. Qui veut les infos ?\n\nCTA\nCommente INFO ou envoie un DM.`;
+  }
+  function makeEmotion(prompt){
+    const offer=offerName(prompt);
+    return `❤️ VERSION ÉMOTIONNELLE\n\nParfois, ce n’est pas une grande chose qui change tout.\nC’est juste une bonne solution au bon moment.\n\n${offer}\n\nCette offre est faite pour les personnes qui veulent avancer simplement, sans perdre du temps à chercher partout.\n\nSi tu connais quelqu’un que ça peut aider, partage-lui ce message.\n\n📩 Écris INFO pour recevoir les détails.`;
+  }
+  function makePremium(prompt){
+    const offer=offerName(prompt);
+    return `💎 VERSION PREMIUM\n\nUne offre claire. Une présentation propre. Une expérience plus sérieuse.\n\n${offer}\n\nPensé pour ceux qui veulent quelque chose de fiable, simple et bien présenté.\n\n✅ Message professionnel\n✅ Offre facile à comprendre\n✅ Action rapide\n\n📩 Contactez-nous pour recevoir les détails.`;
+  }
+  function makeAggressive(prompt){
+    const offer=offerName(prompt);
+    return `⚡ VERSION DIRECTE\n\nArrête de passer à côté des bonnes offres.\n\n${offer}\n\nTu veux les détails ? Demande-les maintenant.\nTu hésites trop ? Quelqu’un d’autre va passer avant toi.\n\n📩 Écris INFO maintenant.`;
+  }
+  function makeHooks(prompt){
+    const type=productType(prompt);
+    return Array.from({length:20}).map((_,i)=>`${i+1}. ${[
+      `Tu cherches ${type} ? Regarde ça.`,
+      `Personne ne présente ${type} comme ça.`,
+      `Stop, cette offre peut t’intéresser.`,
+      `Avant d’acheter ailleurs, regarde ceci.`,
+      `Le détail que beaucoup de clients oublient.`,
+      `Cette offre est plus simple que tu penses.`,
+      `POV : tu découvres une meilleure option.`,
+      `Tu vas comprendre en 10 secondes.`,
+      `Voici pourquoi ça attire l’attention.`,
+      `Ne fais pas cette erreur avant de choisir.`,
+      `Une offre claire vaut mieux qu’un long discours.`,
+      `Ça, c’est le genre d’offre qui se partage.`,
+      `Tu veux économiser du temps ? Commence ici.`,
+      `Le bon choix commence par une bonne info.`,
+      `Regarde jusqu’à la fin avant de décider.`,
+      `Si tu hésites encore, lis ça.`,
+      `Ce message est pour les personnes qui veulent du concret.`,
+      `Simple, direct, efficace.`,
+      `Pourquoi attendre si c’est disponible ?`,
+      `Écris INFO et je t’envoie les détails.`
+    ][i]}`).join("\n");
+  }
+  function makeCTA(){
+    return ["Écris INFO pour recevoir les détails.","Envoie-moi un DM maintenant.","Commente GO si tu veux le lien.","Réserve ta place aujourd’hui.","Clique et demande les infos.","Partage à quelqu’un que ça peut aider.","Contacte-nous avant la fin de l’offre.","Dis-moi ‘oui’ et je t’envoie tout.","Passe à l’action maintenant.","Demande la version complète en privé."].map((x,i)=>`${i+1}. ${x}`).join("\n");
+  }
+  function makeHashtags(prompt){
+    const p=safeText(prompt).toLowerCase();
+    let base=["#business","#marketing","#vente","#offre","#clients","#tiktokfrance","#reelsfrance","#entrepreneur","#promotion","#shopping"];
+    if(p.includes("haiti")||p.includes("haïti")||p.includes("digicel")||p.includes("natcom")) base.push("#haiti","#diaspora","#digicel","#natcom","#recharge");
+    if(p.includes("nike")||p.includes("basket")||p.includes("chaussure")) base.push("#nike","#sneakers","#baskets","#style","#streetwear");
+    if(p.includes("coiff")) base.push("#coiffure","#beauty","#hair","#salon","#look");
+    while(base.length<30) base.push(`#idee${base.length+1}`);
+    return base.slice(0,30).join(" ");
+  }
+  window.v128GenerateVariant = function(type, prompt){
+    const out=document.getElementById("v128VariantOut");
+    if(!out) return;
+    const meta=angles[type] || angles.ideas;
+    out.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ ${meta.badge}</span><h2>${meta.title}</h2></div></div><div class="deliverableGrid"></div></div>`;
+    let text="";
+    let body="";
+    if(type==="ideas"){
+      const ideas=makeIdeas(prompt); text=ideas.join("\n\n---\n\n"); body=ideas.map((x,i)=>block(`Variante ${i+1}`,x)).join("");
+    }else if(type==="viral") { text=makeViral(prompt); body=block("TikTok viral", text); }
+    else if(type==="emotion") { text=makeEmotion(prompt); body=block("Émotion", text); }
+    else if(type==="premium") { text=makePremium(prompt); body=block("Premium", text); }
+    else if(type==="aggressive") { text=makeAggressive(prompt); body=block("Direct", text); }
+    else if(type==="hooks") { text=makeHooks(prompt); body=block("20 hooks", text); }
+    else if(type==="cta") { text=makeCTA(prompt); body=block("10 CTA", text); }
+    else if(type==="hashtags") { text=makeHashtags(prompt); body=block("30 hashtags", text); }
+    out.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ ${meta.badge}</span><h2>${meta.title}</h2></div><button class="copyBtn" onclick='gsCopy(${JSON.stringify(text)})'>Copier tout</button></div><div class="deliverableGrid">${body}</div></div>`;
+    gsSaveHistory("variant", meta.title, text);
+  };
+
+  const oldContent = typeof window.generateContent === "function" ? window.generateContent : null;
+  window.generateContent = function(){
+    const out=document.getElementById("contentOut");
+    const prompt=(document.getElementById("contentPrompt")?.value||"").trim();
+    if(!prompt){ out.innerHTML="<div class='generatedResult'>Décris ton offre avant de lancer GhostSeller.</div>"; return; }
+    out.innerHTML="<div class='employeeResult'>GhostSeller prépare le pack + les boutons de régénération...</div>";
+    setTimeout(()=>{
+      let html="";
+      try{ html = gsContentEmployee(prompt); }
+      catch(e){ html = oldContent ? "" : `<div class='employeeResult'>Erreur génération : ${gsEscapeHtml(e.message)}</div>`; }
+      if(!html){ html = `<div class='employeeResult'><div class='employeeHeader'><div><span class='employeeBadge'>✅ Travail terminé</span><h2>Pack marketing prêt</h2></div></div></div>`; }
+      out.innerHTML = withActions(html, prompt);
+    }, 400);
+  };
+})();

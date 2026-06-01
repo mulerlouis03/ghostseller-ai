@@ -1024,12 +1024,3 @@ pre[data-raw-json="true"]{
 
 /* V126 */
 .v125Result .deliverableText{min-height:180px}
-
-
-/* V127 Marketing Variants Pro */
-.advanced-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.10)}
-.advanced-actions button{border:1px solid rgba(255,255,255,.15);background:linear-gradient(135deg,rgba(124,58,237,.95),rgba(236,72,153,.85));color:#fff;border-radius:14px;padding:11px 14px;font-weight:800;cursor:pointer;box-shadow:0 12px 30px rgba(124,58,237,.18)}
-.advanced-actions button:hover{transform:translateY(-1px);filter:brightness(1.08)}
-.gs-result-card{border:1px solid rgba(124,58,237,.25);box-shadow:0 24px 70px rgba(0,0,0,.22)}
-.gs-result-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
-@media(max-width:720px){.advanced-actions{display:grid;grid-template-columns:1fr}.advanced-actions button{width:100%}}

@@ -1,0 +1,7 @@
+GhostSeller AI V128 MARKETING ENGINE
+- Base V126 corrigée
+- Boutons de régénération automatique sous le résultat
+- 5 nouvelles variantes marketing
+- Version virale, émotionnelle, premium, agressive
+- 20 hooks, 10 CTA, 30 hashtags
+- Correction interface: le bouton Créer contenu garde le prompt et génère les variantes sans retaper

@@ -1,7 +1,0 @@
-GhostSeller AI V127 REAL COMPLETE
-- Reparti du vrai V126 envoyé par l’utilisateur
-- Garde server.js, public/, api/, server/modules/, supabase/
-- Corrige le générateur contenu qui lisait les mauvais champs
-- Ajoute boutons variantes marketing sous chaque résultat
-- Ajoute: autres idées, viral, émotion, premium, hooks, CTA, hashtags, vidéo
-- Compatible Vercel avec server.js existant

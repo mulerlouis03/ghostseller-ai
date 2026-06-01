@@ -1057,3 +1057,9 @@ pre{
   max-height:230px !important;
   overflow:auto !important;
 }
+
+/* V128 Marketing Variants Engine */
+.v128Actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:18px 0 6px;padding:14px;border:1px solid rgba(255,255,255,.12);border-radius:18px;background:rgba(15,23,42,.55)}
+.v128Actions button{border:0;border-radius:14px;padding:12px 14px;font-weight:800;cursor:pointer;background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;box-shadow:0 10px 25px rgba(37,99,235,.22)}
+.v128Actions button:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.v128VariantOut{margin-top:14px}.v128VariantOut .employeeResult{border:1px solid rgba(124,58,237,.35)}
