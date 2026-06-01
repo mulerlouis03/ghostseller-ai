@@ -1553,11 +1553,44 @@ function placeResult(btn, html){}
     if(navigator.clipboard) navigator.clipboard.writeText(String(text||''));
   }
   window.v129Copy = window.gsCopy = window.v133Copy = V133_copy;
+  function V134_text(value){
+    if(value == null) return '';
+    if(Array.isArray(value)) return value.map(V134_text).filter(Boolean).join('\n');
+    if(typeof value === 'object'){
+      if(value.content) return V134_text(value.content);
+      if(value.text) return V134_text(value.text);
+      if(value.body) return V134_text(value.body);
+      if(value.caption) return V134_text(value.caption);
+      if(value.message) return V134_text(value.message);
+      if(value.script) return V134_text(value.script);
+      if(value.items) return V134_text(value.items);
+      return Object.entries(value).map(([k,v])=>{
+        const txt=V134_text(v);
+        return txt ? `${k.toUpperCase()}\n${txt}` : '';
+      }).filter(Boolean).join('\n\n');
+    }
+    return String(value);
+  }
+  function V134_normalizePack(raw){
+    const pack=raw && typeof raw==='object' ? raw : {};
+    return {
+      facebook: V134_text(pack.facebook || pack.fb || pack.facebook_post),
+      instagram: V134_text(pack.instagram || pack.instagram_post || pack.ig),
+      tiktok: V134_text(pack.tiktok || pack.tiktok_reels || pack.reels || pack.video_script),
+      whatsapp: V134_text(pack.whatsapp || pack.whatsapp_message),
+      story: V134_text(pack.story || pack.statut || pack.status),
+      hashtags: V134_text(pack.hashtags),
+      hooks: V134_text(pack.hooks),
+      cta: V134_text(pack.cta || pack.ctas)
+    };
+  }
   function V133_card(title, text){
+    text=V134_text(text);
     const arg=V133_arg(text);
     return `<div class="deliverableCard v133SocialCard"><h3>${V133_E(title)}</h3><div class="deliverableText">${V133_E(text)}</div><button type="button" onclick="v133Copy(decodeURIComponent('${arg}'))">Copier</button></div>`;
   }
   function V133_all(pack){
+    pack=V134_normalizePack(pack);
     return `FACEBOOK\n\n${pack.facebook||''}\n\n---\nINSTAGRAM\n\n${pack.instagram||''}\n\n---\nTIKTOK / REELS\n\n${pack.tiktok||''}\n\n---\nWHATSAPP\n\n${pack.whatsapp||''}\n\n---\nSTORY / STATUT\n\n${pack.story||''}\n\n---\nHASHTAGS\n\n${pack.hashtags||''}`;
   }
   function V133_actions(offer){
@@ -1576,6 +1609,7 @@ function placeResult(btn, html){}
     </div>`;
   }
   function V133_renderPack(pack, offer, title){
+    pack=V134_normalizePack(pack);
     const all=V133_all(pack); const allArg=V133_arg(all);
     return `<div class="employeeResult v133Result"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail exécuté</span><h2>${V133_E(title||'Pack réseaux sociaux prêt')}</h2><p class="muted">Contenu directement prêt à publier : Facebook, Instagram, TikTok/Reels, WhatsApp, Story et hashtags.</p></div><button class="copyBtn" type="button" onclick="v133Copy(decodeURIComponent('${allArg}'))">Copier tout</button></div>${V133_actions(offer)}<div class="deliverableGrid v133Grid">${V133_card('Facebook',pack.facebook)}${V133_card('Instagram',pack.instagram)}${V133_card('TikTok / Reels',pack.tiktok)}${V133_card('WhatsApp',pack.whatsapp)}${V133_card('Story / Statut',pack.story)}${V133_card('Hashtags',pack.hashtags)}</div><div id="v133ExtraOut"></div></div>`;
   }
@@ -1606,9 +1640,9 @@ function placeResult(btn, html){}
     extra.innerHTML='<div class="employeeResult"><span class="employeeBadge">🤖 Travail en cours</span><h2>Génération...</h2></div>';
     try{
       const data=await V133_post('/api/content/social-pack',{offer,angle:type});
-      const pack=data.pack||{};
+      const pack=V134_normalizePack(data.pack||{});
       const title=type==='hooks'?'20 hooks prêts à tester':type==='cta'?'10 CTA prêts à utiliser':'30 hashtags prêts';
-      const text=type==='hooks'?pack.hooks:type==='cta'?pack.cta:pack.hashtags;
+      const text=V134_text(type==='hooks'?pack.hooks:type==='cta'?pack.cta:pack.hashtags);
       extra.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ Exécuté</span><h2>${V133_E(title)}</h2></div><button class="copyBtn" onclick="v133Copy(decodeURIComponent('${V133_arg(text)}'))">Copier tout</button></div><div class="scriptBlock employeeScript">${V133_E(text)}</div></div>`;
     }catch(e){ extra.innerHTML=`<div class="employeeResult error">${V133_E(e.message)}</div>`; }
   };
@@ -1619,7 +1653,7 @@ function placeResult(btn, html){}
     try{
       const data=await V133_post('/api/content/background-image',{offer});
       const promptArg=V133_arg(data.prompt||'');
-      extra.innerHTML=`<div class="employeeResult v133BgDone"><div class="employeeHeader"><div><span class="employeeBadge">✅ Fond créé</span><h2>Fond IA prêt à utiliser</h2><p class="muted">${V133_E(data.provider||'image')} ${data.warning?'- fallback utilisé':''}</p></div><button class="copyBtn" onclick="v133Copy(decodeURIComponent('${promptArg}'))">Copier le prompt</button></div><div class="v133GeneratedImageWrap"><img src="${V133_E(data.imageUrl)}" alt="Fond IA généré pour publicité"/></div><div class="scriptBlock employeeScript small">${V133_E(data.prompt||'')}</div></div>`;
+      extra.innerHTML=`<div class="employeeResult v133BgDone"><div class="employeeHeader"><div><span class="employeeBadge">✅ Fond créé</span><h2>Fond IA prêt à publier</h2><p class="muted">Image sombre générée automatiquement selon ton produit. Tu peux mettre le texte blanc par-dessus.</p></div><button class="copyBtn" onclick="v133Copy(decodeURIComponent('${promptArg}'))">Copier prompt technique</button></div><div class="v133GeneratedImageWrap"><img src="${V133_E(data.imageUrl)}" alt="Fond IA généré pour publicité"/></div></div>`;
     }catch(e){ extra.innerHTML=`<div class="employeeResult error">${V133_E(e.message)}</div>`; }
   };
   window.v129Regen = function(kind,p){ window.v133Run(kind,p); };
@@ -1630,7 +1664,6 @@ function placeResult(btn, html){}
   window.generateContent = function(){ window.v133Run('base', V133_arg(V133_offer())); };
 
   window.logout = window.v133Logout = function(){
-    if(!confirm('Voulez-vous vraiment vous déconnecter ?')) return;
     try{
       ['ghostseller_token','token','authToken','supabase.auth.token'].forEach(k=>localStorage.removeItem(k));
       sessionStorage.clear();
@@ -1639,13 +1672,12 @@ function placeResult(btn, html){}
   };
   function fixAccountLogout(){
     try{
-      document.querySelectorAll('aside .logout, #v91LogoutBtn').forEach(el=>el.remove());
-      let panel=document.querySelector('.securityPanelV131');
-      if(panel && !panel.querySelector('.logoutAccountBtnV133')){
-        const box=document.createElement('div');
-        box.className='securityLogoutBoxV132 securityLogoutBoxV133';
-        box.innerHTML='<div><b>Déconnexion</b><span>Se déconnecter de ton compte sur cet appareil.</span></div><button type="button" class="logoutAccountBtn logoutAccountBtnV131 logoutAccountBtnV133">⎋ Se déconnecter</button>';
-        panel.appendChild(box);
+      document.querySelectorAll('aside .logout, #v91LogoutBtn, [onclick*=\"logout\"]').forEach(el=>{
+        if(el.closest('aside') || el.id==='v91LogoutBtn') el.remove();
+      });
+      const panel=document.querySelector('.securityPanelV131');
+      if(panel){
+        panel.innerHTML = '<div class="securityLogoutBoxV132 securityLogoutBoxV133 securityLogoutBoxV134"><div><b>Déconnexion</b><span>Se déconnecter immédiatement de ton compte sur cet appareil.</span></div><button type="button" class="logoutAccountBtn logoutAccountBtnV131 logoutAccountBtnV133">⎋ Se déconnecter</button></div>';
       }
       document.querySelectorAll('.logoutAccountBtn,.logoutAccountBtnV133').forEach(btn=>{btn.onclick=window.v133Logout;});
     }catch(e){}
@@ -1653,3 +1685,5 @@ function placeResult(btn, html){}
   document.addEventListener('DOMContentLoaded', fixAccountLogout);
   setTimeout(fixAccountLogout,400); setTimeout(fixAccountLogout,1500); setTimeout(fixAccountLogout,3000);
 })();
+
+/* V134: normalized AI objects, direct logout, cleaner account security, background image executes without showing instructions */

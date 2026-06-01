@@ -217,6 +217,28 @@ async function v133OpenAIChatJSON(messages){
   const raw=data?.choices?.[0]?.message?.content || "{}";
   return JSON.parse(raw);
 }
+
+function v134Text(value){
+  if(value == null) return "";
+  if(Array.isArray(value)) return value.map(v134Text).filter(Boolean).join("\n");
+  if(typeof value === "object"){
+    return v134Text(value.content || value.text || value.body || value.caption || value.message || value.script || value.items || Object.entries(value).map(([k,v])=>`${k.toUpperCase()}\n${v134Text(v)}`).join("\n\n"));
+  }
+  return String(value);
+}
+function v134NormalizePack(raw){
+  const p = raw && typeof raw === "object" ? raw : {};
+  return {
+    facebook: v134Text(p.facebook || p.fb || p.facebook_post),
+    instagram: v134Text(p.instagram || p.instagram_post || p.ig),
+    tiktok: v134Text(p.tiktok || p.tiktok_reels || p.reels || p.video_script),
+    whatsapp: v134Text(p.whatsapp || p.whatsapp_message),
+    story: v134Text(p.story || p.statut || p.status),
+    hashtags: v134Text(p.hashtags),
+    hooks: v134Text(p.hooks),
+    cta: v134Text(p.cta || p.ctas)
+  };
+}
 contentRouter.post("/social-pack", requireAuth, async (req,res)=>{
   const offer=String(req.body?.offer || req.body?.prompt || "").trim();
   const angle=String(req.body?.angle || "base").trim();
@@ -228,11 +250,11 @@ contentRouter.post("/social-pack", requireAuth, async (req,res)=>{
         {role:"user",content:JSON.stringify({task:"Create a complete ready-to-publish social media marketing pack",offer,angle,required_keys:["facebook","instagram","tiktok","whatsapp","story","hashtags","hooks","cta"],rules:["French language","specific to the offer","TikTok has 5 scenes with timing","WhatsApp is ready to send","hashtags as one string with 20-30 hashtags","hooks as numbered list of 20","cta as numbered list of 10","do not explain what to do"]})}
       ]);
       const fallback=v133FallbackPack(offer,angle);
-      return res.json({ok:true,provider:"openai",pack:{...fallback,...json,provider:"openai"}});
+      return res.json({ok:true,provider:"openai",pack:{...fallback,...v134NormalizePack(json),provider:"openai"}});
     }
-    return res.json({ok:true,provider:"fallback",pack:v133FallbackPack(offer,angle)});
+    return res.json({ok:true,provider:"fallback",pack:v134NormalizePack(v133FallbackPack(offer,angle))});
   }catch(e){
-    return res.json({ok:true,provider:"fallback_after_error",warning:e.message,pack:v133FallbackPack(offer,angle)});
+    return res.json({ok:true,provider:"fallback_after_error",warning:e.message,pack:v134NormalizePack(v133FallbackPack(offer,angle))});
   }
 });
 function v133BackgroundPrompt(offer=""){
@@ -244,7 +266,7 @@ function v133BackgroundPrompt(offer=""){
   else if(l.includes("montre")||l.includes("luxe")||l.includes("bijou")) theme="luxury black marble, elegant watch display mood, gold reflections, mysterious premium shadows";
   else if(l.includes("parfum")||l.includes("cosm")||l.includes("beaut")) theme="abstract luxury perfume cosmetic background, smooth dark glass, soft mist, elegant reflections";
   else if(l.includes("sac")) theme="fashion handbag campaign, dark studio background, soft spotlight, premium retail atmosphere";
-  return `Photorealistic 8K cinematic dark background for a marketing ad: ${theme}. Deep black gradient overlay, high contrast, soft cinematic lighting, clean negative space in the center for readable advertising text, no words, no letters, no logo, no watermark, vertical social media composition.`;
+  return `Photorealistic 8K cinematic dark background for a marketing ad: ${theme}. Deep black gradient overlay, high contrast, soft cinematic lighting, clean negative space in the center for readable white advertising text. Negative prompt: no words, no letters, no logo, no watermark, no bright daylight, no overexposed colors, no clutter. Vertical social media composition.`;
 }
 function v133SvgDataUrl(offer=""){
   const l=String(offer).toLowerCase();

@@ -1,7 +1,8 @@
-GhostSeller AI V133 REAL AI EXECUTION FIX
-- Boutons régénération actifs : chaque bouton appelle /api/content/social-pack
-- Les boutons ne donnent plus des conseils : ils génèrent un pack complet prêt à publier
-- Fond IA : bouton Créer fond IA génère une vraie image si OPENAI_API_KEY est configurée
-- Fallback image SVG sombre utilisable même sans clé OpenAI
-- Déconnexion déplacée dans Mon compte, ancien bouton sidebar supprimé
-- OPENAI_IMAGE_MODEL=gpt-image-1 optionnel
+GhostSeller AI V134 REAL EXECUTION ACCOUNT BACKGROUND FIX
+- Corrige [object Object]
+- Boutons de variantes réellement exécutés via API
+- Déconnexion directe sans popup
+- Ancien bouton déconnexion du menu supprimé
+- Carte sécurité simplifiée
+- Fond IA généré et affiché directement, sans instructions visibles
+- Prompts image dark mode améliorés avec negative prompt
