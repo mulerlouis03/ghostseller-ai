@@ -1,0 +1,46 @@
+#ghostseller-global-actions{
+  position:fixed;
+  top:12px;
+  right:16px;
+  z-index:2147483647;
+  display:flex;
+  gap:8px;
+  align-items:center;
+  font-family:Inter,Arial,sans-serif;
+}
+#ghostseller-global-actions a,
+#ghostseller-global-actions button{
+  min-height:34px;
+  padding:0 12px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(9,15,34,.88);
+  color:#fff;
+  text-decoration:none;
+  font-weight:850;
+  font-size:13px;
+  cursor:pointer;
+  backdrop-filter:blur(14px);
+}
+#ghostseller-global-actions .owner-link{
+  background:linear-gradient(135deg,rgba(36,214,255,.25),rgba(255,200,87,.18));
+}
+#ghostseller-global-actions .logout-btn{
+  background:rgba(255,92,124,.18);
+  border-color:rgba(255,92,124,.35);
+}
+#ghostseller-bottom-actions,
+#owner-quick-access,
+#owner-quick-access-old{
+  display:none!important;
+}
+body:not(.ghostseller-authenticated) #ghostseller-global-actions{
+  display:none!important;
+}
+@media(max-width:800px){
+  #ghostseller-global-actions{
+    top:auto;
+    bottom:10px;
+    right:10px;
+  }
+}

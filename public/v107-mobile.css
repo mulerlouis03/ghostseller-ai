@@ -1,0 +1,232 @@
+/* GhostSeller AI V107 Mobile User Stable */
+html, body{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden!important;
+  overscroll-behavior-x:none;
+}
+*{
+  max-width:100%;
+}
+.mobileTopbar{
+  display:none;
+}
+.mobileOverlay{
+  display:none;
+}
+.betaNotice{
+  max-width:100%;
+}
+.betaFeedbackBtn{
+  white-space:nowrap;
+}
+@media(max-width: 860px){
+  body{
+    background:#050812!important;
+  }
+
+  .auth-page{
+    min-height:100dvh!important;
+    grid-template-columns:1fr!important;
+    padding:14px!important;
+    overflow-x:hidden!important;
+  }
+
+  .auth-left h1{
+    font-size:38px!important;
+    line-height:1!important;
+  }
+
+  .app{
+    display:block!important;
+    min-height:100dvh!important;
+    width:100%!important;
+    overflow-x:hidden!important;
+  }
+
+  .mobileTopbar{
+    position:sticky;
+    top:0;
+    z-index:9999;
+    height:64px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:10px 12px;
+    background:rgba(5,8,18,.94);
+    border-bottom:1px solid rgba(255,255,255,.12);
+    backdrop-filter:blur(14px);
+  }
+
+  .mobileBrand{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    min-width:0;
+  }
+
+  .mobileBrand .logo{
+    width:38px!important;
+    height:38px!important;
+    flex:0 0 auto;
+  }
+
+  .mobileBrand strong{
+    display:block;
+    color:white;
+    font-size:15px;
+    line-height:1.1;
+  }
+
+  .mobileBrand span{
+    color:#9caed2;
+    font-size:11px;
+  }
+
+  .menuBtn{
+    width:44px;
+    height:44px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(255,255,255,.07);
+    color:white;
+    font-weight:1000;
+    font-size:20px;
+  }
+
+  .sidebar{
+    position:fixed!important;
+    left:0;
+    top:0;
+    bottom:0;
+    width:82vw!important;
+    max-width:310px!important;
+    height:100dvh!important;
+    z-index:10001;
+    transform:translateX(-105%);
+    transition:transform .22s ease;
+    overflow-y:auto!important;
+    padding-top:16px!important;
+    border-right:1px solid rgba(255,255,255,.16)!important;
+  }
+
+  body.mobileMenuOpen .sidebar{
+    transform:translateX(0);
+  }
+
+  .mobileOverlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.58);
+    z-index:10000;
+  }
+
+  body.mobileMenuOpen .mobileOverlay{
+    display:block;
+  }
+
+  .main{
+    width:100%!important;
+    max-width:100%!important;
+    margin:0!important;
+    padding:12px!important;
+    overflow-x:hidden!important;
+  }
+
+  .topbar{
+    display:block!important;
+    padding:16px!important;
+    margin:12px 0!important;
+    border-radius:20px!important;
+  }
+
+  .topbar h1{
+    font-size:34px!important;
+    line-height:1!important;
+    word-break:normal;
+    overflow-wrap:anywhere;
+  }
+
+  .topbar p{
+    font-size:15px!important;
+  }
+
+  .top-actions{
+    display:flex!important;
+    justify-content:flex-start!important;
+    margin-top:12px!important;
+    gap:8px!important;
+  }
+
+  .pill{
+    min-height:34px!important;
+    padding:7px 10px!important;
+    font-size:13px!important;
+  }
+
+  .stats,.grid,.plans,#account .grid{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+    width:100%!important;
+  }
+
+  .stat,.card{
+    width:100%!important;
+    min-width:0!important;
+    padding:16px!important;
+    border-radius:20px!important;
+  }
+
+  .hero{
+    grid-column:span 1!important;
+  }
+
+  .card textarea,.auth-card input,.selectField{
+    width:100%!important;
+    min-width:0!important;
+    font-size:16px!important;
+  }
+
+  .quick-actions,.account-actions,.auth-actions{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:10px!important;
+  }
+
+  button,.buttonLink{
+    width:100%;
+    justify-content:center;
+  }
+
+  .betaNotice{
+    display:block!important;
+    padding:16px!important;
+    margin:12px 0!important;
+    border-radius:20px!important;
+  }
+
+  .betaNotice h2{
+    font-size:20px!important;
+  }
+
+  .betaNotice p{
+    font-size:14px!important;
+  }
+
+  .betaFeedbackBtn{
+    width:100%!important;
+    margin-top:12px!important;
+  }
+
+  .logout{
+    margin-bottom:20px!important;
+  }
+
+  pre,.output pre{
+    white-space:pre-wrap!important;
+    word-break:break-word!important;
+    overflow-x:auto!important;
+  }
+}

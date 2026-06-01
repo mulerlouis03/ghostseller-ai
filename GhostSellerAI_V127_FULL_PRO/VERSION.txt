@@ -1,7 +1,0 @@
-GhostSeller AI V127 FULL PRO
-- App React/Vite complète
-- API generate complète avec fallback
-- API health
-- Boutons variantes marketing
-- Hooks, CTA, hashtags
-- Route /create-content corrigée avec vercel.json

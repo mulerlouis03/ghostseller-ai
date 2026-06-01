@@ -1,0 +1,150 @@
+import { feedbackRouter } from "./server/modules/feedback/routes.js";
+import { ownerConsoleRouter } from "./server/modules/ownerConsole/routes.js";
+import { stripeBillingRouter } from "./server/modules/stripeBilling/routes.js";
+import { basicRateLimit } from "./server/middleware/rateLimit.js";
+import { errorHandler } from "./server/middleware/errorHandler.js";
+import express from "express";
+import { stripeLiveWebhookRouter } from "./server/routes/stripeLiveWebhook.js";
+import { stripeWebhookRouter } from "./server/routes/stripeWebhook.js";
+import dotenv from "dotenv";
+import path from "path";
+import { fileURLToPath } from "url";
+import { healthRouter } from "./server/routes/health.js";
+import { securityRouter } from "./server/routes/security.js";
+import { securityHeaders, apiRateLimit } from "./server/lib/security.js";
+import { authRouter } from "./server/modules/auth/routes.js";
+import { projectRouter } from "./server/modules/projects/routes.js";
+import { videoRouter } from "./server/modules/video/routes.js";
+import { growthRouter } from "./server/modules/growth/routes.js";
+import { osRouter } from "./server/modules/os/routes.js";
+import { cmoRouter } from "./server/modules/cmo/routes.js";
+import { connectorsRouter } from "./server/modules/connectors/routes.js";
+import { agentsRouter } from "./server/modules/agents/routes.js";
+import { unifiedBrainRouter } from "./server/modules/unifiedBrain/routes.js";
+import { executionRouter } from "./server/modules/execution/routes.js";
+import { memoryRouter } from "./server/modules/memory/routes.js";
+import { optimizationRouter } from "./server/modules/optimization/routes.js";
+import { opportunitiesRouter } from "./server/modules/opportunities/routes.js";
+import { webhooksRouter } from "./server/routes/webhooks.js";
+import { trendsRouter } from "./server/modules/trends/routes.js";
+import { leadsRouter } from "./server/modules/leads/routes.js";
+import { billingRouter } from "./server/modules/billing/routes.js";
+import { usageRouter } from "./server/modules/usage/routes.js";
+import { emailsRouter } from "./server/modules/emails/routes.js";
+import { betaRouter } from "./server/modules/beta/routes.js";
+import { adminRouter } from "./server/modules/admin/routes.js";
+import { autoCampaignRouter } from "./server/modules/autocampaign/routes.js";
+import { launchRouter } from "./server/modules/launch/routes.js";
+import { aiRouter } from "./server/modules/ai/routes.js";
+import { socialRouter } from "./server/modules/social/routes.js";
+import { revenueRouter } from "./server/modules/revenue/routes.js";
+import { autoGrowthRouter } from "./server/modules/autogrowth/routes.js";
+import { launchpadRouter } from "./server/modules/launchpad/routes.js";
+import { tiktokRouter } from "./server/modules/tiktok/routes.js";
+import { acquisitionRouter } from "./server/modules/acquisition/routes.js";
+import { revenueAutomationRouter } from "./server/modules/revenueAutomation/routes.js";
+import { stripeLiveRouter } from "./server/modules/stripeLive/routes.js";
+import { referralRouter } from "./server/modules/referral/routes.js";
+import { promoRouter } from "./server/modules/promo/routes.js";
+import { tiktokAutomationRouter } from "./server/modules/tiktokAutomation/routes.js";
+import { tiktokConnectRouter } from "./server/modules/tiktokConnect/routes.js";
+import { tiktokLaunchRouter } from "./server/modules/tiktokLaunch/routes.js";
+import { metaRouter } from "./server/modules/meta/routes.js";
+import { contentRouter } from "./server/modules/content/routes.js";
+import { waitlistRouter } from "./server/modules/waitlist/routes.js";
+import { analyticsRouter } from "./server/modules/analytics/routes.js";
+import { onboardingRouter } from "./server/modules/onboarding/routes.js";
+import { nichesRouter } from "./server/modules/niches/routes.js";
+import { brainRouter } from "./server/modules/brain/routes.js";
+import { creativeRouter } from "./server/modules/creative/routes.js";
+dotenv.config();
+const app = express();
+app.use("/api/owner-console", ownerConsoleRouter);
+app.use("/api/billing", stripeBillingRouter);
+app.get("/tiktok-developers-site-verification.txt", (_req,res)=>res.status(200).type("text/plain").send("tiktok-developers-site-verification=MrAqN4sF4FYud7rxE0Cy87UDeSorjBtR"));
+
+app.get("/privacy", (_req,res)=>res.sendFile("privacy.html", { root:"public" }));
+app.get("/terms", (_req,res)=>res.sendFile("terms.html", { root:"public" }));
+app.get("/contact", (_req,res)=>res.sendFile("contact.html", { root:"public" }));
+
+
+app.use("/api/stripe-live/webhook", stripeLiveWebhookRouter);
+
+app.use("/api/stripe/webhook", stripeWebhookRouter);
+
+app.use(basicRateLimit(180,60000));
+app.use(securityHeaders);
+app.use("/api", apiRateLimit(120, 60_000));
+app.use(express.json({ limit: "1mb" }));
+app.use("/api/feedback", feedbackRouter);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.get("/owner", (_req, res) => {
+  res.sendFile(path.join(__dirname, "public", "owner.html"));
+});
+
+app.get("/admin", (_req, res) => {
+  res.sendFile(path.join(__dirname, "public", "owner.html"));
+});
+
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/landing", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "landing.html"));
+});
+
+app.get("/reset-password", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "reset-password.html"));
+});
+app.use("/api/health", healthRouter);
+app.use("/api/security", securityRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/projects", projectRouter);
+app.use("/api/video", videoRouter);
+app.use("/api/growth", growthRouter);
+app.use("/api/os", osRouter);
+app.use("/api/cmo", cmoRouter);
+app.use("/api/agents", agentsRouter);
+app.use("/api/brain/unified", unifiedBrainRouter);
+app.use("/api/execution", executionRouter);
+app.use("/api/memory", memoryRouter);
+app.use("/api/optimization", optimizationRouter);
+app.use("/api/opportunities", opportunitiesRouter);
+app.use("/api/connectors", connectorsRouter);
+app.use("/api/webhooks", webhooksRouter);
+app.use("/api/trends", trendsRouter);
+app.use("/api/leads", leadsRouter);
+app.use("/api/billing", billingRouter);
+app.use("/api/usage", usageRouter);
+app.use("/api/emails", emailsRouter);
+app.use("/api/beta", betaRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api/autocampaign", autoCampaignRouter);
+app.use("/api/launch", launchRouter);
+app.use("/api/ai", aiRouter);
+app.use("/api/social", socialRouter);
+app.use("/api/revenue", revenueRouter);
+app.use("/api/autogrowth", autoGrowthRouter);
+app.use("/api/launchpad", launchpadRouter);
+app.use("/api/tiktok", tiktokRouter);
+app.use("/api/acquisition", acquisitionRouter);
+app.use("/api/revenue-automation", revenueAutomationRouter);
+app.use("/api/stripe-live", stripeLiveRouter);
+app.use("/api/referral", referralRouter);
+app.use("/api/promo", promoRouter);
+app.use("/api/tiktok-automation", tiktokAutomationRouter);
+app.use("/api/tiktok-connect", tiktokConnectRouter);
+app.use("/api/tiktok-launch", tiktokLaunchRouter);
+app.use("/api/meta", metaRouter);
+app.use("/api/content", contentRouter);
+app.use("/api/waitlist", waitlistRouter);
+app.use("/api/analytics", analyticsRouter);
+app.use("/api/onboarding", onboardingRouter);
+app.use("/api/niches", nichesRouter);
+app.use("/api/brain", brainRouter);
+app.use("/api/creative", creativeRouter);
+app.use(errorHandler);
+app.get("*", (req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
+export default app;
+
