@@ -1,5 +1,1 @@
-GhostSeller AI V200 CORE REBUILD
-- Built from uploaded V136
-- Active connected buttons
-- Background image placed behind pub cards
-- Sidebar simplified patch
+GhostSeller AI V142 PROMPT ECHO BUG FIX
