@@ -1302,3 +1302,19 @@ pre[data-raw-json="true"]{
 .logoutAccountBtnV131{display:inline-flex!important;align-items:center;justify-content:center!important;visibility:visible!important;opacity:1!important;background:linear-gradient(135deg,#7f1d1d,#ef4444)!important;border:1px solid rgba(248,113,113,.7)!important;color:white!important;font-weight:900!important;box-shadow:0 12px 32px rgba(239,68,68,.18)!important;min-height:46px!important;border-radius:16px!important;}
 .logoutAccountBtnV131:hover{filter:brightness(1.12);transform:translateY(-1px)}
 @media(max-width:720px){.securityLogoutBoxV132{display:grid;grid-template-columns:1fr;}.logoutAccountBtnV131{width:100%!important}.v132BgPanel{margin-top:12px}}
+
+/* V133 — execution UI fixes */
+aside .logout, #v91LogoutBtn{display:none!important;}
+.securityLogoutBoxV132,.securityLogoutBoxV133{display:flex!important;align-items:center;justify-content:space-between;gap:18px;margin-top:18px;padding:18px;border-radius:18px;background:linear-gradient(135deg,rgba(127,29,29,.36),rgba(12,18,36,.72));border:1px solid rgba(248,113,113,.45);box-shadow:0 0 30px rgba(239,68,68,.10);}
+.securityLogoutBoxV132 span,.securityLogoutBoxV133 span{display:block;color:#c7d2fe;font-weight:600;margin-top:4px;}
+.logoutAccountBtnV131,.logoutAccountBtnV133{display:inline-flex!important;align-items:center;justify-content:center;min-width:190px;padding:13px 18px!important;border-radius:14px!important;background:rgba(127,29,29,.55)!important;border:1px solid rgba(248,113,113,.75)!important;color:#fecaca!important;font-weight:900!important;cursor:pointer!important;}
+.logoutAccountBtnV131:hover,.logoutAccountBtnV133:hover{background:rgba(185,28,28,.75)!important;color:#fff!important;}
+.v133Actions{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0;}
+.v133Actions button{border:0;border-radius:999px;padding:12px 18px;background:linear-gradient(135deg,#38bdf8,#a855f7);color:#fff;font-weight:900;cursor:pointer;box-shadow:0 10px 24px rgba(56,189,248,.12);}
+.v133Actions button:hover{transform:translateY(-1px);filter:brightness(1.08);}
+.v133Grid{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;}
+.v133SocialCard .deliverableText{white-space:pre-wrap;line-height:1.55;}
+.v133GeneratedImageWrap{border-radius:24px;overflow:hidden;border:1px solid rgba(99,102,241,.38);background:#050714;margin:16px 0;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.35);}
+.v133GeneratedImageWrap img{display:block;width:100%;height:auto;}
+.v133BgDone .small{font-size:12px;opacity:.8;max-height:140px;overflow:auto;}
+@media(max-width:900px){.v133Grid{grid-template-columns:1fr!important}.v133Actions{gap:8px}.v133Actions button{width:100%;padding:12px 14px}.securityLogoutBoxV132,.securityLogoutBoxV133{flex-direction:column;align-items:stretch}.logoutAccountBtnV131,.logoutAccountBtnV133{width:100%;min-width:0}.v133GeneratedImageWrap{max-width:100%;}}

@@ -1538,3 +1538,118 @@ function placeResult(btn, html){}
   window.v129Hashtags=function(p){ p=readArg(p); const text=['#sac','#sacmain','#sactendance','#modefemme','#jeunesfilles','#stylefemme','#lookdujour','#shopping','#accessoire','#fashion','#outfit','#tendance','#boutique','#vente','#promotion','#instashop','#tiktokshop','#reelsfrance','#tiktokfrance','#ideecadeau','#sacfashion','#mode2026','#business','#clients','#offre','#nouveaute','#style','#fille','#beauty','#viral'].join(' '); const extra=document.getElementById('v129ExtraOut')||document.getElementById('contentOut'); extra.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ Hashtags prêts</span><h2>30 hashtags</h2></div><button class="copyBtn" onclick='v129Copy(${JSON.stringify(text)})'>Copier tout</button></div><div class="scriptBlock employeeScript">${E(text)}</div></div>`; };
   window.generateContent=function(){ const out=document.getElementById('contentOut'); const p=prompt(); if(!out) return; if(!p){ out.innerHTML='<div class="employeeResult">Décris ton offre avant de générer.</div>'; return; } out.innerHTML='<div class="employeeResult">GhostSeller prépare le pack complet réseaux sociaux...</div>'; setTimeout(()=>{ out.innerHTML=render('base',p,'Pack réseaux sociaux prêt'); try{ if(typeof gsSaveHistory==='function') gsSaveHistory('content','Pack réseaux sociaux prêt',allText(makePack('base',p))); }catch(e){} },250); };
 })();
+
+/* V133 REAL EXECUTION FIX — active buttons call backend, real background image, clean logout */
+(function(){
+  function V133_E(s){
+    return String(s ?? '').replace(/[&<>"']/g, function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];});
+  }
+  function V133_offer(){
+    return (document.getElementById('contentPrompt')?.value || document.getElementById('contentNiche')?.value || '').trim();
+  }
+  function V133_arg(v){ return encodeURIComponent(String(v || '')); }
+  function V133_decode(v){ try{return decodeURIComponent(String(v || ''));}catch(e){return String(v || '');} }
+  function V133_copy(text){
+    if(navigator.clipboard) navigator.clipboard.writeText(String(text||''));
+  }
+  window.v129Copy = window.gsCopy = window.v133Copy = V133_copy;
+  function V133_card(title, text){
+    const arg=V133_arg(text);
+    return `<div class="deliverableCard v133SocialCard"><h3>${V133_E(title)}</h3><div class="deliverableText">${V133_E(text)}</div><button type="button" onclick="v133Copy(decodeURIComponent('${arg}'))">Copier</button></div>`;
+  }
+  function V133_all(pack){
+    return `FACEBOOK\n\n${pack.facebook||''}\n\n---\nINSTAGRAM\n\n${pack.instagram||''}\n\n---\nTIKTOK / REELS\n\n${pack.tiktok||''}\n\n---\nWHATSAPP\n\n${pack.whatsapp||''}\n\n---\nSTORY / STATUT\n\n${pack.story||''}\n\n---\nHASHTAGS\n\n${pack.hashtags||''}`;
+  }
+  function V133_actions(offer){
+    const q=V133_arg(offer);
+    return `<div class="v133Actions">
+      <button type="button" onclick="v133Run('ideas','${q}')">🔄 Générer d'autres idées</button>
+      <button type="button" onclick="v133Run('viral','${q}')">🔥 Version virale</button>
+      <button type="button" onclick="v133Run('emotion','${q}')">❤️ Émotionnelle</button>
+      <button type="button" onclick="v133Run('premium','${q}')">💎 Premium</button>
+      <button type="button" onclick="v133Run('aggressive','${q}')">⚡ Agressive</button>
+      <button type="button" onclick="v133Run('promo','${q}')">🏷️ Promotion</button>
+      <button type="button" onclick="v133Extra('hooks','${q}')">🎣 20 Hooks</button>
+      <button type="button" onclick="v133Extra('cta','${q}')">📢 10 CTA</button>
+      <button type="button" onclick="v133Extra('hashtags','${q}')">#️⃣ 30 Hashtags</button>
+      <button type="button" onclick="v133GenerateBackground('${q}')">🖼️ Créer fond IA</button>
+    </div>`;
+  }
+  function V133_renderPack(pack, offer, title){
+    const all=V133_all(pack); const allArg=V133_arg(all);
+    return `<div class="employeeResult v133Result"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail exécuté</span><h2>${V133_E(title||'Pack réseaux sociaux prêt')}</h2><p class="muted">Contenu directement prêt à publier : Facebook, Instagram, TikTok/Reels, WhatsApp, Story et hashtags.</p></div><button class="copyBtn" type="button" onclick="v133Copy(decodeURIComponent('${allArg}'))">Copier tout</button></div>${V133_actions(offer)}<div class="deliverableGrid v133Grid">${V133_card('Facebook',pack.facebook)}${V133_card('Instagram',pack.instagram)}${V133_card('TikTok / Reels',pack.tiktok)}${V133_card('WhatsApp',pack.whatsapp)}${V133_card('Story / Statut',pack.story)}${V133_card('Hashtags',pack.hashtags)}</div><div id="v133ExtraOut"></div></div>`;
+  }
+  async function V133_post(path, body){
+    if(typeof api === 'function') return await api(path,'POST',body,true);
+    const headers={'Content-Type':'application/json'};
+    const t=localStorage.getItem('ghostseller_token'); if(t) headers.Authorization='Bearer '+t;
+    const res=await fetch(path,{method:'POST',headers,body:JSON.stringify(body)});
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok) throw new Error(data.error||'Erreur API');
+    return data;
+  }
+  window.v133Run = async function(angle, encodedOffer){
+    const offer=V133_decode(encodedOffer) || V133_offer();
+    const out=document.getElementById('contentOut'); if(!out) return;
+    if(!offer){ out.innerHTML='<div class="employeeResult">Décris ton offre avant de générer.</div>'; return; }
+    out.innerHTML=`<div class="employeeResult"><span class="employeeBadge">🤖 IA en action</span><h2>GhostSeller écrit vraiment le pack...</h2><p class="muted">Je ne donne pas des conseils : je prépare les textes directement publiables.</p></div>`;
+    try{
+      const data=await V133_post('/api/content/social-pack',{offer,angle});
+      out.innerHTML=V133_renderPack(data.pack||{}, offer, angle==='ideas'?'Nouveau pack avec autres angles':'Pack '+angle+' exécuté');
+    }catch(e){
+      out.innerHTML=`<div class="employeeResult error">${V133_E(e.message||'Erreur génération')}</div>`;
+    }
+  };
+  window.v133Extra = async function(type, encodedOffer){
+    const offer=V133_decode(encodedOffer) || V133_offer();
+    const extra=document.getElementById('v133ExtraOut') || document.getElementById('v129ExtraOut') || document.getElementById('contentOut'); if(!extra) return;
+    extra.innerHTML='<div class="employeeResult"><span class="employeeBadge">🤖 Travail en cours</span><h2>Génération...</h2></div>';
+    try{
+      const data=await V133_post('/api/content/social-pack',{offer,angle:type});
+      const pack=data.pack||{};
+      const title=type==='hooks'?'20 hooks prêts à tester':type==='cta'?'10 CTA prêts à utiliser':'30 hashtags prêts';
+      const text=type==='hooks'?pack.hooks:type==='cta'?pack.cta:pack.hashtags;
+      extra.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ Exécuté</span><h2>${V133_E(title)}</h2></div><button class="copyBtn" onclick="v133Copy(decodeURIComponent('${V133_arg(text)}'))">Copier tout</button></div><div class="scriptBlock employeeScript">${V133_E(text)}</div></div>`;
+    }catch(e){ extra.innerHTML=`<div class="employeeResult error">${V133_E(e.message)}</div>`; }
+  };
+  window.v133GenerateBackground = async function(encodedOffer){
+    const offer=V133_decode(encodedOffer) || V133_offer();
+    const extra=document.getElementById('v133ExtraOut') || document.getElementById('v129ExtraOut') || document.getElementById('contentOut'); if(!extra) return;
+    extra.innerHTML='<div class="employeeResult"><span class="employeeBadge">🖼️ IA image en action</span><h2>Création du fond sombre...</h2><p class="muted">GhostSeller génère un vrai visuel utilisable, pas seulement un prompt.</p></div>';
+    try{
+      const data=await V133_post('/api/content/background-image',{offer});
+      const promptArg=V133_arg(data.prompt||'');
+      extra.innerHTML=`<div class="employeeResult v133BgDone"><div class="employeeHeader"><div><span class="employeeBadge">✅ Fond créé</span><h2>Fond IA prêt à utiliser</h2><p class="muted">${V133_E(data.provider||'image')} ${data.warning?'- fallback utilisé':''}</p></div><button class="copyBtn" onclick="v133Copy(decodeURIComponent('${promptArg}'))">Copier le prompt</button></div><div class="v133GeneratedImageWrap"><img src="${V133_E(data.imageUrl)}" alt="Fond IA généré pour publicité"/></div><div class="scriptBlock employeeScript small">${V133_E(data.prompt||'')}</div></div>`;
+    }catch(e){ extra.innerHTML=`<div class="employeeResult error">${V133_E(e.message)}</div>`; }
+  };
+  window.v129Regen = function(kind,p){ window.v133Run(kind,p); };
+  window.v129Hooks = function(p){ window.v133Extra('hooks',p); };
+  window.v129CTA = function(p){ window.v133Extra('cta',p); };
+  window.v129Hashtags = function(p){ window.v133Extra('hashtags',p); };
+  window.v132Background = function(p){ window.v133GenerateBackground(p); };
+  window.generateContent = function(){ window.v133Run('base', V133_arg(V133_offer())); };
+
+  window.logout = window.v133Logout = function(){
+    if(!confirm('Voulez-vous vraiment vous déconnecter ?')) return;
+    try{
+      ['ghostseller_token','token','authToken','supabase.auth.token'].forEach(k=>localStorage.removeItem(k));
+      sessionStorage.clear();
+    }catch(e){}
+    location.href='/';
+  };
+  function fixAccountLogout(){
+    try{
+      document.querySelectorAll('aside .logout, #v91LogoutBtn').forEach(el=>el.remove());
+      let panel=document.querySelector('.securityPanelV131');
+      if(panel && !panel.querySelector('.logoutAccountBtnV133')){
+        const box=document.createElement('div');
+        box.className='securityLogoutBoxV132 securityLogoutBoxV133';
+        box.innerHTML='<div><b>Déconnexion</b><span>Se déconnecter de ton compte sur cet appareil.</span></div><button type="button" class="logoutAccountBtn logoutAccountBtnV131 logoutAccountBtnV133">⎋ Se déconnecter</button>';
+        panel.appendChild(box);
+      }
+      document.querySelectorAll('.logoutAccountBtn,.logoutAccountBtnV133').forEach(btn=>{btn.onclick=window.v133Logout;});
+    }catch(e){}
+  }
+  document.addEventListener('DOMContentLoaded', fixAccountLogout);
+  setTimeout(fixAccountLogout,400); setTimeout(fixAccountLogout,1500); setTimeout(fixAccountLogout,3000);
+})();

@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v128-marketing-engine",
-  "version": "128.0.0",
+  "name": "ghostseller-ai-v133-real-ai-execution-fix",
+  "version": "133.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

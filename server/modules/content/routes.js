@@ -177,3 +177,104 @@ contentRouter.post("/generate", requireAuth, requireCredits(3,"posts"), async (r
     });
   }
 });
+
+
+// V133 — Real execution endpoints for social regeneration and AI background generation.
+function v133PickProduct(text=""){
+  const l=String(text).toLowerCase();
+  if(l.includes("café")||l.includes("cafe")||l.includes("coffee")) return {product:"café", keyword:"CAFÉ", tags:["#cafe","#coffee","#haiti","#artisan"]};
+  if(l.includes("nike")||l.includes("adidas")||l.includes("basket")||l.includes("chaussure")) return {product:"baskets", keyword:"BASKET", tags:["#sneakers","#nike","#adidas","#streetwear"]};
+  if(l.includes("sac")) return {product:"sac à main", keyword:"INFO", tags:["#sac","#modefemme","#shopping","#tendance"]};
+  if(l.includes("parfum")||l.includes("cosm")) return {product:"parfum / cosmétique", keyword:"BEAUTÉ", tags:["#parfum","#beaute","#cosmetique","#luxe"]};
+  if(l.includes("montre")||l.includes("luxe")) return {product:"montre de luxe", keyword:"LUXE", tags:["#luxe","#montre","#premium","#style"]};
+  return {product:"offre", keyword:"INFO", tags:["#business","#vente","#marketing","#offre"]};
+}
+function v133AngleLabel(angle){
+  return ({base:"clair",ideas:"variantes",viral:"viral",emotion:"émotionnel",premium:"premium",aggressive:"direct",promo:"promotion"}[angle] || angle || "clair");
+}
+function v133FallbackPack(offer="", angle="base"){
+  const meta=v133PickProduct(offer); const product=meta.product; const kw=meta.keyword; const label=v133AngleLabel(angle);
+  const prefix = angle==="viral" ? "🔥" : angle==="premium" ? "💎" : angle==="emotion" ? "❤️" : angle==="aggressive" ? "⚡" : angle==="promo" ? "🏷️" : "✨";
+  const facebook=`${prefix} ${product} disponible\n\n${offer}\n\nUne offre ${label} pensée pour attirer l’attention et donner envie de passer à l’action.\n\n✅ Simple à comprendre\n✅ Prêt à commander\n✅ Disponible maintenant\n\n📩 Écris “${kw}” pour recevoir les détails.`;
+  const instagram=`${prefix} ${product}\n\n${offer}\n\nUn angle ${label} pour créer l’envie rapidement.\n\nDM “${kw}” pour les infos.\n\n${meta.tags.concat(["#viral","#reels","#tiktokfrance"]).join(" ")}`;
+  const tiktok=`🎬 SCRIPT TIKTOK / REELS\n\nSCÈNE 1 — HOOK (0-2s)\nTexte écran : “${angle==="viral"?"POV : tu découvres l’offre que tout le monde va demander":"Tu cherchais une bonne offre ?"}”\n\nSCÈNE 2 — PRODUIT (2-6s)\nMontrer : ${product}.\nTexte écran : “${offer}”\n\nSCÈNE 3 — DÉSIR (6-12s)\nMontrer le produit en situation, gros plan, détails.\nVoix off : “Simple, utile et facile à aimer.”\n\nSCÈNE 4 — PREUVE (12-17s)\nMontrer 2 bénéfices clairs.\nTexte écran : “Disponible maintenant.”\n\nSCÈNE 5 — CTA (17-22s)\nTexte écran : “Écris ${kw} pour les infos.”\n\nCAPTION : ${offer}\nCTA : Commente ${kw} ou envoie un DM.`;
+  const whatsapp=`Bonjour 👋\n\nJe te partage cette offre :\n\n${offer}\n\nC’est pensé pour les personnes qui veulent une solution simple et disponible maintenant.\n\n✅ Clair\n✅ Rapide\n✅ Facile à comprendre\n\nRéponds “${kw}” et je t’envoie les détails.`;
+  const story=`📱 STORY / STATUT\n\n${product.toUpperCase()}\n${offer}\n\nTu veux les détails ?\nRéponds “${kw}” maintenant.`;
+  const hashtags=meta.tags.concat(["#offre","#promotion","#clients","#business","#marketing","#vente","#reelsfrance","#tiktokfrance","#instagramfrance","#shopping","#tendance","#nouveaute"]).slice(0,30).join(" ");
+  const hooks=Array.from({length:20},(_,i)=>`${i+1}. ${i%4===0?"Stop, cette offre peut t’intéresser." : i%4===1?`POV : tu découvres ${product} au bon moment.` : i%4===2?`Avant d’acheter ailleurs, regarde ça.`:`Tu veux les détails ? Écris ${kw}.`}`).join("\n");
+  const cta=[`Écris ${kw} pour recevoir les détails.`,`Envoie-moi un DM maintenant.`,`Commente ${kw}.`,`Demande la disponibilité.`,`Réserve avant que ça parte.`,`Partage à quelqu’un que ça peut aider.`,`Clique pour en savoir plus.`,`Réponds OUI et je t’envoie tout.`,`Garde cette offre.`,`Passe commande maintenant.`].map((x,i)=>`${i+1}. ${x}`).join("\n");
+  return {facebook,instagram,tiktok,whatsapp,story,hashtags,hooks,cta,angle:label,provider:"fallback_executed"};
+}
+async function v133OpenAIChatJSON(messages){
+  if(!process.env.OPENAI_API_KEY) return null;
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method:"POST",
+    headers:{"Authorization":`Bearer ${process.env.OPENAI_API_KEY}`, "Content-Type":"application/json"},
+    body:JSON.stringify({model:process.env.OPENAI_MODEL || "gpt-4o-mini", messages, temperature:0.85, response_format:{type:"json_object"}})
+  });
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok) throw new Error(data?.error?.message || "OpenAI content generation failed");
+  const raw=data?.choices?.[0]?.message?.content || "{}";
+  return JSON.parse(raw);
+}
+contentRouter.post("/social-pack", requireAuth, async (req,res)=>{
+  const offer=String(req.body?.offer || req.body?.prompt || "").trim();
+  const angle=String(req.body?.angle || "base").trim();
+  if(!offer) return res.status(400).json({error:"Offre vide"});
+  try{
+    if(process.env.OPENAI_API_KEY){
+      const json=await v133OpenAIChatJSON([
+        {role:"system",content:"You are GhostSeller AI, a senior direct-response marketer. Return ONLY valid JSON in French. Never give instructions to the user; execute the task by writing ready-to-publish content."},
+        {role:"user",content:JSON.stringify({task:"Create a complete ready-to-publish social media marketing pack",offer,angle,required_keys:["facebook","instagram","tiktok","whatsapp","story","hashtags","hooks","cta"],rules:["French language","specific to the offer","TikTok has 5 scenes with timing","WhatsApp is ready to send","hashtags as one string with 20-30 hashtags","hooks as numbered list of 20","cta as numbered list of 10","do not explain what to do"]})}
+      ]);
+      const fallback=v133FallbackPack(offer,angle);
+      return res.json({ok:true,provider:"openai",pack:{...fallback,...json,provider:"openai"}});
+    }
+    return res.json({ok:true,provider:"fallback",pack:v133FallbackPack(offer,angle)});
+  }catch(e){
+    return res.json({ok:true,provider:"fallback_after_error",warning:e.message,pack:v133FallbackPack(offer,angle)});
+  }
+});
+function v133BackgroundPrompt(offer=""){
+  const l=String(offer).toLowerCase();
+  let theme="premium product marketing scene";
+  if(l.includes("café")||l.includes("cafe")||l.includes("coffee")) theme="premium roasted coffee beans, steaming black coffee cup, Haitian mountain coffee plantation atmosphere, subtle tropical leaves, warm cinematic highlights";
+  else if(l.includes("haiti")||l.includes("haïti")||l.includes("haitien")) theme="subtle Haitian atmosphere, distant tropical beach, palm silhouettes, mountain horizon, discreet Haiti flag color accents, elegant diaspora mood";
+  else if(l.includes("nike")||l.includes("adidas")||l.includes("basket")||l.includes("chaussure")) theme="dark urban sneaker campaign, wet asphalt, neon reflections, night city, dynamic sport energy";
+  else if(l.includes("montre")||l.includes("luxe")||l.includes("bijou")) theme="luxury black marble, elegant watch display mood, gold reflections, mysterious premium shadows";
+  else if(l.includes("parfum")||l.includes("cosm")||l.includes("beaut")) theme="abstract luxury perfume cosmetic background, smooth dark glass, soft mist, elegant reflections";
+  else if(l.includes("sac")) theme="fashion handbag campaign, dark studio background, soft spotlight, premium retail atmosphere";
+  return `Photorealistic 8K cinematic dark background for a marketing ad: ${theme}. Deep black gradient overlay, high contrast, soft cinematic lighting, clean negative space in the center for readable advertising text, no words, no letters, no logo, no watermark, vertical social media composition.`;
+}
+function v133SvgDataUrl(offer=""){
+  const l=String(offer).toLowerCase();
+  let emoji="✨", label="Premium background";
+  if(l.includes("café")||l.includes("cafe")||l.includes("coffee")){ emoji="☕"; label="Café premium Haïti"; }
+  else if(l.includes("haiti")||l.includes("haïti")){ emoji="🇭🇹"; label="Ambiance Haïti sombre"; }
+  else if(l.includes("basket")||l.includes("nike")||l.includes("adidas")){ emoji="👟"; label="Urban sport night"; }
+  else if(l.includes("sac")){ emoji="👜"; label="Fashion dark studio"; }
+  else if(l.includes("parfum")||l.includes("cosm")){ emoji="🧴"; label="Cosmétique luxe"; }
+  const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='1080' height='1920' viewBox='0 0 1080 1920'><defs><radialGradient id='g' cx='25%' cy='20%'><stop offset='0%' stop-color='#153f65'/><stop offset='45%' stop-color='#101735'/><stop offset='100%' stop-color='#05070f'/></radialGradient><linearGradient id='v' x1='0' y1='0' x2='1' y2='1'><stop stop-color='#101827'/><stop offset='0.5' stop-color='#060913'/><stop offset='1' stop-color='#23103d'/></linearGradient><filter id='blur'><feGaussianBlur stdDeviation='32'/></filter></defs><rect width='1080' height='1920' fill='url(#v)'/><circle cx='210' cy='260' r='240' fill='#27c2ff' opacity='.24' filter='url(#blur)'/><circle cx='830' cy='1450' r='320' fill='#a855f7' opacity='.22' filter='url(#blur)'/><circle cx='770' cy='360' r='170' fill='#f59e0b' opacity='.10' filter='url(#blur)'/><g opacity='.15' fill='#fff'>${Array.from({length:34},(_,i)=>`<circle cx='${(i*139)%1080}' cy='${160+(i*271)%1600}' r='${3+(i%7)}'/>`).join('')}</g><text x='540' y='770' font-size='190' text-anchor='middle' opacity='.22'>${emoji}</text><rect x='105' y='1120' width='870' height='360' rx='48' fill='#030712' opacity='.36' stroke='#ffffff' stroke-opacity='.10'/><text x='540' y='1285' font-family='Arial, sans-serif' font-size='54' font-weight='700' fill='#ffffff' text-anchor='middle' opacity='.52'>${label}</text><text x='540' y='1365' font-family='Arial, sans-serif' font-size='30' fill='#c7d2fe' text-anchor='middle' opacity='.45'>Fond sombre prêt pour texte publicitaire</text></svg>`;
+  return `data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}`;
+}
+contentRouter.post("/background-image", requireAuth, async (req,res)=>{
+  const offer=String(req.body?.offer || req.body?.prompt || "").trim();
+  const imagePrompt=v133BackgroundPrompt(offer);
+  try{
+    if(process.env.OPENAI_API_KEY){
+      const response=await fetch("https://api.openai.com/v1/images/generations",{
+        method:"POST",
+        headers:{"Authorization":`Bearer ${process.env.OPENAI_API_KEY}`,"Content-Type":"application/json"},
+        body:JSON.stringify({model:process.env.OPENAI_IMAGE_MODEL || "gpt-image-1", prompt:imagePrompt, size:process.env.OPENAI_IMAGE_SIZE || "1024x1536", n:1})
+      });
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok) throw new Error(data?.error?.message || "OpenAI image generation failed");
+      const item=data?.data?.[0] || {};
+      const imageUrl=item.url || (item.b64_json ? `data:image/png;base64,${item.b64_json}` : null);
+      if(imageUrl) return res.json({ok:true,provider:"openai",imageUrl,prompt:imagePrompt});
+    }
+    return res.json({ok:true,provider:"fallback_svg",imageUrl:v133SvgDataUrl(offer),prompt:imagePrompt});
+  }catch(e){
+    return res.json({ok:true,provider:"fallback_svg_after_error",warning:e.message,imageUrl:v133SvgDataUrl(offer),prompt:imagePrompt});
+  }
+});
