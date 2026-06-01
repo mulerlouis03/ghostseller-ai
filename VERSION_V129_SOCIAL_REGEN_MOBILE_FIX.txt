@@ -1,5 +1,0 @@
-GhostSeller AI V129 SOCIAL REGEN MOBILE FIX
-- Pack complet pour Facebook, Instagram, TikTok/Reels, WhatsApp, Story, Hashtags
-- Boutons de régénération qui recréent tout le pack pour tous les réseaux
-- Hooks/CTA/Hashtags séparés
-- Correction mobile compacte
