@@ -1,6 +1,1 @@
-GhostSeller AI V131 ACCOUNT UNIFIED
-- Mon compte unifié: profil + informations + sécurité dans une seule carte
-- Email affiché une seule fois dans les informations du compte
-- Photo de profil ronde
-- Bouton Se déconnecter visible dans la section Sécurité
-- Mise en page plus compacte desktop/mobile
+GhostSeller AI V132 - Active Buttons + AI Background + Logout Fix

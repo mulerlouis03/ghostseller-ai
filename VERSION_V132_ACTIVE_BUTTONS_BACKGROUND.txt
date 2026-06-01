@@ -1,0 +1,6 @@
+GhostSeller AI V132
+- Boutons variantes corrigés: les clics exécutent vraiment même avec apostrophes / Haïti / d'autres
+- Génération de pack complet pour tous les réseaux à chaque variante
+- Nouveau bouton Fond IA: prompt sombre 9:16 adapté au produit/pays
+- Bouton Se déconnecter visible dans la carte Sécurité
+- Correctifs UI compte et mobile
