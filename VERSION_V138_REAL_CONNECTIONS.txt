@@ -1,0 +1,7 @@
+GhostSeller AI V138 REAL CONNECTIONS
+- Reprise propre de la connexion boutons -> fonctions -> API -> affichage
+- Boutons actifs via event delegation robuste
+- Correction du fond IA placé derrière les cartes de pub
+- Loader pendant génération pack / extra / fond
+- Fallback local si OpenAI/API indisponible
+- Préserve le bon texte marketing de V136/V137
