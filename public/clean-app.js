@@ -2049,30 +2049,54 @@ function placeResult(btn, html){}
     return {kind:'general', emoji:'✨', label:'Visuel sombre'};
   }
   function svgBg(input, platform, variant=0){
-    const m=info(input); const seed=(platform||'').length*37 + (m.kind||'').length*11 + (Number(variant)||0)*97;
-    let mid='#172554', accent='#8b5cf6', accent2='#38bdf8', icon=m.emoji;
-    if(m.kind==='transport'){mid='#10233f'; accent='#f59e0b'; accent2='#22d3ee'; icon='🚗';}
-    if(m.kind==='coffee'){mid='#2b1b12'; accent='#b45309'; accent2='#14b8a6'; icon='☕';}
-    if(m.kind==='sport'){mid='#111827'; accent='#06b6d4'; accent2='#a855f7'; icon='👟';}
-    if(m.kind==='luxury'){mid='#101014'; accent='#d4af37'; accent2='#6d28d9'; icon='💎';}
-    if(m.kind==='beauty'){mid='#22102a'; accent='#ec4899'; accent2='#f0abfc'; icon='💄';}
-    const road = m.kind==='transport' ? `<path d='M180 1080 C360 820 540 650 980 380' stroke='${accent}' stroke-width='28' opacity='.34' fill='none'/><path d='M205 1090 C380 840 560 680 1000 400' stroke='white' stroke-width='6' stroke-dasharray='45 45' opacity='.34' fill='none'/><text x='795' y='1040' font-size='170' opacity='.23'>🚗</text><text x='210' y='260' font-size='120' opacity='.20'>🧳</text>` : '';
-    const coffee = m.kind==='coffee' ? `<text x='760' y='1040' font-size='210' opacity='.25'>☕</text><text x='220' y='390' font-size='120' opacity='.18'>🌿</text><text x='840' y='280' font-size='90' opacity='.15'>🇭🇹</text>` : '';
-    const product = !road && !coffee ? `<text x='760' y='1030' font-size='210' opacity='.24'>${icon}</text><circle cx='285' cy='360' r='120' fill='${accent}' opacity='.12'/>` : '';
+    const m=info(input);
+    const pf=String(platform||'').toLowerCase();
+    const v=Number(variant)||0;
+    let mid='#172554', accent='#8b5cf6', accent2='#38bdf8', label=m.label, icon=m.emoji;
+    if(m.kind==='transport'){mid='#0f2437'; accent='#f59e0b'; accent2='#22d3ee'; icon='🚗'; label='Covoiturage / voyageurs';}
+    if(m.kind==='coffee'){mid='#2b1b12'; accent='#b45309'; accent2='#14b8a6'; icon='☕'; label='Café artisanal';}
+    if(m.kind==='sport'){mid='#111827'; accent='#06b6d4'; accent2='#a855f7'; icon='👟'; label='Sport urbain';}
+    if(m.kind==='luxury'){mid='#101014'; accent='#d4af37'; accent2='#6d28d9'; icon='💎'; label='Luxe premium';}
+    if(m.kind==='beauty'){mid='#22102a'; accent='#ec4899'; accent2='#f0abfc'; icon='💄'; label='Beauté / cosmétique';}
+
+    function car(x,y,scale=1,op=.72){return `<g transform='translate(${x} ${y}) scale(${scale})' opacity='${op}'>
+      <path d='M40 80 C65 35 110 18 190 22 L265 32 C305 37 330 57 345 88 L365 130 L20 130 Z' fill='#0f172a' stroke='${accent2}' stroke-width='5'/>
+      <path d='M105 38 L188 42 L235 76 L78 76 Z' fill='#60a5fa' opacity='.42'/>
+      <rect x='2' y='96' width='382' height='68' rx='26' fill='#050816' stroke='rgba(255,255,255,.45)' stroke-width='4'/>
+      <circle cx='88' cy='164' r='32' fill='#020617' stroke='white' stroke-width='6'/><circle cx='298' cy='164' r='32' fill='#020617' stroke='white' stroke-width='6'/>
+      <circle cx='88' cy='164' r='13' fill='${accent}'/><circle cx='298' cy='164' r='13' fill='${accent}'/>
+      <rect x='22' y='112' width='42' height='16' rx='8' fill='${accent}'/><rect x='318' y='112' width='44' height='16' rx='8' fill='#ef4444'/>
+    </g>`}
+    function people(x,y,scale=1,op=.55){return `<g transform='translate(${x} ${y}) scale(${scale})' opacity='${op}'>
+      <circle cx='45' cy='40' r='30' fill='#f8fafc'/><circle cx='125' cy='36' r='28' fill='#fde68a'/><circle cx='205' cy='42' r='31' fill='#d1d5db'/>
+      <path d='M5 145 C16 90 75 85 92 145 Z' fill='${accent2}'/><path d='M84 145 C95 88 152 86 170 145 Z' fill='${accent}'/><path d='M160 145 C174 90 235 86 255 145 Z' fill='#a855f7'/>
+    </g>`}
+    function roadScene(){
+      const facebook = `<path d='M0 1600 C245 1160 480 880 1080 600 L1080 1600 Z' fill='rgba(2,6,23,.48)'/><path d='M130 1600 C360 1130 580 895 1080 650' stroke='#1f2937' stroke-width='235' fill='none'/><path d='M135 1600 C360 1130 580 895 1080 650' stroke='${accent}' stroke-width='16' opacity='.70' fill='none'/><path d='M180 1580 C405 1150 620 930 1040 690' stroke='white' stroke-width='9' stroke-dasharray='52 58' opacity='.55' fill='none'/>${car(525,1005,1.05,.88)}`;
+      const insta = `<rect x='0' y='0' width='1080' height='1600' fill='rgba(0,0,0,.10)'/><path d='M0 870 C240 760 390 740 560 820 C790 930 910 850 1080 770 L1080 1600 L0 1600 Z' fill='rgba(0,0,0,.28)'/>${people(155,520,1.55,.70)}${car(250,930,1.15,.60)}<text x='540' y='1320' font-size='92' text-anchor='middle' fill='white' opacity='.13'>PASSAGERS</text>`;
+      const tiktok = `<path d='M0 1450 C210 1190 390 1020 620 860 C800 735 950 645 1080 580 L1080 1600 L0 1600 Z' fill='rgba(15,23,42,.72)'/><path d='M80 1600 C305 1190 542 970 1080 705' stroke='#334155' stroke-width='180' fill='none'/><path d='M120 1560 C360 1165 570 965 1060 730' stroke='white' stroke-width='7' stroke-dasharray='42 42' opacity='.50' fill='none'/>${car(560,940,.98,.84)}<rect x='675' y='490' width='210' height='140' rx='22' fill='#020617' stroke='${accent2}' stroke-width='5' opacity='.72'/><text x='780' y='580' font-size='52' text-anchor='middle' fill='${accent2}' font-weight='900'>7:00</text>`;
+      return pf.includes('insta')?insta:pf.includes('tiktok')?tiktok:facebook;
+    }
+    function coffeeScene(){return `<path d='M0 980 C230 850 380 870 560 760 C760 640 890 635 1080 520 L1080 1600 L0 1600 Z' fill='rgba(20,83,45,.38)'/><text x='785' y='1010' font-size='230' opacity='.32'>☕</text><text x='210' y='430' font-size='120' opacity='.26'>🌿</text><circle cx='315' cy='1030' r='70' fill='#7c2d12' opacity='.42'/><circle cx='420' cy='1110' r='58' fill='#92400e' opacity='.38'/><circle cx='260' cy='1180' r='42' fill='#78350f' opacity='.45'/><text x='850' y='280' font-size='84' opacity='.18'>🇭🇹</text>`}
+    function sportScene(){return `<path d='M0 1180 C290 980 510 950 1080 760 L1080 1600 L0 1600 Z' fill='rgba(15,23,42,.56)'/><path d='M120 1320 L945 920' stroke='${accent2}' stroke-width='20' opacity='.36'/><path d='M180 1450 L970 1060' stroke='${accent}' stroke-width='14' opacity='.32'/><text x='760' y='1090' font-size='220' opacity='.30'>👟</text>`}
+    function luxuryScene(){return `<path d='M0 0 L1080 1600' stroke='#475569' stroke-width='9' opacity='.26'/><path d='M120 0 L1080 1280' stroke='${accent}' stroke-width='7' opacity='.30'/><circle cx='790' cy='980' r='180' fill='${accent}' opacity='.14'/><text x='750' y='1050' font-size='240' opacity='.30'>💎</text>`}
+    function beautyScene(){return `<circle cx='680' cy='930' r='280' fill='${accent}' opacity='.15' filter='url(#blur)'/><path d='M215 1120 C360 920 490 1010 610 800 C690 660 810 620 930 680' stroke='${accent2}' stroke-width='22' opacity='.21' fill='none'/><text x='750' y='1050' font-size='220' opacity='.26'>💄</text>`}
+    function genericScene(){return `<text x='760' y='1030' font-size='210' opacity='.24'>${icon}</text><circle cx='285' cy='360' r='120' fill='${accent}' opacity='.12'/>`}
+    let scene = m.kind==='transport'?roadScene():m.kind==='coffee'?coffeeScene():m.kind==='sport'?sportScene():m.kind==='luxury'?luxuryScene():m.kind==='beauty'?beautyScene():genericScene();
+    const shift=(v*57)%240;
     const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='1080' height='1600' viewBox='0 0 1080 1600'>
       <defs>
-        <linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='#030712'/><stop offset='.48' stop-color='${mid}'/><stop offset='1' stop-color='#090015'/></linearGradient>
-        <radialGradient id='r' cx='70%' cy='25%' r='70%'><stop stop-color='${accent}' stop-opacity='.34'/><stop offset='.45' stop-color='${accent2}' stop-opacity='.12'/><stop offset='1' stop-color='#000' stop-opacity='0'/></radialGradient>
+        <linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='#030712'/><stop offset='.45' stop-color='${mid}'/><stop offset='1' stop-color='#090015'/></linearGradient>
+        <radialGradient id='r' cx='70%' cy='25%' r='70%'><stop stop-color='${accent}' stop-opacity='.38'/><stop offset='.45' stop-color='${accent2}' stop-opacity='.14'/><stop offset='1' stop-color='#000' stop-opacity='0'/></radialGradient>
         <filter id='blur'><feGaussianBlur stdDeviation='48'/></filter>
       </defs>
       <rect width='1080' height='1600' fill='url(#g)'/>
       <rect width='1080' height='1600' fill='url(#r)'/>
-      <circle cx='${190+(seed%260)}' cy='${190+(seed%160)}' r='300' fill='${accent2}' opacity='.22' filter='url(#blur)'/>
-      <circle cx='${760+(seed%210)}' cy='${1040+(seed%300)}' r='430' fill='${accent}' opacity='.28' filter='url(#blur)'/>
-      <circle cx='${520+(seed%180)}' cy='${700+(seed%220)}' r='180' fill='white' opacity='.045' filter='url(#blur)'/>
-      ${road}${coffee}${product}
-      <rect y='0' width='1080' height='1600' fill='rgba(0,0,0,.14)'/>
-      <rect y='1010' width='1080' height='590' fill='rgba(0,0,0,.24)'/>
+      <circle cx='${220+shift}' cy='250' r='290' fill='${accent2}' opacity='.19' filter='url(#blur)'/>
+      <circle cx='${820-shift/2}' cy='1180' r='450' fill='${accent}' opacity='.23' filter='url(#blur)'/>
+      ${scene}
+      <rect width='1080' height='1600' fill='rgba(0,0,0,.08)'/>
+      <text x='56' y='1510' font-size='42' fill='white' opacity='.10' font-family='Arial'>${label}</text>
     </svg>`;
     return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
   }

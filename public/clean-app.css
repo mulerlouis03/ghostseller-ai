@@ -1340,3 +1340,15 @@ aside .logout, #v91LogoutBtn{display:none!important;}
 .v145Card::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(circle at 68% 18%,rgba(255,255,255,.10),transparent 24%);mix-blend-mode:screen;}
 .v145Inner{z-index:2!important;}
 .v145Overlay{z-index:1!important;}
+
+/* V147 — Contextual Visuals: images are clearer, text remains readable, cards are less cramped */
+.v145Results{max-width:1500px!important;}
+.v145Grid{grid-template-columns:repeat(3,minmax(280px,1fr))!important;align-items:stretch;}
+.v145MiniGrid{grid-template-columns:repeat(3,minmax(250px,1fr))!important;}
+.v145Card{min-height:680px!important;background-position:center!important;}
+.v145MiniGrid .v145Card{min-height:460px!important;}
+.v145Overlay{background:linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.24) 48%,rgba(0,0,0,.54))!important;}
+.v145Text{font-size:clamp(15px,1.05vw,19px)!important;line-height:1.42!important;font-weight:760!important;background:linear-gradient(180deg,rgba(2,6,23,.58),rgba(2,6,23,.34))!important;border-color:rgba(255,255,255,.11)!important;box-shadow:0 18px 48px rgba(0,0,0,.22)!important;}
+.v145CardTop h3{font-size:clamp(25px,2vw,34px)!important;}
+.v145Bottom button:first-child::after{content:' ↻';opacity:.8;}
+@media(max-width:1100px){.v145Grid,.v145MiniGrid{grid-template-columns:1fr!important}.v145Card{min-height:610px!important}}
