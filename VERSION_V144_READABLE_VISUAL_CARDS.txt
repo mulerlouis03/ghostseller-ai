@@ -1,0 +1,5 @@
+GhostSeller AI V144 - Readable visual campaign cards
+- Keeps good V142 ad copy
+- Adds smart dark visual backgrounds behind cards
+- Strong overlay so text stays readable
+- Removes IMAGE/url placeholders from visible text

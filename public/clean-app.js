@@ -2159,14 +2159,16 @@ function placeResult(btn, html){}
   function card(title, body, platform, input){
     body=txt(body);
     const bg=svgData(input, platform||title, STATE.seed);
-    return `<article class="gs143CampaignCard" style="--gs-bg:url('${bg}')">
-      <div class="gs143CardBg"></div>
-      <div class="gs143CardShade"></div>
+    return `<article class="gs143CampaignCard gs144ReadableCard" style="--gs-bg:url('${bg}')">
+      <div class="gs143CardBg" aria-hidden="true"></div>
+      <div class="gs143CardShade" aria-hidden="true"></div>
       <div class="gs143CardContent">
         <div class="gs143CardTop">${platformIcon(title)}<div><h3>${E(title)}</h3><span>${title==='TikTok / Reels'?'SCRIPT VIDÉO':'POST'}</span></div></div>
         <div class="deliverableText gs143Text">${E(body)}</div>
-        <button class="gs143ImageBtn" type="button" onclick="v143ChangeCardImage('${enc(title)}')">▧ Voir / changer l'image</button>
-        <button class="gs143CopyBtn" type="button" onclick="v143Copy(decodeURIComponent('${enc(body)}'))">Copier</button>
+        <div class="gs144CardFooter">
+          <button class="gs143ImageBtn" type="button" onclick="v143ChangeCardImage('${enc(title)}')">🖼 Changer l’image</button>
+          <button class="gs143CopyBtn" type="button" onclick="v143Copy(decodeURIComponent('${enc(body)}'))">Copier</button>
+        </div>
       </div>
     </article>`;
   }

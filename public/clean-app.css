@@ -1520,3 +1520,65 @@ aside .logout, #v91LogoutBtn{display:none!important;}
   .gs143MiniGrid .gs143CampaignCard{min-height:340px}
 }
 
+
+
+/* V144 — readable visual ads: background behind text without hiding the copy */
+.gs143Results{
+  max-width: 1480px !important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+.gs143CardsGrid{
+  grid-template-columns: repeat(3, minmax(300px, 1fr)) !important;
+  align-items: stretch !important;
+}
+.gs143MiniGrid{
+  grid-template-columns: repeat(3, minmax(260px, 1fr)) !important;
+}
+.gs143CampaignCard.gs144ReadableCard{
+  min-height: 760px !important;
+  background:#050816 !important;
+}
+.gs143MiniGrid .gs143CampaignCard.gs144ReadableCard{min-height:430px!important;}
+.gs143CardBg{
+  opacity: .92 !important;
+  filter: saturate(1.16) contrast(1.08) brightness(.78) !important;
+}
+.gs143CardShade{
+  background:
+    linear-gradient(90deg, rgba(1,6,18,.95) 0%, rgba(1,6,18,.78) 42%, rgba(1,6,18,.46) 100%),
+    linear-gradient(180deg, rgba(1,6,18,.42), rgba(1,6,18,.86) 78%, rgba(1,6,18,.96)),
+    radial-gradient(circle at 82% 22%, rgba(0,0,0,.08), rgba(0,0,0,.62) 58%) !important;
+}
+.gs143CardContent{
+  padding: 26px !important;
+  gap: 14px !important;
+}
+.gs143Text{
+  font-size: clamp(15px, 1vw, 18px) !important;
+  line-height: 1.48 !important;
+  max-width: 88% !important;
+  color: #fff !important;
+  text-shadow: 0 2px 12px rgba(0,0,0,.98), 0 0 2px rgba(0,0,0,.9) !important;
+  font-weight: 650 !important;
+}
+.gs143MiniGrid .gs143Text{font-size:14px!important;max-width:92%!important;}
+.gs143CardTop h3{font-size: clamp(24px, 1.8vw, 34px)!important;}
+.gs143PlatformIcon{width:52px!important;height:52px!important;font-size:30px!important;}
+.gs144CardFooter{margin-top:auto;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;}
+.gs144CardFooter .gs143ImageBtn{margin-top:0!important;}
+.gs144CardFooter .gs143CopyBtn{align-self:stretch;display:flex;align-items:center;}
+.gs143ImageBtn{background:rgba(0,0,0,.45)!important;}
+@media(max-width:1250px){
+  .gs143CardsGrid{grid-template-columns:1fr!important;}
+  .gs143MiniGrid{grid-template-columns:1fr!important;}
+  .gs143CampaignCard.gs144ReadableCard{min-height:540px!important;}
+  .gs143Text{max-width:94%!important;font-size:16px!important;}
+}
+@media(max-width:640px){
+  .gs143Results{padding:12px!important;}
+  .gs143CampaignCard.gs144ReadableCard{min-height:auto!important;}
+  .gs143CardContent{padding:18px!important;min-height:520px!important;}
+  .gs143Text{font-size:14px!important;line-height:1.43!important;max-width:100%!important;}
+  .gs144CardFooter{grid-template-columns:1fr!important;}
+}
