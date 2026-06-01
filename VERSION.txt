@@ -1,6 +1,1 @@
-GhostSeller AI V147 CONTEXTUAL VISUALS
-- Built from V146 Visual Composer Fix
-- Contextual visual backgrounds: transport/covoiturage, coffee, sport, luxury, beauty
-- Facebook/Instagram/TikTok get different visual scenes
-- Changer image updates the visual variant per card
-- Visual overlay adjusted: image visible while text stays readable
+GhostSeller AI V152 REAL IMAGE HOTFIX

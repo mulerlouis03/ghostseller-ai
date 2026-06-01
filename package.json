@@ -1,6 +1,6 @@
 {
-  "name": "ghostseller-ai-v134-real-execution-account-background-fix",
-  "version": "134.0.0",
+  "name": "ghostseller-ai-v152-real-image-hotfix",
+  "version": "152.0.0",
   "type": "module",
   "scripts": {
     "start": "node server.js"

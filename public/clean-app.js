@@ -2505,3 +2505,102 @@ function placeResult(btn, html){}
   window.v151Run=function(){const input=offer();const out=$('contentOut');if(!out)return;if(!input){out.innerHTML='<div class="employeeResult">Décris ton offre avant de générer.</div>';return;}out.innerHTML=render(input);};
   window.generateContent=window.v151Run; window.v148Run=function(){window.v151Run();}; window.v150Run=function(){window.v151Run();};
 })();
+
+/* V152 — REAL IMAGE AUTO HOTFIX
+   Fixes V151 visual problem: no more fake abstract/blurred placeholders as the final visual.
+   Each network has a unique photorealistic scene and a button to generate real OpenAI images.
+*/
+(function(){
+  const $=(id)=>document.getElementById(id);
+  const E=(s)=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const enc=(v)=>encodeURIComponent(String(v||''));
+  const dec=(v)=>decodeURIComponent(String(v||''));
+  const copy=(t)=>navigator.clipboard?.writeText(String(t||''));
+  const clean=(s)=>String(s||'').replace(/\s+/g,' ').trim();
+
+  function extract(input){
+    const raw=clean(input);
+    const route=raw.match(/(cayenne)\s*(?:-|→|a|à|vers|et)\s*(saint[-\s]?laurent(?:[-\s]?du[-\s]?maroni)?|st[-\s]?laurent(?:[-\s]?du[-\s]?maroni)?)/i) || raw.match(/entre\s+([A-Za-zÀ-ÿ-]+)\s+et\s+([A-Za-zÀ-ÿ-]+)/i);
+    const cap=(x)=>clean(x||'').replace(/\b\w/g,c=>c.toUpperCase());
+    const origin=route?cap(route[1]):(/cayenne/i.test(raw)?'Cayenne':'la ville de départ');
+    const destination=route?cap(route[2]).replace(/Saint\s?Laurent/i,'Saint-Laurent-du-Maroni').replace(/St\s?Laurent/i,'Saint-Laurent-du-Maroni'):(/saint[-\s]?laurent/i.test(raw)?'Saint-Laurent-du-Maroni':'la destination');
+    const time=(raw.match(/\b(\d{1,2}\s*h(?:\s*\d{0,2})?)\b/i)||[])[1]||'7h';
+    const day=(raw.match(/\b(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)\b/i)||[])[1]||'mardi';
+    const seats=Number((raw.match(/\b(\d{1,2})\s*(?:places?|si[eè]ges?)\b/i)||[])[1])||4;
+    const station=/gare\s+routi[eè]re/i.test(raw)?`gare routière de ${origin}`:`point de départ à ${origin}`;
+    return {raw,origin,destination,time,day,seats,station,luggage:/bagage|valise|sac/i.test(raw)};
+  }
+
+  const lock='PHOTOREALISTIC ONLY. Cinematic advertising photo, shot on iPhone 15 Pro, 8k resolution, highly detailed, real human faces, natural light, realistic tropical French Guiana environment, no illustration, no cartoon, no vector, no flat design.';
+  const negative='cartoon, illustration, vector art, flat design, 3d render, toy car, abstract background, blurred green placeholder, empty road, no people, wrong number of people, no luggage, black background, fake text, watermark, logo, low quality, blurry';
+
+  function promptFor(d,net){
+    const ar = net==='tiktok'||net==='story' ? 'vertical 9:16' : (net==='facebook'||net==='instagram' ? 'portrait 4:5' : 'square 1:1');
+    if(net==='facebook') return `Facebook ad image. A real modern white minivan parked in front of the Cayenne bus station in French Guiana at ${d.time}. Show exactly ${d.seats} real passengers clearly visible, smiling and ready for departure. Small backpacks and cabin-size bags visible near the trunk. Tropical trees, real asphalt road, bright morning sunlight. Route: ${d.origin} to ${d.destination}. Clear informative composition, ${ar}. ${lock}`;
+    if(net==='instagram') return `Instagram lifestyle ad image. Inside a clean modern white minivan in French Guiana, exactly ${d.seats} diverse passengers are smiling, relaxed, chatting, enjoying a comfortable shared ride. Warm golden sunlight through the windows, tropical greenery outside, small bags visible, premium lifestyle photography, emotional travel mood, ${ar}. ${lock}`;
+    if(net==='tiktok') return `TikTok/Reels action frame. Exactly ${d.seats} passengers are boarding a modern white minivan at the Cayenne bus station at ${d.time}. The driver is helping load small bags into the trunk, one passenger steps into the vehicle, dynamic motion, tropical sunrise, energetic vertical video thumbnail, ${ar}. ${lock}`;
+    if(net==='whatsapp') return `WhatsApp conversion image. Modern white minivan ready to leave from ${d.origin} to ${d.destination}. Exactly ${d.seats} available seats represented by real passengers/seats, small travel bags visible, friendly driver, bright tropical morning, simple clean square composition, ${ar}. ${lock}`;
+    return `Mobile Story ad. Vertical immersive scene: passenger entering a modern white minivan in French Guiana at sunrise, driver smiling, small luggage visible, tropical vegetation and real asphalt road, departure ${d.day} ${d.time}, route ${d.origin} to ${d.destination}, ${ar}. ${lock}`;
+  }
+
+  function fallbackSvg(d,net){
+    // Clear fallback preview, not the final image. It says image is waiting instead of pretending to be generated.
+    const title={facebook:'Facebook photo attendue',instagram:'Instagram lifestyle attendu',tiktok:'TikTok action attendue',whatsapp:'WhatsApp conversion attendue',story:'Story verticale attendue'}[net]||'Image attendue';
+    return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#020617"/><stop offset=".55" stop-color="#063b34"/><stop offset="1" stop-color="#111827"/></linearGradient></defs><rect width="900" height="1200" fill="url(#g)"/><rect x="52" y="70" width="796" height="1060" rx="42" fill="rgba(0,0,0,.35)" stroke="#22c55e" stroke-width="3"/><text x="90" y="150" fill="#fff" font-size="44" font-family="Arial" font-weight="700">${title}</text><text x="90" y="230" fill="#bbf7d0" font-size="30" font-family="Arial">Clique sur “Créer image IA”</text><text x="90" y="300" fill="#ffffff" font-size="32" font-family="Arial">${d.origin} → ${d.destination}</text><text x="90" y="360" fill="#ffffff" font-size="30" font-family="Arial">${d.day} ${d.time} • ${d.seats} places • bagage</text><circle cx="690" cy="790" r="92" fill="#22c55e" opacity=".25"/><rect x="155" y="675" width="540" height="150" rx="70" fill="#f8fafc" opacity=".92"/><circle cx="280" cy="840" r="52" fill="#111827"/><circle cx="610" cy="840" r="52" fill="#111827"/><rect x="245" y="705" width="295" height="64" rx="30" fill="#60a5fa" opacity=".9"/><text x="90" y="1040" fill="#94a3b8" font-size="24" font-family="Arial">Aperçu provisoire — pas l'image finale</text></svg>`)}`;
+  }
+
+  function contentPack(d){return {
+    facebook:`🚗✨ Vous cherchez un moyen pratique et économique de voyager entre ${d.origin} et ${d.destination} ?\n\nChaque ${d.day} à ${d.time}, départ depuis la ${d.station}.\n\n✅ ${d.seats} places disponibles\n✅ Petit bagage accepté\n✅ Voyage confortable\n\nRéservez votre place maintenant.`,
+    instagram:`🌍💚 Covoiturer, c’est voyager malin.\n\n${d.origin} → ${d.destination}\nDépart ${d.day} à ${d.time}.\n\n${d.seats} places disponibles, petit bagage accepté, ambiance confortable.\n\n#Covoiturage #Cayenne #SaintLaurent #Guyane`,
+    tiktok:`SCÈNE 1 (0-2s)\nVoiture réelle devant la ${d.station}.\n\nSCÈNE 2 (2-5s)\n${d.seats} passagers montent avec petits bagages.\n\nSCÈNE 3 (5-8s)\nConducteur accueille, coffre ouvert.\n\nSCÈNE 4 (8-11s)\nDépart ${d.day} ${d.time}, direction ${d.destination}.\n\nSCÈNE 5 (11-15s)\nTexte écran : ${d.seats} places disponibles, réserve maintenant.`,
+    whatsapp:`Salut 👋\n\nTrajet ${d.origin} → ${d.destination}\nDépart ${d.day} à ${d.time} depuis la ${d.station}.\n\n🚗 ${d.seats} places disponibles\n🎒 Petit bagage accepté\n✅ Voyage confortable\n\nRéponds TRAJET pour réserver.`,
+    story:`${d.origin} → ${d.destination}\n${d.day} ${d.time}\n${d.seats} places • petit bagage accepté\nRéserve maintenant ✨`,
+    hashtags:'#Covoiturage #Cayenne #SaintLaurent #Guyane #TransportGuyane #TrajetGuyane'
+  }}
+
+  async function createImage(btn,id,prompt,net){
+    const hero=$(id); if(!hero) return;
+    const old=btn?.innerHTML; if(btn){btn.disabled=true; btn.innerHTML='⏳ Création...';}
+    hero.classList.add('v152Generating');
+    hero.querySelector('.v152Status')?.remove();
+    hero.insertAdjacentHTML('beforeend','<div class="v152Status">🎬 OpenAI génère une vraie photo...</div>');
+    try{
+      const r=await fetch('/api/creative/v151-image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,platform:net})});
+      const data=await r.json();
+      hero.querySelector('.v152Status')?.remove();
+      if(data.ok && data.url){
+        hero.innerHTML='<div class="v152ImageReady">✅ Image IA réelle générée</div>';
+        hero.style.backgroundImage=`linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.62)),url('${data.url}')`;
+        hero.classList.add('v152Ready');
+      }else{
+        hero.insertAdjacentHTML('beforeend',`<div class="v152Error">${E(data.error||'Image non générée. Vérifie OPENAI_API_KEY.')}</div>`);
+      }
+    }catch(e){
+      hero.querySelector('.v152Status')?.remove();
+      hero.insertAdjacentHTML('beforeend','<div class="v152Error">Erreur réseau. Vérifie le backend /api/creative/v151-image.</div>');
+    }
+    hero.classList.remove('v152Generating');
+    if(btn){btn.disabled=false; btn.innerHTML=old;}
+  }
+  window.v152CreateImage=createImage;
+  window.v152CreateAllImages=function(){document.querySelectorAll('[data-v152-create]').forEach((b,i)=>setTimeout(()=>b.click(),i*600));};
+
+  function card(title,net,text,d){
+    const id='v152_'+Math.random().toString(36).slice(2,9);
+    const p=promptFor(d,net);
+    const icon={facebook:'f',instagram:'◎',tiktok:'♪',whatsapp:'☏',story:'↗'}[net]||'✦';
+    return `<article class="v152Card"><div class="v152Top"><div class="v152Icon">${icon}</div><div><h3>${E(title)}</h3><span>${net==='tiktok'?'Script + vraie image verticale':'Post + vraie image unique'}</span></div></div><div id="${id}" class="v152Hero" style="background-image:url('${fallbackSvg(d,net)}')"><div class="v152NotFinal">Aperçu provisoire</div></div><div class="v152Meta"><span>📍 ${E(d.station)}</span><span>🕖 ${E(d.day)} ${E(d.time)}</span><span>👥 ${E(d.seats)} places</span><span>🎒 bagage</span></div><div class="v152Text">${E(text).replace(/\n/g,'<br>')}</div><div class="v152PromptTitle">Prompt image ${E(title)}</div><textarea readonly class="v152PromptArea">${E(p)}</textarea><div class="v152PromptTitle">Negative prompt</div><textarea readonly class="v152Negative">${E(negative)}</textarea><div class="v152Actions"><button data-v152-create onclick="v152CreateImage(this,'${id}',decodeURIComponent('${enc(p)}'),'${net}')">Créer image IA</button><button onclick="navigator.clipboard.writeText(decodeURIComponent('${enc(p)}'))">Copier prompt</button><button onclick="navigator.clipboard.writeText(decodeURIComponent('${enc(text)}'))">Copier texte</button></div></article>`;
+  }
+
+  function render(input){
+    const d=extract(input), p=contentPack(d);
+    const exportAll=[p.facebook,p.instagram,p.tiktok,p.whatsapp,p.story,p.hashtags].join('\n\n---\n\n');
+    return `<section class="v152Results"><div class="v152Header"><div><span>V152 CORRECTION IMAGE RÉELLE</span><h2>Résultats de votre campagne</h2><p>Les rectangles abstraits ne sont plus considérés comme images finales. Clique sur “Créer toutes les images IA” pour remplacer chaque aperçu par une vraie photo OpenAI.</p></div><div class="v152HeaderBtns"><button onclick="v152CreateAllImages()">🎬 Créer toutes les images IA</button><button onclick="navigator.clipboard.writeText(decodeURIComponent('${enc(exportAll)}'))">Exporter tout</button></div></div><div class="v152Grid">${card('Facebook','facebook',p.facebook,d)}${card('Instagram','instagram',p.instagram,d)}${card('TikTok / Reels','tiktok',p.tiktok,d)}${card('WhatsApp','whatsapp',p.whatsapp,d)}${card('Story / Statut','story',p.story,d)}<article class="v152Card"><div class="v152Top"><div class="v152Icon">#</div><div><h3>Hashtags</h3><span>Copiable</span></div></div><div class="v152Text">${E(p.hashtags)}</div><div class="v152PromptTitle">Contrôle qualité V152</div><div class="v152Text">✅ 1 prompt différent par réseau<br>✅ Photoréaliste obligatoire<br>✅ Pas de cartoon / vector / fond abstrait<br>✅ Vraie image seulement après réponse OpenAI<br>✅ Fallback clairement marqué “aperçu provisoire”</div></article></div></section>`;
+  }
+
+  window.v152Run=function(){const input=($('contentPrompt')?.value||$('contentNiche')?.value||'').trim();const out=$('contentOut');if(!out)return;if(!input){out.innerHTML='<div class="employeeResult">Décris ton offre avant de générer.</div>';return;}out.innerHTML=render(input);};
+  window.generateContent=window.v152Run;
+  window.v151Run=window.v152Run;
+  window.v150Run=window.v152Run;
+  window.v148Run=window.v152Run;
+})();
