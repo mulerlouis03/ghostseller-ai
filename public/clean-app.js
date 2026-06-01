@@ -2347,7 +2347,11 @@ function placeResult(btn, html){}
   window.v149CopyAll=function(){const txt=(window.__v149Items||[]).map(([p,d])=>`--- ${p} ---\nPROMPT IMAGE:\n${d.prompt_image}\n\nNEGATIVE PROMPT:\n${d.negative_prompt}`).join('\n\n'); window.v149Copy(txt);};
   window.v149GenerateImage=async function(platform,copy){const out=$('contentOut'); if(!out)return; out.insertAdjacentHTML('afterbegin','<div class="gs143Loading">🎨 Génération image IA V149...</div>'); try{const data=await post('/api/creative/generate-image',{copy,platform}); const idx=(window.__v149Items||[]).findIndex(x=>x[0]===platform); if(idx>=0) window.__v149Items[idx]=[platform,data]; out.innerHTML=render(copy,window.__v149Items,'Image IA générée');}catch(e){alert(e.message||'Erreur image');}};
   window.v149Director=async function(ep){const copy=dec(ep)||offer(); const out=$('contentOut'); if(!out)return; if(!copy){out.innerHTML='<div class="employeeResult">Écris le texte de ta pub avant de lancer le Directeur Artistique V149.</div>';return;} window.__v149Copy=copy; out.innerHTML='<div class="gs143Loading">🎨 Directeur Artistique V149 analyse la publicité...</div>'; const platforms=['Facebook','Instagram','TikTok','WhatsApp']; const items=[]; for(const p of platforms){try{items.push([p,await post('/api/creative/director',{copy,platform:p})]);}catch(e){items.push([p,localDirector(copy,p)]);}} window.__v149Items=items; out.innerHTML=render(copy,items);};
+  // V149 FIX: ne plus remplacer le bouton principal "Créer les contenus prêts".
+  // Le bouton principal doit garder le pack complet Facebook / Instagram / TikTok / WhatsApp.
+  // Le Creative Director reste disponible uniquement via les actions image/visuel.
   const oldGenerate=window.generateContent;
-  window.generateContent=function(){const input=offer(); if(input && /image|visuel|prompt|dall|pub|publicit|covoiturage|recharge|digicel|natcom|ghostseller|saas/i.test(input)){return window.v149Director(enc(input));} return oldGenerate?oldGenerate():window.v149Director(enc(input));};
+  window.generateContent=function(){return oldGenerate ? oldGenerate() : window.v149Director(enc(offer()));};
+  window.v149OpenDirector=function(){return window.v149Director(enc(offer()));};
   window.v148Background=function(ep){return window.v149Director(ep);};
 })();
