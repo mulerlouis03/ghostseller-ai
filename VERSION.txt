@@ -1,6 +1,5 @@
-GhostSeller AI V141 SIDEBAR FINAL UX
-- Sidebar simplifiée
-- Nouvelle Création bouton principal
-- TikTok/WhatsApp/Script vidéo retirés du menu
-- Mes Contenus ajouté
-- Onglets réseaux dans Nouvelle Création
+GhostSeller AI V200 CORE REBUILD
+- Built from uploaded V136
+- Active connected buttons
+- Background image placed behind pub cards
+- Sidebar simplified patch

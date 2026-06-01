@@ -1884,9 +1884,9 @@ function placeResult(btn, html){}
     const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='720' height='1280' viewBox='0 0 720 1280'><defs><linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'><stop stop-color='#020617'/><stop offset='.45' stop-color='#0b1735'/><stop offset='1' stop-color='#210b35'/></linearGradient><filter id='f'><feGaussianBlur stdDeviation='38'/></filter></defs><rect width='720' height='1280' fill='url(#bg)'/><circle cx='120' cy='180' r='190' fill='#38bdf8' opacity='.23' filter='url(#f)'/><circle cx='590' cy='980' r='260' fill='#a855f7' opacity='.28' filter='url(#f)'/><circle cx='500' cy='260' r='130' fill='#f59e0b' opacity='.12' filter='url(#f)'/><g opacity='.12' fill='#fff'>${Array.from({length:38},(_,i)=>`<circle cx='${(i*97)%720}' cy='${100+(i*181)%1080}' r='${2+(i%5)}'/>`).join('')}</g><text x='360' y='520' font-size='150' text-anchor='middle' opacity='.23'>${emoji}</text><rect x='70' y='780' width='580' height='230' rx='36' fill='#000' opacity='.30' stroke='#fff' stroke-opacity='.10'/><text x='360' y='900' font-family='Arial' font-size='38' font-weight='700' text-anchor='middle' fill='#fff' opacity='.50'>${label}</text></svg>`;
     return 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(svg)));
   }
-  function bgPanel(p){const img=bgSvg(p);return `<div id="v136BgStatus" class="v137BgStatus"><span>🖼️ Fond sombre intégré aux pubs</span><button class="copyBtn" type="button" onclick="v136Background('${enc(p)}')">Régénérer fond</button></div>`;}
+  function bgPanel(p){const img=bgSvg(p);return `<div id="v136BgOut" class="employeeResult v136BgPanel"><div class="employeeHeader"><div><span class="employeeBadge">🖼️ Fond prêt</span><h2>Fond sombre généré</h2><p class="muted">Prêt pour mettre le texte blanc de ta pub par-dessus.</p></div><button class="copyBtn" type="button" onclick="v136Background('${enc(p)}')">Régénérer fond</button></div><div class="v133GeneratedImageWrap"><img src="${img}" alt="Fond publicitaire sombre"/></div></div>`;}
   function actions(p){const q=enc(p); return `<div class="v133Actions v136Actions"><button type="button" onclick="v136Run('ideas','${q}')">🔄 Générer d'autres idées</button><button type="button" onclick="v136Run('viral','${q}')">🔥 Version virale</button><button type="button" onclick="v136Run('emotion','${q}')">❤️ Émotionnelle</button><button type="button" onclick="v136Run('premium','${q}')">💎 Premium</button><button type="button" onclick="v136Run('aggressive','${q}')">⚡ Agressive</button><button type="button" onclick="v136Run('promo','${q}')">🏷️ Promotion</button><button type="button" onclick="v136Extra('hooks','${q}')">🎣 20 Hooks</button><button type="button" onclick="v136Extra('cta','${q}')">📢 10 CTA</button><button type="button" onclick="v136Extra('hashtags','${q}')">#️⃣ 30 Hashtags</button><button type="button" onclick="v136Background('${q}')">🖼️ Créer fond IA</button></div>`;}
-  function render(pack,p,title){pack=normalize(pack); const a=all(pack); const bg=bgSvg(p); return `<div class="employeeResult v133Result v136Result v137BgIntegrated" style="--gs-bg-image:url('${bg}')"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail terminé</span><h2>${E(title||'Pack réseaux sociaux prêt')}</h2><p class="muted">Facebook, Instagram, TikTok/Reels, WhatsApp, Story et hashtags prêts à publier.</p></div><button class="copyBtn" type="button" onclick="v136Copy(decodeURIComponent('${enc(a)}'))">Copier tout</button></div>${actions(p)}${bgPanel(p)}<div class="deliverableGrid v133Grid">${card('Facebook',pack.facebook)}${card('Instagram',pack.instagram)}${card('TikTok / Reels',pack.tiktok)}${card('WhatsApp',pack.whatsapp)}${card('Story / Statut',pack.story)}${card('Hashtags',pack.hashtags)}</div><div id="v133ExtraOut"></div></div>`;}
+  function render(pack,p,title){pack=normalize(pack); const a=all(pack); return `<div class="employeeResult v133Result v136Result"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail terminé</span><h2>${E(title||'Pack réseaux sociaux prêt')}</h2><p class="muted">Facebook, Instagram, TikTok/Reels, WhatsApp, Story et hashtags prêts à publier.</p></div><button class="copyBtn" type="button" onclick="v136Copy(decodeURIComponent('${enc(a)}'))">Copier tout</button></div>${actions(p)}<div class="deliverableGrid v133Grid">${card('Facebook',pack.facebook)}${card('Instagram',pack.instagram)}${card('TikTok / Reels',pack.tiktok)}${card('WhatsApp',pack.whatsapp)}${card('Story / Statut',pack.story)}${card('Hashtags',pack.hashtags)}</div>${bgPanel(p)}<div id="v133ExtraOut"></div></div>`;}
   async function post(path,body){const headers={'Content-Type':'application/json'}; const t=localStorage.getItem('ghostseller_token'); if(t) headers.Authorization='Bearer '+t; const r=await fetch(path,{method:'POST',headers,body:JSON.stringify(body)}); const d=await r.json().catch(()=>({})); if(!r.ok) throw new Error(d.error||d.message||'Erreur API'); return d;}
   window.v136Copy=copy;
   window.v136Run=async function(angle,ep){
@@ -1895,27 +1895,7 @@ function placeResult(btn, html){}
     try{const data=await post('/api/content/social-pack',{offer:p,angle}); if(data.provider==='openai'){const pack=normalize(data.pack||{}); if(pack.facebook&&pack.instagram&&pack.tiktok) out.innerHTML=render(pack,p,angle==='base'?'Pack réseaux sociaux prêt':'Pack '+angleName(angle)+' prêt');}}catch(e){}
   };
   window.v136Extra=async function(type,ep){const p=dec(ep)||offer(); const box=document.getElementById('v133ExtraOut')||document.getElementById('contentOut'); if(!box) return; const pack=localPack(p,type); let body=type==='hooks'?pack.hooks:type==='cta'?pack.cta:pack.hashtags; box.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail terminé</span><h2>${type==='hooks'?'20 Hooks':type==='cta'?'10 CTA':'30 Hashtags'}</h2></div><button class="copyBtn" onclick="v136Copy(decodeURIComponent('${enc(body)}'))">Copier tout</button></div><div class="scriptBlock employeeScript">${E(body)}</div></div>`; try{const data=await post('/api/content/social-pack',{offer:p,angle:type}); if(data.provider==='openai'){const remote=normalize(data.pack||{}); const rb=text(type==='hooks'?remote.hooks:type==='cta'?remote.cta:remote.hashtags); if(rb){body=rb; box.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail terminé</span><h2>${type==='hooks'?'20 Hooks':type==='cta'?'10 CTA':'30 Hashtags'}</h2></div><button class="copyBtn" onclick="v136Copy(decodeURIComponent('${enc(body)}'))">Copier tout</button></div><div class="scriptBlock employeeScript">${E(body)}</div></div>`;}}}catch(e){} };
-  window.v136Background=async function(ep){
-    const p=dec(ep)||offer();
-    const root=document.querySelector('.v136Result')||document.getElementById('contentOut');
-    const status=document.getElementById('v136BgStatus');
-    if(status) status.innerHTML='<span>🖼️ Génération du fond en cours...</span><button class="copyBtn" type="button" disabled>...</button>';
-    const local=bgSvg(p);
-    if(root && root.style) root.style.setProperty('--gs-bg-image', `url('${local}')`);
-    if(status) status.innerHTML=`<span>✅ Fond sombre intégré aux cartes</span><button class="copyBtn" type="button" onclick="v136Background('${enc(p)}')">Régénérer fond</button>`;
-    try{
-      const data=await post('/api/content/background-image',{offer:p});
-      if(data && data.imageUrl){
-        const img=String(data.imageUrl).replace(/'/g,'%27');
-        if(root && root.style) root.style.setProperty('--gs-bg-image', `url('${img}')`);
-        const st=document.getElementById('v136BgStatus');
-        if(st) st.innerHTML=`<span>✅ Fond IA intégré aux pubs</span><button class="copyBtn" type="button" onclick="v136Background('${enc(p)}')">Régénérer fond</button>`;
-      }
-    }catch(e){
-      const st=document.getElementById('v136BgStatus');
-      if(st) st.innerHTML=`<span>✅ Fond sombre local intégré aux pubs</span><button class="copyBtn" type="button" onclick="v136Background('${enc(p)}')">Régénérer fond</button>`;
-    }
-  };
+  window.v136Background=async function(ep){const p=dec(ep)||offer(); const box=document.getElementById('v136BgOut')||document.getElementById('v133ExtraOut')||document.getElementById('contentOut'); if(!box) return; box.outerHTML=bgPanel(p); try{const data=await post('/api/content/background-image',{offer:p}); if(data.provider==='openai'&&data.imageUrl){const el=document.getElementById('v136BgOut'); if(el) el.innerHTML=`<div class="employeeHeader"><div><span class="employeeBadge">✅ Fond créé</span><h2>Fond IA prêt</h2><p class="muted">Image sombre générée automatiquement.</p></div><button class="copyBtn" type="button" onclick="v136Background('${enc(p)}')">Régénérer fond</button></div><div class="v133GeneratedImageWrap"><img src="${E(data.imageUrl)}" alt="Fond IA généré"/></div>`;}}catch(e){} };
   window.generateContent=function(){window.v136Run('base',enc(offer()));};
   window.v135Run=window.v133Run=window.v129Regen=window.v136Run; window.v135Extra=window.v133Extra=window.v136Extra; window.v135Background=window.v133GenerateBackground=window.v132Background=window.v136Background;
   window.logout=window.v133Logout=window.v135Logout=window.v136Logout=function(){try{['ghostseller_token','token','authToken','supabase.auth.token'].forEach(k=>localStorage.removeItem(k));sessionStorage.clear();}catch(e){} location.href='/';};
@@ -1927,152 +1907,153 @@ function placeResult(btn, html){}
   document.addEventListener('DOMContentLoaded',cleanAccount); setTimeout(cleanAccount,500); setTimeout(cleanAccount,1800);
 })();
 
-/* V140 — Sidebar UX + real background card placement */
+/* V200 CORE REBUILD — built from V136: real connected buttons + real background behind pub cards + clean sidebar */
 (function(){
-  function ready(fn){ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', fn); else fn(); }
-  function esc(s){return String(s||'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
-  function enc(s){return encodeURIComponent(String(s||''));}
-  function dec(s){try{return decodeURIComponent(String(s||''));}catch(e){return s||'';}}
-  function offer(){return document.getElementById('contentPrompt')?.value?.trim()||'';}
-  function setTitles(){
-    if(!window.__v140TitlePatched && typeof window.showPage==='function'){
-      const old=window.showPage;
-      window.showPage=function(id){ old(id); const t={home:['Accueil','Vue d’ensemble de ton espace GhostSeller.'],content:['Nouvelle Création','Crée un pack complet puis choisis les réseaux à afficher.'],leads:['Leads','Gestion des prospects.'],account:['Mon compte','Profil, abonnement et réglages.'],history:['Mes Contenus','Historique de tes générations.']}; if(t[id]){const h=document.getElementById('pageTitle'),p=document.getElementById('pageSubtitle'); if(h) h.textContent=t[id][0]; if(p) p.textContent=t[id][1];}}
-      window.__v140TitlePatched=true;
+  const $ = (id)=>document.getElementById(id);
+  const E = (s)=>String(s ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const enc = (v)=>encodeURIComponent(String(v||''));
+  const dec = (v)=>{try{return decodeURIComponent(String(v||''));}catch(_){return String(v||'');}};
+  const offer = ()=>($('contentPrompt')?.value || $('contentNiche')?.value || document.querySelector('textarea')?.value || '').trim();
+  const copy = (t)=>{try{navigator.clipboard?.writeText(String(t||''));}catch(_){}};
+  window.v200Copy = copy;
+
+  function cleanText(v){
+    if(v==null) return '';
+    if(Array.isArray(v)) return v.map(cleanText).filter(Boolean).join('\n');
+    if(typeof v === 'object'){
+      const preferred = v.content ?? v.text ?? v.body ?? v.caption ?? v.message ?? v.script ?? v.value;
+      if(preferred != null) return cleanText(preferred);
+      return Object.entries(v).map(([k,val])=>{
+        const t = cleanText(val);
+        return t ? `${k.toUpperCase()}\n${t}` : '';
+      }).filter(Boolean).join('\n\n');
     }
+    return String(v)
+      .replace(/IMAGE\s*\n?\s*url[_\s-]*(vers)?[_\s-]*image[^\n]*/gi,'')
+      .replace(/url_vers_image[^\n]*/gi,'')
+      .replace(/\[object Object\]/g,'')
+      .trim();
   }
-  function buildSidebar(){
-    const side=document.querySelector('aside.sidebar'); if(!side) return;
-    const brand=side.querySelector('.brand')?.outerHTML||'';
-    side.innerHTML=brand+`\n<button class="nav" data-page="home">🏠 Accueil</button>\n<button class="nav v140PrimaryNav" data-page="content">✨ Nouvelle Création</button>\n<button class="nav" data-page="history">📁 Mes Contenus</button>\n<button class="nav" data-page="leads">👥 Leads</button>\n<button class="nav" data-page="account">👤 Mon Compte</button>\n<a id="ownerSideLink" class="nav owner hidden" href="/owner/">👑 Owner Console</a>`;
-    side.querySelectorAll('.nav[data-page]').forEach(btn=>btn.addEventListener('click',()=>{ if(typeof window.showPage==='function') window.showPage(btn.dataset.page); if(typeof window.closeMobileMenu==='function') window.closeMobileMenu(); }));
-  }
-  function ensureHistoryPage(){
-    if(document.getElementById('history')) return;
-    const main=document.querySelector('main.main'); if(!main) return;
-    const sec=document.createElement('section'); sec.id='history'; sec.className='page hidden workspacePage'; sec.innerHTML=`<div class="card"><h2>Mes Contenus</h2><p>Retrouve les derniers packs générés dans ce navigateur.</p><div id="v140HistoryList" class="v140HistoryList"></div></div>`;
-    main.appendChild(sec);
-  }
-  function renderHistory(){
-    const box=document.getElementById('v140HistoryList'); if(!box) return;
-    let arr=[]; try{arr=JSON.parse(localStorage.getItem('ghostseller_v140_history')||'[]')}catch(e){}
-    box.innerHTML=arr.length?arr.slice(0,20).map(x=>`<div class="v140HistoryItem"><b>${esc(x.title||'Pack généré')}</b><span>${esc(x.date||'')}</span><p>${esc((x.offer||'').slice(0,120))}</p><button onclick="document.getElementById('contentPrompt').value=decodeURIComponent('${enc(x.offer||'')}');showPage('content')">Réouvrir</button></div>`).join(''):`<div class="v140Empty">Aucun contenu sauvegardé pour le moment. Génère ton premier pack dans Nouvelle Création.</div>`;
-  }
-  function saveHistory(title, of){
-    let arr=[]; try{arr=JSON.parse(localStorage.getItem('ghostseller_v140_history')||'[]')}catch(e){}
-    arr.unshift({title:title||'Pack réseaux sociaux',offer:of||offer(),date:new Date().toLocaleString('fr-FR')}); localStorage.setItem('ghostseller_v140_history',JSON.stringify(arr.slice(0,50)));
-  }
-  function tabs(){
-    const card=document.querySelector('#content .card'); if(!card || document.getElementById('v140NetworkTabs')) return;
-    const t=document.createElement('div'); t.id='v140NetworkTabs'; t.className='v140NetworkTabs'; t.innerHTML=`<button class="active" data-filter="all">Tous</button><button data-filter="facebook">Facebook</button><button data-filter="instagram">Instagram</button><button data-filter="tiktok">TikTok/Reels</button><button data-filter="whatsapp">WhatsApp</button><button data-filter="story">Story</button><button data-filter="hashtags">Hashtags</button>`;
-    const p=card.querySelector('p'); p?.after(t);
-    t.addEventListener('click',e=>{const b=e.target.closest('button[data-filter]'); if(!b) return; t.querySelectorAll('button').forEach(x=>x.classList.remove('active')); b.classList.add('active'); filterCards(b.dataset.filter);});
-  }
-  function filterCards(f){
-    document.querySelectorAll('#contentOut .deliverableCard').forEach(c=>{const h=(c.querySelector('h3')?.textContent||'').toLowerCase(); let show=f==='all'||h.includes(f)|| (f==='tiktok'&&h.includes('tiktok')) || (f==='story'&&h.includes('story')) || (f==='hashtags'&&h.includes('hashtag')); c.style.display=show?'':'none';});
-  }
-  function applyBg(img){
-    if(!img) return;
-    document.querySelectorAll('.v137BgIntegrated,.v136Result,.v133Result').forEach(root=>{ root.style.setProperty('--gs-bg-image',`url("${img}")`); root.classList.add('v140HasBg'); });
-    document.querySelectorAll('#contentOut .deliverableCard').forEach(card=>{ card.style.setProperty('--gs-card-bg',`url("${img}")`); card.classList.add('v140CardWithBg'); });
-  }
-  const oldBg=window.v136Background||window.v135Background||window.v133GenerateBackground;
-  window.v136Background=window.v135Background=window.v133GenerateBackground=async function(ep){
-    const p=dec(ep)||offer(); const status=document.getElementById('v136BgStatus');
-    if(status) status.innerHTML='<span>🖼️ Génération du fond IA en cours...</span><button class="copyBtn" disabled>...</button>';
-    // local instant background, visible immediately
-    let local=''; try{ if(typeof oldBg==='function') await oldBg(ep); }catch(e){}
-    const root=document.querySelector('.v137BgIntegrated,.v136Result,.v133Result');
-    const computed=root?getComputedStyle(root).getPropertyValue('--gs-bg-image').trim():'';
-    if(computed && computed.startsWith('url(')){ local=computed.slice(4,-1).replace(/^['"]|['"]$/g,''); applyBg(local); }
-    try{
-      const r=await fetch('/api/content/background-image',{method:'POST',headers:{'Content-Type':'application/json',...(localStorage.getItem('ghostseller_token')?{Authorization:'Bearer '+localStorage.getItem('ghostseller_token')}: {})},body:JSON.stringify({offer:p})});
-      const d=await r.json().catch(()=>({})); if(d.imageUrl){applyBg(d.imageUrl);}
-      if(status) status.innerHTML='<span>✅ Fond IA placé derrière les pubs</span><button class="copyBtn" type="button" onclick="v136Background(\''+enc(p)+'\')">Régénérer fond</button>';
-    }catch(e){ if(status) status.innerHTML='<span>✅ Fond sombre local placé derrière les pubs</span><button class="copyBtn" type="button" onclick="v136Background(\''+enc(p)+'\')">Régénérer fond</button>'; }
-  };
-  const oldGen=window.generateContent;
-  window.generateContent=function(){ const p=offer(); saveHistory('Pack réseaux sociaux',p); if(typeof oldGen==='function') return oldGen(); };
-  ready(()=>{ buildSidebar(); ensureHistoryPage(); setTitles(); tabs(); renderHistory(); document.addEventListener('click',()=>setTimeout(()=>{const active=document.querySelector('#v140NetworkTabs button.active')?.dataset.filter; if(active) filterCards(active);},200)); if(typeof window.showPage==='function') window.showPage('home'); });
-})();
 
-
-/* V141 — Sidebar finale claire + réseaux dans Nouvelle Création */
-(function(){
-  function ready(fn){ document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', fn) : fn(); }
-  function qs(s){ return document.querySelector(s); }
-  function qsa(s){ return Array.from(document.querySelectorAll(s)); }
-  function esc(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
-  const titles={
-    home:['Accueil','Vue d’ensemble de ton espace GhostSeller.'],
-    content:['Nouvelle Création','Décris ton offre. GhostSeller prépare un pack complet, puis tu choisis les réseaux à afficher.'],
-    history:['Mes Contenus','Retrouve les anciennes générations sauvegardées dans ce navigateur.'],
-    leads:['Leads','Gestion des prospects.'],
-    account:['Mon Compte','Profil, abonnement et réglages.']
-  };
-  function rebuildSidebar(){
-    const side=qs('aside.sidebar'); if(!side) return;
-    const brand=side.querySelector('.brand')?.outerHTML || '<div class="brand compact"><div class="logo">G</div><div><strong>GhostSeller AI</strong><span>Espace membre</span></div></div>';
-    const owner=qs('#ownerSideLink')?.classList.contains('hidden') ? 'hidden' : '';
-    side.innerHTML = brand + `
-      <button class="nav" data-page="home">🏠 Accueil</button>
-      <button class="nav nav-primary v141MainCreate" data-page="content">✨ Nouvelle Création</button>
-      <button class="nav" data-page="history">📁 Mes Contenus</button>
-      <button class="nav" data-page="leads">👥 Leads</button>
-      <button class="nav" data-page="account">👤 Mon Compte</button>
-      <a id="ownerSideLink" class="nav owner ${owner}" href="/owner/">👑 Owner Console</a>`;
-    qsa('aside.sidebar .nav[data-page]').forEach(btn=>{
-      btn.addEventListener('click',()=>{ if(typeof window.showPage==='function') window.showPage(btn.dataset.page); closeMobile(); });
-    });
-  }
-  function closeMobile(){ try{ document.body.classList.remove('menuOpen','mobileMenuOpen'); qs('.sidebar')?.classList.remove('open'); qs('.mobileOverlay')?.classList.remove('show'); }catch(e){} }
-  function patchShowPage(){
-    if(window.__v141ShowPagePatched || typeof window.showPage!=='function') return;
-    window.__v141ShowPagePatched=true;
-    const old=window.showPage;
-    window.showPage=function(id){
-      old(id==='subscription'?'account':id);
-      const real=id==='subscription'?'account':id;
-      qsa('aside.sidebar .nav[data-page]').forEach(b=>b.classList.toggle('active', b.dataset.page===real));
-      const t=titles[real]; if(t){ const h=qs('#pageTitle'), p=qs('#pageSubtitle'); if(h) h.textContent=t[0]; if(p) p.textContent=t[1]; }
-      if(real==='history') renderHistoryPage();
-      if(real==='content') ensureNetworkTabs();
-      closeMobile();
+  function normalize(raw){
+    const p = raw && typeof raw === 'object' ? raw : {};
+    return {
+      facebook: cleanText(p.facebook || p.fb || p.facebook_post),
+      instagram: cleanText(p.instagram || p.instagram_post || p.ig),
+      tiktok: cleanText(p.tiktok || p.tiktok_reels || p.reels || p.video_script),
+      whatsapp: cleanText(p.whatsapp || p.whatsapp_message),
+      story: cleanText(p.story || p.statut || p.status),
+      hashtags: cleanText(p.hashtags),
+      hooks: cleanText(p.hooks),
+      cta: cleanText(p.cta || p.ctas)
     };
   }
-  function ensureHistoryPage(){
-    const main=qs('main.main'); if(!main || qs('#history')) return;
-    const sec=document.createElement('section'); sec.id='history'; sec.className='page hidden';
-    sec.innerHTML='<div class="card premiumCard"><h2>📁 Mes Contenus</h2><p class="muted">Tes générations récentes apparaîtront ici automatiquement.</p><div id="v141HistoryList" class="v141HistoryList"></div></div>';
-    main.appendChild(sec);
+
+  function brand(p){
+    const s=String(p||'');
+    const q=s.match(/["'“”‘’]([^"'“”‘’]{3,40})["'“”‘’]/); if(q) return q[1].trim();
+    const m=s.match(/(?:marque|brand)\s+(?:de\s+)?(?:café|cafe|coffee)?\s*([A-Za-z0-9À-ÿ][A-Za-z0-9À-ÿ\s-]{2,35})/i);
+    if(m) return m[1].replace(/\s+(venant|pour|destinée|destine).*$/i,'').trim();
+    const upper=s.match(/\b([A-ZÀ-Ÿ0-9][A-ZÀ-Ÿ0-9 -]{3,30})\b/); if(upper) return upper[1].trim();
+    return '';
   }
-  function renderHistoryPage(){
-    ensureHistoryPage(); const box=qs('#v141HistoryList'); if(!box) return;
-    let arr=[]; try{ arr=JSON.parse(localStorage.getItem('ghostseller_history')||'[]'); }catch(e){}
-    if(!arr.length){ box.innerHTML='<div class="v141Empty">Aucun contenu sauvegardé pour le moment. Va dans Nouvelle Création pour générer ton premier pack.</div>'; return; }
-    box.innerHTML=arr.slice(0,24).map((x,i)=>`<div class="v141HistoryItem"><b>${esc(x.title||'Pack généré')}</b><span>${esc(x.date||'')}</span><p>${esc((x.offer||x.prompt||'').slice(0,140))}</p><button type="button" data-offer="${encodeURIComponent(x.offer||x.prompt||'')}">Réouvrir</button></div>`).join('');
-    box.querySelectorAll('button[data-offer]').forEach(btn=>btn.onclick=()=>{ const ta=qs('#contentPrompt'); if(ta) ta.value=decodeURIComponent(btn.dataset.offer||''); window.showPage('content'); });
+  function meta(p){
+    const s=String(p||'').toLowerCase(); const b=brand(p);
+    if(/café|cafe|coffee|kafe/.test(s)) return {kind:'coffee', brand:b||'KAFE LAKAY', product:'café haïtien premium', kw:'CAFÉ', tags:['#KafeLakay','#CafeHaitien','#Cafe','#Haiti','#CoffeeLovers','#CafeArtisanal','#SaveurHaiti']};
+    if(/nike|adidas|basket|sneaker|chaussure|sport/.test(s)) return {kind:'sport', brand:b||'Sneakers', product:'baskets tendance', kw:'BASKET', tags:['#Sneakers','#Streetwear','#ModeUrbaine','#SportStyle','#Tendance']};
+    if(/montre|bijou|luxe|jewel|watch/.test(s)) return {kind:'luxury', brand:b||'Collection Premium', product:'pièce de luxe', kw:'LUXE', tags:['#Luxe','#Premium','#Bijoux','#Montre','#Elegance']};
+    if(/parfum|cosm|beaut|maquillage|soin/.test(s)) return {kind:'beauty', brand:b||'Beauté Premium', product:'parfum / cosmétique', kw:'BEAUTÉ', tags:['#Parfum','#Cosmetique','#Beaute','#Glow','#LuxuryBeauty']};
+    if(/sac|mode|fashion/.test(s)) return {kind:'fashion', brand:b||'Collection Mode', product:'sac tendance', kw:'INFO', tags:['#Sac','#ModeFemme','#Style','#Shopping','#Tendance']};
+    return {kind:'generic', brand:b||'Offre spéciale', product:'offre', kw:'INFO', tags:['#Business','#Vente','#Marketing','#Offre','#Clients']};
   }
-  function ensureNetworkTabs(){
-    const page=qs('#content'); if(!page || qs('#v141NetworkTabs')) return;
-    const target=qs('#contentOut') || page.querySelector('.card') || page.firstElementChild;
-    const tabs=document.createElement('div'); tabs.id='v141NetworkTabs'; tabs.className='v141NetworkTabs';
-    tabs.innerHTML='<button class="active" data-filter="all">Tous</button><button data-filter="facebook">Facebook</button><button data-filter="instagram">Instagram</button><button data-filter="tiktok">TikTok/Reels</button><button data-filter="whatsapp">WhatsApp</button><button data-filter="story">Story</button><button data-filter="hashtags">Hashtags</button>';
-    if(target) target.parentNode.insertBefore(tabs, target); else page.prepend(tabs);
-    tabs.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{ tabs.querySelectorAll('button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); filterCards(btn.dataset.filter); });
+  function titleLine(m,angle){
+    if(m.kind==='coffee'){
+      if(angle==='viral') return `🔥 ${m.brand}, le café d’Haïti qui attire l’attention`;
+      if(angle==='premium') return `☕ ${m.brand} — café haïtien premium, sombre et élégant`;
+      if(angle==='emotion') return `❤️ ${m.brand}, un goût qui rappelle Haïti`;
+      if(angle==='aggressive') return `⚡ Amateur de vrai café ? Découvre ${m.brand} maintenant.`;
+      if(angle==='promo') return `🏷️ Offre spéciale sur ${m.brand}`;
+      return `☕ ${m.brand} — café premium venu d’Haïti`;
+    }
+    if(m.kind==='sport') return angle==='viral'?`🔥 Les baskets qui font tourner les têtes`:`👟 ${m.brand} — style urbain prêt à publier`;
+    if(m.kind==='luxury') return `💎 ${m.brand} — élégance, mystère et finition premium`;
+    if(m.kind==='beauty') return `✨ ${m.brand} — beauté, douceur et image premium`;
+    if(m.kind==='fashion') return `👜 ${m.brand} — style tendance à découvrir`;
+    return `✨ ${m.brand}`;
   }
-  function filterCards(filter){
-    qsa('.deliverableCard,.v133SocialCard').forEach(card=>{
-      const title=(card.querySelector('h3')?.textContent||'').toLowerCase();
-      let show=filter==='all' || title.includes(filter);
-      if(filter==='tiktok') show=title.includes('tiktok') || title.includes('reels');
-      if(filter==='story') show=title.includes('story') || title.includes('statut');
-      card.style.display=show?'':'none';
-    });
+  function localPack(p,angle='base'){
+    const m=meta(p); const head=titleLine(m,angle);
+    const anglePhrase = angle==='viral'?'un angle viral qui accroche dès la première seconde':angle==='emotion'?'un message émotionnel, humain et mémorable':angle==='premium'?'une présentation plus haut de gamme et rassurante':angle==='aggressive'?'un message direct qui pousse à demander les infos':angle==='promo'?'une offre simple, claire et orientée conversion':'un message prêt à publier';
+    const detail = m.kind==='coffee' ? `${m.brand} met en avant un café haïtien authentique : grains sélectionnés, goût riche, identité locale et présentation premium.` : `${p}`;
+    const facebook=`${head}\n\n${detail}\n\nCette publication est pensée pour capter l’attention, donner envie de découvrir le produit et déclencher un message en privé.\n\n✅ ${anglePhrase}\n✅ Facile à comprendre\n✅ Donne envie d’essayer\n✅ Disponible maintenant\n\n📩 Écris “${m.kw}” pour recevoir les détails.`;
+    const instagram=`${head}\n\n${m.kind==='coffee'?'Plonge dans le goût riche et authentique d’un café inspiré par Haïti. Chaque tasse raconte une origine, une chaleur et une vraie identité.':detail}\n\nDM “${m.kw}” pour recevoir les infos.\n\n${m.tags.concat(['#Reels','#TikTokFrance','#InstagramFrance','#SmallBusiness','#Diaspora']).join(' ')}`;
+    const tiktok=`🎬 SCRIPT TIKTOK / REELS\n\nSCÈNE 1 — HOOK (0-2s)\nTexte écran : “Tu connais ${m.brand} ?”\nVisuel : produit en gros plan, fond sombre, lumière cinématique.\n\nSCÈNE 2 — ORIGINE (2-6s)\nTexte écran : “${m.kind==='coffee'?'Un café venu d’Haïti':'Une offre à découvrir'}”\nVisuel : détails du produit, texture, ambiance premium.\n\nSCÈNE 3 — DÉSIR (6-12s)\nTexte écran : “${m.kind==='coffee'?'Arôme intense. Goût authentique. Présentation premium.':'Simple, clair, disponible maintenant.'}”\nVoix off : “Une offre faite pour attirer l’attention et donner envie d’essayer.”\n\nSCÈNE 4 — PREUVE (12-17s)\nTexte écran : “Prêt à publier / prêt à commander”\nVisuel : 2 bénéfices clairs qui apparaissent à l’écran.\n\nSCÈNE 5 — CTA (17-22s)\nTexte écran : “Écris ${m.kw} pour recevoir les infos”\nCaption : ${head}\nCTA : Commente ${m.kw} ou envoie un DM.`;
+    const whatsapp=`Salut 👋\n\nJe te partage cette offre :\n\n${head}\n\n${m.kind==='coffee'?`${m.brand}, c’est un café haïtien premium avec une image propre, une origine forte et un message simple à comprendre.`:detail}\n\n✅ Clair\n✅ Disponible maintenant\n✅ Facile à commander\n\nRéponds “${m.kw}” et je t’envoie les détails.`;
+    const story=`📱 STORY / STATUT\n\n${head}\n\n${m.kind==='coffee'?'Café haïtien premium à découvrir aujourd’hui.':'Offre disponible maintenant.'}\n\nTu veux les détails ?\nRéponds “${m.kw}”.`;
+    const hashtags=m.tags.concat(['#Offre','#Promotion','#Marketing','#Vente','#Clients','#Business','#Tendance','#Nouveaute','#France','#Diaspora','#Entrepreneur','#MarketingDigital']).slice(0,30).join(' ');
+    const hooks=Array.from({length:20},(_,i)=>`${i+1}. ${[`Tu connais ${m.brand} ?`,`Stop, cette offre peut t’intéresser.`,`${m.kind==='coffee'?'Le café haïtien mérite plus de visibilité.':'Cette offre mérite ton attention.'}`,`POV : tu découvres ${m.product} au bon moment.`,`Écris ${m.kw} si tu veux les infos.`][i%5]}`).join('\n');
+    const cta=[`Écris ${m.kw} pour recevoir les détails.`,`Envoie-moi un DM maintenant.`,`Commente ${m.kw}.`,`Demande la disponibilité.`,`Réserve avant que ça parte.`,`Partage à quelqu’un que ça peut intéresser.`,`Clique pour en savoir plus.`,`Réponds OUI et je t’envoie tout.`,`Garde cette offre pour plus tard.`,`Passe commande maintenant.`].map((x,i)=>`${i+1}. ${x}`).join('\n');
+    return {facebook,instagram,tiktok,whatsapp,story,hashtags,hooks,cta};
   }
-  function observeResults(){
-    const out=qs('#contentOut'); if(!out || window.__v141Observer) return; window.__v141Observer=true;
-    new MutationObserver(()=>{ const active=qs('#v141NetworkTabs button.active')?.dataset.filter || 'all'; filterCards(active); }).observe(out,{childList:true,subtree:true});
+  function allText(pack){pack=normalize(pack); return `FACEBOOK\n\n${pack.facebook}\n\n---\nINSTAGRAM\n\n${pack.instagram}\n\n---\nTIKTOK / REELS\n\n${pack.tiktok}\n\n---\nWHATSAPP\n\n${pack.whatsapp}\n\n---\nSTORY\n\n${pack.story}\n\n---\nHASHTAGS\n\n${pack.hashtags}`;}
+  function card(title,body){body=cleanText(body); return `<div class="v200Card"><h3>${E(title)}</h3><div class="v200Text">${E(body)}</div><button type="button" class="v200CopyBtn" onclick="v200Copy(decodeURIComponent('${enc(body)}'))">Copier</button></div>`;}
+  function actions(p){const q=enc(p); return `<div class="v200Actions"><button type="button" onclick="v200Run('ideas','${q}')">🔄 Générer d'autres idées</button><button type="button" onclick="v200Run('viral','${q}')">🔥 Version virale</button><button type="button" onclick="v200Run('emotion','${q}')">❤️ Émotionnelle</button><button type="button" onclick="v200Run('premium','${q}')">💎 Premium</button><button type="button" onclick="v200Run('aggressive','${q}')">⚡ Agressive</button><button type="button" onclick="v200Run('promo','${q}')">🏷️ Promotion</button><button type="button" onclick="v200Extra('hooks','${q}')">🎣 20 Hooks</button><button type="button" onclick="v200Extra('cta','${q}')">📢 10 CTA</button><button type="button" onclick="v200Extra('hashtags','${q}')">#️⃣ 30 Hashtags</button><button type="button" onclick="v200Background('${q}')">🖼️ Créer fond IA</button></div>`;}
+  function render(pack,p,title='Pack réseaux sociaux prêt',bg=''){
+    pack=normalize(pack); const all=allText(pack); const style=bg?` style="--v200-bg:url('${String(bg).replace(/'/g,'%27')}')"`:'';
+    return `<div id="v200Result" class="v200Result ${bg?'hasBg':''}"${style}><div class="v200BgLayer"></div><div class="v200Overlay"></div><div class="v200Inner"><div class="v200Head"><div><span class="v200Badge">✅ Travail terminé</span><h2>${E(title)}</h2><p>Facebook, Instagram, TikTok/Reels, WhatsApp, Story et hashtags prêts à publier.</p></div><button type="button" class="v200CopyAll" onclick="v200Copy(decodeURIComponent('${enc(all)}'))">Copier tout</button></div>${actions(p)}<div id="v200BgStatus" class="v200BgStatus ${bg?'done':''}">${bg?'🖼️ Fond IA placé derrière les pubs':'🖼️ Clique sur “Créer fond IA” pour placer un fond derrière les pubs'}</div><div class="v200Grid">${card('Facebook',pack.facebook)}${card('Instagram',pack.instagram)}${card('TikTok / Reels',pack.tiktok)}${card('WhatsApp',pack.whatsapp)}${card('Story / Statut',pack.story)}${card('Hashtags',pack.hashtags)}</div><div id="v200Extra"></div></div></div>`;
   }
-  ready(()=>{ rebuildSidebar(); patchShowPage(); ensureHistoryPage(); ensureNetworkTabs(); observeResults(); setTimeout(()=>{ rebuildSidebar(); patchShowPage(); ensureNetworkTabs(); observeResults(); },700); });
+  async function post(path,body){
+    const headers={'Content-Type':'application/json'}; const t=localStorage.getItem('ghostseller_token')||localStorage.getItem('token')||localStorage.getItem('authToken'); if(t) headers.Authorization='Bearer '+t;
+    const r=await fetch(path,{method:'POST',headers,body:JSON.stringify(body)}); const d=await r.json().catch(()=>({})); if(!r.ok) throw new Error(d.error||d.message||'Erreur API'); return d;
+  }
+  window.v200Run = async function(angle,ep){
+    const p=dec(ep)||offer(); const out=$('contentOut'); if(!out) return; if(!p){out.innerHTML='<div class="v200Result"><div class="v200Inner">Décris ton offre avant de générer.</div></div>';return;}
+    const title = angle==='base'?'Pack réseaux sociaux prêt':`Pack ${angle==='ideas'?'nouvelles idées':angle} prêt`;
+    out.innerHTML=render(localPack(p,angle),p,title);
+    try{
+      const data=await post('/api/content/v200/social-pack',{offer:p,angle});
+      const pack=normalize(data.pack||data.result||{}); if(pack.facebook&&pack.instagram&&pack.tiktok) out.innerHTML=render(pack,p,title);
+    }catch(err){ console.warn('V200 social fallback utilisé:',err); }
+  };
+  window.v200Extra = async function(type,ep){
+    const p=dec(ep)||offer(); const box=$('v200Extra')||$('contentOut'); if(!box) return;
+    let body=cleanText(localPack(p,type)[type] || '');
+    const title=type==='hooks'?'20 Hooks':type==='cta'?'10 CTA':'30 Hashtags';
+    box.innerHTML=`<div class="v200ExtraBox"><div class="v200Head"><div><span class="v200Badge">✅ Travail terminé</span><h2>${title}</h2></div><button type="button" class="v200CopyAll" onclick="v200Copy(decodeURIComponent('${enc(body)}'))">Copier tout</button></div><pre>${E(body)}</pre></div>`;
+    try{const data=await post('/api/content/v200/social-pack',{offer:p,angle:type}); const pack=normalize(data.pack||{}); const remote=cleanText(type==='hashtags'?pack.hashtags:type==='cta'?pack.cta:pack.hooks); if(remote){body=remote; box.innerHTML=`<div class="v200ExtraBox"><div class="v200Head"><div><span class="v200Badge">✅ Travail terminé</span><h2>${title}</h2></div><button type="button" class="v200CopyAll" onclick="v200Copy(decodeURIComponent('${enc(body)}'))">Copier tout</button></div><pre>${E(body)}</pre></div>`;}}catch(err){console.warn('V200 extra fallback utilisé:',err);}
+  };
+  window.v200Background = async function(ep){
+    const p=dec(ep)||offer(); const result=$('v200Result'); const status=$('v200BgStatus'); if(!result){ window.v200Run('base',enc(p)); setTimeout(()=>window.v200Background(enc(p)),300); return; }
+    if(status){status.className='v200BgStatus loading'; status.textContent='🖼️ Génération du fond IA en cours...';}
+    try{
+      const data=await post('/api/content/v200/background-image',{offer:p}); const img=data.imageUrl; if(!img) throw new Error('Image absente');
+      result.style.setProperty('--v200-bg',`url('${String(img).replace(/'/g,'%27')}')`); result.classList.add('hasBg');
+      if(status){status.className='v200BgStatus done'; status.textContent='🖼️ Fond IA placé derrière les pubs';}
+    }catch(err){
+      const img=localBg(p); result.style.setProperty('--v200-bg',`url('${img}')`); result.classList.add('hasBg'); if(status){status.className='v200BgStatus done'; status.textContent='🖼️ Fond sombre local placé derrière les pubs';}
+    }
+  };
+  function localBg(p){
+    const m=meta(p); const emoji=m.kind==='coffee'?'☕':m.kind==='sport'?'👟':m.kind==='luxury'?'💎':m.kind==='beauty'?'✨':m.kind==='fashion'?'👜':'✦';
+    const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='900' viewBox='0 0 1200 900'><defs><radialGradient id='a' cx='15%' cy='20%'><stop stop-color='#164e63'/><stop offset='.55' stop-color='#0f172a'/><stop offset='1' stop-color='#030712'/></radialGradient><filter id='b'><feGaussianBlur stdDeviation='42'/></filter></defs><rect width='1200' height='900' fill='url(#a)'/><circle cx='220' cy='190' r='260' fill='#38bdf8' opacity='.22' filter='url(#b)'/><circle cx='970' cy='670' r='330' fill='#a855f7' opacity='.25' filter='url(#b)'/><circle cx='770' cy='230' r='170' fill='#f59e0b' opacity='.10' filter='url(#b)'/><text x='600' y='480' font-size='190' text-anchor='middle' opacity='.12'>${emoji}</text><rect width='1200' height='900' fill='#000' opacity='.42'/></svg>`;
+    return 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(svg)));
+  }
+
+  window.generateContent=function(){ window.v200Run('base',enc(offer())); };
+  window.v136Run=window.v135Run=window.v133Run=window.v129Regen=window.v200Run;
+  window.v136Extra=window.v135Extra=window.v133Extra=window.v200Extra;
+  window.v136Background=window.v135Background=window.v133GenerateBackground=window.v132Background=window.v200Background;
+
+  function sidebarV200(){
+    const items=[...document.querySelectorAll('aside a, aside button, nav a, nav button, .sidebar a, .sidebar button')];
+    items.forEach(el=>{const t=(el.textContent||'').toLowerCase(); if(t.includes('tiktok')||t.includes('whatsapp')||t.includes('créer script')||t.includes('creer script')||t.includes('déconnexion')||t.includes('deconnexion')||t.includes('mon abonnement')) el.style.display='none'; if(t.includes('créer contenu')||t.includes('creer contenu')){el.innerHTML='✨ Nouvelle Création'; el.classList.add('v200PrimaryNav');}});
+    const side=document.querySelector('aside, .sidebar, nav');
+    if(side && !document.getElementById('v200HistoryNav')){const b=document.createElement('button'); b.id='v200HistoryNav'; b.type='button'; b.className='v200HistoryNav'; b.textContent='📁 Mes Contenus'; side.appendChild(b);}    
+  }
+  function accountLogout(){
+    window.logout=window.v200Logout=function(){try{['ghostseller_token','token','authToken','supabase.auth.token'].forEach(k=>localStorage.removeItem(k)); sessionStorage.clear();}catch(_){} location.href='/';};
+    document.querySelectorAll('.logoutAccountBtn,.logoutAccountBtnV136,[onclick*="logout"]').forEach(btn=>{btn.onclick=(ev)=>{ev.preventDefault(); window.v200Logout();};});
+  }
+  document.addEventListener('DOMContentLoaded',()=>{sidebarV200(); accountLogout();});
+  setInterval(()=>{sidebarV200(); accountLogout();},1500);
 })();

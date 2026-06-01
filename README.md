@@ -1,10 +1,22 @@
-# GhostSeller AI V141 SIDEBAR FINAL UX
+# GhostSeller AI V126 PROMPT INTELLIGENCE FIX
 
-Menu latéral refondu : Accueil, Nouvelle Création, Mes Contenus, Leads, Mon Compte.
+Corrige le bug où GhostSeller utilisait Kartayiti/Digicel/Natcom même pour un autre sujet.
+
+## Test conseillé
+Prompt :
+fais moi une pub pour un covoiturage Saint-Laurent vers Cayenne mercredi
+
+Résultat attendu :
+pub covoiturage, pas recharge Haïti.
 
 ## Push
-```cmd
+npm install
 git add .
-git commit -m "GhostSeller AI V141 Sidebar Final UX"
-git push origin main
-```
+git commit -m "GhostSeller V126 Prompt Intelligence Fix"
+git push
+
+
+## V131
+- Page Mon compte unifiée.
+- Bouton déconnexion intégré dans la sécurité.
+- Photo ronde et email non dupliqué.

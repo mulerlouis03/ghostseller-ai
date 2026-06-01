@@ -303,3 +303,46 @@ contentRouter.post("/background-image", requireAuth, async (req,res)=>{
     return res.json({ok:true,provider:"fallback_svg_after_error",warning:e.message,imageUrl:v133SvgDataUrl(offer),prompt:imagePrompt});
   }
 });
+
+// V200 CORE REBUILD — public-safe endpoints used by the repaired frontend buttons.
+contentRouter.post('/v200/social-pack', async (req,res)=>{
+  const offer=String(req.body?.offer || req.body?.prompt || '').trim();
+  const angle=String(req.body?.angle || 'base').trim();
+  if(!offer) return res.status(400).json({error:'Offre vide'});
+  try{
+    if(process.env.OPENAI_API_KEY){
+      const json=await v133OpenAIChatJSON([
+        {role:'system',content:'You are GhostSeller AI, a senior direct-response marketer. Return ONLY valid JSON in French. Never explain what to do; execute by writing ready-to-publish marketing copy.'},
+        {role:'user',content:JSON.stringify({task:'Create a ready-to-publish social media marketing pack',offer,angle,required_keys:['facebook','instagram','tiktok','whatsapp','story','hashtags','hooks','cta'],rules:['French language','specific to the offer','TikTok has 5 scenes with timing','WhatsApp ready to send','hashtags one string with 20-30 hashtags','hooks numbered list of 20','cta numbered list of 10','no placeholder image URLs','do not include IMAGE or url_vers_image','do not give instructions']})}
+      ]);
+      const fallback=v133FallbackPack(offer,angle);
+      const normalized=v134NormalizePack(json);
+      const cleaned=Object.fromEntries(Object.entries(normalized).filter(([_,v])=>String(v||'').trim() && !String(v).includes('url_vers_image')));
+      return res.json({ok:true,provider:'openai',pack:{...fallback,...cleaned,provider:'openai'}});
+    }
+    return res.json({ok:true,provider:'fallback',pack:v134NormalizePack(v133FallbackPack(offer,angle))});
+  }catch(e){
+    return res.json({ok:true,provider:'fallback_after_error',warning:e.message,pack:v134NormalizePack(v133FallbackPack(offer,angle))});
+  }
+});
+contentRouter.post('/v200/background-image', async (req,res)=>{
+  const offer=String(req.body?.offer || req.body?.prompt || '').trim();
+  const imagePrompt=v133BackgroundPrompt(offer);
+  try{
+    if(process.env.OPENAI_API_KEY){
+      const response=await fetch('https://api.openai.com/v1/images/generations',{
+        method:'POST',
+        headers:{'Authorization':`Bearer ${process.env.OPENAI_API_KEY}`,'Content-Type':'application/json'},
+        body:JSON.stringify({model:process.env.OPENAI_IMAGE_MODEL || 'gpt-image-1',prompt:imagePrompt,size:process.env.OPENAI_IMAGE_SIZE || '1024x1536',n:1})
+      });
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok) throw new Error(data?.error?.message || 'OpenAI image generation failed');
+      const item=data?.data?.[0] || {};
+      const imageUrl=item.url || (item.b64_json ? `data:image/png;base64,${item.b64_json}` : null);
+      if(imageUrl) return res.json({ok:true,provider:'openai',imageUrl});
+    }
+    return res.json({ok:true,provider:'fallback_svg',imageUrl:v133SvgDataUrl(offer)});
+  }catch(e){
+    return res.json({ok:true,provider:'fallback_svg_after_error',warning:e.message,imageUrl:v133SvgDataUrl(offer)});
+  }
+});
