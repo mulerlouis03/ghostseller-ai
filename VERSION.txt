@@ -1,1 +1,4 @@
 GhostSeller AI V142 PROMPT ECHO BUG FIX
+
+
+V146 — Visual Composer Fix: images less dark, button Changer image active.

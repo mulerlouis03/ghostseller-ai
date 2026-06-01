@@ -20,3 +20,6 @@ git push
 - Page Mon compte unifiée.
 - Bouton déconnexion intégré dans la sécurité.
 - Photo ronde et email non dupliqué.
+
+
+V146 — Visual Composer Fix: images less dark, button Changer image active.

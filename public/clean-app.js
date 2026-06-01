@@ -2048,8 +2048,8 @@ function placeResult(btn, html){}
     if(/parfum|cosm[eé]tique|beaut[eé]|maquillage|skin|soin/.test(l)) return {kind:'beauty', emoji:'💄', label:'Beauté'};
     return {kind:'general', emoji:'✨', label:'Visuel sombre'};
   }
-  function svgBg(input, platform){
-    const m=info(input); const seed=(platform||'').length*37 + (m.kind||'').length*11;
+  function svgBg(input, platform, variant=0){
+    const m=info(input); const seed=(platform||'').length*37 + (m.kind||'').length*11 + (Number(variant)||0)*97;
     let mid='#172554', accent='#8b5cf6', accent2='#38bdf8', icon=m.emoji;
     if(m.kind==='transport'){mid='#10233f'; accent='#f59e0b'; accent2='#22d3ee'; icon='🚗';}
     if(m.kind==='coffee'){mid='#2b1b12'; accent='#b45309'; accent2='#14b8a6'; icon='☕';}
@@ -2067,11 +2067,12 @@ function placeResult(btn, html){}
       </defs>
       <rect width='1080' height='1600' fill='url(#g)'/>
       <rect width='1080' height='1600' fill='url(#r)'/>
-      <circle cx='${250+(seed%140)}' cy='${230+(seed%90)}' r='260' fill='${accent2}' opacity='.12' filter='url(#blur)'/>
-      <circle cx='900' cy='1320' r='360' fill='${accent}' opacity='.18' filter='url(#blur)'/>
+      <circle cx='${190+(seed%260)}' cy='${190+(seed%160)}' r='300' fill='${accent2}' opacity='.22' filter='url(#blur)'/>
+      <circle cx='${760+(seed%210)}' cy='${1040+(seed%300)}' r='430' fill='${accent}' opacity='.28' filter='url(#blur)'/>
+      <circle cx='${520+(seed%180)}' cy='${700+(seed%220)}' r='180' fill='white' opacity='.045' filter='url(#blur)'/>
       ${road}${coffee}${product}
-      <rect y='0' width='1080' height='1600' fill='rgba(0,0,0,.34)'/>
-      <rect y='980' width='1080' height='620' fill='rgba(0,0,0,.42)'/>
+      <rect y='0' width='1080' height='1600' fill='rgba(0,0,0,.14)'/>
+      <rect y='1010' width='1080' height='590' fill='rgba(0,0,0,.24)'/>
     </svg>`;
     return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svg)));
   }
@@ -2107,13 +2108,13 @@ function placeResult(btn, html){}
   function all(pack){pack=normalize(pack);return `FACEBOOK\n\n${pack.facebook}\n\n---\nINSTAGRAM\n\n${pack.instagram}\n\n---\nTIKTOK / REELS\n\n${pack.tiktok}\n\n---\nWHATSAPP\n\n${pack.whatsapp}\n\n---\nSTORY\n\n${pack.story}\n\n---\nHASHTAGS\n\n${pack.hashtags}`;}
   function icon(platform){return platform==='Facebook'?'f':platform==='Instagram'?'◎':platform.includes('TikTok')?'♪':platform==='WhatsApp'?'☘':platform.includes('Story')?'★':'#';}
   function card(title,body,platform,input){
-    body=clean(body); const bg=svgBg(input,title); const label=title.includes('TikTok')?'SCRIPT VIDÉO':title==='Hashtags'?'HASHTAGS':'POST'; const text=E(body).replace(/\n/g,'<br>');
-    return `<article class="v145Card v145Card-${platform}" style="--v145-bg:url('${bg}')">
+    body=clean(body); const seed=(window.__v145ImageSeeds&&window.__v145ImageSeeds[platform])||0; const bg=svgBg(input,title,seed); const label=title.includes('TikTok')?'SCRIPT VIDÉO':title==='Hashtags'?'HASHTAGS':'POST'; const text=E(body).replace(/\n/g,'<br>');
+    return `<article class="v145Card v145Card-${platform}" data-v145-platform="${E(platform)}" data-v145-title="${E(title)}" style="--v145-bg:url('${bg}')">
       <div class="v145Overlay"></div>
       <div class="v145Inner">
         <div class="v145CardTop"><div class="v145Icon">${E(icon(title))}</div><div><h3>${E(title)}</h3><span>${E(label)}</span></div></div>
         <div class="v145Text">${text}</div>
-        <div class="v145Bottom"><button type="button" onclick="v145ChangeImage('${E(title)}')">▧ Changer l’image</button><button type="button" onclick="v145Copy(decodeURIComponent('${enc(body)}'))">Copier</button></div>
+        <div class="v145Bottom"><button type="button" onclick="v145ChangeImage('${E(platform)}','${E(title)}')">▧ Changer l’image</button><button type="button" onclick="v145Copy(decodeURIComponent('${enc(body)}'))">Copier</button></div>
       </div>
     </article>`;
   }
@@ -2140,7 +2141,20 @@ function placeResult(btn, html){}
   };
   window.v145Extra=function(type,ep){const input=dec(ep)||offer(); const pack=window.__v145Pack||localPack(input,type); const body=type==='hooks'?pack.hooks:type==='cta'?pack.cta:pack.hashtags; const box=$('v145ExtraOut')||$('contentOut'); if(box) box.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail terminé</span><h2>${type==='hooks'?'20 Hooks':type==='cta'?'10 CTA':'30 Hashtags'}</h2></div><button class="copyBtn" onclick="v145Copy(decodeURIComponent('${enc(body)}'))">Copier tout</button></div><div class="scriptBlock employeeScript">${E(body)}</div></div>`;};
   window.v145Background=function(ep){const input=dec(ep)||window.__v145Offer||offer(); const out=$('contentOut'); if(out && window.__v145Pack) out.innerHTML=render(window.__v145Pack,input,'Résultats de votre campagne');};
-  window.v145ChangeImage=function(){window.v145Background(enc(window.__v145Offer||offer()));};
+  window.__v145ImageSeeds=window.__v145ImageSeeds||{};
+  window.v145ChangeImage=function(platform,title){
+    platform=String(platform||'facebook'); title=String(title||platform);
+    window.__v145ImageSeeds[platform]=(window.__v145ImageSeeds[platform]||0)+1;
+    const input=window.__v145Offer||offer();
+    const bg=svgBg(input,title,window.__v145ImageSeeds[platform]);
+    const cards=document.querySelectorAll('.v145Card-'+platform);
+    cards.forEach(card=>{
+      card.style.setProperty('--v145-bg', `url('${bg}')`);
+      card.classList.remove('v146ImagePulse'); void card.offsetWidth; card.classList.add('v146ImagePulse');
+      const btn=card.querySelector('.v145Bottom button');
+      if(btn){const old=btn.textContent; btn.textContent='✓ Image changée'; setTimeout(()=>{btn.textContent=old||'▧ Changer l’image'},900);}
+    });
+  };
   window.generateContent=function(){window.v145Run('base',enc(offer()));};
   window.v142Run=window.v136Run=window.v135Run=window.v133Run=window.v145Run;
   window.v142Extra=window.v136Extra=window.v135Extra=window.v133Extra=window.v145Extra;
