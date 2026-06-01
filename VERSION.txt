@@ -1,0 +1,5 @@
+GhostSeller AI V130 ACCOUNT UI FIX
+- Photo profil ronde
+- Cartes Mon compte compactes
+- Bouton Se déconnecter intégré dans Sécurité
+- Meilleure mise en page mobile
