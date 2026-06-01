@@ -2184,3 +2184,142 @@ function placeResult(btn, html){}
   window.v142Extra=window.v136Extra=window.v135Extra=window.v133Extra=window.v145Extra;
   window.v142Background=window.v136Background=window.v135Background=window.v133GenerateBackground=window.v145Background;
 })();
+
+/* V148 — SMART MINIATURES + VISUAL VARIETY PATCH
+   - keeps the good V142/V147 copy
+   - adds contextual mini-images inside each card
+   - gives Facebook / Instagram / TikTok different visuals
+   - button “Changer l’image” changes only the current card
+*/
+(function(){
+  const $ = (id)=>document.getElementById(id);
+  const E = (s)=>String(s ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const enc=(v)=>encodeURIComponent(String(v||''));
+  const dec=(v)=>{try{return decodeURIComponent(String(v||''));}catch(e){return String(v||'')}};
+  const offer=()=>($('contentPrompt')?.value || $('contentNiche')?.value || '').trim();
+  const copy=(t)=>{try{navigator.clipboard?.writeText(String(t||''));}catch(e){}};
+  window.v148Copy=copy;
+
+  function txt(v){
+    if(v==null) return '';
+    if(Array.isArray(v)) return v.map(txt).filter(Boolean).join('\n');
+    if(typeof v==='object') return txt(v.content||v.text||v.body||v.caption||v.message||v.script||Object.values(v).map(txt).filter(Boolean).join('\n\n'));
+    return String(v);
+  }
+  function clean(s){
+    s=txt(s).replace(/\r/g,'').trim();
+    s=s.replace(/^\s*(IMAGE|LINK)\s*\n\s*[^\n]+\s*$/gim,'');
+    s=s.replace(/^\s*(image|link)\s*:\s*[^\n]+\s*$/gim,'');
+    s=s.replace(/url[_\-\s]*(?:vers[_\-\s]*)?image[^\n]*/gim,'');
+    s=s.replace(/lien[_\-\s]*vers[_\-\s]*image[^\n]*/gim,'');
+    s=s.replace(/\n{3,}/g,'\n\n').trim();
+    return s;
+  }
+  function normalize(raw){raw=raw&&typeof raw==='object'?raw:{}; return {
+    facebook:clean(raw.facebook||raw.fb||raw.facebook_post),
+    instagram:clean(raw.instagram||raw.instagram_post||raw.ig),
+    tiktok:clean(raw.tiktok||raw.tiktok_reels||raw.reels||raw.video_script),
+    whatsapp:clean(raw.whatsapp||raw.whatsapp_message),
+    story:clean(raw.story||raw.statut||raw.status),
+    hashtags:clean(raw.hashtags), hooks:clean(raw.hooks), cta:clean(raw.cta||raw.ctas)
+  };}
+  function info(input){
+    const l=String(input||'').toLowerCase();
+    if(/covoiturage|trajet|transport|cayenne|saint[-\s]?laurent|maroni|route|voiture|voyage|gare/.test(l)) return {kind:'transport', emoji:'🚗', label:'Covoiturage'};
+    if(/caf[eé]|coffee|kafe|lakay|hait[iï]/.test(l)) return {kind:'coffee', emoji:'☕', label:'Café haïtien'};
+    if(/basket|nike|adidas|sneaker|sport|chaussure/.test(l)) return {kind:'sport', emoji:'👟', label:'Sport'};
+    if(/montre|bijou|luxe|or|diamant|premium/.test(l)) return {kind:'luxury', emoji:'💎', label:'Luxe'};
+    if(/parfum|cosm[eé]tique|beaut[eé]|maquillage|skin|soin/.test(l)) return {kind:'beauty', emoji:'💄', label:'Beauté'};
+    if(/immobilier|maison|appartement|villa|terrain|location|vente/.test(l)) return {kind:'realestate', emoji:'🏡', label:'Immobilier'};
+    return {kind:'general', emoji:'✨', label:'Business'};
+  }
+  function visualLabel(input,platform,variant){
+    const m=info(input); platform=String(platform||'').toLowerCase(); variant=Number(variant)||0;
+    const sets={
+      transport:{facebook:['Voiture sur route tropicale','Route Cayenne Saint-Laurent','Départ gare routière'],instagram:['Passagers souriants','Voyage convivial','Intérieur voiture'],tiktok:['Voiture prête','Passagers','Route de Guyane','Départ 7h','Réservation']},
+      coffee:{facebook:['Plantation de café','Montagnes d’Haïti','Grains premium'],instagram:['Tasse fumante','Café artisanal','Ambiance chaleureuse'],tiktok:['Récolte','Torréfaction','Dégustation','Paquet café','Commande']},
+      sport:{facebook:['Baskets sur bitume','Rue nocturne','Style urbain'],instagram:['Look tendance','Sneakers premium','Jeunes actifs'],tiktok:['Hook chaussure','Détail semelle','Look complet','Prix promo','CTA']},
+      luxury:{facebook:['Marbre noir','Produit premium','Lumière dorée'],instagram:['Écrin luxe','Détail élégant','Reflet premium'],tiktok:['Révélation','Détail produit','Preuve qualité','Offre','CTA']},
+      beauty:{facebook:['Fond cosmétique','Lumière douce','Texture liquide'],instagram:['Parfum premium','Glow beauté','Fumée légère'],tiktok:['Avant','Texture','Application','Résultat','CTA']},
+      realestate:{facebook:['Façade maison','Salon lumineux','Quartier calme'],instagram:['Intérieur premium','Vue terrasse','Décoration moderne'],tiktok:['Façade','Salon','Cuisine','Chambre','Contact']},
+      general:{facebook:['Visuel campagne','Produit central','Ambiance premium'],instagram:['Lifestyle','Détail produit','Communauté'],tiktok:['Hook','Produit','Bénéfice','Preuve','CTA']}
+    };
+    const arr=(sets[m.kind]||sets.general)[platform.includes('insta')?'instagram':platform.includes('tiktok')?'tiktok':'facebook']||sets.general.facebook;
+    return arr[variant % arr.length];
+  }
+  function svgMini(input, platform='facebook', variant=0, small=false){
+    const m=info(input), pf=String(platform).toLowerCase(), label=visualLabel(input,platform,variant);
+    let c1='#030712', c2='#172554', c3='#8b5cf6', c4='#38bdf8', emoji=m.emoji;
+    if(m.kind==='transport'){c2='#0f3b49';c3='#f59e0b';c4='#22d3ee';emoji='🚗'}
+    if(m.kind==='coffee'){c2='#2b170b';c3='#b45309';c4='#22c55e';emoji='☕'}
+    if(m.kind==='sport'){c2='#111827';c3='#06b6d4';c4='#a855f7';emoji='👟'}
+    if(m.kind==='luxury'){c2='#111014';c3='#d4af37';c4='#7c3aed';emoji='💎'}
+    if(m.kind==='beauty'){c2='#27112e';c3='#ec4899';c4='#f0abfc';emoji='💄'}
+    if(m.kind==='realestate'){c2='#10241a';c3='#22c55e';c4='#38bdf8';emoji='🏡'}
+    const W=small?360:900,H=small?360:520;
+    function transport(){
+      if(pf.includes('insta')) return `<g opacity='.9'><rect x='0' y='${H*0.38}' width='${W}' height='${H*.62}' fill='rgba(0,0,0,.24)'/><circle cx='${W*.30}' cy='${H*.42}' r='${H*.10}' fill='#fde68a'/><circle cx='${W*.50}' cy='${H*.39}' r='${H*.09}' fill='#e5e7eb'/><circle cx='${W*.68}' cy='${H*.43}' r='${H*.095}' fill='#f8fafc'/><path d='M${W*.16} ${H*.75} C${W*.20} ${H*.55} ${W*.38} ${H*.55} ${W*.42} ${H*.75}Z' fill='${c4}'/><path d='M${W*.39} ${H*.75} C${W*.43} ${H*.55} ${W*.58} ${H*.55} ${W*.63} ${H*.75}Z' fill='${c3}'/><path d='M${W*.58} ${H*.75} C${W*.62} ${H*.56} ${W*.80} ${H*.56} ${W*.84} ${H*.75}Z' fill='#a855f7'/></g>`;
+      return `<path d='M0 ${H*.88} C${W*.28} ${H*.62} ${W*.52} ${H*.44} ${W} ${H*.25} L${W} ${H} L0 ${H}Z' fill='rgba(0,0,0,.30)'/><path d='M${W*.02} ${H} C${W*.25} ${H*.69} ${W*.48} ${H*.48} ${W*.98} ${H*.30}' stroke='#334155' stroke-width='${H*.18}' fill='none'/><path d='M${W*.04} ${H} C${W*.28} ${H*.70} ${W*.50} ${H*.50} ${W*.96} ${H*.33}' stroke='white' stroke-width='5' stroke-dasharray='34 32' opacity='.55' fill='none'/><g transform='translate(${W*.55} ${H*.62}) scale(${small?.55:.78})'><path d='M30 70 C55 30 120 15 210 25 C260 30 300 52 320 90 L340 125 L12 125Z' fill='#020617' stroke='${c4}' stroke-width='5'/><rect x='0' y='95' width='365' height='64' rx='24' fill='#0b1120'/><circle cx='84' cy='160' r='29' fill='#020617' stroke='white' stroke-width='5'/><circle cx='285' cy='160' r='29' fill='#020617' stroke='white' stroke-width='5'/><rect x='24' y='108' width='44' height='15' rx='8' fill='${c3}'/><rect x='300' y='108' width='44' height='15' rx='8' fill='#ef4444'/></g>`;
+    }
+    function coffee(){return `<path d='M0 ${H*.62} C${W*.20} ${H*.50} ${W*.45} ${H*.54} ${W*.62} ${H*.43} C${W*.82} ${H*.30} ${W*.88} ${H*.35} ${W} ${H*.22} L${W} ${H} L0 ${H}Z' fill='rgba(20,83,45,.35)'/><text x='${W*.76}' y='${H*.65}' font-size='${H*.34}' opacity='.32'>☕</text><circle cx='${W*.31}' cy='${H*.67}' r='${H*.08}' fill='#7c2d12' opacity='.58'/><circle cx='${W*.42}' cy='${H*.75}' r='${H*.07}' fill='#92400e' opacity='.50'/><text x='${W*.20}' y='${H*.32}' font-size='${H*.18}' opacity='.26'>🌿</text>`}
+    function sport(){return `<path d='M0 ${H*.74} C${W*.25} ${H*.58} ${W*.52} ${H*.55} ${W} ${H*.45} L${W} ${H} L0 ${H}Z' fill='rgba(15,23,42,.55)'/><path d='M${W*.08} ${H*.86} L${W*.88} ${H*.55}' stroke='${c4}' stroke-width='12' opacity='.38'/><path d='M${W*.16} ${H*.94} L${W*.92} ${H*.68}' stroke='${c3}' stroke-width='8' opacity='.36'/><text x='${W*.68}' y='${H*.70}' font-size='${H*.34}' opacity='.33'>👟</text>`}
+    function luxury(){return `<path d='M0 0 L${W} ${H}' stroke='#64748b' stroke-width='8' opacity='.24'/><path d='M${W*.12} 0 L${W} ${H*.78}' stroke='${c3}' stroke-width='6' opacity='.28'/><circle cx='${W*.72}' cy='${H*.60}' r='${H*.18}' fill='${c3}' opacity='.13'/><text x='${W*.70}' y='${H*.70}' font-size='${H*.32}' opacity='.34'>💎</text>`}
+    function beauty(){return `<circle cx='${W*.70}' cy='${H*.58}' r='${H*.25}' fill='${c3}' opacity='.15'/><path d='M${W*.18} ${H*.78} C${W*.32} ${H*.55} ${W*.49} ${H*.68} ${W*.62} ${H*.42} C${W*.72} ${H*.24} ${W*.84} ${H*.26} ${W*.92} ${H*.34}' stroke='${c4}' stroke-width='13' opacity='.23' fill='none'/><text x='${W*.68}' y='${H*.70}' font-size='${H*.31}' opacity='.30'>💄</text>`}
+    function realestate(){return `<path d='M${W*.16} ${H*.56} L${W*.50} ${H*.28} L${W*.84} ${H*.56} V${H*.88} H${W*.16}Z' fill='rgba(15,23,42,.70)' stroke='${c4}' stroke-width='6'/><rect x='${W*.30}' y='${H*.62}' width='${W*.16}' height='${H*.26}' fill='${c3}' opacity='.55'/><rect x='${W*.56}' y='${H*.62}' width='${W*.18}' height='${H*.13}' fill='${c4}' opacity='.45'/><text x='${W*.50}' y='${H*.20}' font-size='${H*.18}' text-anchor='middle' opacity='.24'>🏡</text>`}
+    const scene=m.kind==='transport'?transport():m.kind==='coffee'?coffee():m.kind==='sport'?sport():m.kind==='luxury'?luxury():m.kind==='beauty'?beauty():m.kind==='realestate'?realestate():`<text x='${W*.68}' y='${H*.68}' font-size='${H*.34}' opacity='.30'>${emoji}</text>`;
+    const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='${W}' height='${H}' viewBox='0 0 ${W} ${H}'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='${c1}'/><stop offset='.48' stop-color='${c2}'/><stop offset='1' stop-color='#10051f'/></linearGradient><radialGradient id='r' cx='75%' cy='18%' r='80%'><stop stop-color='${c4}' stop-opacity='.28'/><stop offset='.65' stop-color='${c3}' stop-opacity='.12'/><stop offset='1' stop-color='transparent'/></radialGradient></defs><rect width='${W}' height='${H}' fill='url(#g)'/><rect width='${W}' height='${H}' fill='url(#r)'/>${scene}<rect width='${W}' height='${H}' fill='rgba(0,0,0,.16)'/><text x='${W*.06}' y='${H*.88}' fill='white' font-size='${small?26:38}' font-weight='900' opacity='.72'>${E(label)}</text></svg>`;
+    return 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(svg)));
+  }
+  function platformIcon(title){title=String(title); if(title.includes('Facebook'))return 'f'; if(title.includes('Instagram'))return '◎'; if(title.includes('TikTok'))return '♪'; if(title.includes('WhatsApp'))return '☏'; if(title.includes('Story'))return '◉'; return '#';}
+  function fallback(input){
+    const l=input.toLowerCase();
+    if(/covoiturage|cayenne|saint/.test(l)) return {
+      facebook:"🚗✨ Vous cherchez un moyen pratique et économique de voyager entre Cayenne et Saint-Laurent-du-Maroni ?\n\nChaque mardi à 7h, rejoignez notre service de covoiturage au départ de la gare routière de Cayenne.\n\n✅ 4 places disponibles\n✅ Petit bagage accepté\n✅ Voyage confortable\n\nRéservez votre place maintenant.",
+      instagram:"🌍💚 Covoiturer, c’est voyager malin.\n\nChaque mardi à 7h, départ depuis la gare routière de Cayenne vers Saint-Laurent-du-Maroni.\n\n4 places disponibles. Petit bagage accepté.\n\n#Covoiturage #Cayenne #SaintLaurent #Guyane",
+      tiktok:"SCÈNE 1 (0-2s)\nVoiture prête au départ.\n\nSCÈNE 2 (2-5s)\nPassagers qui montent dans la voiture.\n\nSCÈNE 3 (5-8s)\nRoute entre Cayenne et Saint-Laurent.\n\nSCÈNE 4 (8-11s)\nAffichage : Départ mardi 7h.\n\nSCÈNE 5 (11-15s)\nTexte écran : 4 places disponibles, réserve maintenant.",
+      whatsapp:"Salut 👋\n\nTrajet Cayenne → Saint-Laurent chaque mardi à 7h.\n\n🚗 4 places disponibles\n🎒 Petit bagage accepté\n\nRéponds TRAJET pour réserver ta place.",
+      story:"Covoiturage Cayenne → Saint-Laurent\nDépart mardi 7h\n4 places disponibles\nRéserve ta place ✨",
+      hashtags:"#Covoiturage #Cayenne #SaintLaurent #Guyane #VoyageFacile #TransportGuyane #TrajetGuyane #Etudiants #Travailleurs #BonPlan"
+    };
+    return {facebook:"✨ Offre disponible\n\nDécouvrez une solution claire, simple et prête à publier.\n\n✅ Facile à comprendre\n✅ Donne envie d’essayer\n✅ Disponible maintenant\n\nEnvoyez INFO pour recevoir les détails.", instagram:"✨ Une offre pensée pour attirer l’attention.\n\nUn message simple, clair et prêt à convertir.\n\nDM INFO pour recevoir les détails.", tiktok:"SCÈNE 1 — HOOK\nTu cherchais une offre claire ?\n\nSCÈNE 2 — PRODUIT\nMontrer le produit en gros plan.\n\nSCÈNE 3 — BÉNÉFICE\nPourquoi c’est utile.\n\nSCÈNE 4 — CTA\nÉcris INFO maintenant.", whatsapp:"Bonjour 👋\n\nJe te partage cette offre.\n\n✅ Simple\n✅ Claire\n✅ Disponible maintenant\n\nRéponds INFO pour les détails.", story:"Offre disponible aujourd’hui. Réponds INFO maintenant.", hashtags:"#Offre #Business #Marketing #Promo #BonPlan"};
+  }
+  function splitScenes(text){
+    const s=clean(text); let parts=s.split(/(?=SC[ÈE]NE\s*\d+)/i).map(x=>x.trim()).filter(Boolean);
+    if(parts.length<2) parts=s.split(/\n\n+/).slice(0,5);
+    return parts.slice(0,5);
+  }
+  function textBlock(text,title,platform,input){
+    text=clean(text); if(platform==='tiktok'){
+      const scenes=splitScenes(text);
+      return `<div class='v148Scenes'>${scenes.map((sc,i)=>`<div class='v148Scene'><img src='${svgMini(input,'tiktok',i,true)}' alt='Scène ${i+1}'/><div>${E(sc).replace(/\n/g,'<br>')}</div></div>`).join('')}</div>`;
+    }
+    return `<div class='v148Text'>${E(text).replace(/\n/g,'<br>')}</div>`;
+  }
+  function card(title,body,platform,input){
+    const seed=(window.__v148Seeds&&window.__v148Seeds[platform])||0;
+    const bg=svgMini(input,platform,seed,false), thumb=svgMini(input,platform,seed+1,true);
+    const label=title.includes('TikTok')?'SCRIPT VIDÉO':title==='Hashtags'?'HASHTAGS':'POST';
+    return `<article class='v148Card v148-${platform}' style="--v148-bg:url('${bg}')" data-platform='${E(platform)}' data-title='${E(title)}'>
+      <div class='v148Shade'></div>
+      <div class='v148Top'><div class='v148Icon'>${platformIcon(title)}</div><div><h3>${E(title)}</h3><span>${E(label)}</span></div></div>
+      ${platform!=='hashtags'?`<div class='v148Thumb' style="background-image:url('${thumb}')"><span>${E(visualLabel(input,platform,seed+1))}</span></div>`:''}
+      ${textBlock(body,title,platform,input)}
+      <div class='v148Bottom'><button type='button' onclick="v148ChangeImage('${E(platform)}')">▧ Changer l’image</button><button type='button' onclick="v148Copy(decodeURIComponent('${enc(clean(body))}'))">Copier</button></div>
+    </article>`;
+  }
+  function actions(input){const q=enc(input); return `<div class='v148Actions'><button onclick="v148Run('viral','${q}')">🔥 Version virale</button><button onclick="v148Run('premium','${q}')">👑 Version premium</button><button onclick="v148Run('emotion','${q}')">❤️ Version émotionnelle</button><button onclick="v148Extra('hooks','${q}')">🪝 20 Hooks</button><button onclick="v148Extra('cta','${q}')">📣 10 CTA</button><button onclick="v148Extra('hashtags','${q}')">#️⃣ 30 Hashtags</button><button onclick="v148Background('${q}')">🪄 Créer fond IA</button></div>`}
+  function all(pack){return ['Facebook',pack.facebook,'\nInstagram',pack.instagram,'\nTikTok',pack.tiktok,'\nWhatsApp',pack.whatsapp,'\nStory',pack.story,'\nHashtags',pack.hashtags].filter(Boolean).join('\n');}
+  function render(pack,input,title){pack=normalize(pack); if(!pack.facebook) pack=fallback(input); window.__v148Pack=pack; window.__v148Offer=input; const copyAll=all(pack); return `<section class='v148Results'><div class='v148Header'><div><h2>${E(title||'Résultats de votre campagne')}</h2><p>Textes prêts à publier + miniatures contextuelles automatiques.</p></div><div class='v148HeaderBtns'><button onclick="$('contentPrompt')?.focus()">✎ Modifier ma demande</button><button onclick="v148Copy(decodeURIComponent('${enc(copyAll)}'))">⇩ Exporter tout</button></div></div><div class='v148Grid'>${card('Facebook',pack.facebook,'facebook',input)}${card('Instagram',pack.instagram,'instagram',input)}${card('TikTok / Reels',pack.tiktok,'tiktok',input)}</div><div class='v148MiniGrid'>${card('WhatsApp',pack.whatsapp,'whatsapp',input)}${card('Story / Statut',pack.story,'story',input)}${card('Hashtags',pack.hashtags,'hashtags',input)}</div><div class='v148Footer'><span>ÉLÉMENTS GÉNÉRÉS</span>${actions(input)}</div><div id='v148ExtraOut'></div></section>`;}
+  async function post(path,body){const headers={'Content-Type':'application/json'}; const t=localStorage.getItem('ghostseller_token'); if(t) headers.Authorization='Bearer '+t; const r=await fetch(path,{method:'POST',headers,body:JSON.stringify(body)}); const d=await r.json().catch(()=>({})); if(!r.ok) throw new Error(d.error||d.message||'Erreur API'); return d;}
+  function valid(pack){pack=normalize(pack); const bad=/cr[eé]e une campagne|objectif\s*:|cible\s*:|url_image|lien_vers_image|voici/i; return pack.facebook&&pack.instagram&&pack.tiktok&&!bad.test(pack.facebook+pack.instagram+pack.tiktok);}
+  window.__v148Seeds=window.__v148Seeds||{};
+  window.v148Run=async function(angle,ep){const input=dec(ep)||offer(); const out=$('contentOut'); if(!out)return; if(!input){out.innerHTML='<div class="employeeResult">Décris ton offre avant de générer.</div>';return;} out.innerHTML='<div class="gs143Loading">🤖 Création du pack avec miniatures...</div>'; const local=fallback(input); out.innerHTML=render(local,input,angle==='base'?'Résultats de votre campagne':`Résultats — ${angle}`); try{const data=await post('/api/content/social-pack',{offer:input,angle}); const remote=normalize(data.pack||{}); if(valid(remote)) out.innerHTML=render(remote,input,angle==='base'?'Résultats de votre campagne':`Résultats — ${angle}`);}catch(e){}};
+  window.v148ChangeImage=function(platform){platform=String(platform||'facebook'); window.__v148Seeds[platform]=(window.__v148Seeds[platform]||0)+1; const input=window.__v148Offer||offer(); const seed=window.__v148Seeds[platform]; document.querySelectorAll('.v148-'+platform).forEach(card=>{card.style.setProperty('--v148-bg',`url('${svgMini(input,platform,seed,false)}')`); const th=card.querySelector('.v148Thumb'); if(th){th.style.backgroundImage=`url('${svgMini(input,platform,seed+1,true)}')`; const sp=th.querySelector('span'); if(sp) sp.textContent=visualLabel(input,platform,seed+1);} const btn=card.querySelector('.v148Bottom button'); if(btn){const old=btn.textContent; btn.textContent='✓ Image changée'; setTimeout(()=>btn.textContent=old,900)}})};
+  window.v148Background=function(ep){const input=dec(ep)||window.__v148Offer||offer(); const out=$('contentOut'); if(out) out.innerHTML=render(window.__v148Pack||fallback(input),input,'Résultats de votre campagne');};
+  window.v148Extra=function(type,ep){const input=dec(ep)||offer(); const p=window.__v148Pack||fallback(input); const body=type==='hooks'?(p.hooks||'1. Tu fais encore ce trajet seul ?\n2. 4 places seulement mardi matin\n3. Voyage malin, réserve vite') : type==='cta'?(p.cta||'Réserve ta place maintenant\nÉcris TRAJET en message privé\nNe laisse pas ta place partir') : (p.hashtags||'#Covoiturage #Cayenne #SaintLaurent #Guyane'); const box=$('v148ExtraOut')||$('contentOut'); if(box) box.innerHTML=`<div class='employeeResult'><div class='employeeHeader'><div><span class='employeeBadge'>✅ Travail terminé</span><h2>${type==='hooks'?'20 Hooks':type==='cta'?'10 CTA':'30 Hashtags'}</h2></div><button class='copyBtn' onclick="v148Copy(decodeURIComponent('${enc(body)}'))">Copier tout</button></div><div class='scriptBlock employeeScript'>${E(body)}</div></div>`};
+  window.generateContent=function(){window.v148Run('base',enc(offer()));};
+  window.v145Run=window.v142Run=window.v136Run=window.v148Run;
+  window.v145Extra=window.v142Extra=window.v136Extra=window.v148Extra;
+  window.v145Background=window.v142Background=window.v136Background=window.v148Background;
+  window.v145ChangeImage=window.v148ChangeImage;
+})();
