@@ -2004,3 +2004,242 @@ function placeResult(btn, html){}
   window.v136Extra=window.v135Extra=window.v133Extra=window.v142Extra;
   window.v136Background=window.v135Background=window.v133GenerateBackground=window.v132Background=window.v142Background;
 })();
+
+
+
+/* V143 — Campaign cards with automatic visual backgrounds behind the text */
+(function(){
+  const STATE = window.gs143State || (window.gs143State = { offer:"", pack:null, theme:null, seed:0 });
+
+  function $(id){ return document.getElementById(id); }
+  function E(s){return String(s ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+  function enc(v){return encodeURIComponent(String(v||''));}
+  function dec(v){try{return decodeURIComponent(String(v||''));}catch(e){return String(v||'');}}
+  function offer(){return ($('contentPrompt')?.value || $('contentNiche')?.value || '').trim();}
+  function copy(t){try{navigator.clipboard?.writeText(String(t||''));}catch(e){}}
+  window.v143Copy = window.v142Copy = window.v136Copy = window.gsCopy = copy;
+
+  function stripNoise(s){
+    return String(s||'')
+      .replace(/\n?\s*IMAGE\s*\n\s*url[_\w\-./:]+/gi,'')
+      .replace(/\n?\s*LINK\s*\n\s*url[_\w\-./:]+/gi,'')
+      .replace(/\n?\s*url[_\w\-./:]+/gi,'')
+      .replace(/\n{3,}/g,"\n\n")
+      .trim();
+  }
+  function txt(v){
+    if(v==null) return '';
+    if(Array.isArray(v)) return stripNoise(v.map(txt).filter(Boolean).join('\n'));
+    if(typeof v==='object'){
+      const preferred=v.content ?? v.text ?? v.body ?? v.caption ?? v.message ?? v.script ?? v.post;
+      if(preferred!=null) return stripNoise(txt(preferred));
+      return stripNoise(Object.entries(v)
+        .filter(([k])=>!/image|url|link|prompt|negative/i.test(k))
+        .map(([k,val])=>{const t=txt(val);return t?`${k.toUpperCase()}\n${t}`:'';})
+        .filter(Boolean).join('\n\n'));
+    }
+    return stripNoise(String(v));
+  }
+  function normalize(raw){raw=raw&&typeof raw==='object'?raw:{};return {
+    facebook:txt(raw.facebook||raw.fb||raw.facebook_post),
+    instagram:txt(raw.instagram||raw.instagram_post||raw.ig),
+    tiktok:txt(raw.tiktok||raw.tiktok_reels||raw.reels||raw.video_script),
+    whatsapp:txt(raw.whatsapp||raw.whatsapp_message),
+    story:txt(raw.story||raw.statut||raw.status),
+    hashtags:txt(raw.hashtags),
+    hooks:txt(raw.hooks),
+    cta:txt(raw.cta||raw.ctas)
+  };}
+
+  function info(input){
+    const s=String(input||''); const l=s.toLowerCase();
+    const quoted=s.match(/["“”'‘’]([^"“”'‘’]{3,50})["“”'‘’]/);
+    const brand=(quoted?quoted[1]:'').trim() || (l.includes('kafe')?'KAFE LAKAY':'');
+    if(/covoiturage|trajet|transport|cayenne|saint[-\s]?laurent|maroni|voyageur|voiture|route/.test(l)){
+      const from=(s.match(/entre\s+([A-Za-zÀ-ÿ-]+)\s+et/i)||s.match(/de\s+([A-Za-zÀ-ÿ-]+)\s+(?:à|vers)/i)||[])[1] || 'Cayenne';
+      const to=(s.match(/et\s+([A-Za-zÀ-ÿ-]+(?:-[A-Za-zÀ-ÿ]+)*(?:\s*du\s*Maroni)?)/i)||s.match(/(?:à|vers)\s+([A-Za-zÀ-ÿ-]+(?:-[A-Za-zÀ-ÿ]+)*(?:\s*du\s*Maroni)?)/i)||[])[1] || 'Saint-Laurent-du-Maroni';
+      const day=(s.match(/(lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche)/i)||[])[1] || 'mardi';
+      const hour=(s.match(/(\d{1,2}\s?h(?:\d{2})?)/i)||[])[1] || '7h';
+      const seats=(s.match(/(\d+)\s+places?/i)||[])[1] || '4';
+      return {kind:'transport',brand:`${from} → ${to}`,product:'covoiturage',kw:'TRAJET',from,to,day,hour,seats,tags:['#Covoiturage','#Guyane','#Cayenne','#SaintLaurent','#Transport','#Voyage']};
+    }
+    if(/caf[eé]|coffee|kafe/.test(l)) return {kind:'coffee',brand:brand||'KAFE LAKAY',product:'café haïtien premium',kw:'CAFÉ',tags:['#KafeLakay','#CafeHaitien','#Cafe','#Haiti','#CoffeeLovers','#CafeArtisanal']};
+    if(/basket|nike|adidas|sneaker|chaussure|sport/.test(l)) return {kind:'sport',brand:brand||'Sneakers',product:'baskets tendance',kw:'BASKET',tags:['#Sneakers','#Streetwear','#Sport','#ModeUrbaine','#Style']};
+    if(/sac|mode|fashion|vetement|vêtement/.test(l)) return {kind:'fashion',brand:brand||'Collection tendance',product:'article de mode',kw:'INFO',tags:['#Mode','#Style','#Shopping','#Tendance','#Look']};
+    if(/montre|bijou|bijoux|luxe/.test(l)) return {kind:'luxury',brand:brand||'Collection premium',product:'produit de luxe',kw:'LUXE',tags:['#Luxe','#Premium','#Elegance','#Bijoux','#Montre']};
+    if(/parfum|cosm|beaut|maquillage/.test(l)) return {kind:'beauty',brand:brand||'Beauté premium',product:'parfum / cosmétique',kw:'BEAUTÉ',tags:['#Parfum','#Cosmetique','#Beaute','#Glow','#Premium']};
+    return {kind:'generic',brand:brand||'Offre spéciale',product:'offre',kw:'INFO',tags:['#Offre','#Business','#Vente','#Marketing','#Clients']};
+  }
+
+  function localPack(input, angle='base'){
+    const m=info(input);
+    if(m.kind==='transport'){
+      const facebook=`🚗✨ Partez à l’aventure avec notre service de covoiturage entre ${m.from} et ${m.to} !\n\n📅 Chaque ${m.day} à ${m.hour}\n👥 ${m.seats} places disponibles\n🎒 Petit bagage accepté\n\nQue vous soyez étudiant, travailleur ou voyageur, réservez votre place dès maintenant et voyagez confortablement.\n\n👉 Les places partent vite : écrivez “${m.kw}” pour réserver.`;
+      const instagram=`🔗🚀 Besoin d’un moyen de transport entre ${m.from} et ${m.to} ?\n\nNotre covoiturage est fait pour vous.\n\n📅 Chaque ${m.day} à ${m.hour}\n👥 ${m.seats} places disponibles\n🎒 Petit bagage accepté\n\nVoyage confortable, ambiance conviviale et réservation rapide.\n\nDM “${m.kw}” pour réserver.\n\n${m.tags.join(' ')}`;
+      const tiktok=`🎬 SCRIPT TIKTOK / REELS\n\nSCÈNE 1 (0-2s)\nMontrer une voiture prête pour le départ.\nTexte écran : “Tu vas à ${m.to} ?”\n\nSCÈNE 2 (2-5s)\nDes étudiants et travailleurs montent dans la voiture, ambiance conviviale.\n\nSCÈNE 3 (5-8s)\nRoute entre ${m.from} et ${m.to}, paysage de Guyane.\n\nSCÈNE 4 (8-11s)\nAffichage de l’heure : ${m.hour} chaque ${m.day}.\n\nSCÈNE 5 (11-15s)\nTexte à l’écran : “${m.seats} PLACES DISPONIBLES — RÉSERVE TA PLACE MAINTENANT !”\n\n🎵 Musique conseillée : tendance voyage / feel good.`;
+      const whatsapp=`Bonjour 👋\n\nTrajet disponible : ${m.from} ➜ ${m.to}\n\n📅 Départ : ${m.day}\n🕖 Heure : ${m.hour}\n👥 Places : ${m.seats}\n🎒 Petit bagage accepté\n\nRéponds “${m.kw}” pour réserver ta place.`;
+      const story=`🚗 ${m.from} ➜ ${m.to}\n${m.day} • ${m.hour}\n${m.seats} places disponibles\nPetit bagage accepté\n\nRéponds “${m.kw}” pour réserver.`;
+      const hooks=[`Tu pars à ${m.to} cette semaine ?`,`Il reste ${m.seats} places pour ${m.to}.`,`Route ${m.from} → ${m.to} sans stress.`,`Départ ${m.day} à ${m.hour}, tu viens ?`,`Petit bagage accepté, réservation rapide.`];
+      const cta=[`Écris ${m.kw} pour réserver.`,`Envoie-moi un message maintenant.`,`Réponds OUI pour les détails.`,`Réserve ta place avant que ce soit complet.`,`Partage à quelqu’un qui va à ${m.to}.`,`Demande le point de départ.`,`Confirme ta place aujourd’hui.`,`DM ${m.kw}.`,`Garde cette annonce.`,`Contacte-moi maintenant.`];
+      return {facebook,instagram,tiktok,whatsapp,story,hashtags:m.tags.concat(['#BonPlan','#Route','#PlacesDisponibles']).join(' '),hooks:hooks.concat(hooks,hooks,hooks).slice(0,20).map((x,i)=>`${i+1}. ${x}`).join('\n'),cta:cta.map((x,i)=>`${i+1}. ${x}`).join('\n')};
+    }
+    const opener = angle==='viral'?`🔥 ${m.brand} fait parler de lui` : angle==='premium'?`💎 ${m.brand} — une expérience premium` : angle==='emotion'?`❤️ ${m.brand}, une histoire à ressentir` : angle==='aggressive'?`⚡ Découvre ${m.brand} maintenant` : angle==='promo'?`🏷️ Offre spéciale ${m.brand}` : `✨ ${m.brand} disponible`;
+    const line=m.kind==='coffee'?`${m.brand}, le café d’Haïti qui apporte arôme, chaleur et authenticité dans chaque tasse.`:`${m.product} prêt à attirer l’attention avec une présentation claire et désirable.`;
+    return {
+      facebook:`${opener}\n\n${line}\n\n✅ Présentation claire\n✅ Donne envie d’essayer\n✅ Disponible maintenant\n\n📩 Écris “${m.kw}” pour recevoir les détails.`,
+      instagram:`${opener}\n\n${line}\n\nDM “${m.kw}” pour les infos.\n\n${m.tags.concat(['#Reels','#Instagram']).join(' ')}`,
+      tiktok:`🎬 SCRIPT TIKTOK / REELS\n\nSCÈNE 1 — HOOK (0-2s)\nTexte écran : “Tu connais ${m.brand} ?”\n\nSCÈNE 2 — PRODUIT (2-6s)\nMontrer ${m.product} avec une lumière cinématique.\n\nSCÈNE 3 — DÉSIR (6-12s)\nAuthentique. Beau. Disponible maintenant.\n\nSCÈNE 4 — CTA (12-15s)\nÉcris ${m.kw} pour les infos.`,
+      whatsapp:`Bonjour 👋\n\nJe te partage cette offre : ${m.brand}\n\n${line}\n\nRéponds “${m.kw}” et je t’envoie les détails.`,
+      story:`${opener}\n\nTu veux les détails ? Réponds “${m.kw}”.`,
+      hashtags:m.tags.concat(['#Offre','#Promotion','#Business','#Vente']).join(' '),
+      hooks:[`Tu connais ${m.brand} ?`,`Stop, cette offre peut t’intéresser.`,`POV : tu découvres ${m.product}.`,`Écris ${m.kw} pour les infos.`].concat([`Tu connais ${m.brand} ?`,`Découvre ${m.product}.`]).slice(0,20).map((x,i)=>`${i+1}. ${x}`).join('\n'),
+      cta:[`Écris ${m.kw}.`,`Envoie-moi un DM.`,`Commente ${m.kw}.`,`Demande la disponibilité.`,`Commande maintenant.`,`Partage cette offre.`,`Clique pour les infos.`,`Réponds OUI.`,`Garde cette annonce.`,`Passe à l’action.`].map((x,i)=>`${i+1}. ${x}`).join('\n')
+    };
+  }
+
+  function svgData(input, platform, seed=0){
+    const m=info(input);
+    const id = `${m.kind}-${platform}-${seed}`;
+    const isTransport=m.kind==='transport', isCoffee=m.kind==='coffee', isSport=m.kind==='sport', isLuxury=m.kind==='luxury', isBeauty=m.kind==='beauty';
+    let icon=isTransport?'🚗':isCoffee?'☕':isSport?'👟':isLuxury?'💎':isBeauty?'✨':'✦';
+    let label=isTransport?`${m.from} → ${m.to}`:isCoffee?'Café Haïti premium':isSport?'Urban sport night':isLuxury?'Luxury black marble':isBeauty?'Beauty soft smoke':'Premium campaign';
+    let objects='';
+    if(isTransport){
+      objects = `
+        <path d="M120 1180 C330 890 520 760 960 450" stroke="#facc15" stroke-width="18" opacity=".42" fill="none"/>
+        <path d="M150 1210 C350 930 560 790 990 480" stroke="#fff" stroke-width="8" opacity=".16" fill="none" stroke-dasharray="35 32"/>
+        <rect x="545" y="980" width="330" height="135" rx="38" fill="#0b1224" opacity=".82" stroke="#94a3b8" stroke-opacity=".30"/>
+        <circle cx="630" cy="1120" r="38" fill="#020617"/><circle cx="800" cy="1120" r="38" fill="#020617"/>
+        <rect x="610" y="925" width="190" height="95" rx="36" fill="#1f2937" opacity=".90"/>
+        <circle cx="265" cy="340" r="45" fill="#f8fafc" opacity=".25"/><circle cx="330" cy="350" r="36" fill="#f8fafc" opacity=".18"/>
+        <path d="M0 760 C210 640 360 610 540 560 C750 500 890 420 1080 310 V0 H0Z" fill="#14532d" opacity=".45"/>
+      `;
+    } else if(isCoffee){
+      objects = `
+        <circle cx="650" cy="980" r="120" fill="#1c1208" stroke="#a16207" stroke-width="18" opacity=".92"/>
+        <ellipse cx="650" cy="980" rx="78" ry="58" fill="#0f0804" opacity=".95"/>
+        <path d="M760 990 C860 960 890 1080 790 1110" stroke="#7c2d12" stroke-width="26" fill="none" opacity=".8"/>
+        <g fill="#7c2d12" opacity=".82">${Array.from({length:18},(_,i)=>`<ellipse cx="${140+(i*67)%820}" cy="${330+(i*119)%950}" rx="26" ry="39" transform="rotate(${(i*37)%180} ${140+(i*67)%820} ${330+(i*119)%950})"/>`).join('')}</g>
+        <path d="M0 650 C260 500 430 580 680 430 C820 350 950 350 1080 280 V0 H0Z" fill="#166534" opacity=".32"/>
+      `;
+    } else if(isSport){
+      objects = `<path d="M110 1050 C390 900 610 870 900 960" stroke="#38bdf8" stroke-width="18" opacity=".35"/><text x="680" y="920" font-size="220" opacity=".22">👟</text><rect x="0" y="1150" width="1080" height="220" fill="#111827" opacity=".8"/>`;
+    } else if(isLuxury){
+      objects = `<path d="M0 320 L1080 120" stroke="#64748b" stroke-width="5" opacity=".18"/><path d="M200 0 L1080 900" stroke="#f8fafc" stroke-width="3" opacity=".08"/><circle cx="750" cy="900" r="145" fill="#111827" stroke="#f59e0b" stroke-width="10" opacity=".68"/><text x="750" y="935" font-size="150" text-anchor="middle" opacity=".25">⌚</text>`;
+    } else if(isBeauty){
+      objects = `<path d="M160 1020 C330 760 520 780 400 540 C330 390 520 300 710 230" stroke="#f0abfc" stroke-width="20" fill="none" opacity=".18"/><rect x="610" y="820" width="170" height="310" rx="50" fill="#111827" stroke="#f9a8d4" stroke-opacity=".25" stroke-width="8"/><circle cx="695" cy="790" r="65" fill="#f9a8d4" opacity=".18"/>`;
+    } else {
+      objects = `<text x="540" y="820" font-size="250" text-anchor="middle" opacity=".15">${icon}</text>`;
+    }
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1600" viewBox="0 0 1080 1600">
+      <defs>
+        <linearGradient id="g${id}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#020617"/><stop offset=".48" stop-color="#07162d"/><stop offset="1" stop-color="#21113f"/></linearGradient>
+        <radialGradient id="r${id}" cx=".72" cy=".18" r=".8"><stop stop-color="${platform==='instagram'?'#f59e0b':platform==='tiktok'?'#38bdf8':'#8b5cf6'}" stop-opacity=".42"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+        <filter id="blur${id}"><feGaussianBlur stdDeviation="50"/></filter>
+      </defs>
+      <rect width="1080" height="1600" fill="url(#g${id})"/>
+      <rect width="1080" height="1600" fill="url(#r${id})"/>
+      <circle cx="190" cy="210" r="260" fill="#38bdf8" opacity=".18" filter="url(#blur${id})"/>
+      <circle cx="910" cy="1250" r="360" fill="#a855f7" opacity=".25" filter="url(#blur${id})"/>
+      ${objects}
+      <text x="70" y="1460" font-family="Arial" font-size="42" font-weight="800" fill="#ffffff" opacity=".34">${E(label)}</text>
+      <rect width="1080" height="1600" fill="#000000" opacity=".48"/>
+      <rect width="1080" height="1600" fill="url(#g${id})" opacity=".18"/>
+    </svg>`;
+    return 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(svg)));
+  }
+
+  function platformIcon(name){
+    if(name==='Facebook') return '<span class="gs143PlatformIcon fb">f</span>';
+    if(name==='Instagram') return '<span class="gs143PlatformIcon ig">◎</span>';
+    if(name==='TikTok / Reels') return '<span class="gs143PlatformIcon tk">♪</span>';
+    if(name==='WhatsApp') return '<span class="gs143PlatformIcon wa">☎</span>';
+    return '';
+  }
+  function card(title, body, platform, input){
+    body=txt(body);
+    const bg=svgData(input, platform||title, STATE.seed);
+    return `<article class="gs143CampaignCard" style="--gs-bg:url('${bg}')">
+      <div class="gs143CardBg"></div>
+      <div class="gs143CardShade"></div>
+      <div class="gs143CardContent">
+        <div class="gs143CardTop">${platformIcon(title)}<div><h3>${E(title)}</h3><span>${title==='TikTok / Reels'?'SCRIPT VIDÉO':'POST'}</span></div></div>
+        <div class="deliverableText gs143Text">${E(body)}</div>
+        <button class="gs143ImageBtn" type="button" onclick="v143ChangeCardImage('${enc(title)}')">▧ Voir / changer l'image</button>
+        <button class="gs143CopyBtn" type="button" onclick="v143Copy(decodeURIComponent('${enc(body)}'))">Copier</button>
+      </div>
+    </article>`;
+  }
+  function actions(input){
+    const q=enc(input);
+    return `<div class="gs143Actions"><button onclick="v143Run('viral','${q}')">🔥 Version virale</button><button onclick="v143Run('premium','${q}')">👑 Version premium</button><button onclick="v143Run('emotion','${q}')">❤️ Version émotionnelle</button><button onclick="v143Extra('hooks','${q}')">🪝 20 Hooks</button><button onclick="v143Extra('cta','${q}')">📣 10 CTA</button><button onclick="v143Extra('hashtags','${q}')">#️⃣ 30 Hashtags</button><button onclick="v143Background('${q}')">🪄 Créer fond IA</button></div>`;
+  }
+  function render(pack,input,title){
+    pack=normalize(pack);
+    STATE.offer=input; STATE.pack=pack; STATE.theme=info(input);
+    const allText=`FACEBOOK\n\n${pack.facebook}\n\n---\nINSTAGRAM\n\n${pack.instagram}\n\n---\nTIKTOK\n\n${pack.tiktok}\n\n---\nWHATSAPP\n\n${pack.whatsapp}\n\n---\nSTORY\n\n${pack.story}\n\n---\nHASHTAGS\n\n${pack.hashtags}`;
+    return `<section class="gs143Results">
+      <div class="gs143ResultsHeader">
+        <div><h2>${E(title||'Résultats de votre campagne')}</h2><p>Contenus générés pour ${E(info(input).brand || 'votre offre')}.</p></div>
+        <div class="gs143TopButtons"><button onclick="document.getElementById('contentPrompt')?.focus()">✎ Modifier ma demande</button><button onclick="v143Copy(decodeURIComponent('${enc(allText)}'))">⇩ Exporter tout</button></div>
+      </div>
+      <div class="gs143CardsGrid">
+        ${card('Facebook',pack.facebook,'facebook',input)}
+        ${card('Instagram',pack.instagram,'instagram',input)}
+        ${card('TikTok / Reels',pack.tiktok,'tiktok',input)}
+      </div>
+      <div class="gs143MiniGrid">
+        ${card('WhatsApp',pack.whatsapp,'whatsapp',input)}
+        ${card('Story / Statut',pack.story,'story',input)}
+        ${card('Hashtags',pack.hashtags,'hashtags',input)}
+      </div>
+      <div class="gs143Footer"><span>ÉLÉMENTS GÉNÉRÉS</span>${actions(input)}</div>
+      <div id="v143ExtraOut"></div>
+    </section>`;
+  }
+
+  async function post(path,body){
+    const headers={'Content-Type':'application/json'}; const t=localStorage.getItem('ghostseller_token'); if(t) headers.Authorization='Bearer '+t;
+    const r=await fetch(path,{method:'POST',headers,body:JSON.stringify(body)}); const d=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(d.error||d.message||'Erreur API'); return d;
+  }
+  function validRemote(pack){
+    pack=normalize(pack);
+    const bad=/cr[eé]e\s+une\s+campagne|objectif\s*:|cible\s*:|image\s*\n\s*url|url_image|voici|conseil/i;
+    return pack.facebook && pack.instagram && pack.tiktok && !bad.test(pack.facebook+pack.instagram+pack.tiktok);
+  }
+
+  window.v143Run = async function(angle, ep){
+    const input=dec(ep)||offer(); const out=$('contentOut'); if(!out) return;
+    if(!input){out.innerHTML='<div class="employeeResult">Décris ton offre avant de générer.</div>';return;}
+    out.innerHTML = `<div class="gs143Loading">🤖 GhostSeller prépare la campagne visuelle...</div>`;
+    const local=localPack(input,angle);
+    out.innerHTML = render(local,input, angle==='base'?'Résultats de votre campagne':`Résultats — ${angle}`);
+    try{
+      const data=await post('/api/content/social-pack',{offer:input,angle});
+      const remote=normalize(data.pack||{});
+      if(validRemote(remote)){ out.innerHTML = render(remote,input, angle==='base'?'Résultats de votre campagne':`Résultats — ${angle}`); }
+    }catch(e){}
+  };
+
+  window.v143Extra = function(type, ep){
+    const input=dec(ep)||offer(); const box=$('v143ExtraOut')||$('contentOut'); if(!box) return;
+    const pack=STATE.pack||localPack(input,type);
+    const body=type==='hooks'?pack.hooks:type==='cta'?pack.cta:pack.hashtags;
+    box.innerHTML=`<div class="employeeResult"><div class="employeeHeader"><div><span class="employeeBadge">✅ Travail terminé</span><h2>${type==='hooks'?'20 Hooks':type==='cta'?'10 CTA':'30 Hashtags'}</h2></div><button class="copyBtn" onclick="v143Copy(decodeURIComponent('${enc(body)}'))">Copier tout</button></div><div class="scriptBlock employeeScript">${E(body)}</div></div>`;
+  };
+
+  window.v143Background = function(ep){
+    const input=dec(ep)||STATE.offer||offer();
+    STATE.seed++;
+    const out=$('contentOut');
+    if(out && STATE.pack){ out.innerHTML=render(STATE.pack,input,'Résultats de votre campagne'); }
+  };
+  window.v143ChangeCardImage = function(){ window.v143Background(enc(STATE.offer||offer())); };
+
+  window.generateContent=function(){ window.v143Run('base',enc(offer())); };
+  window.v142Run=window.v136Run=window.v135Run=window.v133Run=window.v129Regen=window.v143Run;
+  window.v142Extra=window.v136Extra=window.v135Extra=window.v133Extra=window.v143Extra;
+  window.v142Background=window.v136Background=window.v135Background=window.v133GenerateBackground=window.v132Background=window.v143Background;
+})();
+

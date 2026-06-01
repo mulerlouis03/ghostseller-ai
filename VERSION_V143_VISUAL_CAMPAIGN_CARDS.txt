@@ -1,0 +1,6 @@
+GhostSeller AI V143 VISUAL CAMPAIGN CARDS
+- Pub V142 conservée
+- Images de fond automatiques derrière le texte
+- Cartes Facebook/Instagram/TikTok style SaaS premium
+- Bouton Créer fond IA régénère les fonds
+- Suppression visuelle des lignes IMAGE url_image

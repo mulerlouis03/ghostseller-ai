@@ -1326,3 +1326,197 @@ aside .logout, #v91LogoutBtn{display:none!important;}
 .securityLogoutBoxV136{display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;padding:22px;border:1px solid rgba(239,68,68,.45);border-radius:22px;background:linear-gradient(135deg,rgba(127,29,29,.30),rgba(15,23,42,.65));}
 .securityLogoutBoxV136 b{display:block;color:#fecaca;font-size:1.1rem;margin-bottom:6px}.securityLogoutBoxV136 span{display:block;color:#bfdbfe}.logoutAccountBtnV136{border:1px solid rgba(248,113,113,.7);background:linear-gradient(135deg,#991b1b,#dc2626);color:white;border-radius:16px;padding:14px 20px;font-weight:900;cursor:pointer;min-width:210px;}
 @media(max-width:900px){.securityLogoutBoxV136{flex-direction:column;align-items:stretch}.logoutAccountBtnV136{width:100%;min-width:0}.v136BgPanel .v133GeneratedImageWrap{max-width:100%;}}
+
+
+
+/* V143 visual campaign cards */
+.gs143Results{
+  width:100%;
+  padding:18px;
+  border-radius:28px;
+  background:linear-gradient(180deg,rgba(5,10,25,.78),rgba(2,6,18,.94));
+  border:1px solid rgba(148,163,184,.18);
+  box-shadow:0 22px 80px rgba(0,0,0,.35);
+}
+.gs143ResultsHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:18px;
+  margin-bottom:22px;
+}
+.gs143ResultsHeader h2{
+  margin:0 0 6px;
+  font-size:clamp(28px,3vw,44px);
+  letter-spacing:-1.2px;
+}
+.gs143ResultsHeader p{margin:0;color:#b9c4dc}
+.gs143TopButtons{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+.gs143TopButtons button,.gs143Actions button,.gs143ImageBtn,.gs143CopyBtn{
+  border:1px solid rgba(255,255,255,.12);
+  color:#fff;
+  font-weight:900;
+  border-radius:16px;
+  background:rgba(15,23,42,.78);
+  padding:13px 18px;
+  cursor:pointer;
+}
+.gs143TopButtons button:last-child,.gs143Actions button:last-child{
+  background:linear-gradient(135deg,#38bdf8,#a855f7);
+  border:0;
+}
+.gs143CardsGrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+}
+.gs143MiniGrid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:18px;
+  margin-top:18px;
+}
+.gs143CampaignCard{
+  position:relative;
+  overflow:hidden;
+  min-height:690px;
+  border-radius:24px;
+  border:1px solid rgba(148,163,184,.24);
+  background:#050816;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08), 0 18px 60px rgba(0,0,0,.28);
+}
+.gs143MiniGrid .gs143CampaignCard{min-height:360px}
+.gs143CardBg{
+  position:absolute;
+  inset:0;
+  background-image:var(--gs-bg);
+  background-size:cover;
+  background-position:center;
+  z-index:0;
+  transform:scale(1.02);
+}
+.gs143CardShade{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.44),rgba(0,0,0,.62) 46%,rgba(0,0,0,.82)),
+    radial-gradient(circle at 30% 10%,rgba(255,255,255,.08),transparent 34%);
+}
+.gs143CardContent{
+  position:relative;
+  z-index:2;
+  padding:28px;
+  min-height:inherit;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.gs143CardTop{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-bottom:6px;
+}
+.gs143CardTop h3{
+  margin:0;
+  font-size:clamp(26px,2.2vw,38px);
+  line-height:1.05;
+}
+.gs143CardTop span:not(.gs143PlatformIcon){
+  display:inline-flex;
+  margin-top:8px;
+  padding:5px 11px;
+  border-radius:999px;
+  background:rgba(255,255,255,.12);
+  color:#dbeafe;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.04em;
+}
+.gs143PlatformIcon{
+  width:58px;
+  height:58px;
+  border-radius:20px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:34px;
+  font-weight:950;
+  color:white;
+  flex:0 0 auto;
+  box-shadow:0 16px 35px rgba(0,0,0,.35);
+}
+.gs143PlatformIcon.fb{background:#1877f2}
+.gs143PlatformIcon.ig{background:linear-gradient(135deg,#f97316,#ec4899,#7c3aed)}
+.gs143PlatformIcon.tk{background:#050505;border:1px solid rgba(34,211,238,.5);text-shadow:2px 0 #22d3ee,-2px 0 #f43f5e}
+.gs143PlatformIcon.wa{background:#16a34a}
+.gs143Text{
+  white-space:pre-line;
+  font-size:clamp(17px,1.25vw,21px);
+  line-height:1.55;
+  color:#fff;
+  text-shadow:0 2px 10px rgba(0,0,0,.88);
+  overflow:visible;
+}
+.gs143MiniGrid .gs143Text{font-size:16px;line-height:1.45}
+.gs143ImageBtn{
+  margin-top:auto;
+  width:100%;
+  background:rgba(0,0,0,.30);
+  backdrop-filter:blur(12px);
+}
+.gs143CopyBtn{
+  align-self:flex-start;
+  padding:10px 16px;
+  background:linear-gradient(135deg,#38bdf8,#a855f7);
+  border:0;
+}
+.gs143Footer{
+  margin-top:20px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.gs143Footer>span{
+  color:#aeb9d0;
+  font-weight:900;
+  letter-spacing:.04em;
+  margin-right:4px;
+}
+.gs143Actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.gs143Actions button{
+  border-radius:16px;
+  padding:14px 18px;
+  background:linear-gradient(180deg,rgba(20,30,58,.98),rgba(10,18,38,.98));
+}
+.gs143Loading{
+  padding:28px;
+  border-radius:24px;
+  background:rgba(10,20,45,.9);
+  border:1px solid rgba(56,189,248,.28);
+  font-size:24px;
+  font-weight:950;
+  color:#dffcff;
+}
+@media(max-width:1100px){
+  .gs143CardsGrid,.gs143MiniGrid{grid-template-columns:1fr}
+  .gs143CampaignCard{min-height:560px}
+  .gs143ResultsHeader{flex-direction:column}
+  .gs143TopButtons{justify-content:flex-start}
+}
+@media(max-width:640px){
+  .gs143Results{padding:12px;border-radius:22px}
+  .gs143CardContent{padding:20px}
+  .gs143CardTop h3{font-size:26px}
+  .gs143PlatformIcon{width:48px;height:48px;font-size:28px}
+  .gs143Text{font-size:16px}
+  .gs143CampaignCard{min-height:520px}
+  .gs143MiniGrid .gs143CampaignCard{min-height:340px}
+}
+
